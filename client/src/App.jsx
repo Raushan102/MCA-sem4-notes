@@ -3,7 +3,7 @@ const STATIC=import.meta.env.VITE_STATIC==='1',API_SUBJECTS=STATIC?'/data/subjec
 let SX;async function search(q){if(!STATIC)return fetch('/api/search?q='+encodeURIComponent(q)).then(r=>r.json());SX=SX||await fetch('/data/search.json').then(r=>r.json());
   const v=q.toLowerCase().trim(),out=[];for(const s of SX.meta)for(const u of s.units){const lab=`Unit ${u.n}: ${u.title}`;if(lab.toLowerCase().includes(v))out.push({subject:s.name,unit:lab,title:lab,to:`${s.slug}/${u.key}`});for(const t of u.topics)if(t.title.toLowerCase().includes(v))out.push({subject:s.name,unit:lab,title:t.title,priority:t.priority,to:`${s.slug}/${u.key}/${t.id}`})}
   const seen=new Set(out.map(o=>o.to.split('/').slice(0,2).join('/')));for(const s of SX.meta)for(const u of [...s.units,...(s.extras||[])]){const k=s.slug+'/'+u.key;if(!seen.has(k)&&SX.texts[k]&&SX.texts[k].includes(v))out.push({subject:s.name,unit:'Mentioned in',title:u.n?`Unit ${u.n}: ${u.title}`:u.title,to:k})}return out.slice(0,30)}
-const BRAND='Paperlight',AUTHOR='Raushan Kumar Saw',PHOTO='/bg.jpg',ROMAN=['I','II','III','IV','V','VI','VII','VIII'];
+const BRAND='Paperlight',AUTHOR='Raushaan Kumar Saw',PHOTO='/bg.jpg',ROMAN=['I','II','III','IV','V','VI','VII','VIII'];
 const useRoute=()=>{const get=()=>location.hash.replace(/^#\/?/,'').split('/').filter(Boolean);const[r,s]=useState(get);
   useEffect(()=>{const f=()=>{s(get());scrollTo(0,0)};addEventListener('hashchange',f);return()=>removeEventListener('hashchange',f)},[]);return r};
 const useLocal=(k,d)=>{const[v,s]=useState(()=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}});return[v,x=>{s(x);try{localStorage.setItem(k,JSON.stringify(x))}catch{}}]};
