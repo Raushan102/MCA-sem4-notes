@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Computer Graphics — Unit IV: Geometrical Transformation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+html { color-scheme: light; }
+
+:root {
+  --desk: #dfe4ec;
+  --paper: #ffffff;
+  --rule: #d6e3f5;
+  --margin: #e4868a;
+  --ink: #1d3a8c;
+  --red: #b3261e;
+  --green: #1b6b3a;
+  --hl: rgba(255, 214, 0, 0.45);
+  --edge: rgba(29, 58, 140, 0.35);
+  --shadow: rgba(20, 30, 60, 0.2);
+  --hand: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --display: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --mono: "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace;
+  --vs-bg: #1e1e1e;
+  --vs-fg: #d4d4d4;
+  color-scheme: light;
+}
+html { background: var(--desk); }
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: 16px;
+  line-height: 36px;
+  padding-block: 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 28px 64px 76px;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 22px 48px, var(--desk) 8px, transparent 9px),
+    linear-gradient(to bottom, transparent 35px, var(--rule) 35px, var(--rule) 36px);
+  background-size: 44px 144px, 100% 36px;
+  background-repeat: repeat-y, repeat;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px var(--shadow), 0 14px 34px -14px var(--shadow);
+  overflow-wrap: break-word;
+}
+.sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 56px;
+  width: 4px;
+  border-left: 1px solid var(--margin);
+  border-right: 1px solid var(--margin);
+}
+@media (max-width: 520px) {
+  body { font-size: 15px; }
+  .sheet { padding: 64px 12px 64px 50px; }
+  .sheet::before { left: 34px; }
+}
+h1, h2, h3 { margin: 0; font-weight: 700; text-wrap: balance; }
+h1 {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  line-height: 64px;
+  color: var(--red);
+  text-decoration: underline wavy var(--red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 7px;
+  scroll-margin-top: 16px;
+}
+.sheet > h1:first-child { font-size: clamp(1.7rem, 5.2vw, 2.4rem); }
+h2 { font-family: var(--display); font-size: 1.3rem; line-height: 36px; color: var(--red); }
+h3 { font-family: var(--display); font-size: 1.15rem; line-height: 36px; color: var(--green); }
+p { margin: 0 0 36px; }
+hr {
+  height: 36px;
+  margin: 0;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--edge) 0 10px, transparent 10px 18px) center / 100% 2px no-repeat;
+}
+ul, ol { margin: 0 0 36px; }
+ul { list-style: none; padding-left: 34px; }
+ul li { position: relative; }
+ul li::before { content: "\2022"; position: absolute; left: -22px; color: var(--red); }
+ol { padding-left: 46px; }
+ol li::marker { color: var(--red); font-family: var(--display); font-weight: 700; }
+li > p { margin: 0; }
+strong {
+  font-weight: 600;
+  padding: 0 2px;
+  background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  line-height: 0;
+  color: #9cdcfe;
+  background: var(--vs-bg);
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+pre {
+  margin: 0 0 32px;
+  padding: 16px 20px;
+  background: var(--vs-bg);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), 0 6px 14px -8px rgba(0, 0, 0, 0.5);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 400;
+  font-variant-ligatures: contextual;
+  line-height: 32px;
+  color: var(--vs-fg);
+  overflow-x: auto;
+  tab-size: 4;
+  white-space: pre;
+}
+pre code { font: inherit; line-height: inherit; color: inherit; background: none; padding: 0; border-radius: 0; }
+pre .k  { color: #569cd6; }
+pre .kc { color: #c586c0; }
+pre .f  { color: #dcdcaa; }
+pre .t  { color: #4ec9b0; }
+pre .v  { color: #9cdcfe; }
+pre .ct { color: #4fc1ff; }
+pre .s  { color: #ce9178; }
+pre .n  { color: #b5cea8; }
+pre .c  { color: #6a9955; }
+.tw { margin: 0 0 32px; overflow-x: auto; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+.tw.wide table { min-width: 640px; }
+th, td {
+  padding: 0 14px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 36px;
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge);
+}
+th {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--red);
+  background: var(--hl);
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge);
+}
+th:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+td:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+.toc ul { columns: 2 280px; column-gap: 32px; padding-left: 0; }
+.toc li { break-inside: avoid; }
+.toc li::before { content: none; }
+.toc a { color: var(--ink); text-decoration: none; background: linear-gradient(var(--edge), var(--edge)) 0 100% / 100% 1px no-repeat; }
+.toc a:hover { color: var(--red); }
+a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; border-radius: 2px; }
+.note { margin: 0 0 32px; padding: 0 0 0 16px; border-left: 3px solid var(--red); }
+.note p { margin: 0; }
+h1 code, h2 code, h3 code { background: var(--vs-bg); }
+th code, td code { font-size: 0.85em; }
+.tp{margin:0 -14px 32px;padding:0 14px;border-left:5px solid;border-radius:4px}
+.tp.tr{background:rgba(179,38,30,.085);border-color:#b3261e}
+.tp.ty{background:rgba(255,214,0,.24);border-color:#e0b800}
+.tp.tb{background:rgba(0,0,0,.075);border-color:#333}
+.r,.y,.b{font-size:.72em;font-weight:700;padding:1px 7px;border-radius:3px;letter-spacing:.5px;margin-right:6px}
+.r{background:var(--red);color:#fff}.y{background:#ffd600;color:#4a3b00}.b{background:#222;color:#fff}
+main a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px;overflow-wrap:anywhere}
+main a:hover{color:var(--red)}
+.fig{margin:12px 0 40px}.fig svg{display:block;width:100%;max-width:760px;margin:0 auto}
+.fig svg text{font-family:var(--hand);font-size:14px;fill:var(--ink);dominant-baseline:auto}
+.fig svg .cap{font-size:13px;fill:var(--red);font-weight:600}
+.fig svg .w{fill:#fff;font-weight:600}
+.fig svg .bx{fill:#fff;stroke:var(--ink);stroke-width:2}
+.fig svg .rx{fill:#fff;stroke:var(--red);stroke-width:2}
+.fig svg .kx{fill:var(--vs-bg);stroke:var(--vs-bg)}
+.fig svg .yx{fill:rgba(255,214,0,.45);stroke:var(--ink);stroke-width:2}
+.fig svg .ln{stroke:var(--ink);stroke-width:2;fill:none}
+.fig svg .rl{stroke:var(--red);stroke-width:2.5;fill:none}
+.fig svg .dl{stroke:var(--red);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+
+.video-help { margin: 18px 0 32px; padding: 14px 16px; border: 1px solid #b8c9e5; border-left: 4px solid #1d3a8c; border-radius: 8px; background: rgba(232, 240, 252, .72); }
+.video-help p { margin-bottom: 12px; }
+.video-help .video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; background: #111; margin: 10px 0 8px; }
+.video-help iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-help .video-note { display: block; font-size: .88em; line-height: 1.5; opacity: .9; }
+
+
+.reading-sources { margin: 18px 0 22px; padding: 12px 16px; border: 1px solid #c8d6e8; border-radius: 7px; background: rgba(255,255,255,.78); font-size: .92em; line-height: 1.65; }
+.reading-sources p { margin: 0 0 6px; }
+.reading-sources ul { margin: 0; padding-left: 24px; }
+.reading-sources ul li::before { left: -18px; }
+.reading-sources .source-note { font-size: .9em; opacity: .9; margin-top: 6px; }
+
+.video-help{break-inside:avoid;margin:18px 0 32px;padding:14px 16px;border:1px solid #b8c9e5;border-left:4px solid #1d3a8c;border-radius:8px;background:rgba(232,240,252,.72)}.video-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:8px;background:#111;margin:10px 0 8px}.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.reading-sources{margin:24px 0 30px;padding:12px 16px;border:1px solid #c8d6e8;border-radius:7px;background:rgba(255,255,255,.78);font-size:.92em;line-height:1.65}.reading-sources p{margin:0 0 6px}.reading-sources ul{margin:0;padding-left:24px}.reading-sources ul li::before{left:-18px}.source-note{font-size:.9em;opacity:.9;margin-top:6px}
+/* Clear priority treatment across the FULL topic answer area */
+.tp{position:relative;margin:58px -14px 64px;padding:22px 22px 8px;border:1px solid rgba(29,58,140,.18);border-left:8px solid;border-radius:12px;box-shadow:0 5px 18px rgba(20,30,60,.07);}
+.tp.tr{background:linear-gradient(135deg,rgba(179,38,30,.17),rgba(179,38,30,.075));border-color:#b3261e;}
+.tp.ty{background:linear-gradient(135deg,rgba(255,214,0,.34),rgba(255,214,0,.13));border-color:#d2a900;}
+.tp.tb{background:linear-gradient(135deg,rgba(35,39,48,.13),rgba(35,39,48,.055));border-color:#333;}
+.tp h1{padding-bottom:8px;margin-bottom:12px;}
+.tp.tr h1::after,.tp.ty h1::after,.tp.tb h1::after{display:inline-block;vertical-align:middle;margin-left:12px;padding:2px 10px;border-radius:5px;font-family:var(--display);font-size:.48em;line-height:1.8;letter-spacing:.7px;text-decoration:none;white-space:nowrap;}
+.tp.tr h1::after{content:"RED PRIORITY";background:#b3261e;color:#fff;}
+.tp.ty h1::after{content:"YELLOW PRIORITY";background:#ffd600;color:#463900;}
+.tp.tb h1::after{content:"BLACK PRIORITY";background:#222;color:#fff;}
+/* Decorative floral divider gives every new topic a clear visual beginning */
+.tp::before{content:"✿  ───────────────  ✿  ───────────────  ✿";display:block;text-align:center;color:#b3261e;font-family:Georgia,serif;font-size:19px;line-height:36px;letter-spacing:2px;margin:-12px 0 16px;opacity:.9;}
+.tp.tr::before{color:#b3261e}.tp.ty::before{color:#9a7900}.tp.tb::before{color:#444}
+@media(max-width:520px){.tp{padding:16px 13px 4px;margin:44px -7px 50px}.tp.tr h1::after,.tp.ty h1::after,.tp.tb h1::after{margin:6px 0 0 4px;font-size:.42em}.tp::before{font-size:14px;letter-spacing:0}}
+.exam-box{padding:16px 20px;border:1px solid var(--edge);border-radius:6px;background:rgba(255,255,255,.78);margin-bottom:32px}.fig figcaption{font-size:.88em;text-align:center;color:var(--red);line-height:32px}
+
+/* Compatibility styles retained for the original Topic 1 content */
+.priority{padding:11px 14px;margin:12px 0 20px;border-left:5px solid;border-radius:4px}
+.priority.pr{background:rgba(179,38,30,.08);border-color:#b3261e}
+.priority.py{background:rgba(255,214,0,.2);border-color:#d0a900}
+.priority.pb{background:rgba(0,0,0,.06);border-color:#333}
+.tag{display:inline-block;font:700 12px Arial;padding:2px 8px;border-radius:4px;letter-spacing:.4px}
+.tag.red{background:#b3261e;color:white}.tag.yellow{background:#ffd600;color:#493b00}.tag.black{background:#222;color:white}
+.diagram{border:1px solid var(--edge);border-radius:8px;padding:10px;background:#ffffffc9;margin:8px 0 22px;text-align:center}
+.diagram svg{width:100%;max-width:680px;height:auto}
+.caption{font-size:.9rem;color:#456}
+
+/* Topic-adjacent learning resources: clear website and video link cards */
+.resource-panel{margin:18px 0 32px;padding:16px;border:1px solid #c8d6e8;border-radius:9px;background:rgba(255,255,255,.88);box-shadow:0 3px 10px rgba(20,30,60,.07)}
+.resource-panel h3{margin:0 0 10px;color:var(--red)}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:10px 0 18px}
+.resource-card{display:block;padding:12px 14px;border:1px solid #c8d6e8;border-left:4px solid var(--ink);border-radius:7px;background:#f7faff;text-decoration:none!important;color:var(--ink)!important;line-height:1.5;transition:transform .15s ease,box-shadow .15s ease}
+.resource-card:hover{transform:translateY(-2px);box-shadow:0 5px 12px rgba(20,30,60,.12);color:var(--red)!important}
+.resource-card.video{border-left-color:#b3261e;background:#fff8f7}
+.resource-card .resource-kind{display:block;font-size:.72em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#65728a;margin-bottom:4px}
+.resource-card strong{display:block;background:none;padding:0;color:inherit}
+.resource-card small{display:block;font-size:.86em;line-height:1.45;margin-top:4px;color:#46536b}
+.video-help{border-left-width:5px}
+.video-help>a,.reading-sources a{display:inline-block;margin:4px 4px 4px 0;padding:5px 10px;border:1px solid #b8c9e5;border-radius:6px;background:#f7faff;font-weight:600;text-decoration:none!important}
+.video-help>a:hover,.reading-sources a:hover{background:#e8f0fc;color:var(--red)}
+.reading-sources li{margin:5px 0}
+@media(max-width:520px){.resource-panel{padding:12px}.resource-grid{grid-template-columns:1fr}}
+
+
+/* Quick navigation index */
+.quick-index{margin:24px 0 40px;padding:20px 22px;border:2px solid #9fb4d5;border-radius:12px;background:linear-gradient(135deg,rgba(232,240,252,.96),rgba(255,255,255,.96));box-shadow:0 5px 16px rgba(20,30,60,.08)}
+.quick-index h2{margin:0 0 12px}
+.quick-index .index-intro{margin:0 0 16px;font-size:.94em}
+.index-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.index-card{display:block;padding:14px 15px;border:1px solid #c5d3e7;border-left:6px solid #555;border-radius:9px;background:#fff;color:var(--ink);text-decoration:none;line-height:1.65;box-shadow:0 2px 7px rgba(20,30,60,.06);transition:transform .15s ease,box-shadow .15s ease}
+.index-card:hover{transform:translateY(-2px);box-shadow:0 5px 13px rgba(20,30,60,.12);color:var(--red)}
+.index-card.red-card{border-left-color:#b3261e;background:#fff4f2}
+.index-card.yellow-card{border-left-color:#d6ad00;background:#fffbea}
+.index-card.black-card{border-left-color:#333;background:#f4f4f4}
+.index-card strong{display:block;margin-bottom:4px;background:none}
+.index-card .index-priority{display:inline-block;margin-top:7px;padding:1px 8px;border-radius:4px;font-size:.78em;font-weight:700;line-height:1.6}
+.index-card .index-priority.red{background:#b3261e;color:white}
+.index-card .index-priority.yellow{background:#ffe27a;color:#4a3b00}
+.index-card .index-priority.black{background:#333;color:white}
+.index-card .index-priority.mixed{background:linear-gradient(90deg,#b3261e 0 33%,#ffe27a 33% 66%,#333 66%);color:#fff;text-shadow:0 1px 2px #333}
+@media(max-width:520px){.quick-index{padding:15px}.index-grid{grid-template-columns:1fr}}
+
+
+
+/* Mathematical expressions: yellow notebook-paper panel with blue handwritten-style ink. */
+.formula {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 16px auto 24px;
+  padding: 12px 20px;
+  border: 1px solid #eadb91;
+  border-left: 4px solid #e5c64b;
+  border-radius: 7px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0) 0,
+      rgba(255,255,255,0) 31px,
+      rgba(105,145,190,.18) 32px,
+      rgba(255,255,255,0) 33px
+    ),
+    #fff4b8;
+  color: #164b91;
+  font-family: var(--hand, "Comic Sans MS", "Segoe Print", cursive);
+  font-size: 1.13rem;
+  font-weight: 700;
+  line-height: 1.95;
+  letter-spacing: .015em;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(70,55,10,.10);
+  overflow-wrap: anywhere;
+}
+.formula strong, .formula sub, .formula sup { color: #164b91; }
+.formula strong { background: transparent; padding: 0; }
+.math-inline {
+  display: inline-block;
+  padding: 1px 6px 2px;
+  margin: 1px 2px;
+  border-radius: 4px;
+  background: #fff1a8;
+  color: #164b91;
+  border-bottom: 2px solid #e4c64c;
+  font-family: var(--hand, "Comic Sans MS", "Segoe Print", cursive);
+  font-size: .98em;
+  font-weight: 700;
+  line-height: 1.55;
+  vertical-align: baseline;
+  white-space: normal;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.math-inline sub, .math-inline sup { color: #164b91; }
+@media(max-width:520px) {
+  .formula { font-size: 1rem; padding: 9px 12px; line-height: 1.8; }
+}
+
+/* ===== Final polish: Unit IV ===== */
+html{scroll-behavior:smooth}
+section[id]{scroll-margin-top:16px}
+figure{margin:0}img{max-width:100%;height:auto}
+h4{margin:0;font-family:var(--display);font-size:1.05rem;line-height:36px;color:var(--ink)}
+.small{font-size:.9em}
+
+/* hero */
+.hero{position:relative;margin:-24px -8px 32px 0;padding:28px 26px 22px;border-radius:14px;color:#fff;overflow:hidden;
+  background:radial-gradient(circle at 92% 12%,rgba(255,214,0,.35),transparent 42%),linear-gradient(135deg,#1d3a8c 0%,#2b4fb8 55%,#b3261e 140%);
+  box-shadow:0 8px 22px -8px rgba(20,30,60,.55)}
+.hero::after{content:"IV";position:absolute;right:14px;bottom:-34px;font:800 9rem/1 var(--display);color:rgba(255,255,255,.12);pointer-events:none}
+.hero .eyebrow{font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;opacity:.85;line-height:24px}
+.hero h1{color:#fff;text-decoration:none;font-size:clamp(1.6rem,5vw,2.3rem);line-height:1.25;margin:6px 0 4px}
+.hero .sub{margin:0 0 14px;font-size:1.05rem;line-height:28px;color:#ffe27a;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.chip{display:inline-block;padding:2px 12px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);font-size:.8rem;line-height:26px;font-weight:600}
+.chip.hot{background:#ffd600;color:#463900;border-color:#ffd600}
+
+/* cards */
+.panel{margin:0 0 32px;padding:16px 20px 6px;border:1px solid #c8d6e8;border-radius:12px;background:rgba(255,255,255,.92);box-shadow:0 3px 10px rgba(20,30,60,.07)}
+.panel h2{margin:0 0 6px;font-size:1.15rem}
+.panel p,.panel ul{margin-bottom:14px}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:0 0 14px}
+.legend div{padding:8px 12px;border-radius:8px;border-left:6px solid;line-height:1.5;font-size:.9em}
+.legend .lr{background:rgba(179,38,30,.1);border-color:#b3261e}
+.legend .ly{background:rgba(255,214,0,.28);border-color:#d2a900}
+.legend .lb{background:rgba(35,39,48,.1);border-color:#333}
+.legend b{display:inline-block;margin-right:6px;padding:0 8px;border-radius:4px;font-size:.78em;line-height:1.7;color:#fff;background:#b3261e}
+.legend .ly b{background:#ffd600;color:#463900}.legend .lb b{background:#222}
+.focus li{line-height:1.6;margin-bottom:4px}
+
+/* index */
+.quick-index{margin:0 0 40px}
+.index-card{position:relative;padding-left:62px}
+.index-card .num{position:absolute;left:12px;top:12px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:700 1.05rem/1 var(--display);color:#fff;background:#555}
+.index-card.red-card .num{background:#b3261e}.index-card.yellow-card .num{background:#e0b800;color:#3d3100}.index-card.black-card .num{background:#222}
+.index-card .index-priority.red{background:#b3261e;color:#fff}.index-card .index-priority.yellow{background:#ffe27a;color:#4a3b00}.index-card .index-priority.black{background:#333;color:#fff}
+
+/* topic sections */
+.topic-section.tp{position:relative;margin:52px -14px 60px;padding:20px 24px 6px;border:1px solid rgba(29,58,140,.18);border-left:9px solid;border-radius:14px;box-shadow:0 6px 20px rgba(20,30,60,.09)}
+.topic-section.tp::before{display:none}
+.tp.tr{background:linear-gradient(135deg,rgba(179,38,30,.16),rgba(179,38,30,.07));border-color:#b3261e}
+.tp.ty{background:linear-gradient(135deg,rgba(255,214,0,.34),rgba(255,214,0,.13));border-color:#d2a900}
+.tp.tb{background:linear-gradient(135deg,rgba(35,39,48,.15),rgba(35,39,48,.06));border-color:#333}
+.topic-title{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;margin:0 0 6px;padding-bottom:8px;border-bottom:2px dashed currentColor;line-height:1.35;font-size:1.5rem}
+.tnum{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:800 1.7rem/1 var(--display);color:#fff;background:var(--red);box-shadow:0 0 0 4px rgba(255,255,255,.75),0 3px 8px rgba(0,0,0,.25)}
+.tp.ty .tnum{background:#e0b800;color:#3d3100}.tp.tb .tnum{background:#222}
+.tlabel{display:block;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:#455;line-height:1.2}
+.tprio{margin-left:auto;padding:2px 12px;border-radius:6px;font-size:.5em;letter-spacing:.8px;line-height:1.9;white-space:nowrap;background:#b3261e;color:#fff}
+.tp.ty .tprio{background:#ffd600;color:#463900}.tp.tb .tprio{background:#222}
+.evidence{margin:0 0 28px;padding:8px 14px;border-radius:8px;background:rgba(255,255,255,.7);font-size:.9em;line-height:1.6;border:1px dashed var(--edge)}
+.tp h3{margin-top:8px;color:var(--green);border-left:4px solid currentColor;padding-left:10px}
+.tp .exam-box h3{border:0;padding:0;margin-top:0}
+.exam-box{break-inside:avoid;border-left:5px solid var(--green);background:rgba(255,255,255,.9);box-shadow:0 2px 8px rgba(20,30,60,.08)}
+.exam-box h3::before{content:"★ ";color:#e0b800}
+.tw{background:rgba(255,255,255,.8);border-radius:6px}
+.floral-divider{text-align:center;color:var(--red);letter-spacing:6px;line-height:36px;margin:0 0 6px}
+.tp.ty .floral-divider{color:#9a7900}.tp.tb .floral-divider{color:#444}
+.back-top{margin:0 0 30px;font-size:.9em;text-align:right}
+.unit-end{margin:40px 0 0;padding:16px;text-align:center;border-radius:12px;background:linear-gradient(135deg,#e8f0fc,#fff4b8);border:1px solid #c8d6e8;line-height:1.7}
+@media(max-width:520px){.hero{margin-right:0;padding:20px 16px}.hero::after{font-size:6rem}.topic-section.tp{margin:40px -8px 48px;padding:14px 12px 4px}.tnum{width:42px;height:42px;font-size:1.3rem}.topic-title{font-size:1.2rem}.tprio{margin-left:0}}
+@media print{html,body{background:#fff}body{padding:0}.sheet{box-shadow:none;max-width:none}.topic-section{break-before:page}.back-top{display:none}pre,.exam-box,.hero{break-inside:avoid}.hero,.tp,.tnum,.tprio{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+.tp::before{display:none!important}
+.tp .exam-box h3{border:0;padding:0}
+</style>
+</head>
+<body>
+<main class="sheet" id="top">
+<header class="hero">
+<div class="eyebrow">Computer Graphics · MCA Semester IV</div>
+<h1>UNIT IV — GEOMETRICAL TRANSFORMATION</h1>
+<p class="sub">2D transformations, matrices, composition and window-to-viewport mapping</p>
+<p class="chips"><span class="chip">Ranchi University CBCS</span><span class="chip">Core Course C10 · CCMCA403</span><span class="chip">5 Topics</span><span class="chip hot">UNIT PRIORITY: HIGH</span></p>
+</header>
+
+<div class="panel">
+<h2>✿ Official Unit IV syllabus ✿</h2>
+<p>2D Transformations · Homogeneous Coordinates and Matrix Representation of 2D Transformation · Composition of 2D Transformation · The Windows-to-Viewport Transformation · Efficiency.</p>
+</div>
+
+<div class="panel focus">
+<h2>★ What to prepare for the exam ★</h2>
+<ul>
+<li>Translation, scaling and rotation; reflection and shearing.</li>
+<li>Homogeneous coordinate representation.</li>
+<li>Composite 2D transformations.</li>
+<li>Window-to-viewport transformation.</li>
+<li>Numerical problems on 2D transformations.</li>
+</ul>
+<p class="small"><strong>Evidence:</strong> both MCA papers and BCA papers (exam plan). Priority colours describe checked question-paper evidence; they do not guarantee future questions.</p>
+</div>
+
+<div class="panel">
+<h2>✿ Exam-priority colour guide ✿</h2>
+<div class="legend">
+<div class="lr"><b>RED</b>Direct question in the supplied MCA papers.</div>
+<div class="ly"><b>YELLOW</b>Related or broader-question evidence, not a direct question.</div>
+<div class="lb"><b>BLACK</b>No matching question identified.</div>
+</div>
+</div>
+
+<nav class="quick-index" aria-label="Unit IV topic index">
+<h2>✿ Quick Index — Unit IV ✿</h2>
+<div class="index-grid">
+<a class="index-card red-card" href="#u4-topic1-2d-transformations"><span class="num">1</span><strong>2D Transformations</strong>Translation, scaling, rotation, reflection and shearing.<span class="index-priority red">RED · direct MCA PYQ</span></a>
+<a class="index-card yellow-card" href="#u4-topic2-homogeneous-coordinates"><span class="num">2</span><strong>Homogeneous Coordinates and Matrix Representation of 2D Transformation</strong>Homogeneous points and 3 × 3 transformation matrices.<span class="index-priority yellow">YELLOW · related evidence</span></a>
+<a class="index-card yellow-card" href="#u4-topic3-composition"><span class="num">3</span><strong>Composition of 2D Transformation</strong>Combining two or more transformations using matrix multiplication.<span class="index-priority yellow">YELLOW · related evidence</span></a>
+<a class="index-card red-card" href="#u4-topic4-window-viewport"><span class="num">4</span><strong>Windows-to-Viewport Transformation</strong>Mapping a selected world-coordinate area to a display area.<span class="index-priority red">RED · direct MCA PYQ</span></a>
+<a class="index-card black-card" href="#u4-topic5-efficiency"><span class="num">5</span><strong>Efficiency</strong>Improving the speed and computational cost of geometric transformations.<span class="index-priority black">BLACK · no standalone PYQ</span></a>
+</div>
+</nav>
+
+<section id="u4-topic1-2d-transformations" class="topic-section tp tr">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">1</span><span><span class="tlabel">Topic 1 of 5</span>2D Transformations</span><span class="tprio">RED PRIORITY</span></h2>
+<p class="evidence"><strong>Why RED?</strong> Direct evidence: 2D transformation operations appeared in MCA 2022–24 (CCMCA403) and 2D scaling in the older MCA paper (CS-DE-21). BCA papers add related questions on rotation, reflection, translation and shear.</p>
+
+<h3>1.1 Meaning of 2D Transformation</h3>
+<p>A <strong>2D transformation</strong> is an operation that changes the position, size, orientation or shape of an object in a two-dimensional plane (X–Y plane). It is applied to the coordinates of the object's points to produce new coordinates.</p>
+<p>For example, a rectangle can be moved to another location, enlarged, reduced, rotated, reflected or distorted using 2D transformations.</p>
+
+<h3>1.2 Types of 2D Transformations</h3>
+<p>The five basic transformations are <strong>translation, scaling, rotation, reflection and shearing</strong>.</p>
+
+<h3>1.3 Translation</h3>
+<p><strong>Translation</strong> moves an object from one position to another without changing its size or orientation. Every point moves by the same distance in the same direction.</p>
+<p>For a point P(x,y), translation by tx along the X-axis and ty along the Y-axis gives:</p>
+<div class="formula">
+<strong>Translation equations</strong>
+<p>x' = x + tx</p>
+<p>y' = y + ty</p>
+<p>Here, tx and ty are the translation distances.</p>
+</div>
+<p><strong>Example:</strong> Translate point P(2,3) by tx=4 and ty=2.</p>
+<ul>
+<li>x' = 2 + 4 = 6</li>
+<li>y' = 3 + 2 = 5</li>
+</ul>
+<p>New point: <strong>P'(6,5)</strong>.</p>
+
+<h3>1.4 Scaling</h3>
+<p><strong>Scaling</strong> changes the size of an object. It may enlarge or reduce the object along the X and Y directions.</p>
+<div class="formula">
+<strong>Scaling equations</strong>
+<p>x' = x × Sx</p>
+<p>y' = y × Sy</p>
+<p>Sx and Sy are the scaling factors along the X and Y axes.</p>
+</div>
+<ul>
+<li>If the scaling factor is greater than 1, the object becomes larger in that direction.</li>
+<li>If the scaling factor is between 0 and 1, the object becomes smaller.</li>
+<li>If the scaling factor is 1, there is no size change in that direction.</li>
+</ul>
+<p><strong>Example:</strong> Scale point P(3,4) using Sx=2 and Sy=3.</p>
+<ul>
+<li>x' = 3 × 2 = 6</li>
+<li>y' = 4 × 3 = 12</li>
+</ul>
+<p>New point: <strong>P'(6,12)</strong>.</p>
+
+<h3>1.5 Rotation</h3>
+<p><strong>Rotation</strong> turns an object through a specified angle around a fixed point. In the basic case, the object is rotated around the origin.</p>
+<div class="formula">
+<strong>Rotation equations about the origin</strong>
+<p>x' = xcosθ - ysinθ</p>
+<p>y' = xsinθ + ycosθ</p>
+<p>θ is the angle of rotation. A positive angle is counter-clockwise in the usual Cartesian coordinate system.</p>
+</div>
+<p>Rotation changes the orientation of the object, while its size and shape remain unchanged.</p>
+
+<h3>1.6 Reflection</h3>
+<p><strong>Reflection</strong> produces a mirror image of an object about a selected line, such as the X-axis, Y-axis or origin.</p>
+<div class="tw wide"><table>
+<thead><tr><th>Reflection about</th><th>Coordinate transformation</th></tr></thead>
+<tbody>
+<tr><td>X-axis</td><td>(x',y')=(x,-y)</td></tr>
+<tr><td>Y-axis</td><td>(x',y')=(-x,y)</td></tr>
+<tr><td>Origin</td><td>(x',y')=(-x,-y)</td></tr>
+<tr><td>Line y=x</td><td>(x',y')=(y,x)</td></tr>
+</tbody>
+</table></div>
+
+<h3>1.7 Shearing</h3>
+<p><strong>Shearing</strong> slants the shape of an object. It shifts one coordinate in proportion to the other coordinate.</p>
+<div class="formula">
+<strong>X-shear</strong>
+<p>x' = x + Shx × y</p>
+<p>y' = y</p>
+<strong>Y-shear</strong>
+<p>x' = x</p>
+<p>y' = y + Shy × x</p>
+<p>Shx and Shy are the shear factors.</p>
+</div>
+
+<h3>1.8 Comparison of Basic 2D Transformations</h3>
+<div class="tw wide"><table>
+<thead><tr><th>Transformation</th><th>Main effect</th><th>Size / shape</th></tr></thead>
+<tbody>
+<tr><td>Translation</td><td>Moves an object.</td><td>Unchanged</td></tr>
+<tr><td>Scaling</td><td>Enlarges or reduces an object.</td><td>Size changes</td></tr>
+<tr><td>Rotation</td><td>Turns an object by an angle.</td><td>Unchanged</td></tr>
+<tr><td>Reflection</td><td>Creates a mirror image.</td><td>Size unchanged; orientation is reversed</td></tr>
+<tr><td>Shearing</td><td>Slants an object.</td><td>Shape changes</td></tr>
+</tbody>
+</table></div>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>2D transformation is the process of changing the position, size, orientation or shape of an object in the X–Y plane. The basic types are translation, scaling, rotation, reflection and shearing. Translation moves an object by adding fixed distances to its coordinates. Scaling changes its size using scaling factors. Rotation turns the object through an angle. Reflection creates its mirror image about an axis or line. Shearing slants the object by shifting its coordinates in proportion to the other coordinate. These transformations are used to manipulate graphical objects in computer graphics.</p>
+</div>
+
+<h3>1.9 Previous-Year Question (PYQ) Evidence</h3>
+<ul>
+<li><strong>Actual MCA PYQ — 2022–24, paper code CCMCA403:</strong> 2D transformation operations appeared in the paper. The available exam summary does not preserve the full original wording, so no longer question is reconstructed.</li>
+<li><strong>Actual older MCA PYQ — MCA-2/D-12, code CS-DE-21:</strong> 2D scaling appeared.</li>
+<li><strong>Related PYQ — BCA papers:</strong> 2D rotation, reflection, translation and shear were found. These are related supporting papers, not MCA PYQs.</li>
+</ul>
+
+<h3>1.10 YouTube Videos — Your Preferred Channels</h3>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=n85QQy03_gI" target="_blank" rel="noopener"><strong>What is 2D Translation Explained in Hindi</strong> — 5 Minutes Engineering</a>.</li>
+<li><a href="https://www.youtube.com/watch?v=eLmBR2HyLPo" target="_blank" rel="noopener"><strong>What is 2D Scaling Explained in Hindi</strong> — 5 Minutes Engineering</a>.</li>
+<li><a href="https://www.youtube.com/results?search_query=Gate+Smashers+2D+transformation+computer+graphics" target="_blank" rel="noopener"><strong>Gate Smashers — 2D Transformation</strong> (YouTube search)</a>. A specific matching video was not verified.</li>
+</ul>
+
+<h3>1.11 Sources</h3>
+<ul>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/2d_transformation.htm" target="_blank" rel="noopener">TutorialsPoint — 2D Transformation</a> (definition, translation, scaling, rotation and transformation concepts).</li>
+<li><a href="https://www.geeksforgeeks.org/videos/2d-rotation-in-computer-graphics/" target="_blank" rel="noopener">GeeksforGeeks — 2D Rotation in Computer Graphics</a>.</li>
+<li><a href="https://www.geeksforgeeks.org/videos/2d-scaling-in-computer-graphics//" target="_blank" rel="noopener">GeeksforGeeks — 2D Scaling in Computer Graphics</a>.</li>
+</ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Homogeneous Coordinates and Matrix Representation of 2D Transformation. · <a href="#top">↑ Back to index</a></p>
+</section>
+
+<section id="u4-topic2-homogeneous-coordinates" class="topic-section tp ty">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">2</span><span><span class="tlabel">Topic 2 of 5</span>Homogeneous Coordinates and Matrix Representation of 2D Transformation</span><span class="tprio">YELLOW PRIORITY</span></h2>
+<p class="evidence"><strong>Why YELLOW?</strong> Related evidence: the broader MCA 2022–24 question “2D transformation operations”. No separate direct question on homogeneous coordinates or matrix representation is recorded.</p>
+
+<h3>2.1 Homogeneous Coordinates</h3>
+<p>In ordinary 2D Cartesian coordinates, a point is represented by two values: <strong>(x, y)</strong>. In homogeneous coordinates, the same point is represented using three values: <strong>(X, Y, W)</strong>.</p>
+<p>For W not equal to zero, the Cartesian coordinates are obtained by dividing the first two values by W:</p>
+<div class="formula">
+<strong>Conversion to Cartesian coordinates</strong>
+<p>x = X / W</p>
+<p>y = Y / W</p>
+<p>Example: homogeneous point (6, 9, 3) represents Cartesian point (2, 3).</p>
+</div>
+<p>A common way to represent Cartesian point (x, y) in homogeneous form is <strong>(x, y, 1)</strong>.</p>
+
+<h3>2.2 Why Homogeneous Coordinates Are Used</h3>
+<ul>
+<li>They allow translation, scaling and rotation to be represented using matrices of the same size.</li>
+<li>They make it easier to combine several transformations using matrix multiplication.</li>
+<li>They provide a uniform mathematical representation for 2D transformations.</li>
+</ul>
+
+<h3>2.3 Matrix Representation</h3>
+<p>In homogeneous coordinates, a 2D point is written as a column vector:</p>
+<div class="formula">
+<strong>Point vector</strong>
+<p>P = [ x ]</p>
+<p>  [ y ]</p>
+<p>  [ 1 ]</p>
+</div>
+<p>After transformation, the new point is obtained by multiplying the transformation matrix by the point vector:</p>
+<div class="formula">
+<strong>General form</strong>
+<p>P' = T × P</p>
+<p>P is the original point, T is the 3 × 3 transformation matrix, and P' is the transformed point.</p>
+</div>
+
+<h3>2.4 Translation Matrix</h3>
+<p>Translation by tx along X and ty along Y is represented by:</p>
+<div class="formula">
+<strong>Translation matrix</strong>
+<p>T = [ 1 0 tx ]</p>
+<p>  [ 0 1 ty ]</p>
+<p>  [ 0 0 1  ]</p>
+</div>
+<p>Example: Translate point (2, 3) by tx = 4 and ty = 2.</p>
+<div class="formula">
+<strong>Calculation</strong>
+<p>P = [ 2 ]  T = [ 1 0 4 ]</p>
+<p>  [ 3 ]    [ 0 1 2 ]</p>
+<p>  [ 1 ]    [ 0 0 1 ]</p>
+<p>P' = T × P = [ 6 ]</p>
+<p>        [ 5 ]</p>
+<p>        [ 1 ]</p>
+<p>New point = (6, 5)</p>
+</div>
+
+<h3>2.5 Scaling Matrix</h3>
+<p>Scaling by Sx along X and Sy along Y is represented by:</p>
+<div class="formula">
+<strong>Scaling matrix</strong>
+<p>S = [ Sx 0  0 ]</p>
+<p>  [ 0  Sy 0 ]</p>
+<p>  [ 0  0  1 ]</p>
+</div>
+<p>The scaling factors determine how much the coordinates are enlarged or reduced.</p>
+
+<h3>2.6 Rotation Matrix</h3>
+<p>Rotation by angle θ around the origin is represented by:</p>
+<div class="formula">
+<strong>Rotation matrix</strong>
+<p>R = [ cos(θ) −sin(θ) 0 ]</p>
+<p>  [ sin(θ)  cos(θ) 0 ]</p>
+<p>  [ 0     0    1 ]</p>
+</div>
+<p>For positive θ, the rotation is counter-clockwise in the usual Cartesian coordinate system.</p>
+
+<h3>2.7 Reflection and Shearing Matrices</h3>
+<p>Reflection about the X-axis and Y-axis can also be represented by 3 × 3 matrices:</p>
+<div class="formula">
+<strong>Reflection about X-axis</strong>
+<p>Rx = [ 1  0 0 ]</p>
+<p>   [ 0 −1 0 ]</p>
+<p>   [ 0  0 1 ]</p>
+<strong>Reflection about Y-axis</strong>
+<p>Ry = [ −1 0 0 ]</p>
+<p>   [ 0  1 0 ]</p>
+<p>   [ 0  0 1 ]</p>
+</div>
+<p>X-shear and Y-shear matrices are:</p>
+<div class="formula">
+<strong>X-shear</strong>
+<p>Shx = [ 1 Shx 0 ]</p>
+<p>   [ 0  1   0 ]</p>
+<p>   [ 0  0   1 ]</p>
+<strong>Y-shear</strong>
+<p>Shy = [ 1  0   0 ]</p>
+<p>   [ Shy 1  0 ]</p>
+<p>   [ 0  0   1 ]</p>
+</div>
+
+<h3>2.8 Important Points to Remember</h3>
+<ul>
+<li>A 2D point uses two coordinates in Cartesian form and three values in homogeneous form.</li>
+<li>The third homogeneous coordinate is commonly set to 1 for ordinary 2D points.</li>
+<li>2D transformation matrices in homogeneous coordinates are 3 × 3 matrices.</li>
+<li>The transformed point is calculated using P' = T × P.</li>
+<li>Matrix multiplication order matters when more than one transformation is applied. This will be covered in the next topic, Composition of 2D Transformation.</li>
+</ul>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>Homogeneous coordinates represent a 2D point using three values (X, Y, W), instead of the two Cartesian coordinates (x, y). When W is non-zero, x = X/W and y = Y/W. A Cartesian point (x, y) is commonly written as (x, y, 1) in homogeneous form. Homogeneous coordinates allow 2D transformations such as translation, scaling and rotation to be represented by 3 × 3 matrices. A point is transformed by multiplying its column vector by the transformation matrix: P' = T × P. This common matrix representation makes it easier to combine transformations.</p>
+</div>
+
+<h3>2.9 Previous-Year Question (PYQ) Evidence</h3>
+<p>The available MCA 2022–24 paper summary records <strong>2D transformation operations</strong>, but does not confirm a separate direct question specifically on homogeneous coordinates or the matrix representation. The older MCA paper summary records 2D scaling and window-to-viewport transformation, not a direct homogeneous-coordinate question. Therefore, no direct PYQ is claimed for this exact subtopic.</p>
+
+<h3>2.10 YouTube Videos — Your Preferred Channels</h3>
+<ul>
+<li><a href="https://www.youtube.com/results?search_query=Gate+Smashers+homogeneous+coordinates+2D+transformation" target="_blank" rel="noopener"><strong>Gate Smashers — Homogeneous Coordinates and 2D Transformation</strong> (YouTube search)</a>.</li>
+<li><a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+homogeneous+coordinates+computer+graphics" target="_blank" rel="noopener"><strong>5 Minutes Engineering — Homogeneous Coordinates</strong> (YouTube search)</a>.</li>
+</ul>
+<p>I could not verify a specific video from Vinay Mishra, Education 4u or Er Sahil ka Gyan for this exact subtopic, so I have not added guessed links.</p>
+
+<h3>2.11 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/2d-transformation-in-computer-graphics/" target="_blank" rel="noopener">GeeksforGeeks — 2D Transformation in Computer Graphics</a> (matrix representation of 2D transformations).</li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/2d_transformation.htm" target="_blank" rel="noopener">TutorialsPoint — 2D Transformation</a> (2D transformation matrices and homogeneous representation).</li>
+</ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Composition of 2D Transformation. · <a href="#top">↑ Back to index</a></p>
+</section>
+
+
+<section id="u4-topic3-composition" class="topic-section tp ty">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">3</span><span><span class="tlabel">Topic 3 of 5</span>Composition of 2D Transformation</span><span class="tprio">YELLOW PRIORITY</span></h2>
+<p class="evidence"><strong>Why YELLOW?</strong> Related evidence: BCA papers contain composite-transformation questions, and the broader MCA 2D transformation question is related. No separate direct MCA question is recorded.</p>
+
+<h3>3.1 Meaning of Composition</h3>
+<p><strong>Composition of 2D transformations</strong> means applying two or more transformations to an object, one after another. The transformations may include translation, scaling, rotation, reflection or shearing.</p>
+<p>Instead of transforming every point separately after each operation, the individual transformation matrices can be multiplied to obtain one <strong>composite transformation matrix</strong>.</p>
+
+<h3>3.2 Composite Transformation Matrix</h3>
+<p>Using homogeneous column vectors, a point is transformed as P' = T × P. If T₁ is applied first and T₂ is applied second, then:</p>
+<div class="formula">
+<strong>Combined transformation</strong>
+<p>P' = T₂ × (T₁ × P)</p>
+<p>P' = (T₂ × T₁) × P</p>
+<p><strong>T = T₂ × T₁</strong></p>
+<p>Therefore, the rightmost matrix acts first.</p>
+</div>
+<p>For three transformations, if T₁ is applied first, then T₂, and finally T₃:</p>
+<div class="formula">
+<strong>T = T₃ × T₂ × T₁</strong>
+<p>P' = T × P</p>
+</div>
+
+<h3>3.3 Order of Transformations Matters</h3>
+<p>Matrix multiplication is generally <strong>not commutative</strong>. This means changing the order of two transformations can produce a different result:</p>
+<div class="formula">
+<p>T₂ × T₁ ≠ T₁ × T₂ (in general)</p>
+</div>
+<p>For example, translating an object and then scaling it may give a different final position from scaling it first and then translating it.</p>
+
+<h3>3.4 Solved Numerical Example</h3>
+<p>Consider the point P(1, 1). Apply a translation of (2, 0) and a scaling of (2, 2). Compare the two possible orders.</p>
+
+<p><strong>Case A: Translate first, then scale</strong></p>
+<p>After translation: (1 + 2, 1 + 0) = (3, 1).</p>
+<p>After scaling: (3 × 2, 1 × 2) = <strong>(6, 2)</strong>.</p>
+<div class="formula">
+<strong>Matrix form</strong>
+<p>T = [ 1  0  2 ]</p>
+<p>  [ 0  1  0 ]</p>
+<p>  [ 0  0  1 ]</p>
+<p>S = [ 2  0  0 ]</p>
+<p>  [ 0  2  0 ]</p>
+<p>  [ 0  0  1 ]</p>
+<p>Composite matrix: S × T</p>
+<p>Result for P(1,1): (6, 2)</p>
+</div>
+
+<p><strong>Case B: Scale first, then translate</strong></p>
+<p>After scaling: (1 × 2, 1 × 2) = (2, 2).</p>
+<p>After translation: (2 + 2, 2 + 0) = <strong>(4, 2)</strong>.</p>
+<div class="formula">
+<strong>Composite matrix: T × S</strong>
+<p>Result for P(1,1): (4, 2)</p>
+</div>
+<p><strong>Conclusion:</strong> The two orders produce different results: (6, 2) and (4, 2). Hence, the order of transformations is important.</p>
+
+<h3>3.5 Advantages of Composite Transformation</h3>
+<ul>
+<li>Several transformations can be combined into one matrix.</li>
+<li>The composite matrix can be calculated once and then applied to every point of an object.</li>
+<li>It reduces repeated transformation calculations when many points are involved.</li>
+<li>It makes complex object transformations easier to manage.</li>
+</ul>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>Composition of 2D transformation is the process of combining two or more transformations into a single composite transformation matrix. In homogeneous coordinates, a point is represented by a column vector P and transformed using P' = T × P. If T₁ is applied first and T₂ second, the composite matrix is T = T₂ × T₁. For more transformations, the matrices are multiplied in reverse order of application. Matrix multiplication is generally non-commutative, so the order of transformations affects the final result. Composite transformations reduce repeated calculations and make multiple transformations easier to apply.</p>
+</div>
+
+<h3>3.6 Previous-Year Question (PYQ) Evidence</h3>
+<p>The available MCA 2022–24 paper summary records the broader question <strong>“2D transformation operations”</strong>; it does not confirm a separate direct question specifically on composition of transformations. The older MCA paper summary records 2D scaling and window-to-viewport transformation, not a direct composition question. BCA papers contain related questions on composite transformations; these are related-paper evidence, not MCA PYQs.</p>
+
+<h3>3.7 YouTube Videos — Your Preferred Channels</h3>
+<ul>
+<li><a href="https://www.youtube.com/results?search_query=Gate+Smashers+composite+transformation+computer+graphics" target="_blank" rel="noopener"><strong>Gate Smashers — Composite Transformation</strong> (YouTube search)</a>.</li>
+<li><a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+composite+transformation+computer+graphics" target="_blank" rel="noopener"><strong>5 Minutes Engineering — Composite Transformation</strong> (YouTube search)</a>.</li>
+</ul>
+<p>These are channel/topic search links, not verified links to a particular video. I have not added guessed video links from the other preferred channels.</p>
+
+<h3>3.8 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/2d-transformation-in-computer-graphics/" target="_blank" rel="noopener">GeeksforGeeks — 2D Transformation in Computer Graphics</a> (transformation matrices and matrix representation).</li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/2d_transformation.htm" target="_blank" rel="noopener">TutorialsPoint — 2D Transformation</a> (2D transformation operations and matrices).</li>
+</ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> The Windows-to-Viewport Transformation. · <a href="#top">↑ Back to index</a></p>
+</section>
+
+
+<section id="u4-topic4-window-viewport" class="topic-section tp tr">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">4</span><span><span class="tlabel">Topic 4 of 5</span>Windows-to-Viewport Transformation</span><span class="tprio">RED PRIORITY</span></h2>
+<p class="evidence"><strong>Why RED?</strong> Direct evidence: the older MCA paper (CS-DE-21) records a window-to-viewport transformation question.</p>
+
+<h3>4.1 Meaning</h3>
+<p>The <strong>window-to-viewport transformation</strong> is the process of mapping a selected part of a scene, defined in world coordinates, onto a specific area of the display screen, defined in device coordinates. The selected world-coordinate area is called the <strong>window</strong>, while the area on the screen where it is displayed is called the <strong>viewport</strong>.</p>
+<p>In simple words, the window decides <em>which part of the scene we want to see</em>, and the viewport decides <em>where and how large that part will appear on the screen</em>. The transformation converts the coordinates of points from the window range into the corresponding viewport range.</p>
+
+<h3>4.2 Window and Viewport</h3>
+<ul>
+<li><strong>Window:</strong> A rectangular area in world coordinates that selects the portion of the scene to be displayed.</li>
+<li><strong>Viewport:</strong> A rectangular area on the display device where the selected window contents are shown.</li>
+</ul>
+<p>The window and viewport can have different sizes and positions. The transformation scales and shifts the selected scene so that it fits into the viewport.</p>
+
+<h3>4.3 Window-to-Viewport Transformation Formula</h3>
+<p>Let the window boundaries be Xwmin, Xwmax, Ywmin and Ywmax. Let the viewport boundaries be Xvmin, Xvmax, Yvmin and Yvmax.</p>
+<div class="formula">
+<strong>Scaling factors</strong>
+<p>Sx = (Xvmax − Xvmin) / (Xwmax − Xwmin)</p>
+<p>Sy = (Yvmax − Yvmin) / (Ywmax − Ywmin)</p>
+</div>
+<div class="formula">
+<strong>Coordinate transformation</strong>
+<p>Xv = Xvmin + (Xw − Xwmin) × Sx</p>
+<p>Yv = Yvmin + (Yw − Ywmin) × Sy</p>
+</div>
+<p>(Xw, Yw) represents a point in world coordinates, and (Xv, Yv) represents its corresponding point in viewport coordinates.</p>
+
+<h3>4.4 Steps Involved</h3>
+<ol>
+<li>Define the rectangular window in world coordinates.</li>
+<li>Define the viewport on the display screen.</li>
+<li>Calculate the horizontal and vertical scaling factors, Sx and Sy.</li>
+<li>Apply the coordinate transformation formulas to map each point from the window to the viewport.</li>
+</ol>
+
+<h3>4.5 Solved Numerical Example</h3>
+<p>Suppose the window is X: 0 to 100 and Y: 0 to 100. The viewport is X: 200 to 400 and Y: 100 to 300. Find the viewport coordinates of the world point (50, 50).</p>
+<p><strong>Step 1: Calculate scaling factors</strong></p>
+<div class="formula">
+<p>Sx = (400 − 200) / (100 − 0) = 200 / 100 = 2</p>
+<p>Sy = (300 − 100) / (100 − 0) = 200 / 100 = 2</p>
+</div>
+<p><strong>Step 2: Convert the point (50, 50)</strong></p>
+<div class="formula">
+<p>Xv = 200 + (50 − 0) × 2 = 300</p>
+<p>Yv = 100 + (50 − 0) × 2 = 200</p>
+<p><strong>Final viewport point = (300, 200)</strong></p>
+</div>
+
+<h3>4.6 Importance</h3>
+<ul>
+<li>Displays a selected portion of a large scene on the screen.</li>
+<li>Allows the same scene to be displayed in viewports of different sizes and positions.</li>
+<li>Converts world-coordinate positions into display-coordinate positions.</li>
+<li>Helps fit graphical scenes into a required screen area.</li>
+</ul>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>Window-to-viewport transformation is the process of converting a selected rectangular area of a scene from world coordinates into a rectangular area on the display screen. The selected area in world coordinates is called the window, and the display area is called the viewport. First, the horizontal and vertical scaling factors are calculated as Sx = (Xvmax − Xvmin)/(Xwmax − Xwmin) and Sy = (Yvmax − Yvmin)/(Ywmax − Ywmin). Then each point is mapped using Xv = Xvmin + (Xw − Xwmin) × Sx and Yv = Yvmin + (Yw − Ywmin) × Sy. This allows the selected scene to be positioned and resized to fit the required display area.</p>
+</div>
+
+<h3>4.7 Previous-Year Question (PYQ) Evidence</h3>
+<p>The older MCA paper summary records a question on <strong>Window-to-viewport transformation</strong>. This is direct MCA previous-year evidence. The MCA 2022–24 paper summary records the broader topic of 2D transformation operations; it does not confirm a separate window-to-viewport question in that paper.</p>
+
+<h3>4.8 YouTube Videos — Your Preferred Channels</h3>
+<ul>
+<li><a href="https://www.youtube.com/results?search_query=Gate+Smashers+window+to+viewport+transformation+computer+graphics" target="_blank" rel="noopener"><strong>Gate Smashers — Window-to-Viewport Transformation</strong> (YouTube search)</a>.</li>
+<li><a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+window+to+viewport+transformation" target="_blank" rel="noopener"><strong>5 Minutes Engineering — Window-to-Viewport Transformation</strong> (YouTube search)</a>.</li>
+</ul>
+<p>These are topic-specific channel search links, not verified links to a particular video. I have not added guessed direct video links.</p>
+
+<h3>4.9 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/window-to-viewport-transformation-in-computer-graphics/" target="_blank" rel="noopener">GeeksforGeeks — Window to Viewport Transformation</a>.</li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/2d_transformation.htm" target="_blank" rel="noopener">TutorialsPoint — 2D Transformation</a>.</li>
+</ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Efficiency. · <a href="#top">↑ Back to index</a></p>
+</section>
+
+
+<section id="u4-topic5-efficiency" class="topic-section tp tb">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">5</span><span><span class="tlabel">Topic 5 of 5</span>Efficiency</span><span class="tprio">BLACK PRIORITY</span></h2>
+<p class="evidence"><strong>Why BLACK?</strong> No standalone MCA question titled Efficiency is recorded; it is covered as part of the official syllabus.</p>
+
+<h3>5.1 Meaning</h3>
+<p>In computer graphics, <strong>efficiency of geometric transformation</strong> refers to performing operations such as translation, scaling, rotation, reflection and shearing with minimum computational effort and time. It is especially important when a graphical object contains many points or when transformations must be performed repeatedly.</p>
+<p>A transformation may need to be applied to every vertex of an object. Therefore, reducing repeated calculations can improve the overall speed of a graphics system.</p>
+
+<h3>5.2 Use of Matrix Representation</h3>
+<p>Homogeneous coordinates represent 2D points using a 3 × 3 matrix. Translation, scaling, rotation and other transformations can then be represented in a common matrix form.</p>
+<p>When several transformations are required, their matrices can be multiplied to create a single <strong>composite transformation matrix</strong>. The resulting matrix is then applied to each point, rather than applying each separate transformation one by one.</p>
+<div class="formula">
+<strong>Without combining transformations</strong>
+<p>P' = T₃ × (T₂ × (T₁ × P))</p>
+<p><strong>Using a composite matrix</strong></p>
+<p>T = T₃ × T₂ × T₁</p>
+<p>P' = T × P</p>
+</div>
+
+<h3>5.3 How Efficiency Is Improved</h3>
+<ul>
+<li><strong>Combine transformations:</strong> Multiply individual matrices once to form a composite matrix.</li>
+<li><strong>Reuse the composite matrix:</strong> Apply the combined matrix to all points of the object.</li>
+<li><strong>Avoid repeated calculations:</strong> Do not separately recalculate the same transformation sequence for every point.</li>
+<li><strong>Use suitable operations:</strong> Choose the required transformation directly and avoid unnecessary operations.</li>
+</ul>
+
+<h3>5.4 Example</h3>
+<p>Suppose an object has many vertices and each vertex must first be translated and then scaled.</p>
+<p><strong>Separate method:</strong> Apply the translation matrix to every vertex, then apply the scaling matrix to every resulting point.</p>
+<p><strong>Composite method:</strong> First calculate the combined matrix S × T. Then apply this single matrix to each original vertex.</p>
+<p>The composite method reduces repeated matrix operations for the same sequence of transformations, particularly when the object has many vertices.</p>
+
+<h3>5.5 Important Point</h3>
+<p>Matrix multiplication used to prepare a composite transformation also requires computation. Its benefit is greatest when the same transformation sequence is applied to many points. The order of the matrices must still be correct because matrix multiplication is generally not commutative.</p>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>Efficiency in 2D geometric transformation means performing transformations with minimum computational time and effort. It is important when an object contains many points or when transformations are repeated. Homogeneous coordinates allow transformations to be represented using 3 × 3 matrices. Multiple transformations can be combined by multiplying their matrices to form a composite transformation matrix. This matrix can then be applied to each point of the object, reducing repeated calculations. Thus, matrix representation and composite transformations help improve the efficiency of geometric transformations.</p>
+</div>
+
+<h3>5.6 Previous-Year Question (PYQ) Evidence</h3>
+<p>The available MCA paper summaries confirm questions on 2D transformation operations and window-to-viewport transformation, but do not confirm a separate direct question specifically titled <strong>Efficiency</strong>. Therefore, this topic is covered as part of the official syllabus, not presented as a confirmed standalone MCA PYQ.</p>
+
+<h3>5.7 YouTube Videos — Your Preferred Channels</h3>
+<ul>
+<li><a href="https://www.youtube.com/results?search_query=Gate+Smashers+efficiency+2D+transformation+computer+graphics" target="_blank" rel="noopener"><strong>Gate Smashers — Efficiency in 2D Transformation</strong> (YouTube search)</a>.</li>
+<li><a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+composite+transformation+computer+graphics" target="_blank" rel="noopener"><strong>5 Minutes Engineering — Composite Transformation</strong> (YouTube search)</a>.</li>
+</ul>
+<p>These are topic search links, not verified direct links to a particular video. The efficiency point is explained here through composite transformations; I have not assumed that a specific video covers this exact syllabus heading.</p>
+
+<h3>5.8 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/2d-transformation-in-computer-graphics/" target="_blank" rel="noopener">GeeksforGeeks — 2D Transformation in Computer Graphics</a>.</li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/2d_transformation.htm" target="_blank" rel="noopener">TutorialsPoint — 2D Transformation</a>.</li>
+</ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><a href="#top">↑ Back to index</a></p>
+</section>
+
+<div class="unit-end"><strong>✿ Unit IV complete ✿</strong><br>Next: Unit V — 3D Transformation</div>
+</main>
+</body>
+</html>

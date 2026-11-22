@@ -1,0 +1,5 @@
+node_modules
+client/dist
+client/public/notes
+client/public/data
+.env

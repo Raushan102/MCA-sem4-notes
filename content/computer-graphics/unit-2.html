@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Computer Graphics — Unit II: Graphics Hardware and Input Devices</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+html { color-scheme: light; }
+
+:root {
+  --desk: #dfe4ec;
+  --paper: #ffffff;
+  --rule: #d6e3f5;
+  --margin: #e4868a;
+  --ink: #1d3a8c;
+  --red: #b3261e;
+  --green: #1b6b3a;
+  --hl: rgba(255, 214, 0, 0.45);
+  --edge: rgba(29, 58, 140, 0.35);
+  --shadow: rgba(20, 30, 60, 0.2);
+  --hand: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --display: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --mono: "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace;
+  --vs-bg: #1e1e1e;
+  --vs-fg: #d4d4d4;
+  color-scheme: light;
+}
+html { background: var(--desk); }
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: 16px;
+  line-height: 36px;
+  padding-block: 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 28px 64px 76px;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 22px 48px, var(--desk) 8px, transparent 9px),
+    linear-gradient(to bottom, transparent 35px, var(--rule) 35px, var(--rule) 36px);
+  background-size: 44px 144px, 100% 36px;
+  background-repeat: repeat-y, repeat;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px var(--shadow), 0 14px 34px -14px var(--shadow);
+  overflow-wrap: break-word;
+}
+.sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 56px;
+  width: 4px;
+  border-left: 1px solid var(--margin);
+  border-right: 1px solid var(--margin);
+}
+@media (max-width: 520px) {
+  body { font-size: 15px; }
+  .sheet { padding: 64px 12px 64px 50px; }
+  .sheet::before { left: 34px; }
+}
+h1, h2, h3 { margin: 0; font-weight: 700; text-wrap: balance; }
+h1 {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  line-height: 64px;
+  color: var(--red);
+  text-decoration: underline wavy var(--red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 7px;
+  scroll-margin-top: 16px;
+}
+.sheet > h1:first-child { font-size: clamp(1.7rem, 5.2vw, 2.4rem); }
+h2 { font-family: var(--display); font-size: 1.3rem; line-height: 36px; color: var(--red); }
+h3 { font-family: var(--display); font-size: 1.15rem; line-height: 36px; color: var(--green); }
+p { margin: 0 0 36px; }
+hr {
+  height: 36px;
+  margin: 0;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--edge) 0 10px, transparent 10px 18px) center / 100% 2px no-repeat;
+}
+ul, ol { margin: 0 0 36px; }
+ul { list-style: none; padding-left: 34px; }
+ul li { position: relative; }
+ul li::before { content: "\2022"; position: absolute; left: -22px; color: var(--red); }
+ol { padding-left: 46px; }
+ol li::marker { color: var(--red); font-family: var(--display); font-weight: 700; }
+li > p { margin: 0; }
+strong {
+  font-weight: 600;
+  padding: 0 2px;
+  background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  line-height: 0;
+  color: #9cdcfe;
+  background: var(--vs-bg);
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+pre {
+  margin: 0 0 32px;
+  padding: 16px 20px;
+  background: var(--vs-bg);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), 0 6px 14px -8px rgba(0, 0, 0, 0.5);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 400;
+  font-variant-ligatures: contextual;
+  line-height: 32px;
+  color: var(--vs-fg);
+  overflow-x: auto;
+  tab-size: 4;
+  white-space: pre;
+}
+pre code { font: inherit; line-height: inherit; color: inherit; background: none; padding: 0; border-radius: 0; }
+pre .k  { color: #569cd6; }
+pre .kc { color: #c586c0; }
+pre .f  { color: #dcdcaa; }
+pre .t  { color: #4ec9b0; }
+pre .v  { color: #9cdcfe; }
+pre .ct { color: #4fc1ff; }
+pre .s  { color: #ce9178; }
+pre .n  { color: #b5cea8; }
+pre .c  { color: #6a9955; }
+.tw { margin: 0 0 32px; overflow-x: auto; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+.tw.wide table { min-width: 640px; }
+th, td {
+  padding: 0 14px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 36px;
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge);
+}
+th {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--red);
+  background: var(--hl);
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge);
+}
+th:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+td:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+.toc ul { columns: 2 280px; column-gap: 32px; padding-left: 0; }
+.toc li { break-inside: avoid; }
+.toc li::before { content: none; }
+.toc a { color: var(--ink); text-decoration: none; background: linear-gradient(var(--edge), var(--edge)) 0 100% / 100% 1px no-repeat; }
+.toc a:hover { color: var(--red); }
+a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; border-radius: 2px; }
+.note { margin: 0 0 32px; padding: 0 0 0 16px; border-left: 3px solid var(--red); }
+.note p { margin: 0; }
+h1 code, h2 code, h3 code { background: var(--vs-bg); }
+th code, td code { font-size: 0.85em; }
+.tp{margin:0 -14px 32px;padding:0 14px;border-left:5px solid;border-radius:4px}
+.tp.tr{background:rgba(179,38,30,.085);border-color:#b3261e}
+.tp.ty{background:rgba(255,214,0,.24);border-color:#e0b800}
+.tp.tb{background:rgba(0,0,0,.075);border-color:#333}
+.r,.y,.b{font-size:.72em;font-weight:700;padding:1px 7px;border-radius:3px;letter-spacing:.5px;margin-right:6px}
+.r{background:var(--red);color:#fff}.y{background:#ffd600;color:#4a3b00}.b{background:#222;color:#fff}
+main a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px;overflow-wrap:anywhere}
+main a:hover{color:var(--red)}
+.fig{margin:12px 0 40px}.fig svg{display:block;width:100%;max-width:760px;margin:0 auto}
+.fig svg text{font-family:var(--hand);font-size:14px;fill:var(--ink);dominant-baseline:auto}
+.fig svg .cap{font-size:13px;fill:var(--red);font-weight:600}
+.fig svg .w{fill:#fff;font-weight:600}
+.fig svg .bx{fill:#fff;stroke:var(--ink);stroke-width:2}
+.fig svg .rx{fill:#fff;stroke:var(--red);stroke-width:2}
+.fig svg .kx{fill:var(--vs-bg);stroke:var(--vs-bg)}
+.fig svg .yx{fill:rgba(255,214,0,.45);stroke:var(--ink);stroke-width:2}
+.fig svg .ln{stroke:var(--ink);stroke-width:2;fill:none}
+.fig svg .rl{stroke:var(--red);stroke-width:2.5;fill:none}
+.fig svg .dl{stroke:var(--red);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+
+.video-help { margin: 18px 0 32px; padding: 14px 16px; border: 1px solid #b8c9e5; border-left: 4px solid #1d3a8c; border-radius: 8px; background: rgba(232, 240, 252, .72); }
+.video-help p { margin-bottom: 12px; }
+.video-help .video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; background: #111; margin: 10px 0 8px; }
+.video-help iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-help .video-note { display: block; font-size: .88em; line-height: 1.5; opacity: .9; }
+
+
+.reading-sources { margin: 18px 0 22px; padding: 12px 16px; border: 1px solid #c8d6e8; border-radius: 7px; background: rgba(255,255,255,.78); font-size: .92em; line-height: 1.65; }
+.reading-sources p { margin: 0 0 6px; }
+.reading-sources ul { margin: 0; padding-left: 24px; }
+.reading-sources ul li::before { left: -18px; }
+.reading-sources .source-note { font-size: .9em; opacity: .9; margin-top: 6px; }
+
+.video-help{break-inside:avoid;margin:18px 0 32px;padding:14px 16px;border:1px solid #b8c9e5;border-left:4px solid #1d3a8c;border-radius:8px;background:rgba(232,240,252,.72)}.video-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:8px;background:#111;margin:10px 0 8px}.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.reading-sources{margin:24px 0 30px;padding:12px 16px;border:1px solid #c8d6e8;border-radius:7px;background:rgba(255,255,255,.78);font-size:.92em;line-height:1.65}.reading-sources p{margin:0 0 6px}.reading-sources ul{margin:0;padding-left:24px}.reading-sources ul li::before{left:-18px}.source-note{font-size:.9em;opacity:.9;margin-top:6px}
+/* Clear priority treatment across the FULL topic answer area */
+.tp{position:relative;margin:58px -14px 64px;padding:22px 22px 8px;border:1px solid rgba(29,58,140,.18);border-left:8px solid;border-radius:12px;box-shadow:0 5px 18px rgba(20,30,60,.07);}
+.tp.tr{background:linear-gradient(135deg,rgba(179,38,30,.17),rgba(179,38,30,.075));border-color:#b3261e;}
+.tp.ty{background:linear-gradient(135deg,rgba(255,214,0,.34),rgba(255,214,0,.13));border-color:#d2a900;}
+.tp.tb{background:linear-gradient(135deg,rgba(35,39,48,.13),rgba(35,39,48,.055));border-color:#333;}
+.tp h1{padding-bottom:8px;margin-bottom:12px;}
+.tp.tr h1::after,.tp.ty h1::after,.tp.tb h1::after{display:inline-block;vertical-align:middle;margin-left:12px;padding:2px 10px;border-radius:5px;font-family:var(--display);font-size:.48em;line-height:1.8;letter-spacing:.7px;text-decoration:none;white-space:nowrap;}
+.tp.tr h1::after{content:"RED PRIORITY";background:#b3261e;color:#fff;}
+.tp.ty h1::after{content:"YELLOW PRIORITY";background:#ffd600;color:#463900;}
+.tp.tb h1::after{content:"BLACK PRIORITY";background:#222;color:#fff;}
+/* Decorative floral divider gives every new topic a clear visual beginning */
+.tp::before{content:"✿  ───────────────  ✿  ───────────────  ✿";display:block;text-align:center;color:#b3261e;font-family:Georgia,serif;font-size:19px;line-height:36px;letter-spacing:2px;margin:-12px 0 16px;opacity:.9;}
+.tp.tr::before{color:#b3261e}.tp.ty::before{color:#9a7900}.tp.tb::before{color:#444}
+@media(max-width:520px){.tp{padding:16px 13px 4px;margin:44px -7px 50px}.tp.tr h1::after,.tp.ty h1::after,.tp.tb h1::after{margin:6px 0 0 4px;font-size:.42em}.tp::before{font-size:14px;letter-spacing:0}}
+.exam-box{padding:16px 20px;border:1px solid var(--edge);border-radius:6px;background:rgba(255,255,255,.78);margin-bottom:32px}.fig figcaption{font-size:.88em;text-align:center;color:var(--red);line-height:32px}
+
+/* Compatibility styles retained for the original Topic 1 content */
+.priority{padding:11px 14px;margin:12px 0 20px;border-left:5px solid;border-radius:4px}
+.priority.pr{background:rgba(179,38,30,.08);border-color:#b3261e}
+.priority.py{background:rgba(255,214,0,.2);border-color:#d0a900}
+.priority.pb{background:rgba(0,0,0,.06);border-color:#333}
+.tag{display:inline-block;font:700 12px Arial;padding:2px 8px;border-radius:4px;letter-spacing:.4px}
+.tag.red{background:#b3261e;color:white}.tag.yellow{background:#ffd600;color:#493b00}.tag.black{background:#222;color:white}
+.diagram{border:1px solid var(--edge);border-radius:8px;padding:10px;background:#ffffffc9;margin:8px 0 22px;text-align:center}
+.diagram svg{width:100%;max-width:680px;height:auto}
+.caption{font-size:.9rem;color:#456}
+
+/* Topic-adjacent learning resources: clear website and video link cards */
+.resource-panel{margin:18px 0 32px;padding:16px;border:1px solid #c8d6e8;border-radius:9px;background:rgba(255,255,255,.88);box-shadow:0 3px 10px rgba(20,30,60,.07)}
+.resource-panel h3{margin:0 0 10px;color:var(--red)}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:10px 0 18px}
+.resource-card{display:block;padding:12px 14px;border:1px solid #c8d6e8;border-left:4px solid var(--ink);border-radius:7px;background:#f7faff;text-decoration:none!important;color:var(--ink)!important;line-height:1.5;transition:transform .15s ease,box-shadow .15s ease}
+.resource-card:hover{transform:translateY(-2px);box-shadow:0 5px 12px rgba(20,30,60,.12);color:var(--red)!important}
+.resource-card.video{border-left-color:#b3261e;background:#fff8f7}
+.resource-card .resource-kind{display:block;font-size:.72em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#65728a;margin-bottom:4px}
+.resource-card strong{display:block;background:none;padding:0;color:inherit}
+.resource-card small{display:block;font-size:.86em;line-height:1.45;margin-top:4px;color:#46536b}
+.video-help{border-left-width:5px}
+.video-help>a,.reading-sources a{display:inline-block;margin:4px 4px 4px 0;padding:5px 10px;border:1px solid #b8c9e5;border-radius:6px;background:#f7faff;font-weight:600;text-decoration:none!important}
+.video-help>a:hover,.reading-sources a:hover{background:#e8f0fc;color:var(--red)}
+.reading-sources li{margin:5px 0}
+@media(max-width:520px){.resource-panel{padding:12px}.resource-grid{grid-template-columns:1fr}}
+
+
+/* Quick navigation index */
+.quick-index{margin:24px 0 40px;padding:20px 22px;border:2px solid #9fb4d5;border-radius:12px;background:linear-gradient(135deg,rgba(232,240,252,.96),rgba(255,255,255,.96));box-shadow:0 5px 16px rgba(20,30,60,.08)}
+.quick-index h2{margin:0 0 12px}
+.quick-index .index-intro{margin:0 0 16px;font-size:.94em}
+.index-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.index-card{display:block;padding:14px 15px;border:1px solid #c5d3e7;border-left:6px solid #555;border-radius:9px;background:#fff;color:var(--ink);text-decoration:none;line-height:1.65;box-shadow:0 2px 7px rgba(20,30,60,.06);transition:transform .15s ease,box-shadow .15s ease}
+.index-card:hover{transform:translateY(-2px);box-shadow:0 5px 13px rgba(20,30,60,.12);color:var(--red)}
+.index-card.red-card{border-left-color:#b3261e;background:#fff4f2}
+.index-card.yellow-card{border-left-color:#d6ad00;background:#fffbea}
+.index-card.black-card{border-left-color:#333;background:#f4f4f4}
+.index-card strong{display:block;margin-bottom:4px;background:none}
+.index-card .index-priority{display:inline-block;margin-top:7px;padding:1px 8px;border-radius:4px;font-size:.78em;font-weight:700;line-height:1.6}
+.index-card .index-priority.red{background:#b3261e;color:white}
+.index-card .index-priority.yellow{background:#ffe27a;color:#4a3b00}
+.index-card .index-priority.black{background:#333;color:white}
+.index-card .index-priority.mixed{background:linear-gradient(90deg,#b3261e 0 33%,#ffe27a 33% 66%,#333 66%);color:#fff;text-shadow:0 1px 2px #333}
+@media(max-width:520px){.quick-index{padding:15px}.index-grid{grid-template-columns:1fr}}
+
+
+
+/* Mathematical expressions: yellow notebook-paper panel with blue handwritten-style ink. */
+.formula {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 16px auto 24px;
+  padding: 12px 20px;
+  border: 1px solid #eadb91;
+  border-left: 4px solid #e5c64b;
+  border-radius: 7px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0) 0,
+      rgba(255,255,255,0) 31px,
+      rgba(105,145,190,.18) 32px,
+      rgba(255,255,255,0) 33px
+    ),
+    #fff4b8;
+  color: #164b91;
+  font-family: var(--hand, "Comic Sans MS", "Segoe Print", cursive);
+  font-size: 1.13rem;
+  font-weight: 700;
+  line-height: 1.95;
+  letter-spacing: .015em;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(70,55,10,.10);
+  overflow-wrap: anywhere;
+}
+.formula strong, .formula sub, .formula sup { color: #164b91; }
+.formula strong { background: transparent; padding: 0; }
+.math-inline {
+  display: inline-block;
+  padding: 1px 6px 2px;
+  margin: 1px 2px;
+  border-radius: 4px;
+  background: #fff1a8;
+  color: #164b91;
+  border-bottom: 2px solid #e4c64c;
+  font-family: var(--hand, "Comic Sans MS", "Segoe Print", cursive);
+  font-size: .98em;
+  font-weight: 700;
+  line-height: 1.55;
+  vertical-align: baseline;
+  white-space: normal;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.math-inline sub, .math-inline sup { color: #164b91; }
+@media(max-width:520px) {
+  .formula { font-size: 1rem; padding: 9px 12px; line-height: 1.8; }
+}
+
+/* ===== Final polish ===== */
+html { scroll-behavior: smooth; }
+h1[id], h2[id], section[id] { scroll-margin-top: 16px; }
+h4 { margin: 0; font-family: var(--display); font-size: 1.05rem; line-height: 36px; color: var(--ink); font-weight: 700; }
+figure { margin: 0; }
+img { max-width: 100%; height: auto; }
+.floral-divider { text-align: center; color: var(--red); letter-spacing: 6px; line-height: 36px; margin: 0 0 12px; }
+.topic-section { margin-top: 24px; }
+.priority-legend, .priority-note { padding: 12px 16px 0; margin: 0 0 32px; border-left: 5px solid #333; border-radius: 4px; background: rgba(0,0,0,.05); }
+.priority-note p:last-child, .priority-legend p:last-child { margin-bottom: 12px; }
+.priority-note { padding-bottom: 12px; line-height: 1.7; }
+.priority-note.red-note { background: rgba(179,38,30,.085); border-color: #b3261e; }
+.priority-note.yellow-note { background: rgba(255,214,0,.24); border-color: #d2a900; }
+.priority-legend h2 { margin-bottom: 4px; }
+.small { font-size: .9em; }
+.tag { vertical-align: middle; }
+.formula-box { margin: 16px 0 24px; padding: 12px 18px; border: 1px solid #eadb91; border-left: 4px solid #e5c64b; border-radius: 7px; background: #fff4b8; color: #164b91; font-weight: 700; line-height: 1.8; }
+.exam-box { break-inside: avoid; border-left: 4px solid var(--green); }
+.exam-box h3 { margin-bottom: 4px; }
+.index-card { overflow-wrap: anywhere; }
+.img-fallback { color: #65728a; font-size: .9em; }
+tr { break-inside: avoid; }
+.back-top { margin: 0 0 36px; font-size: .9em; }
+
+@media print {
+  html, body { background: #fff; }
+  body { padding: 0; }
+  .sheet { box-shadow: none; max-width: none; padding-right: 0; }
+  .topic-section { break-before: page; }
+  .back-top { display: none; }
+  pre, .fig, .exam-box, .resource-card { break-inside: avoid; }
+  main a { text-decoration: none; }
+}
+
+/* ===== Final polish: Unit III ===== */
+html{scroll-behavior:smooth}
+section[id]{scroll-margin-top:16px}
+figure{margin:0}img{max-width:100%;height:auto}
+h4{margin:0;font-family:var(--display);font-size:1.05rem;line-height:36px;color:var(--ink)}
+.small{font-size:.9em}
+
+/* hero */
+.hero{position:relative;margin:-24px -8px 32px 0;padding:28px 26px 22px;border-radius:14px;color:#fff;overflow:hidden;
+  background:radial-gradient(circle at 92% 12%,rgba(255,214,0,.35),transparent 42%),linear-gradient(135deg,#1d3a8c 0%,#2b4fb8 55%,#b3261e 140%);
+  box-shadow:0 8px 22px -8px rgba(20,30,60,.55)}
+.hero::after{content:"II";position:absolute;right:14px;bottom:-34px;font:800 9rem/1 var(--display);color:rgba(255,255,255,.12);pointer-events:none}
+.hero .eyebrow{font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;opacity:.85;line-height:24px}
+.hero h1{color:#fff;text-decoration:none;font-size:clamp(1.6rem,5vw,2.3rem);line-height:1.25;margin:6px 0 4px}
+.hero .sub{margin:0 0 14px;font-size:1.05rem;line-height:28px;color:#ffe27a;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.chip{display:inline-block;padding:2px 12px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);font-size:.8rem;line-height:26px;font-weight:600}
+.chip.hot{background:#ffd600;color:#463900;border-color:#ffd600}
+
+/* cards */
+.panel{margin:0 0 32px;padding:16px 20px 6px;border:1px solid #c8d6e8;border-radius:12px;background:rgba(255,255,255,.92);box-shadow:0 3px 10px rgba(20,30,60,.07)}
+.panel h2{margin:0 0 6px;font-size:1.15rem}
+.panel p,.panel ul{margin-bottom:14px}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:0 0 14px}
+.legend div{padding:8px 12px;border-radius:8px;border-left:6px solid;line-height:1.5;font-size:.9em}
+.legend .lr{background:rgba(179,38,30,.1);border-color:#b3261e}
+.legend .ly{background:rgba(255,214,0,.28);border-color:#d2a900}
+.legend .lb{background:rgba(35,39,48,.1);border-color:#333}
+.legend b{display:inline-block;margin-right:6px;padding:0 8px;border-radius:4px;font-size:.78em;line-height:1.7;color:#fff;background:#b3261e}
+.legend .ly b{background:#ffd600;color:#463900}.legend .lb b{background:#222}
+.focus li{line-height:1.6;margin-bottom:4px}
+
+/* index */
+.quick-index{margin:0 0 40px}
+.index-card{position:relative;padding-left:62px}
+.index-card .num{position:absolute;left:12px;top:12px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:700 1.05rem/1 var(--display);color:#fff;background:#555}
+.index-card.red-card .num{background:#b3261e}.index-card.yellow-card .num{background:#e0b800;color:#3d3100}.index-card.black-card .num{background:#222}
+.index-card .index-priority.red{background:#b3261e;color:#fff}.index-card .index-priority.yellow{background:#ffe27a;color:#4a3b00}.index-card .index-priority.black{background:#333;color:#fff}
+
+/* topic sections */
+.topic-section.tp{position:relative;margin:52px -14px 60px;padding:20px 24px 6px;border:1px solid rgba(29,58,140,.18);border-left:9px solid;border-radius:14px;box-shadow:0 6px 20px rgba(20,30,60,.09)}
+.topic-section.tp::before{display:none}
+.tp.tr{background:linear-gradient(135deg,rgba(179,38,30,.16),rgba(179,38,30,.07));border-color:#b3261e}
+.tp.ty{background:linear-gradient(135deg,rgba(255,214,0,.34),rgba(255,214,0,.13));border-color:#d2a900}
+.tp.tb{background:linear-gradient(135deg,rgba(35,39,48,.15),rgba(35,39,48,.06));border-color:#333}
+.topic-title{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;margin:0 0 6px;padding-bottom:8px;border-bottom:2px dashed currentColor;line-height:1.35;font-size:1.5rem}
+.tnum{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:800 1.7rem/1 var(--display);color:#fff;background:var(--red);box-shadow:0 0 0 4px rgba(255,255,255,.75),0 3px 8px rgba(0,0,0,.25)}
+.tp.ty .tnum{background:#e0b800;color:#3d3100}.tp.tb .tnum{background:#222}
+.tlabel{display:block;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:#455;line-height:1.2}
+.tprio{margin-left:auto;padding:2px 12px;border-radius:6px;font-size:.5em;letter-spacing:.8px;line-height:1.9;white-space:nowrap;background:#b3261e;color:#fff}
+.tp.ty .tprio{background:#ffd600;color:#463900}.tp.tb .tprio{background:#222}
+.evidence{margin:0 0 28px;padding:8px 14px;border-radius:8px;background:rgba(255,255,255,.7);font-size:.9em;line-height:1.6;border:1px dashed var(--edge)}
+.tp h3{margin-top:8px;color:var(--green);border-left:4px solid currentColor;padding-left:10px}
+.tp .exam-box h3{border:0;padding:0;margin-top:0}
+.exam-box{break-inside:avoid;border-left:5px solid var(--green);background:rgba(255,255,255,.9);box-shadow:0 2px 8px rgba(20,30,60,.08)}
+.exam-box h3::before{content:"★ ";color:#e0b800}
+.tw{background:rgba(255,255,255,.8);border-radius:6px}
+.floral-divider{text-align:center;color:var(--red);letter-spacing:6px;line-height:36px;margin:0 0 6px}
+.tp.ty .floral-divider{color:#9a7900}.tp.tb .floral-divider{color:#444}
+.back-top{margin:0 0 30px;font-size:.9em;text-align:right}
+.unit-end{margin:40px 0 0;padding:16px;text-align:center;border-radius:12px;background:linear-gradient(135deg,#e8f0fc,#fff4b8);border:1px solid #c8d6e8;line-height:1.7}
+@media(max-width:520px){.hero{margin-right:0;padding:20px 16px}.hero::after{font-size:6rem}.topic-section.tp{margin:40px -8px 48px;padding:14px 12px 4px}.tnum{width:42px;height:42px;font-size:1.3rem}.topic-title{font-size:1.2rem}.tprio{margin-left:0}}
+@media print{html,body{background:#fff}body{padding:0}.sheet{box-shadow:none;max-width:none}.topic-section{break-before:page}.back-top{display:none}pre,.exam-box,.hero{break-inside:avoid}.hero,.tp,.tnum,.tprio{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+.tp h2:not(.topic-title){margin-top:10px;font-size:1.2rem;border-left:4px solid var(--red);padding-left:10px}
+.tp .priority-note{margin-top:4px}
+</style>
+</head>
+<body>
+
+<main class="sheet" id="top">
+<header class="hero">
+<div class="eyebrow">Computer Graphics · MCA Semester IV</div>
+<h1>UNIT II — GRAPHICS HARDWARE AND INPUT DEVICES</h1>
+<p class="sub">Displays, raster and random scan systems, input devices and scanners</p>
+<p class="chips"><span class="chip">Ranchi University CBCS</span><span class="chip">Core Course C10 · CCMCA403</span><span class="chip">6 Topics</span><span class="chip hot">UNIT PRIORITY: HIGH</span></p>
+</header>
+
+<div class="panel">
+<h2>✿ Official Unit II syllabus ✿</h2>
+<p>Hardcopy and Display Technologies · Raster Scan Display Systems · The Video Controller · Random Scan Processor · Input Devices for Operator Interaction · Image Scanners.</p>
+</div>
+
+<div class="panel focus">
+<h2>★ What to prepare for the exam ★</h2>
+<ul>
+<li>Raster scan versus random scan display; architecture of raster and random display systems.</li>
+<li>CRT, LCD, LED and Plasma displays.</li>
+<li>Display processor versus display controller; frame buffer and video controller.</li>
+<li>Input devices, GUI and its input devices; image scanners.</li>
+</ul>
+<p class="small"><strong>Evidence:</strong> both MCA papers and BCA papers (exam plan). Priority colours describe checked question-paper evidence; they do not guarantee future questions.</p>
+</div>
+
+<div class="panel">
+<h2>✿ Exam-priority colour guide ✿</h2>
+<div class="legend">
+<div class="lr"><b>RED</b>Direct question in the supplied MCA papers.</div>
+<div class="ly"><b>YELLOW</b>Related or older-paper evidence, including BCA papers, not a direct MCA question.</div>
+<div class="lb"><b>BLACK</b>No matching question identified.</div>
+</div>
+</div>
+
+<nav class="quick-index" aria-label="Unit II topic index">
+<h2>✿ Quick Index — Unit II ✿</h2>
+<div class="index-grid">
+<a class="index-card red-card" href="#u2-topic1-hardcopy-display"><span class="num">1</span><strong>Hardcopy and Display Technologies</strong>Hardcopy / softcopy, printers, plotters, CRT, LCD, LED and Plasma.<span class="index-priority red">RED · direct MCA display-device PYQ</span></a>
+<a class="index-card red-card" href="#u2-topic2-raster-scan"><span class="num">2</span><strong>Raster Scan Display Systems</strong>Pixels, frame buffer, scan lines, retrace, refresh, interlacing and architecture.<span class="index-priority red">RED · direct MCA PYQ</span></a>
+<a class="index-card yellow-card" href="#u2-topic3-video-controller"><span class="num">3</span><strong>The Video Controller</strong>Definition, main functions and working with the frame buffer.<span class="index-priority yellow">YELLOW · related PYQ</span></a>
+<a class="index-card red-card" href="#u2-topic4-random-scan-processor"><span class="num">4</span><strong>Random Scan Processor</strong>Display file, display processor, working, advantages and limitations.<span class="index-priority red">RED · raster/random scan PYQ</span></a>
+<a class="index-card black-card" href="#u2-topic5-input-devices"><span class="num">5</span><strong>Input Devices for Operator Interaction</strong>Keyboard, mouse, trackball, joystick, light pen, digitizer, touch panel and voice input.<span class="index-priority black">BLACK · no PYQ found</span></a>
+<a class="index-card black-card" href="#u2-topic6-image-scanners"><span class="num">6</span><strong>Image Scanners</strong>Definition, working and uses of image scanners.<span class="index-priority black">BLACK · no PYQ found</span></a>
+</div>
+</nav>
+
+<section id="u2-topic1-hardcopy-display" class="topic-section tp tr">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">1</span><span><span class="tlabel">Topic 1 of 6</span>Hardcopy and Display Technologies</span><span class="tprio">RED PRIORITY</span></h2>
+
+<div class="priority-note red-note">
+<strong>Why RED?</strong> The supplied MCA 2022–24 paper (CCMCA403) directly asks about types of display devices. The older MCA paper (CS-DE-21) includes display processor versus display controller and raster-scan versus random-scan displays. The supplied BCA papers include CRT, LCD, LED and Plasma display technologies. This is strong question-paper evidence for the topic, but it does not guarantee the same question will appear again.
+</div>
+
+<h2>1.1 Learning objectives</h2>
+<p>After studying this topic, you should be able to explain the difference between hardcopy and softcopy output, classify printers and plotters, describe the working principles of common display technologies, compare CRT and flat-panel displays, and write structured answers for examination questions.</p>
+
+<h2>1.2 What are graphics hardware and output devices?</h2>
+<p><strong>Graphics hardware</strong> means the physical computer components used to create, process, store, input and display graphical information. Examples include a graphics processor, memory, monitor, printer, plotter, mouse, scanner and digitizer.</p>
+<p>An <strong>output device</strong> receives processed information from a computer and presents it in a form that people can understand. In computer graphics, the output is commonly presented in two forms: hardcopy and softcopy.</p>
+<div class="fig">
+<svg viewBox="0 0 720 210" role="img" aria-label="Computer graphics output divided into hardcopy and softcopy">
+<rect x="235" y="8" width="250" height="48" rx="9" fill="#fff4b8" stroke="#1d3a8c" stroke-width="2"/>
+<text x="360" y="38" text-anchor="middle" font-weight="bold">COMPUTER GRAPHICS OUTPUT</text>
+<path d="M360 56V82H180V105M360 82H540V105" stroke="#b3261e" stroke-width="2.5" fill="none"/>
+<path d="M174 98L180 108L186 98M534 98L540 108L546 98" stroke="#b3261e" stroke-width="2.5" fill="none"/>
+<rect x="45" y="110" width="270" height="82" rx="9" fill="#e8efff" stroke="#1d3a8c" stroke-width="2"/>
+<text x="180" y="137" text-anchor="middle" font-weight="bold">HARDCOPY</text>
+<text x="180" y="160" text-anchor="middle">Physical / tangible output</text>
+<text x="180" y="180" text-anchor="middle" font-size="12">Printer · Plotter</text>
+<rect x="405" y="110" width="270" height="82" rx="9" fill="#e8efff" stroke="#1d3a8c" stroke-width="2"/>
+<text x="540" y="137" text-anchor="middle" font-weight="bold">SOFTCOPY</text>
+<text x="540" y="160" text-anchor="middle">Electronic / screen output</text>
+<text x="540" y="180" text-anchor="middle" font-size="12">Monitor · Projector</text>
+</svg>
+<p class="caption">Figure 1: Two broad forms of graphical output.</p>
+</div>
+
+<h2>1.3 Hardcopy devices</h2>
+<p>A <strong>hardcopy device</strong> produces a physical and usually permanent copy of computer output. The result can be held, stored, shared or viewed without needing a computer screen. Examples include printed documents, engineering drawings, maps, charts and photographs.</p>
+<p>The two important hardcopy output devices in computer graphics are <strong>printers</strong> and <strong>plotters</strong>.</p>
+
+<h3>A. Printers</h3>
+<p>A <strong>printer</strong> is an output device that transfers text, images or graphics from a computer onto paper or another print medium. Printers are commonly classified according to whether the print head physically strikes the paper.</p>
+
+<h3>1. Impact printers</h3>
+<p>An <strong>impact printer</strong> produces output by physically striking an inked ribbon against paper. The impact transfers ink onto the paper. Because parts physically hit the paper, these printers are generally noisy.</p>
+<ul>
+<li><strong>Dot-matrix printer:</strong> A print head contains a set of small pins. Selected pins strike an ink ribbon and form characters or images as a pattern of dots. It can print multipart forms but usually produces lower-quality graphics than modern non-impact printers.</li>
+<li><strong>Daisy-wheel printer:</strong> Characters are formed on the spokes of a wheel. The wheel rotates to position a character, and a hammer strikes it against the ribbon and paper. It produces clear text but is slow and unsuitable for complex graphics.</li>
+<li><strong>Line printer:</strong> Prints a complete line at a time, often using a chain or drum mechanism. It is designed for high-volume text output rather than detailed graphical images.</li>
+</ul>
+<div class="note"><strong>Remember:</strong> Impact means physical contact or striking. Dot-matrix, daisy-wheel and traditional line printers are common examples.</div>
+
+<h3>2. Non-impact printers</h3>
+<p>A <strong>non-impact printer</strong> creates output without the print mechanism striking an inked ribbon against the paper. These printers are generally quieter and can produce high-quality text and images.</p>
+<ul>
+<li><strong>Inkjet printer:</strong> Sprays very small droplets of liquid ink through tiny nozzles onto paper. It is commonly used for colour documents and photographs. Print quality depends on ink, paper and printer resolution.</li>
+<li><strong>Laser printer:</strong> Uses a laser or equivalent light source to form an electrostatic image on a photosensitive drum. Toner powder adheres to the charged image and is transferred to paper, where heat and pressure fuse it. It is fast and suitable for sharp text and high-volume printing.</li>
+<li><strong>Thermal printer:</strong> Uses heat to create an image on heat-sensitive paper or to transfer ink from a ribbon. It is common in receipts, labels and point-of-sale systems.</li>
+<li><strong>Electrostatic printer:</strong> Uses electrical charges to attract toner to selected areas of a printing surface. It is used in specialised high-speed printing systems.</li>
+</ul>
+<div class="fig">
+  <img src="https://media.geeksforgeeks.org/wp-content/uploads/20240613170114/Difference-between-Inkjet-printer-and-Laser-printer.webp" alt="Inkjet printer and laser printer" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;max-width:760px;height:auto;object-fit:contain;margin:0 auto;" onerror="this.outerHTML='<p class=&quot;note img-fallback&quot;>Image could not be loaded (needs internet): Inkjet printer and laser printer. Use the source link in the caption.</p>'">
+  <p class="caption">Figure 2: Inkjet vs laser printer (non-impact printers). Source: <a href="https://www.geeksforgeeks.org/computer-networks/difference-between-inkjet-printer-and-laser-printer/" target="_blank" rel="noopener">GeeksforGeeks — Inkjet vs Laser Printer</a>.</p>
+</div>
+
+<h3>Impact vs non-impact printers</h3>
+<div class="tw wide"><table>
+<thead><tr><th>Basis</th><th>Impact printer</th><th>Non-impact printer</th></tr></thead>
+<tbody>
+<tr><td>Working method</td><td>Strikes an inked ribbon against paper</td><td>Prints without striking the paper with a type head</td></tr>
+<tr><td>Noise</td><td>Usually noisy</td><td>Usually quieter</td></tr>
+<tr><td>Print quality</td><td>Often lower for graphics</td><td>Generally better for detailed text and images</td></tr>
+<tr><td>Examples</td><td>Dot-matrix, daisy-wheel, line printer</td><td>Inkjet, laser, thermal</td></tr>
+<tr><td>Special use</td><td>Multipart forms and simple continuous stationery</td><td>Documents, reports, photographs and receipts</td></tr>
+</tbody></table></div>
+
+<h3>B. Plotters</h3>
+<p>A <strong>plotter</strong> is a hardcopy output device designed to produce large, precise drawings such as maps, engineering plans, architectural layouts and technical diagrams. Traditional plotters draw lines by moving a pen or drawing mechanism relative to the paper. Modern large-format devices may use inkjet technology but are still commonly called plotters in practical use.</p>
+<h3>Types of traditional plotters</h3>
+<ul>
+<li><strong>Flatbed plotter:</strong> The paper is held flat on a drawing surface. The pen mechanism moves in the horizontal and vertical directions to draw the required image. It is useful when accurate drawings are needed on a fixed sheet.</li>
+<li><strong>Drum plotter:</strong> Paper is wrapped around a rotating drum. The drum moves the paper in one direction while the pen moves across it in another direction. This allows long drawings to be produced.</li>
+</ul>
+<div class="fig">
+<svg viewBox="0 0 720 220" role="img" aria-label="Flatbed and drum plotter diagrams">
+<rect x="35" y="20" width="290" height="170" rx="8" fill="#f7f9ff" stroke="#1d3a8c" stroke-width="2"/>
+<text x="180" y="44" text-anchor="middle" font-weight="bold">FLATBED PLOTTER</text>
+<rect x="75" y="65" width="210" height="100" fill="#fff" stroke="#1d3a8c" stroke-width="2"/>
+<path d="M95 140L145 85L195 130L255 78" fill="none" stroke="#b3261e" stroke-width="3"/>
+<path d="M75 57H285M75 52V62M285 52V62" stroke="#1d3a8c" stroke-width="2"/>
+<text x="180" y="183" text-anchor="middle" font-size="12">Paper remains flat</text>
+<rect x="395" y="20" width="290" height="170" rx="8" fill="#f7f9ff" stroke="#1d3a8c" stroke-width="2"/>
+<text x="540" y="44" text-anchor="middle" font-weight="bold">DRUM PLOTTER</text>
+<ellipse cx="465" cy="110" rx="18" ry="48" fill="#dce6fa" stroke="#1d3a8c" stroke-width="2"/>
+<ellipse cx="615" cy="110" rx="18" ry="48" fill="#dce6fa" stroke="#1d3a8c" stroke-width="2"/>
+<path d="M465 62H615V158H465Z" fill="#fff" stroke="#1d3a8c" stroke-width="2"/>
+<path d="M485 140L525 88L565 130L600 82" fill="none" stroke="#b3261e" stroke-width="3"/>
+<text x="540" y="183" text-anchor="middle" font-size="12">Paper moves around a drum</text>
+</svg>
+<p class="caption">Figure 3: Basic flatbed and drum plotter arrangements.</p>
+</div>
+<div class="fig">
+  <img src="https://media.geeksforgeeks.org/wp-content/uploads/20231031095410/Flatbed-Plotter.png" alt="Flatbed plotter" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;max-width:760px;height:auto;object-fit:contain;margin:0 auto;" onerror="this.outerHTML='<p class=&quot;note img-fallback&quot;>Image could not be loaded (needs internet): Flatbed plotter. Use the source link in the caption.</p>'">
+  <p class="caption">Figure 4: Flatbed plotter. Source: <a href="https://www.geeksforgeeks.org/computer-science-fundamentals/what-is-a-plotter/" target="_blank" rel="noopener">GeeksforGeeks — What is a Plotter</a>.</p>
+</div>
+
+<h3>Printer vs plotter</h3>
+<div class="tw wide"><table>
+<thead><tr><th>Basis</th><th>Printer</th><th>Plotter</th></tr></thead>
+<tbody>
+<tr><td>Main purpose</td><td>Documents, images and general-purpose output</td><td>Large, accurate technical drawings</td></tr>
+<tr><td>Output style</td><td>Usually forms images as dots</td><td>Traditional pen plotters draw continuous lines</td></tr>
+<tr><td>Typical use</td><td>Office documents, photos, reports</td><td>CAD, maps, architecture and engineering</td></tr>
+<tr><td>Paper size</td><td>Commonly standard sheets, though large-format printers exist</td><td>Often supports large sheets or long rolls</td></tr>
+</tbody></table></div>
+
+<h2>1.4 Softcopy display devices</h2>
+<p>A <strong>softcopy device</strong> presents output electronically, usually on a screen. The displayed information is temporary: it can change or disappear when the screen is updated or the device is switched off. Common examples are monitors and projectors.</p>
+<p>A <strong>display device</strong> is an output device that presents text, images, video and graphical information visually. In computer graphics, a display is important because it allows the user to inspect and interact with generated images.</p>
+
+<h2>1.5 Cathode Ray Tube (CRT) display</h2>
+<p>A <strong>Cathode Ray Tube (CRT)</strong> is a display technology that uses a beam of electrons to illuminate a phosphor-coated screen. CRT monitors were widely used in older computer systems and televisions.</p>
+<h3>Main parts of a CRT</h3>
+<ul>
+<li><strong>Electron gun:</strong> Produces a beam of electrons.</li>
+<li><strong>Control grid:</strong> Controls the intensity of the electron beam and therefore the brightness.</li>
+<li><strong>Focusing system:</strong> Focuses the electron beam into a narrow spot.</li>
+<li><strong>Deflection system:</strong> Changes the direction of the beam so it reaches the required position on the screen.</li>
+<li><strong>Phosphor-coated screen:</strong> Emits light when struck by the electron beam.</li>
+</ul>
+<h3>Working principle</h3>
+<ol>
+<li>The electron gun generates electrons.</li>
+<li>The focusing system forms them into a narrow beam.</li>
+<li>The control grid regulates beam intensity.</li>
+<li>The deflection system directs the beam to the required screen position.</li>
+<li>When the beam strikes the phosphor coating, the phosphor emits visible light.</li>
+<li>The beam scans the screen according to the display system being used. The image is maintained by refreshing the screen or by the storage property of a specialised display tube.</li>
+</ol>
+<div class="fig">
+  <img src="https://www.tutorialspoint.com/computer_graphics/images/components_of_a_cathode_ray_tube.jpg" alt="Components of a cathode ray tube" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;max-width:760px;height:auto;object-fit:contain;margin:0 auto;" onerror="this.outerHTML='<p class=&quot;note img-fallback&quot;>Image could not be loaded (needs internet): Components of a cathode ray tube. Use the source link in the caption.</p>'">
+  <p class="caption">Figure 5: Components of a cathode ray tube. Source: <a href="https://www.tutorialspoint.com/computer_graphics/computer_graphics_cathode_ray_tube.htm" target="_blank" rel="noopener">TutorialsPoint — Cathode Ray Tube</a>.</p>
+</div>
+<h3>Advantages of CRT</h3>
+<ul><li>Good motion handling and fast response.</li><li>Can provide good colour reproduction and viewing angles.</li><li>Historically available in a wide range of resolutions.</li></ul>
+<h3>Limitations of CRT</h3>
+<ul><li>Bulky and heavy because of the tube.</li><li>Consumes more power than many modern flat-panel displays.</li><li>Produces more heat and occupies more desk space.</li><li>Can suffer from geometric distortion and screen flicker if poorly adjusted.</li></ul>
+
+<h2>1.6 Liquid Crystal Display (LCD)</h2>
+<p>A <strong>Liquid Crystal Display (LCD)</strong> uses liquid-crystal material to control how much light passes through each pixel. The liquid crystals do not normally produce their own light. An LCD therefore needs a light source behind or around the panel, or it may use reflected ambient light in some designs.</p>
+<h3>Basic working principle</h3>
+<ol>
+<li>A light source provides illumination (in a typical monitor, this is a backlight).</li>
+<li>Polarising filters control the direction of light entering and leaving the panel.</li>
+<li>Liquid-crystal molecules change their orientation when an electric field is applied.</li>
+<li>This changes how much light passes through the pixel's optical layers.</li>
+<li>Colour filters combine red, green and blue subpixels to produce different colours.</li>
+</ol>
+<div class="fig">
+  <img src="https://www.linsnled.com/wp-content/uploads/2024/10/lcd-screen-technology.webp" alt="LCD screen technology" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;max-width:760px;height:auto;object-fit:contain;margin:0 auto;" onerror="this.outerHTML='<p class=&quot;note img-fallback&quot;>Image could not be loaded (needs internet): LCD screen technology. Use the source link in the caption.</p>'">
+  <p class="caption">Figure 6: LCD screen technology. Source: <a href="https://www.linsnled.com/" target="_blank" rel="noopener">Linsn LED</a>.</p>
+</div>
+
+<h3>Advantages</h3>
+<ul><li>Thin and lightweight compared with CRT.</li><li>Generally consumes less power than a comparable CRT.</li><li>Produces sharp images at its native resolution.</li><li>Does not use a large electron-beam tube.</li></ul>
+<h3>Limitations</h3>
+<ul><li>Image quality can depend on viewing angle and panel type.</li><li>Native resolution is important; scaling to other resolutions can reduce sharpness.</li><li>Some LCD panels can show motion blur or slower pixel response.</li><li>Backlight leakage or uneven illumination may occur.</li></ul>
+
+<h2>1.7 Light Emitting Diode (LED) displays</h2>
+<p>In everyday monitor terminology, an <strong>LED monitor</strong> usually means an LCD panel that uses LEDs as its backlight instead of older fluorescent lamps. The image-forming layer is still liquid crystal. This is why many products described as LED monitors are technically LED-backlit LCDs.</p>
+<p>There are also direct-view LED displays in which LEDs themselves emit light to form the image. Large outdoor video walls commonly use this arrangement. Do not confuse these direct-view LED screens with the usual LED-backlit LCD monitor.</p>
+<div class="fig">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4PSWij5YXp7hCYpah91MJV2zDPQSRkgKhUYmy1Uk4cwhcqxghqr2kjeoc&amp;s=10" alt="LED display diagram" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;max-width:760px;height:auto;object-fit:contain;margin:0 auto;" onerror="this.outerHTML='<p class=&quot;note img-fallback&quot;>Image could not be loaded (needs internet): LED display diagram. Use the source link in the caption.</p>'">
+  <p class="caption">Figure 7: LED display diagram (image found via Google Images).</p>
+</div>
+<h3>Advantages of LED-backlit LCDs</h3>
+<ul><li>Can be thinner and more energy-efficient than older CCFL-backlit LCDs.</li><li>Can provide high brightness.</li><li>LED backlighting can support local dimming in suitable designs.</li><li>Long service life in normal use.</li></ul>
+<h3>Limitations</h3>
+<ul><li>Quality varies with backlight design and panel technology.</li><li>Some edge-lit models can have uneven brightness.</li><li>Local dimming and contrast performance depend on the number and control of backlight zones.</li></ul>
+
+<h2>1.8 Plasma display</h2>
+<p>A <strong>plasma display panel</strong> is a flat-panel technology in which tiny cells contain an ionised gas. Applying an electrical voltage causes the gas to produce ultraviolet energy, which excites phosphors in the cell. The phosphors then emit visible red, green or blue light to form the image.</p>
+<h3>Working principle</h3>
+<ol>
+<li>The screen contains many small cells arranged as pixels.</li>
+<li>Each cell contains a gas mixture between glass panels.</li>
+<li>An electrical discharge ionises the gas and produces ultraviolet radiation.</li>
+<li>The ultraviolet radiation excites the phosphor coating.</li>
+<li>The phosphor emits visible light, and red, green and blue subpixels combine to create colour.</li>
+</ol>
+<div class="fig">
+  <img src="https://media.geeksforgeeks.org/wp-content/uploads/20210902195259/plasma.png" alt="Plasma display panel" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;max-width:760px;height:auto;object-fit:contain;margin:0 auto;" onerror="this.outerHTML='<p class=&quot;note img-fallback&quot;>Image could not be loaded (needs internet): Plasma display panel. Use the source link in the caption.</p>'">
+  <p class="caption">Figure 8: Plasma display panel. Source: <a href="https://www.geeksforgeeks.org/computer-networks/plasma-display-panel-in-computer-graphics/" target="_blank" rel="noopener">GeeksforGeeks — Plasma Display Panel</a>.</p>
+</div>
+<h3>Advantages</h3>
+<ul><li>Good contrast and deep black levels in many designs.</li><li>Wide viewing angles.</li><li>Good motion reproduction.</li></ul>
+<h3>Limitations</h3>
+<ul><li>Higher power consumption than many LCD displays.</li><li>Can generate more heat.</li><li>Risk of image retention or burn-in when static images remain for long periods.</li><li>Heavy panels and limited current availability; plasma is now a legacy display technology.</li></ul>
+
+<h2>1.9 Comparison of CRT, LCD, LED and Plasma</h2>
+<div class="tw wide"><table>
+<thead><tr><th>Feature</th><th>CRT</th><th>LCD</th><th>LED (typical monitor)</th><th>Plasma</th></tr></thead>
+<tbody>
+<tr><td>Basic principle</td><td>Electron beam strikes phosphor</td><td>Liquid crystals control light</td><td>LCD panel with LED backlight</td><td>Gas discharge excites phosphors</td></tr>
+<tr><td>Light generation</td><td>Phosphor emits light</td><td>Usually uses a backlight</td><td>LEDs provide the LCD backlight</td><td>Phosphor emits light after gas discharge</td></tr>
+<tr><td>Size / weight</td><td>Bulky and heavy</td><td>Thin and light</td><td>Thin and light</td><td>Flat but often relatively heavy</td></tr>
+<tr><td>Power</td><td>Generally high</td><td>Generally lower than CRT</td><td>Often efficient, depends on design</td><td>Generally relatively high</td></tr>
+<tr><td>Viewing angle</td><td>Usually wide</td><td>Depends on panel type</td><td>Depends on LCD panel type</td><td>Usually wide</td></tr>
+<tr><td>Common concern</td><td>Bulk, heat and power</td><td>Viewing angle / response varies</td><td>Backlight uniformity varies</td><td>Power, heat and burn-in risk</td></tr>
+<tr><td>Current status</td><td>Legacy technology</td><td>Widely used</td><td>Widely used</td><td>Legacy technology</td></tr>
+</tbody></table></div>
+<div class="note"><strong>Important exam clarification:</strong> LED-backlit LCD is the common meaning of “LED monitor” in consumer monitor specifications. A direct-view LED display is a different construction. State this distinction if the question asks for technical accuracy.</div>
+
+<h2>1.10 Important display terms</h2>
+<h3>Pixel</h3>
+<p>A <strong>pixel</strong> (picture element) is the smallest addressable picture element in a raster image or display. A screen image is made from a grid of pixels. Each pixel stores or receives information that determines its displayed colour and brightness.</p>
+<h3>Resolution</h3>
+<p><strong>Resolution</strong> describes the number of pixels used to represent an image or screen, commonly written as width × height. For example, 1920 × 1080 means 1920 pixels horizontally and 1080 vertically.</p>
+<div class="formula-box" style="background:#fff4b8;color:#1d3a8c;border:2px solid #e0b800;border-radius:8px;padding:14px 18px;margin:12px 0 28px;text-align:center">
+<strong style="background:none;color:#1d3a8c">Total pixels = Horizontal pixels × Vertical pixels</strong>
+</div>
+<p><strong>Example:</strong> A 1920 × 1080 display contains 2,073,600 pixels (about 2.07 million pixels).</p>
+<h3>Refresh rate</h3>
+<p><strong>Refresh rate</strong> is the number of times a display updates its image in one second. It is measured in hertz (Hz). A 60 Hz display updates 60 times per second. Refresh rate is not the same as resolution: resolution counts pixels, while refresh rate describes how often the image is updated.</p>
+<h3>Persistence</h3>
+<p><strong>Persistence</strong> is the time for which a phosphor continues to emit light after the electron beam has moved away. If persistence is too low, flicker may become noticeable unless the screen is refreshed sufficiently often. If persistence is too high, moving images may leave trails.</p>
+<h3>Aspect ratio</h3>
+<p><strong>Aspect ratio</strong> is the ratio of display width to display height. For example, 16:9 is a common widescreen ratio.</p>
+<div class="formula-box" style="background:#fff4b8;color:#1d3a8c;border:2px solid #e0b800;border-radius:8px;padding:14px 18px;margin:12px 0 28px;text-align:center">
+<strong style="background:none;color:#1d3a8c">Aspect ratio = Display width : Display height</strong>
+</div>
+
+<h2>1.11 Hardcopy vs softcopy — complete comparison</h2>
+<div class="tw wide"><table>
+<thead><tr><th>Basis</th><th>Hardcopy</th><th>Softcopy</th></tr></thead>
+<tbody>
+<tr><td>Meaning</td><td>Physical output</td><td>Electronic output</td></tr>
+<tr><td>Form</td><td>Paper, film or another physical medium</td><td>Displayed on a screen or projected</td></tr>
+<tr><td>Persistence</td><td>Usually remains until physically changed or damaged</td><td>Temporary; can be changed or removed electronically</td></tr>
+<tr><td>Examples</td><td>Printer, plotter</td><td>Monitor, projector</td></tr>
+<tr><td>Power needed to view</td><td>Usually no computer power required after printing</td><td>Display device needs power</td></tr>
+<tr><td>Sharing</td><td>Physical distribution or scanning</td><td>Can be shared electronically</td></tr>
+</tbody></table></div>
+
+<h2>1.12 Previous-year question evidence</h2>
+<div class="priority-note red-note">
+<strong>ACTUAL MCA PYQ — 2022–24, paper code CCMCA403:</strong> A question asks about the types of display devices. This directly supports preparation of CRT, LCD, LED and plasma display technologies.
+</div>
+<div class="priority-note yellow-note">
+<strong>ACTUAL OLDER MCA PYQ — MCA-2/D-12, code CS-DE-21:</strong> Questions include display processor versus display controller and raster scan versus random scan. These are closely connected hardware topics and will be treated in their own relevant Unit II sections, not falsely claimed as the exact same question as display technologies.
+</div>
+<div class="priority-note yellow-note">
+<strong>RELATED BCA PYQ:</strong> The supplied BCA papers include CRT, LCD, LED and Plasma display technologies. This is related evidence, not an MCA question.
+</div>
+
+<h2>1.13 Exam-ready answers</h2>
+<h3>2-mark answer — Define hardcopy and softcopy.</h3>
+<p><strong>Hardcopy</strong> is the physical and permanent form of computer output, such as a printed document produced by a printer or a drawing produced by a plotter. <strong>Softcopy</strong> is the electronic form of output displayed temporarily on a monitor or projector.</p>
+
+<h3>5-mark answer — Differentiate between impact and non-impact printers.</h3>
+<p>Impact printers print by physically striking an inked ribbon against paper. They are generally noisy. Examples include dot-matrix, daisy-wheel and line printers. Non-impact printers produce output without striking the paper with a print head. They are generally quieter and can provide better print quality. Examples include inkjet, laser and thermal printers. Impact printers are useful for multipart forms, whereas non-impact printers are widely used for documents, images and photographs.</p>
+
+<h3>5-mark answer — Write a short note on plotters.</h3>
+<p>A plotter is a hardcopy output device used to produce large and accurate drawings such as maps, engineering plans and architectural designs. Traditional plotters draw lines using a pen mechanism. A flatbed plotter keeps the paper stationary while the pen moves in two directions. A drum plotter wraps paper around a rotating drum; the drum and pen move in different directions to create the drawing. Plotters are useful in CAD and other applications requiring precise large-format graphics.</p>
+
+<h3>5-mark answer — Explain the working of a CRT.</h3>
+<p>A Cathode Ray Tube is a display device that uses an electron beam to produce images on a phosphor-coated screen. The electron gun generates electrons. The control grid regulates beam intensity, the focusing system narrows the beam, and the deflection system directs it to the required screen position. When the beam strikes the phosphor coating, light is emitted. By controlling the beam position and intensity, text and graphics are formed on the screen.</p>
+
+<h3>15-mark answer — Explain different display technologies.</h3>
+<p><strong>Introduction:</strong> Display devices are softcopy output devices used to present text, images and graphics generated by a computer. Important display technologies include CRT, LCD, LED and Plasma.</p>
+<p><strong>1. CRT:</strong> Uses an electron gun to produce a beam that strikes a phosphor-coated screen. Its main parts are the electron gun, control grid, focusing system, deflection system and phosphor screen. It offers good motion handling but is bulky, heavy and power-hungry.</p>
+<p><strong>2. LCD:</strong> Uses liquid-crystal material to control the passage of light through pixels. A backlight, polarising filters, liquid-crystal layer and colour filters work together to form the image. LCDs are thin and lightweight, but viewing angle and response depend on panel technology.</p>
+<p><strong>3. LED:</strong> A typical LED monitor is an LCD panel that uses LEDs as its backlight. It can be thin, bright and energy-efficient. Direct-view LED displays are different because the LEDs themselves produce the image.</p>
+<p><strong>4. Plasma:</strong> Uses tiny gas-filled cells. Electrical discharge produces ultraviolet energy that excites phosphors to emit visible light. Plasma displays offer good contrast and viewing angles, but consume more power and can suffer from image retention.</p>
+<p><strong>Conclusion:</strong> CRT and plasma are largely legacy technologies, while LCD and LED-backlit LCD displays are widely used. Each technology differs in its image-forming principle, power consumption, size, viewing angle and image quality.</p>
+
+<h2>1.14 Learning resources — Hardcopy and Display Technologies</h2>
+<div class="resource-card">
+<p><strong>YouTube — Gate Smashers: Raster Scan Display Explained in Hindi</strong></p>
+<p>A verified Gate Smashers lesson. It is useful for understanding how screen pixels are refreshed and how the video display system forms an image. The raster-scan architecture is covered in the next Unit II topic, so use this as a preview.</p>
+<a href="https://www.youtube.com/watch?v=47vz2MMvRcs" target="_blank" rel="noopener">Watch the verified Gate Smashers lesson</a>
+</div>
+<div class="resource-card">
+<p><strong>Website — Ranchi University / Jharkhand Rai University Computer Graphics PDF</strong></p>
+<p>Academic course material covering graphics display devices, hardcopy technologies and display technologies.</p>
+<a href="https://www.jru.edu.in/wp-content/uploads/moocs/e-books/computer-science-and-IT/COMPUTER%20GRAPHICS.pdf" target="_blank" rel="noopener">Open the Computer Graphics course PDF</a>
+</div>
+<div class="resource-card">
+<p><strong>Website — Lovely Professional University Computer Graphics PDF</strong></p>
+<p>Explains hardcopy and softcopy devices, printers, plotters and display systems with diagrams.</p>
+<a href="https://ebooks.lpude.in/computer_application/mca/term_3/DCAP504_COMPUTER_GRAPHICS.pdf" target="_blank" rel="noopener">Open the MCA Computer Graphics PDF</a>
+</div>
+<div class="resource-card">
+<p><strong>Website — Karpagam Academy: Graphics Hardware notes</strong></p>
+<p>Includes flat-panel display classification, emissive and non-emissive displays, and printer technology.</p>
+<a href="https://kahedu.edu.in/naac/C-3/Additional%20documents/E-content/785.pdf" target="_blank" rel="noopener">Open the graphics hardware notes</a>
+</div>
+
+<div class="resource-card">
+<p><strong>Website — GeeksforGeeks: Plotter, printers and flat-panel displays</strong></p>
+<p>Source of the printer, plotter, LCD and plasma diagrams used above.</p>
+<a href="https://www.geeksforgeeks.org/computer-science-fundamentals/what-is-a-plotter/" target="_blank" rel="noopener">Open GeeksforGeeks — Plotter</a>
+</div>
+<div class="resource-card">
+<p><strong>Website — TutorialsPoint: Computer Graphics (CRT and flat panels)</strong></p>
+<p>Source of the CRT component diagrams; short, exam-oriented explanations.</p>
+<a href="https://www.tutorialspoint.com/computer_graphics/computer_graphics_cathode_ray_tube.htm" target="_blank" rel="noopener">Open TutorialsPoint — CRT</a>
+</div>
+<div class="resource-card">
+<p><strong>Website — TpointTech: Computer Graphics flat panel display</strong></p>
+<p>Source of the flat-panel (LCD and plasma) diagrams.</p>
+<a href="https://www.tpointtech.com/computer-graphics-flat-panel-display" target="_blank" rel="noopener">Open TpointTech — Flat Panel Display</a>
+</div>
+
+<h2>1.15 Quick revision</h2>
+<ul>
+<li>Hardcopy = physical output; softcopy = electronic display output.</li>
+<li>Printers and plotters are hardcopy devices.</li>
+<li>Impact printers strike an inked ribbon; non-impact printers do not.</li>
+<li>Dot-matrix is an impact printer; inkjet and laser are non-impact printers.</li>
+<li>Traditional plotters are used for accurate large drawings; flatbed and drum are two types.</li>
+<li>CRT uses an electron beam and a phosphor-coated screen.</li>
+<li>LCD controls light using liquid crystals and normally needs a backlight.</li>
+<li>A typical LED monitor is an LCD with LED backlighting.</li>
+<li>Plasma uses gas discharge and phosphors to produce light.</li>
+<li>Resolution counts pixels; refresh rate counts updates per second.</li>
+</ul>
+
+<h2>1.16 Common mistakes to avoid</h2>
+<ul>
+<li>Do not write that a typical LED monitor is completely unrelated to LCD. Most consumer LED monitors are LED-backlit LCDs.</li>
+<li>Do not classify an inkjet printer as an impact printer. It sprays ink without striking the paper.</li>
+<li>Do not say that a plotter is only used for text. Its key role is precise graphics and technical drawings.</li>
+<li>Do not confuse resolution with refresh rate. One describes pixel count; the other describes update frequency.</li>
+<li>Do not describe plasma as an LCD. Plasma uses gas discharge and phosphors; LCD uses liquid crystals to control light.</li>
+<li>Do not claim all LED displays use an LCD panel. Direct-view LED displays exist too.</li>
+</ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p><strong>Topic 1 complete.</strong> Next in the official Unit II sequence: <strong>Raster Scan Display Systems</strong>.</p>
+</section>
+
+<section id="u2-topic2-raster-scan" class="topic-section tp tr">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">2</span><span><span class="tlabel">Topic 2 of 6</span>Raster Scan Display Systems</span><span class="tprio">RED PRIORITY</span></h2>
+<div class="priority-note red-note"><strong>Why RED?</strong> The supplied MCA 2022–24 paper (CCMCA403) includes a question on raster and random display systems. The older MCA paper (CS-DE-21) also asks raster scan versus random scan. This topic has direct MCA question-paper support.</div>
+
+<h2>2.1 Learning objectives</h2>
+<p>After studying this topic, you should be able to define raster scan display, explain line-by-line scanning, understand pixels and scan lines, describe horizontal and vertical retrace, explain refresh and refresh rate, define the frame buffer, explain raster display architecture, and distinguish progressive from interlaced scanning.</p>
+
+<h2>2.2 What is a Raster Scan Display?</h2>
+<p>A <strong>Raster Scan Display</strong> represents an image as a rectangular grid of small picture elements called <strong>pixels</strong>. The display scans the screen one horizontal row at a time, beginning at the top and moving towards the bottom. It scans across the first row, returns to the beginning of the next row, and repeats until the complete screen has been covered.</p>
+<p>As the display scans each row, it uses the stored pixel values to determine the colour and brightness of each pixel. In a traditional raster CRT, the electron beam is switched on where light is required and blanked during retrace. Modern LCD/LED panels do not use an electron beam, but they still use raster-based pixel addressing and refresh.</p>
+<div class="fig">
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20190912111430/raster1.jpg" alt="Raster scan display illustration from GeeksforGeeks" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;max-width:680px;height:auto;object-fit:contain;margin:0 auto;" onerror="this.outerHTML='<p class=&quot;note img-fallback&quot;>Image could not be loaded (needs internet): Raster scan display illustration from GeeksforGeeks. Use the source link in the caption.</p>'">
+<p class="caption">Figure 1: Raster scan display. Source: <a href="https://www.geeksforgeeks.org/computer-science-fundamentals/raster-scan-displays/" target="_blank" rel="noopener">GeeksforGeeks — Raster-Scan Displays</a>.</p>
+</div>
+<div class="note"><strong>Example:</strong> A photograph shown on a monitor is represented by many pixels. The display updates those pixels in an organised raster pattern to show the complete picture.</div>
+
+<h2>2.3 Important Terms</h2>
+<h3>A. Pixel (Picture Element)</h3>
+<p>A <strong>pixel</strong> is the smallest addressable element of a raster image or display. Every pixel has a position in the grid and stores or receives information that determines its brightness and/or colour. A pixel can be identified by its row number and column number.</p>
+<div class="fig">
+<svg viewBox="0 0 720 270" role="img" aria-label="Pixel grid with rows and columns and one highlighted pixel">
+<text x="360" y="25" text-anchor="middle" font-weight="bold">A RASTER IMAGE IS A GRID OF PIXELS</text>
+<rect x="150" y="55" width="50" height="40" fill="#e8efff" stroke="#294b91" stroke-width="1.3"/><rect x="200" y="55" width="50" height="40" fill="#fff" stroke="#294b91" stroke-width="1.3"/><rect x="250" y="55" width="50" height="40" fill="#e8efff" stroke="#294b91" stroke-width="1.3"/><rect x="300" y="55" width="50" height="40" fill="#fff" stroke="#294b91" stroke-width="1.3"/><rect x="350" y="55" width="50" height="40" fill="#e8efff" stroke="#294b91" stroke-width="1.3"/><rect x="400" y="55" width="50" height="40" fill="#fff" stroke="#294b91" stroke-width="1.3"/><rect x="450" y="55" width="50" height="40" fill="#e8efff" stroke="#294b91" stroke-width="1.3"/><rect x="500" y="55" width="50" height="40" fill="#fff" stroke="#294b91" stroke-width="1.3"/><rect x="150" y="95" width="50" height="40" fill="#fff" stroke="#294b91" stroke-width="1.3"/><rect x="200" y="95" width="50" height="40" fill="#e8efff" stroke="#294b91" stroke-width="1.3"/><rect x="250" y="95" width="50" height="40" fill="#fff" stroke="#294b91" stroke-width="1.3"/><rect x="300" y="95" width="50" height="40" fill="#e8efff" stroke="#294b91" stroke-width="1.3"/><rect x="350" y="95" width="50" height="40" fill="#fff" stroke="#294b91" stroke-width="1.3"/><rect x="400" y="95" width="50" height="40" fill="#e8efff" stroke="#294b91" stroke-width="1.3"/><rect x="450" y="95" width="50" height="40" fill="#fff" stroke="#294b91" stroke-width="1.3"/><rect x="500" y="95" width="50" height="40" fill="#e8efff" stroke="#294b91" stroke-width="1.3"/><rect x="150" y="135" width="50" height="40" fill="#e8efff" stroke="#294b91" stroke-width="1.3"/><rect x="200" y="135" width="50" height="40" fill="#fff" stroke="#294b91" stroke-width="1.3"/><rect x="250" y="135" width="50" height="40" fill="#e8efff" stroke="#294b91" stroke-width="1.3"/><rect x="300" y="135" width="50" height="40" fill="#fff" stroke="#294b91" stroke-width="1.3"/><rect x="350" y="135" width="50" height="40" fill="#ffd86a" stroke="#294b91" stroke-width="1.3"/><rect x="400" y="135" width="50" height="40" fill="#fff" stroke="#294b91" stroke-width="1.3"/><rect x="450" y="135" width="50" height="40" fill="#e8efff" stroke="#294b91" stroke-width="1.3"/><rect x="500" y="135" width="50" height="40" fill="#fff" stroke="#294b91" stroke-width="1.3"/><rect x="150" y="175" width="50" height="40" fill="#fff" stroke="#294b91" stroke-width="1.3"/><rect x="200" y="175" width="50" height="40" fill="#e8efff" stroke="#294b91" stroke-width="1.3"/><rect x="250" y="175" width="50" height="40" fill="#fff" stroke="#294b91" stroke-width="1.3"/><rect x="300" y="175" width="50" height="40" fill="#e8efff" stroke="#294b91" stroke-width="1.3"/><rect x="350" y="175" width="50" height="40" fill="#fff" stroke="#294b91" stroke-width="1.3"/><rect x="400" y="175" width="50" height="40" fill="#e8efff" stroke="#294b91" stroke-width="1.3"/><rect x="450" y="175" width="50" height="40" fill="#fff" stroke="#294b91" stroke-width="1.3"/><rect x="500" y="175" width="50" height="40" fill="#e8efff" stroke="#294b91" stroke-width="1.3"/>
+<text x="135" y="80" text-anchor="end">Row 1</text><text x="135" y="120" text-anchor="end">Row 2</text><text x="135" y="160" text-anchor="end">Row 3</text><text x="135" y="200" text-anchor="end">Row 4</text>
+<path d="M400 175 L610 175 L610 130" stroke="#b3261e" stroke-width="2" fill="none"/>
+<text x="615" y="123" fill="#b3261e">Selected pixel</text><text x="350" y="245" text-anchor="middle">Columns →</text>
+</svg>
+<p class="caption">Figure 2: A raster image is stored as a two-dimensional grid of pixels.</p>
+</div>
+<h3>B. Scan Line</h3>
+<p>A <strong>scan line</strong> is one horizontal row of pixels on the display. The system scans the first row, then the second, and continues until the last row.</p>
+<h3>C. Frame</h3>
+<p>A <strong>frame</strong> is one complete image covering the entire display area. It contains all scan lines needed to represent that image.</p>
+<h3>D. Frame Buffer / Refresh Buffer</h3>
+<p>The <strong>frame buffer</strong>, also called the <strong>refresh buffer</strong>, is a dedicated memory area that stores the pixel information for the image. It stores intensity or colour values for all pixels. The display system reads these values in order and updates the screen.</p>
+
+<h2>2.4 Working of Raster Scan Display — Step by Step</h2>
+<ol>
+<li><strong>Image information is prepared:</strong> The computer or graphics system creates the picture information.</li>
+<li><strong>Pixel values are stored:</strong> The colour or intensity value for every pixel is stored in the frame buffer.</li>
+<li><strong>Scanning starts at the top-left:</strong> The display begins with the first pixel of the first scan line.</li>
+<li><strong>Horizontal scanning:</strong> Pixels are read and displayed from left to right across the first row.</li>
+<li><strong>Horizontal retrace:</strong> At the end of a row, the beam in a traditional CRT is blanked and returns to the left side to begin the next row.</li>
+<li><strong>Next scan line:</strong> The process repeats for each row, moving from top to bottom.</li>
+<li><strong>Vertical retrace:</strong> After the last scan line, the beam returns to the top-left corner to begin the next frame.</li>
+<li><strong>Refreshing:</strong> The same frame is refreshed repeatedly so that the image appears stable.</li>
+</ol>
+<div class="fig">
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20200523235807/RETRACE.png" alt="Horizontal and vertical retrace diagram from GeeksforGeeks" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;max-width:520px;height:auto;object-fit:contain;margin:0 auto;" onerror="this.outerHTML='<p class=&quot;note img-fallback&quot;>Image could not be loaded (needs internet): Horizontal and vertical retrace diagram from GeeksforGeeks. Use the source link in the caption.</p>'">
+<p class="caption">Figure 3: Horizontal and vertical retrace. Source: <a href="https://www.geeksforgeeks.org/computer-science-fundamentals/raster-scan-displays/" target="_blank" rel="noopener">GeeksforGeeks — Raster-Scan Displays</a>.</p>
+</div>
+
+<h2>2.5 Horizontal Scan and Vertical Scan</h2>
+<h3>A. Horizontal Scan</h3>
+<p><strong>Horizontal scanning</strong> is the movement across one scan line, from the left side of the display to the right side. In a traditional CRT raster display, the beam is active during the visible part and its intensity changes according to the pixel values.</p>
+<h3>B. Horizontal Retrace</h3>
+<p><strong>Horizontal retrace</strong> is the return movement of the electron beam from the right end of a scan line back to the left side, where the next scan line begins. The beam is blanked during this movement so that an unwanted visible line is not drawn.</p>
+<h3>C. Vertical Retrace</h3>
+<p><strong>Vertical retrace</strong> is the return movement after the last scan line has been completed. In a traditional CRT, the beam is blanked and returns from the bottom of the screen to the top-left position to begin the next frame.</p>
+<div class="formula">Horizontal retrace = Right end of current row → Left start of next row</div>
+<div class="formula">Vertical retrace = End of last row → Beginning of first row</div>
+<div class="note"><strong>Remember:</strong> Horizontal retrace happens after every scan line. Vertical retrace happens after the complete frame.</div>
+
+<h2>2.6 Refreshing and Refresh Rate</h2>
+<p>The light produced by a CRT phosphor gradually fades after the electron beam moves away. Therefore, the same image must be drawn again and again. This repeated updating of the complete screen is called <strong>refreshing</strong>.</p>
+<p>The <strong>refresh rate</strong> is the number of complete frames displayed or refreshed in one second. Its unit is <strong>Hertz (Hz)</strong>.</p>
+<div class="formula">Refresh rate (Hz) = Number of complete frames refreshed per second</div>
+<p><strong>Example:</strong> If a display refreshes 60 complete frames in one second, its refresh rate is 60 Hz. If it refreshes 120 frames in one second, its refresh rate is 120 Hz. A low refresh rate can cause visible flicker, particularly on older CRT displays. The actual refresh rate supported depends on the display and its settings.</p>
+<h3>Refresh Rate vs Frame Rate</h3>
+<div class="tw wide"><table><thead><tr><th>Refresh rate</th><th>Frame rate</th></tr></thead><tbody>
+<tr><td>How often the display updates the screen.</td><td>How many new frames the graphics system or application produces each second.</td></tr>
+<tr><td>Measured in Hz.</td><td>Usually measured in frames per second (FPS).</td></tr>
+<tr><td>Example: monitor refresh rate = 60 Hz.</td><td>Example: game produces 45 FPS.</td></tr>
+</tbody></table></div>
+
+<h2>2.7 Frame Buffer</h2>
+<p><strong>Frame buffer (refresh buffer)</strong> is a memory area that stores the pixel information of the image to be displayed on the screen.</p>
+
+<h2>2.8 Architecture of a Raster Scan Display System</h2>
+<p>A raster display system contains several connected components. The CPU or host computer issues graphics commands. The graphics/display processor may convert geometric descriptions into pixel values through <strong>scan conversion</strong>. The resulting pixel data is stored in the frame buffer. The display or video controller reads the buffer in the required order and sends signals to the display device.</p>
+<div class="fig">
+<img src="https://image.slideserve.com/639435/slide3-l.jpg" alt="Architecture of a raster-scan system showing CPU, system memory, frame buffer, video controller and system bus" loading="lazy" referrerpolicy="no-referrer" style="display:block;width:100%;max-width:650px;height:auto;object-fit:contain;margin:0 auto;" onerror="this.outerHTML='<p class=&quot;note img-fallback&quot;>Image could not be loaded (needs internet): Architecture of a raster-scan system showing CPU, system memory, frame buffer, video controller and system bus. Use the source link in the caption.</p>'">
+<p class="caption">Figure 4: Architecture of a raster system with a fixed portion of system memory reserved for the frame buffer. Source: <a href="https://www.slideserve.com/mary/raster-scan-system" target="_blank" rel="noopener">SlideServe — Raster-Scan System</a>. The source diagram is reproduced from the linked educational slide; see the source page for the complete context.</p>
+</div>
+<h3>Role of Each Component</h3>
+<div class="tw wide"><table><thead><tr><th>Component</th><th>Function</th></tr></thead><tbody>
+<tr><td>Host CPU</td><td>Runs the application and sends graphics commands.</td></tr>
+<tr><td>Graphics / display processor</td><td>Performs graphics operations and scan conversion, reducing graphics work on the CPU.</td></tr>
+<tr><td>Frame buffer</td><td>Stores pixel intensity or colour information for the image.</td></tr>
+<tr><td>Video / display controller</td><td>Reads pixel data in display order and generates required display signals and timing.</td></tr>
+<tr><td>Display device</td><td>Converts supplied signals into a visible image.</td></tr>
+</tbody></table></div>
+<div class="note"><strong>Important:</strong> The video controller is responsible for reading and sending display data with correct timing. It will be studied in greater detail in Topic 3 — The Video Controller.</div>
+
+<h2>2.9 Advantages of Raster Scan Display</h2>
+<ul><li><strong>Realistic images:</strong> Can display photographs, filled regions, shading and colour gradients.</li><li><strong>Colour support:</strong> Supports a large range of colours when sufficient bits are stored per pixel.</li><li><strong>Complex scenes:</strong> Can represent detailed images using a pixel grid.</li><li><strong>Common technology:</strong> Raster representation is used in televisions, monitors, phones and digital image systems.</li><li><strong>Pixel-level representation:</strong> Every pixel has a definite row and column position.</li></ul>
+
+<h2>2.10 Disadvantages of Raster Scan Display</h2>
+<ul><li><strong>Memory requirement:</strong> The frame buffer must store information for all pixels, so high resolution and colour depth require more memory.</li><li><strong>Pixelation:</strong> Enlarging a raster image can reveal individual pixels and make edges look jagged.</li><li><strong>Resolution dependence:</strong> Sharpness depends on the number of available pixels and the display's native resolution.</li><li><strong>Refresh workload:</strong> The display repeatedly updates the frame, even when much of the image is unchanged.</li></ul>
+
+<h2>2.11 Applications of Raster Scan Display</h2>
+<ul><li>Desktop and laptop monitors.</li><li>Television screens.</li><li>Smartphones and tablets.</li><li>Digital photographs and image editing.</li><li>Video playback, games and multimedia systems.</li><li>Graphical user interfaces and modern computer applications.</li></ul>
+
+<h2>2.12 Previous-Year Question Evidence</h2>
+<div class="priority-note red-note"><strong>ACTUAL MCA PYQ — 2022–24, paper code CCMCA403:</strong> The supplied paper includes a question on raster and random display systems. This directly supports learning the raster scan mechanism and preparing a comparison with random scan. The complete comparison will be revisited in Topic 4.</div>
+<div class="priority-note yellow-note"><strong>ACTUAL OLDER MCA PYQ — MCA-2/D-12, code CS-DE-21:</strong> Raster scan versus random scan is also asked in the older MCA paper. This is additional evidence that the distinction is exam-relevant.</div>
+
+<h2>2.13 Exam-ready Answers</h2>
+<h3>2-mark answer — Define Raster Scan Display.</h3>
+<p>A raster scan display is a display system in which an image is represented as a grid of pixels. The screen is scanned horizontally, one row at a time, from top to bottom. Pixel intensity or colour values are stored in a frame buffer and used to produce the displayed image.</p>
+<h3>5-mark answer — Explain the Working of Raster Scan Display.</h3>
+<p>In a raster scan display, the image is represented by a rectangular grid of pixels. The pixel values are stored in a frame buffer. The display begins at the top-left corner and scans the first row from left to right. After completing a row, it performs horizontal retrace to return to the left side for the next row. This process continues from top to bottom. After the last row, vertical retrace returns the beam to the top-left corner. The complete image is repeatedly refreshed so that it appears stable.</p>
+<h3>5-mark answer — Explain Frame Buffer.</h3>
+<p>A frame buffer, also called a refresh buffer, is a memory area that stores the pixel information of the image to be displayed on the screen.</p>
+<h3>5-mark answer — Differentiate Horizontal and Vertical Retrace.</h3>
+<div class="tw wide"><table><thead><tr><th>Horizontal retrace</th><th>Vertical retrace</th></tr></thead><tbody>
+<tr><td>Occurs after each scan line.</td><td>Occurs after the complete frame.</td></tr><tr><td>Beam returns from right to left.</td><td>Beam returns from bottom to top-left corner.</td></tr><tr><td>Prepares the display for the next row.</td><td>Prepares the display for the next frame.</td></tr>
+</tbody></table></div>
+<h3>15-mark answer — Explain Raster Scan Display System with its Architecture.</h3>
+<p><strong>Introduction:</strong> A raster scan display represents an image as a grid of pixels and scans the screen one horizontal row at a time from top to bottom.</p>
+<p><strong>Working:</strong> Pixel values are stored in a frame buffer. The display system reads these values and scans each row from left to right. After each row, horizontal retrace returns the beam to the left. After the last row, vertical retrace returns it to the top. The frame is repeatedly refreshed to maintain a stable image.</p>
+<p><strong>Architecture:</strong> The host CPU issues graphics commands. A graphics processor performs graphics operations and scan conversion. Pixel values are stored in the frame buffer. The video controller reads the buffer in the required order and generates display signals. The monitor presents the final image.</p>
+<p><strong>Refresh:</strong> Refreshing is the repeated updating of the complete screen. Refresh rate is measured in hertz and indicates the number of frames refreshed per second.</p>
+<p><strong>Advantages:</strong> Raster scan can display realistic images, colour, shading and complex scenes. It is widely used in modern display systems.</p>
+<p><strong>Disadvantages:</strong> It requires memory for all pixels, can show pixelation when enlarged, and image sharpness depends on resolution.</p>
+<p><strong>Conclusion:</strong> Raster scan is widely used for displaying pixel-based images and is fundamental to modern computer graphics.</p>
+
+<h2>2.14 Learning Resources — Raster Scan Display Systems</h2>
+<div class="resource-panel">
+<h3>✿ Video resources</h3>
+<div class="resource-grid">
+<a class="resource-card video" href="https://www.youtube.com/watch?v=47vz2MMvRcs" target="_blank" rel="noopener"><span class="resource-kind">Hindi · Gate Smashers</span><strong>Raster Scan Display Explained</strong><small>Scan lines, refresh buffer and raster display process.</small></a>
+<a class="resource-card video" href="https://5minutesengineering.com/2021/05/21/raster-scan-display/" target="_blank" rel="noopener"><span class="resource-kind">5 Minutes Engineering</span><strong>Raster Scan Display</strong><small>Frame buffer, scan lines, horizontal retrace and vertical retrace.</small></a>
+<a class="resource-card video" href="https://www.geeksforgeeks.org/videos/raster-scan-display-in-computer-graphics/" target="_blank" rel="noopener"><span class="resource-kind">GeeksforGeeks</span><strong>Raster Scan Display Video</strong><small>Working, scan conversion, advantages and disadvantages.</small></a>
+</div>
+<h3>✿ Website and academic resources</h3>
+<div class="resource-grid">
+<a class="resource-card" href="https://www.geeksforgeeks.org/computer-science-fundamentals/raster-scan-displays/" target="_blank" rel="noopener"><span class="resource-kind">GeeksforGeeks</span><strong>Raster-Scan Displays</strong><small>Working principle, frame buffer, retrace and advantages.</small></a>
+<a class="resource-card" href="https://www.tutorialspoint.com/computer_graphics/computer_graphics_tutorial.pdf" target="_blank" rel="noopener"><span class="resource-kind">TutorialsPoint PDF</span><strong>Computer Graphics Tutorial</strong><small>Raster scan definition, frame buffer and scan-line diagram.</small></a>
+<a class="resource-card" href="https://egyankosh.ac.in/bitstream/123456789/10473/1/Unit-1.pdf" target="_blank" rel="noopener"><span class="resource-kind">IGNOU Academic PDF</span><strong>Computer Graphics — Raster Scan</strong><small>Frame buffer, display controller and scan conversion sequence.</small></a>
+</div>
+<p class="source-note">The raster scan and retrace diagrams are credited to GeeksforGeeks. The architecture diagram is reproduced from the linked SlideServe educational slide.</p>
+</div>
+
+<h2>2.15 Quick Revision</h2>
+<ul><li>Raster scan represents an image as a grid of pixels.</li><li>The display is scanned one horizontal row at a time, from top to bottom.</li><li>A pixel is the smallest addressable element of a raster image.</li><li>A scan line is one horizontal row of pixels.</li><li>Frame buffer / refresh buffer stores pixel intensity or colour values.</li><li>Horizontal retrace returns the beam from right to left after each row.</li><li>Vertical retrace returns the beam from bottom to top after a complete frame.</li><li>Refreshing means repeatedly updating the complete image.</li><li>Refresh rate is measured in Hz.</li><li>Progressive scan displays all lines in order; interlaced scan displays alternate line fields.</li></ul>
+
+<h2>2.16 Common Mistakes to Avoid</h2>
+<ul><li>Do not say horizontal retrace occurs after the whole screen. It occurs after every scan line.</li><li>Do not say vertical retrace occurs after every row. It occurs after the complete frame.</li><li>Do not confuse a pixel with a scan line. A scan line contains many pixels.</li><li>Do not confuse refresh rate with resolution. Refresh rate is frames per second; resolution is pixel dimensions.</li><li>Do not say the frame buffer stores only the outline of an image. It stores pixel intensity or colour information.</li><li>Do not assume every modern flat-panel display contains an electron beam. The beam explanation applies specifically to CRTs.</li><li>Do not confuse progressive and interlaced scanning. Progressive displays lines consecutively; interlaced uses two alternate-line fields.</li></ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p><strong>Topic 2 complete.</strong> Next in the official Unit II sequence: <strong>Topic 3 — The Video Controller</strong>.</p>
+</section>
+
+<section id="u2-topic3-video-controller" class="topic-section tp ty">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">3</span><span><span class="tlabel">Topic 3 of 6</span>The Video Controller</span><span class="tprio">YELLOW PRIORITY</span></h2>
+<p class="priority-note yellow-note"><strong>Why YELLOW?</strong> The older MCA paper (CS-DE-21) has a display processor versus display controller question, which is related evidence but not a direct video-controller question.</p>
+
+<h3>3.1 Definition</h3>
+<p>A <strong>video controller</strong> is the hardware that controls the output of a video display. In a raster display system, it reads pixel information from the frame buffer and sends the information to the display in the required order.</p>
+
+<h3>3.2 Working</h3>
+<p>The video controller reads pixel values from the frame buffer one scan line at a time. It keeps track of the current screen position and moves from one pixel to the next. After completing a scan line, it proceeds to the next line. This process continues to refresh the complete display.</p>
+
+<h3>3.3 Important terms</h3>
+<ul>
+<li><strong>X position:</strong> Identifies the horizontal position of a pixel.</li>
+<li><strong>Y position:</strong> Identifies the vertical position of a pixel.</li>
+<li><strong>Horizontal synchronisation:</strong> Coordinates the display of each scan line.</li>
+<li><strong>Vertical synchronisation:</strong> Coordinates the start of a new frame.</li>
+</ul>
+
+<div class="exam-box">
+<h3>Exam answer</h3>
+<p>A video controller is a hardware unit that controls the output of a display device. It reads pixel values from the frame buffer in raster-scan order and sends them to the screen. It keeps track of the horizontal and vertical pixel positions and coordinates the display of scan lines and frames. Thus, it helps refresh the complete image on the monitor.</p>
+</div>
+
+<h3>3.4 Source</h3>
+<p><a href="https://www.geeksforgeeks.org/computer-graphics/display-processor-in-computer-graphics/" target="_blank" rel="noopener">GeeksforGeeks — Display Processor in Computer Graphics</a> discusses the related display-processing and scan-conversion concepts. <a href="https://www.tutorialspoint.com/computer_graphics/computer_graphics_basics.htm" target="_blank" rel="noopener">TutorialsPoint — Computer Graphics Basics</a> covers raster scanning and the frame buffer. These sources provide related background; neither provides a dedicated video-controller diagram, so no image is included.</p>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next:</strong> Random Scan Processor. · <a href="#top">↑ Back to index</a></p>
+</section>
+
+<section id="u2-topic4-random-scan-processor" class="topic-section tp tr">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">4</span><span><span class="tlabel">Topic 4 of 6</span>Random Scan Processor</span><span class="tprio">RED PRIORITY</span></h2>
+<p class="priority-note red-note"><strong>Question-paper relevance:</strong> The supplied MCA 2022–24 paper asks about raster and random display systems. The older MCA paper also includes a raster-scan versus random-scan question.</p>
+
+<h3>4.1 Definition</h3>
+<p>A <strong>random scan display</strong>, also called a <strong>vector display</strong>, draws an image by directing the electron beam only to the parts of the screen where lines or shapes are required. It does not scan the entire screen row by row.</p>
+
+<h3>4.2 Random Scan Display Processor</h3>
+<p>The display processor reads drawing instructions from a <strong>display file</strong> stored in system memory. These instructions describe the lines that form the picture. The processor executes the commands one by one and directs the display to draw each line. After the last command, it returns to the first command and repeats the process to refresh the picture.</p>
+
+<figure class="fig">
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20190912115837/random1.jpg" alt="GeeksforGeeks diagram of a random-scan display system showing CPU, system memory, display processor, monitor and system bus" loading="lazy" referrerpolicy="no-referrer" style="max-width:100%;height:auto" onerror="this.outerHTML='<p class=&quot;note img-fallback&quot;>Image could not be loaded (needs internet): GeeksforGeeks diagram of a random-scan display system showing CPU, system memory, display processor, monitor and system bus. Use the source link in the caption.</p>'">
+<figcaption class="caption">Architecture diagram from <a href="https://www.geeksforgeeks.org/computer-graphics/random-scan-display/" target="_blank" rel="noopener">GeeksforGeeks — Random-Scan Display</a>. It shows the CPU, system memory, display processor, monitor and system bus.</figcaption>
+</figure>
+
+<h3>4.3 Working</h3>
+<ol>
+<li>The application program generates graphics commands.</li>
+<li>The graphics package stores the drawing commands in a display file in system memory.</li>
+<li>The display processor reads and executes each command.</li>
+<li>The electron beam moves directly to the required screen positions and draws the lines.</li>
+<li>After completing the display file, the processor starts again from the first command to refresh the picture.</li>
+</ol>
+
+<h3>4.4 Advantages and limitations</h3>
+<div class="tw wide"><table>
+<thead><tr><th>Advantages</th><th>Limitations</th></tr></thead>
+<tbody>
+<tr><td>Produces smooth and sharp line drawings.</td><td>Not suitable for realistic images containing many shades and filled areas.</td></tr>
+<tr><td>Requires less memory for simple line drawings.</td><td>Refresh rate depends on the number of lines; complex pictures take longer to refresh.</td></tr>
+</tbody>
+</table></div>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>A random scan processor is used in a vector display system. The picture is stored as a set of line-drawing commands in a display file in system memory. The display processor reads these commands one by one and directs the electron beam to draw only the required lines on the screen. After executing all commands, it returns to the beginning of the display file and repeats the process to refresh the image. Random scan displays produce smooth line drawings but are not suitable for realistic images with many shades.</p>
+</div>
+
+<h3>4.5 Sources</h3>
+<p><a href="https://www.geeksforgeeks.org/computer-graphics/random-scan-display/" target="_blank" rel="noopener">GeeksforGeeks — Random-Scan Display</a> · <a href="https://dev.tutorialspoint.com/computer_graphics/computer_graphics_random_scan_device.htm" target="_blank" rel="noopener">TutorialsPoint — Random Scan Device</a></p>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next:</strong> Input Devices for Operator Interaction. · <a href="#top">↑ Back to index</a></p>
+</section>
+
+<section id="u2-topic5-input-devices" class="topic-section tp tb">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">5</span><span><span class="tlabel">Topic 5 of 6</span>Input Devices for Operator Interaction</span><span class="tprio">BLACK PRIORITY</span></h2>
+<p class="evidence"><strong>Why BLACK?</strong> No matching question was identified in the checked papers for this topic.</p>
+
+<h3>5.1 Definition</h3>
+<p><strong>Input devices</strong> are hardware devices through which a user enters data, commands or graphical information into a computer. In computer graphics, they allow the operator to select objects, specify screen positions and create or modify drawings.</p>
+
+<h3>5.2 Types of input devices</h3>
+
+<h4>1. Keyboard</h4>
+<p>A keyboard is used to enter text, numbers and commands. In computer graphics, it can also be used to enter coordinates, labels and command options.</p>
+<figure class="fig">
+<img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210618023333/Keyboard.jpg" alt="Keyboard illustration from GeeksforGeeks" loading="lazy" referrerpolicy="no-referrer" style="max-width:100%;height:auto" onerror="this.outerHTML='<p class=&quot;note img-fallback&quot;>Image could not be loaded (needs internet): Keyboard illustration from GeeksforGeeks. Use the source link in the caption.</p>'">
+<figcaption class="caption">Image source: <a href="https://www.geeksforgeeks.org/computer-science-fundamentals/input-and-output-devices/" target="_blank" rel="noopener">GeeksforGeeks — Input and Output Devices</a>.</figcaption>
+</figure>
+
+<h4>2. Mouse</h4>
+<p>A mouse is a pointing device used to move the screen pointer, select objects, click commands and draw or position graphical elements.</p>
+<figure class="fig">
+<img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210618023300/Mouse.jpg" alt="Mouse illustration from GeeksforGeeks" loading="lazy" referrerpolicy="no-referrer" style="max-width:100%;height:auto" onerror="this.outerHTML='<p class=&quot;note img-fallback&quot;>Image could not be loaded (needs internet): Mouse illustration from GeeksforGeeks. Use the source link in the caption.</p>'">
+<figcaption class="caption">Image source: <a href="https://www.geeksforgeeks.org/computer-science-fundamentals/input-and-output-devices/" target="_blank" rel="noopener">GeeksforGeeks — Input and Output Devices</a>.</figcaption>
+</figure>
+
+<h4>3. Trackball</h4>
+<p>A trackball is a pointing device containing a ball that is rotated with the fingers to move the screen pointer. The device itself remains stationary.</p>
+
+<h4>4. Joystick</h4>
+<p>A joystick consists of a stick mounted on a base. Moving the stick in different directions controls the pointer or an object on the screen. It is used in interactive graphics and simulation applications.</p>
+<figure class="fig">
+<img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210618023257/Joystick.jpg" alt="Joystick illustration from GeeksforGeeks" loading="lazy" referrerpolicy="no-referrer" style="max-width:100%;height:auto" onerror="this.outerHTML='<p class=&quot;note img-fallback&quot;>Image could not be loaded (needs internet): Joystick illustration from GeeksforGeeks. Use the source link in the caption.</p>'">
+<figcaption class="caption">Image source: <a href="https://www.geeksforgeeks.org/computer-science-fundamentals/input-and-output-devices/" target="_blank" rel="noopener">GeeksforGeeks — Input and Output Devices</a>.</figcaption>
+</figure>
+
+<h4>5. Light Pen</h4>
+<p>A light pen is a pen-shaped pointing device used to select or draw directly on a compatible display. Its light-sensitive sensor detects the screen position.</p>
+<figure class="fig">
+<img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210618023258/LightPen.jpg" alt="Light pen illustration from GeeksforGeeks" loading="lazy" referrerpolicy="no-referrer" style="max-width:100%;height:auto" onerror="this.outerHTML='<p class=&quot;note img-fallback&quot;>Image could not be loaded (needs internet): Light pen illustration from GeeksforGeeks. Use the source link in the caption.</p>'">
+<figcaption class="caption">Image source: <a href="https://www.geeksforgeeks.org/computer-science-fundamentals/input-and-output-devices/" target="_blank" rel="noopener">GeeksforGeeks — Input and Output Devices</a>.</figcaption>
+</figure>
+
+<h4>6. Digitizer / Graphics Tablet</h4>
+<p>A digitizer converts drawings or positions made with a stylus on a tablet into digital coordinate information that the computer can process.</p>
+
+<h4>7. Touch Panel</h4>
+<p>A touch panel allows the operator to select commands or screen positions by touching the display surface with a finger or stylus.</p>
+
+<h4>8. Voice Input</h4>
+<p>A voice input system accepts spoken commands through a microphone and converts them into instructions that can be used to control graphics operations.</p>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>Input devices for operator interaction are used to enter commands, positions and graphical information into a computer. Important devices include the keyboard, mouse, trackball, joystick, light pen, digitizer, touch panel and voice input system. A keyboard enters text and commands, while pointing devices such as the mouse, trackball and joystick control screen positions. A light pen and digitizer help select or create graphical objects. Touch panels and voice systems provide additional ways to interact with graphics applications.</p>
+</div>
+
+<h3>5.3 Sources</h3>
+<p><a href="https://www.geeksforgeeks.org/computer-science-fundamentals/input-and-output-devices/" target="_blank" rel="noopener">GeeksforGeeks — Input and Output Devices</a> · <a href="https://www.tutorialspoint.com/computer_graphics/computer_graphics_input_devices.htm" target="_blank" rel="noopener">TutorialsPoint — Computer Graphics Input Devices</a></p>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next:</strong> Image Scanners. · <a href="#top">↑ Back to index</a></p>
+</section>
+
+<section id="u2-topic6-image-scanners" class="topic-section tp tb">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">6</span><span><span class="tlabel">Topic 6 of 6</span>Image Scanners</span><span class="tprio">BLACK PRIORITY</span></h2>
+<p class="evidence"><strong>Why BLACK?</strong> No matching question was identified in the checked papers for this topic.</p>
+
+<h3>6.1 Definition</h3>
+<p>An <strong>image scanner</strong> is an input device that captures photographs, drawings or documents from paper and converts them into a digital image that can be stored and edited on a computer.</p>
+
+<figure class="fig">
+<img src="https://www.tutorialspoint.com/computer_fundamentals/images/scanner.jpg" alt="Scanner image from TutorialsPoint" loading="lazy" referrerpolicy="no-referrer" style="max-width:100%;height:auto" onerror="this.outerHTML='<p class=&quot;note img-fallback&quot;>Image could not be loaded (needs internet): Scanner image from TutorialsPoint. Use the source link in the caption.</p>'">
+<figcaption class="caption">Image source: <a href="https://www.tutorialspoint.com/computer_fundamentals/computer_input_devices.htm" target="_blank" rel="noopener">TutorialsPoint — Computer Input Devices</a>.</figcaption>
+</figure>
+
+<h3>6.2 Working of an Image Scanner</h3>
+<ol>
+<li>The photograph or document is placed on the scanner.</li>
+<li>The scanner illuminates the material and captures the reflected light using its sensing system.</li>
+<li>The captured information is converted into digital data.</li>
+<li>The digital image is transferred to the computer, where it can be stored, viewed or edited.</li>
+</ol>
+
+<h3>6.3 Uses</h3>
+<ul>
+<li>Converting printed photographs and drawings into digital images.</li>
+<li>Storing paper documents on a computer.</li>
+<li>Editing or enhancing scanned images using graphics software.</li>
+</ul>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>An image scanner is an input device used to convert printed images, photographs and documents into digital form. The document is placed in the scanner and illuminated. The scanner captures the reflected light and converts the image information into digital data. This data is transferred to the computer for storage, viewing and editing. Image scanners are used for digitising photographs, drawings and paper documents.</p>
+</div>
+
+<h3>6.4 Sources</h3>
+<p><a href="https://www.geeksforgeeks.org/computer-science-fundamentals/input-and-output-devices/" target="_blank" rel="noopener">GeeksforGeeks — Input and Output Devices</a> · <a href="https://www.tutorialspoint.com/computer_fundamentals/computer_input_devices.htm" target="_blank" rel="noopener">TutorialsPoint — Computer Input Devices</a></p>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><a href="#top">↑ Back to index</a></p>
+</section>
+
+<div class="unit-end"><strong>✿ Unit II complete ✿</strong><br>Next: Unit III — Interaction</div>
+</main>
+</body>
+</html>

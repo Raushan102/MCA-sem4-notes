@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MCA Sem 4 Cloud Computing — Question Bank</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@400;600;700&display=swap">
+<style>
+:root {
+  --desk: #dfe4ec;
+  --paper: #ffffff;
+  --rule: #d6e3f5;
+  --margin: #e4868a;
+  --ink: #1d3a8c;
+  --red: #b3261e;
+  --green: #1b6b3a;
+  --hl: rgba(255, 214, 0, 0.45);
+  --edge: rgba(29, 58, 140, 0.35);
+  --shadow: rgba(20, 30, 60, 0.2);
+  --hand: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --display: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --mono: "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace;
+  --vs-bg: #1e1e1e;
+  --vs-fg: #d4d4d4;
+  color-scheme: light;
+}
+html { background: var(--desk); }
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: 16px;
+  line-height: 32px;
+  padding-block: 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 28px 64px 76px;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 22px 48px, var(--desk) 8px, transparent 9px),
+    linear-gradient(to bottom, transparent 31px, var(--rule) 31px, var(--rule) 32px);
+  background-size: 44px 128px, 100% 32px;
+  background-repeat: repeat-y, repeat;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px var(--shadow), 0 14px 34px -14px var(--shadow);
+  overflow-wrap: break-word;
+}
+.sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 56px;
+  width: 4px;
+  border-left: 1px solid var(--margin);
+  border-right: 1px solid var(--margin);
+}
+@media (max-width: 520px) {
+  body { font-size: 15px; }
+  .sheet { padding: 64px 12px 64px 50px; }
+  .sheet::before { left: 34px; }
+}
+h1, h2, h3 { margin: 0; font-weight: 700; text-wrap: balance; }
+h1 {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  line-height: 64px;
+  color: var(--red);
+  text-decoration: underline wavy var(--red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 7px;
+  scroll-margin-top: 16px;
+}
+.sheet > h1:first-child { font-size: clamp(1.7rem, 5.2vw, 2.4rem); }
+h2 { font-family: var(--display); font-size: 1.3rem; line-height: 32px; color: var(--red); }
+h3 { font-family: var(--display); font-size: 1.15rem; line-height: 32px; color: var(--green); }
+p { margin: 0 0 32px; }
+hr {
+  height: 32px;
+  margin: 0;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--edge) 0 10px, transparent 10px 18px) center / 100% 2px no-repeat;
+}
+ul, ol { margin: 0 0 32px; }
+ul { list-style: none; padding-left: 34px; }
+ul li { position: relative; }
+ul li::before { content: "\2022"; position: absolute; left: -22px; color: var(--red); }
+ol { padding-left: 46px; }
+ol li::marker { color: var(--red); font-family: var(--display); font-weight: 700; }
+li > p { margin: 0; }
+strong {
+  font-weight: 600;
+  padding: 0 2px;
+  background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  line-height: 0;
+  color: #9cdcfe;
+  background: var(--vs-bg);
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+pre {
+  margin: 0 0 32px;
+  padding: 16px 20px;
+  background: var(--vs-bg);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), 0 6px 14px -8px rgba(0, 0, 0, 0.5);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 400;
+  font-variant-ligatures: contextual;
+  line-height: 32px;
+  color: var(--vs-fg);
+  overflow-x: auto;
+  tab-size: 4;
+  white-space: pre;
+}
+pre code { font: inherit; line-height: inherit; color: inherit; background: none; padding: 0; border-radius: 0; }
+pre .k  { color: #569cd6; }
+pre .kc { color: #c586c0; }
+pre .f  { color: #dcdcaa; }
+pre .t  { color: #4ec9b0; }
+pre .v  { color: #9cdcfe; }
+pre .ct { color: #4fc1ff; }
+pre .s  { color: #ce9178; }
+pre .n  { color: #b5cea8; }
+pre .c  { color: #6a9955; }
+.tw { margin: 0 0 32px; overflow-x: auto; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+.tw.wide table { min-width: 640px; }
+th, td {
+  padding: 0 14px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 32px;
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge);
+}
+th {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--red);
+  background: var(--hl);
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge);
+}
+th:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+td:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+.toc ul { columns: 2 280px; column-gap: 32px; padding-left: 0; }
+.toc li { break-inside: avoid; }
+.toc li::before { content: none; }
+.toc a { color: var(--ink); text-decoration: none; background: linear-gradient(var(--edge), var(--edge)) 0 100% / 100% 1px no-repeat; }
+.toc a:hover { color: var(--red); }
+a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; border-radius: 2px; }
+.note { margin: 0 0 32px; padding: 0 0 0 16px; border-left: 3px solid var(--red); }
+.note p { margin: 0; }
+h1 code, h2 code, h3 code { background: var(--vs-bg); }
+th code, td code { font-size: 0.85em; }
+</style>
+</head>
+<body>
+<main class="sheet">
+<h1>CLOUD COMPUTING</h1>
+<h2>MCA Semester 4: Combined Previous-Year Question Bank</h2>
+<div class="note"><p><strong>SOURCES MERGED</strong></p><p>(1) 2021–24 Cloud Computing paper. (2) 2022–24 Ranchi University MCA Semester IV paper. (3) 2022–25 Cloud Computing paper (Semester V). Duplicates removed, arranged by marks. Original marks are kept. <strong>No 10-mark questions</strong> were found in these sources.</p></div>
+<h2>Contents</h2>
+<div class="tw wide"><table>
+<thead><tr><th><strong>Part</strong></th><th><strong>Marks</strong></th><th><strong>Questions</strong></th></tr></thead>
+<tbody>
+<tr><td><a href="#a">A</a></td><td>1 mark</td><td>27 (18 short answer + 9 MCQs)</td></tr>
+<tr><td><a href="#b">B</a></td><td>5 marks</td><td>3</td></tr>
+<tr><td><a href="#c">C</a></td><td>15 marks</td><td>15</td></tr>
+<tr><td><a href="#d">D</a></td><td>15 marks (any three)</td><td>5 short-note topics</td></tr>
+</tbody>
+</table></div>
+
+<h1 id="a">Part A. 1-Mark Questions</h1>
+<h2>A1. Short-answer questions</h2>
+<ol>
+<li>What is Cluster Computing?</li>
+<li>What is Grid Computing?</li>
+<li>What are Cloud Service Models?</li>
+<li>What is Hybrid Cloud?</li>
+<li>What is Network-Level Security?</li>
+<li>What is Microsoft Azure?</li>
+<li>What are Jurisdictional Issues in Cloud Computing?</li>
+<li>What is Data Security?</li>
+<li>What is Public Cloud?</li>
+<li>What is SaaS?</li>
+<li>Name three Cloud Stakeholders.</li>
+<li>What is the full form of OLTP?</li>
+<li>What is the full form of OLAP?</li>
+<li>How many virtualization techniques are there in x86 architecture?</li>
+<li>Write the full form of IaaS.</li>
+<li>Write the full form of PaaS.</li>
+<li>Write the full form of SaaS.</li>
+<li>Which paradigm of distributed computing provides on-demand, utility-based computing services?</li>
+</ol>
+<h2>A2. Multiple-choice questions</h2>
+<p><strong>19.</strong> Who is known as the father of Cloud Computing?<br>(a) Sharon B. Codd<br>(b) Edgar Frank Codd<br>(c) J.C.R. Licklider<br>(d) Charles Bachman</p>
+<p><strong>20.</strong> Which of the following is not a type of cloud server?<br>(a) Public Cloud Server<br>(b) Private Cloud Server<br>(c) Dedicated Cloud Server<br>(d) Merged Cloud Server</p>
+<p><strong>21.</strong> Which of the following are features of Cloud Computing?<br>(a) Security<br>(b) Availability<br>(c) Large Network Access<br>(d) All of the mentioned</p>
+<p><strong>22.</strong> Which of the following is a type of Cloud Computing service?<br>(a) Service-as-a-Software<br>(b) Software-and-a-Software<br>(c) Software-as-a-Service<br>(d) Software-as-a-Server</p>
+<p><strong>23.</strong> Which of the following is an example of Cloud Computing?<br>(a) Amazon Web Services (AWS)<br>(b) Dropbox<br>(c) Cisco WebEx<br>(d) All of the above</p>
+<p><strong>24.</strong> Which model consists of services that can be accessed on a cloud computing platform?<br>(a) Deployment<br>(b) Service<br>(c) Application<br>(d) None of the mentioned</p>
+<p><strong>25.</strong> Cloud Computing involves pooling physical resources and offering them as which type of resource?<br>(a) Cloud<br>(b) Real<br>(c) Virtual<br>(d) None of the mentioned</p>
+<p><strong>26.</strong> Identify the correct statement about Cloud Computing.<br>(a) Cloud computing relies on protocols to manage and process communications.<br>(b) Cloud computing uses virtualized hardware and software.<br>(c) Cloud architecture can couple software running on virtualized hardware in multiple locations to provide an on-demand service.<br>(d) All of the mentioned</p>
+<p><strong>27.</strong> Which of the following is not a property of Cloud Computing?<br>(a) Virtualization<br>(b) Composability<br>(c) Scalability<br>(d) All of the mentioned</p>
+<div class="note"><p><strong>NOTE</strong></p><p>Question 27 keeps the options visible in the screenshot. The wording of the original MCQ may be ambiguous.</p></div>
+
+<h1 id="b">Part B. 5-Mark Questions</h1>
+<ol>
+<li>What do you mean by Cloud Computing? Explain its types.</li>
+<li>Write the benefits and need of Cloud Computing.</li>
+<li>Discuss and compare Cloud Computing with the traditional Client/Server system.</li>
+</ol>
+
+<h1 id="c">Part C. 15-Mark Questions</h1>
+<h2>C1. Introduction and Fundamentals</h2>
+<ol>
+<li>How does Cloud Security work? What are the primary concerns of Cloud Security?</li>
+<li>How is Host-Level Security different from Application-Level Security?</li>
+<li>Explain Cloud Architecture.</li>
+<li>What is Cloud Computing? Discuss its benefits and limitations.</li>
+<li>What is Cloud Computing? Explain its different types.</li>
+</ol>
+<h2>C2. Cloud Models and Service Models</h2>
+<ol start="6">
+<li>Explain different Cloud Models in detail.</li>
+<li>Discuss different Service Models of Cloud Computing.</li>
+<li>How does Cloud Computing work? Discuss different Deployment Models of Cloud Computing.</li>
+<li>Differentiate between PaaS and IaaS. How can a third party manage SaaS? Explain.</li>
+</ol>
+<h2>C3. Cloud Ecosystem and Management</h2>
+<ol start="10">
+<li>Who are the Cloud Service Providers? Explain the main components of the Cloud Ecosystem.</li>
+<li>What is Business Process Management (BPM) in Cloud Computing? Why do we need Cloud BPM software?</li>
+<li>What is Cloud Governance? Write the principles of Cloud Governance.</li>
+</ol>
+<h2>C4. Cloud Benchmarking</h2>
+<ol start="13">
+<li>Differentiate between OLTP and OLAP Benchmark in Cloud Computing.</li>
+</ol>
+<h2>C5. Cloud Virtualization</h2>
+<ol start="14">
+<li>What is a Virtualized Data Center? Explain virtualization in x86 architecture.</li>
+</ol>
+<h2>C6. Cloud and SOA</h2>
+<ol start="15">
+<li>Define SOA in Cloud Computing. What do you mean by Cloud Ecosystem?</li>
+</ol>
+
+<h1 id="d">Part D. Short Notes</h1>
+<div class="note"><p><strong>2022–25 PAPER (15 MARKS)</strong></p><p>Write short notes on <strong>any three</strong>. Marks for each note are not printed separately.</p></div>
+<ol>
+<li>Grid Computing.</li>
+<li>Cloud Service Providers.</li>
+<li>Microsoft Azure.</li>
+<li>Service Level Agreements (SLA).</li>
+<li>Distributed Computing.</li>
+</ol>
+<div class="note"><p><strong>NOTE</strong></p><p>This is the combined bank, not yet filtered against the Semester IV syllabus. The 2022–25 paper belongs to Semester V, so some questions may fall outside your syllabus.</p></div>
+</main>
+</body>
+</html>

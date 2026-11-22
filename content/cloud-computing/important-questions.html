@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cloud Computing — Important Questions &amp; Syllabus Priority</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@400;600;700&display=swap">
+<style>
+:root {
+  --desk: #dfe4ec;
+  --paper: #ffffff;
+  --rule: #d6e3f5;
+  --margin: #e4868a;
+  --ink: #1d3a8c;
+  --red: #b3261e;
+  --green: #1b6b3a;
+  --hl: rgba(255, 214, 0, 0.45);
+  --edge: rgba(29, 58, 140, 0.35);
+  --shadow: rgba(20, 30, 60, 0.2);
+  --hand: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --display: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --mono: "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace;
+  --vs-bg: #1e1e1e;
+  --vs-fg: #d4d4d4;
+  color-scheme: light;
+}
+html { background: var(--desk); }
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: 16px;
+  line-height: 32px;
+  padding-block: 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 28px 64px 76px;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 22px 48px, var(--desk) 8px, transparent 9px),
+    linear-gradient(to bottom, transparent 31px, var(--rule) 31px, var(--rule) 32px);
+  background-size: 44px 128px, 100% 32px;
+  background-repeat: repeat-y, repeat;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px var(--shadow), 0 14px 34px -14px var(--shadow);
+  overflow-wrap: break-word;
+}
+.sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 56px;
+  width: 4px;
+  border-left: 1px solid var(--margin);
+  border-right: 1px solid var(--margin);
+}
+@media (max-width: 520px) {
+  body { font-size: 15px; }
+  .sheet { padding: 64px 12px 64px 50px; }
+  .sheet::before { left: 34px; }
+}
+h1, h2, h3 { margin: 0; font-weight: 700; text-wrap: balance; }
+h1 {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  line-height: 64px;
+  color: var(--red);
+  text-decoration: underline wavy var(--red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 7px;
+  scroll-margin-top: 16px;
+}
+.sheet > h1:first-child { font-size: clamp(1.7rem, 5.2vw, 2.4rem); }
+h2 { font-family: var(--display); font-size: 1.3rem; line-height: 32px; color: var(--red); }
+h3 { font-family: var(--display); font-size: 1.15rem; line-height: 32px; color: var(--green); }
+p { margin: 0 0 32px; }
+hr {
+  height: 32px;
+  margin: 0;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--edge) 0 10px, transparent 10px 18px) center / 100% 2px no-repeat;
+}
+ul, ol { margin: 0 0 32px; }
+ul { list-style: none; padding-left: 34px; }
+ul li { position: relative; }
+ul li::before { content: "\2022"; position: absolute; left: -22px; color: var(--red); }
+ol { padding-left: 46px; }
+ol li::marker { color: var(--red); font-family: var(--display); font-weight: 700; }
+li > p { margin: 0; }
+strong {
+  font-weight: 600;
+  padding: 0 2px;
+  background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  line-height: 0;
+  color: #9cdcfe;
+  background: var(--vs-bg);
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+pre {
+  margin: 0 0 32px;
+  padding: 16px 20px;
+  background: var(--vs-bg);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), 0 6px 14px -8px rgba(0, 0, 0, 0.5);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 400;
+  font-variant-ligatures: contextual;
+  line-height: 32px;
+  color: var(--vs-fg);
+  overflow-x: auto;
+  tab-size: 4;
+  white-space: pre;
+}
+pre code { font: inherit; line-height: inherit; color: inherit; background: none; padding: 0; border-radius: 0; }
+pre .k  { color: #569cd6; }
+pre .kc { color: #c586c0; }
+pre .f  { color: #dcdcaa; }
+pre .t  { color: #4ec9b0; }
+pre .v  { color: #9cdcfe; }
+pre .ct { color: #4fc1ff; }
+pre .s  { color: #ce9178; }
+pre .n  { color: #b5cea8; }
+pre .c  { color: #6a9955; }
+.tw { margin: 0 0 32px; overflow-x: auto; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+.tw.wide table { min-width: 640px; }
+th, td {
+  padding: 0 14px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 32px;
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge);
+}
+th {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--red);
+  background: var(--hl);
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge);
+}
+th:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+td:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+.toc ul { columns: 2 280px; column-gap: 32px; padding-left: 0; }
+.toc li { break-inside: avoid; }
+.toc li::before { content: none; }
+.toc a { color: var(--ink); text-decoration: none; background: linear-gradient(var(--edge), var(--edge)) 0 100% / 100% 1px no-repeat; }
+.toc a:hover { color: var(--red); }
+a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; border-radius: 2px; }
+.note { margin: 0 0 32px; padding: 0 0 0 16px; border-left: 3px solid var(--red); }
+.note p { margin: 0; }
+h1 code, h2 code, h3 code { background: var(--vs-bg); }
+th code, td code { font-size: 0.85em; }
+.r,.y,.b{font-size:.72em;font-weight:700;padding:1px 7px;border-radius:3px;letter-spacing:.5px;margin-right:6px}
+.r{background:var(--red);color:#fff}
+.y{background:#ffd600;color:#4a3b00}
+.b{background:#222;color:#fff}
+</style>
+</head>
+<body>
+<main class="sheet">
+<h1>CLOUD COMPUTING</h1>
+<h2>MCA Semester IV: Most Important Questions and Syllabus Priority</h2>
+<div class="note"><p><strong>COLOUR GUIDE</strong></p><p><span class="r">RED</span><strong>Important</strong>: directly asked in previous papers. Study properly. <span class="y">YELLOW</span><strong>Related</strong>: related questions appeared. Study the basics. <span class="b">BLACK</span><strong>Low priority</strong>: not directly asked. Read once.</p></div>
+<div class="note"><p><strong>PAPER PATTERN</strong></p><p>Questions are grouped by unit and by marks: 1-mark, 5-mark and 15-mark. Official ESE pattern: five 1-mark questions, one 5-mark question and four 15-mark answers from the descriptive section. Practise both short and long answers.</p></div>
+<h2>Contents</h2>
+<div class="tw wide"><table>
+<thead><tr><th>No.</th><th>Section</th></tr></thead>
+<tbody>
+<tr><td>01</td><td><a href="#u1">Unit I. Introduction</a></td></tr>
+<tr><td>02</td><td><a href="#u2">Unit II. Cloud Models and Cloud as a Service</a></td></tr>
+<tr><td>03</td><td><a href="#u3">Unit III. Cloud Solutions</a></td></tr>
+<tr><td>04</td><td><a href="#u4">Unit IV. Cloud Offerings and Management</a></td></tr>
+<tr><td>05</td><td><a href="#u5">Unit V. Cloud Virtualization Technology</a></td></tr>
+<tr><td>06</td><td><a href="#u6">Unit VI. Cloud and SOA</a></td></tr>
+<tr><td>07</td><td><a href="#u7">Unit VII. Cloud Infrastructure Benchmarking</a></td></tr>
+<tr><td>08</td><td><a href="#sn">Additional short notes</a></td></tr>
+<tr><td>09</td><td><a href="#prep">What to prepare first</a></td></tr>
+<tr><td>10</td><td><a href="#syl">Chapter-wise syllabus with priority</a></td></tr>
+</tbody></table></div>
+<h1 id="u1">01. Unit I. Introduction</h1>
+<h2>1-mark questions</h2>
+<ol>
+<li>Define Cloud Computing.</li>
+<li>What is Cluster Computing?</li>
+<li>What is Grid Computing?</li>
+<li>Name any three Cloud stakeholders.</li>
+<li>What is virtualization?</li>
+<li>What is resource pooling?</li>
+<li>What is on-demand self-service?</li>
+<li>What is dynamic infrastructure?</li>
+<li>What is cloud adoption?</li>
+<li>Write any two characteristics of Cloud Computing.</li>
+</ol>
+<h2>5-mark questions</h2>
+<ol>
+<li><span class="r">RED</span>Explain the benefits and need for Cloud Computing.</li>
+<li><span class="r">RED</span>What is Cloud Computing? Explain its types.</li>
+<li><span class="y">YELLOW</span>Compare Cloud Computing with the traditional Client/Server system.</li>
+<li><span class="y">YELLOW</span>Explain the main characteristics of Cloud Computing.</li>
+<li><span class="y">YELLOW</span>Explain the relationship between Cloud Computing and virtualization.</li>
+</ol>
+<h2>15-mark questions</h2>
+<ol>
+<li><span class="r">RED</span>What is Cloud Computing? Explain its benefits and limitations in detail.</li>
+<li><span class="r">RED</span>Explain the need and benefits of Cloud Computing with suitable examples.</li>
+<li><span class="y">YELLOW</span>Explain the essential characteristics of Cloud Computing in detail.</li>
+<li><span class="y">YELLOW</span>Explain the role of virtualization in Cloud Computing.</li>
+<li><span class="y">YELLOW</span>Compare Cloud Computing, Grid Computing and Cluster Computing.</li>
+</ol>
+<h1 id="u2">02. Unit II. Cloud Models and Cloud as a Service</h1>
+<h2>1-mark questions</h2>
+<ol>
+<li>What is Public Cloud?</li>
+<li>What is Private Cloud?</li>
+<li>What is Hybrid Cloud?</li>
+<li>What is Community Cloud?</li>
+<li>What is measured service?</li>
+<li>What is self-service in Cloud Computing?</li>
+<li>What is SaaS?</li>
+<li>What is PaaS?</li>
+<li>What is IaaS?</li>
+<li>Expand SaaS, PaaS and IaaS.</li>
+<li>What is SOA?</li>
+<li>Give one example of a Cloud Service Provider.</li>
+</ol>
+<h2>5-mark questions</h2>
+<ol>
+<li><span class="r">RED</span>What do you mean by Cloud Computing? Explain its types.</li>
+<li><span class="y">YELLOW</span>Explain the different deployment models of Cloud Computing.</li>
+<li><span class="y">YELLOW</span>Explain the different service models of Cloud Computing.</li>
+<li><span class="y">YELLOW</span>Differentiate between Public Cloud and Private Cloud.</li>
+<li><span class="y">YELLOW</span>Explain measured service and on-demand self-service.</li>
+<li><span class="y">YELLOW</span>Write a short note on security in a Public Cloud.</li>
+</ol>
+<h2>15-mark questions</h2>
+<ol>
+<li><span class="r">RED</span>Explain the different Cloud Models in detail.</li>
+<li><span class="r">RED</span>Explain the different Service Models of Cloud Computing with suitable examples.</li>
+<li><span class="r">RED</span>How does Cloud Computing work? Discuss its Deployment Models.</li>
+<li><span class="r">RED</span>Differentiate between PaaS and IaaS. How can a third party manage SaaS?</li>
+<li><span class="r">RED</span>Differentiate between Public Cloud and Private Cloud.</li>
+<li><span class="y">YELLOW</span>Explain the security concerns and challenges in a Public Cloud.</li>
+<li><span class="y">YELLOW</span>Explain Cloud Design and Implementation using SOA.</li>
+<li><span class="y">YELLOW</span>Explain the conceptual Cloud Model and its components.</li>
+</ol>
+<h1 id="u3">03. Unit III. Cloud Solutions</h1>
+<h2>1-mark questions</h2>
+<ol>
+<li>What is Cloud Ecosystem?</li>
+<li>Who is a Cloud Service Provider?</li>
+<li>What is Business Process Management (BPM)?</li>
+<li>What is Cloud BPM?</li>
+<li>What is Cloud Service Management?</li>
+<li>What is Cloud Stack?</li>
+<li>What is Computing on Demand (COD)?</li>
+<li>What is Cloud Sourcing?</li>
+<li>What is an SLA?</li>
+<li>Name three Cloud stakeholders.</li>
+</ol>
+<h2>5-mark questions</h2>
+<ol>
+<li><span class="y">YELLOW</span>Explain the components of a Cloud Ecosystem.</li>
+<li><span class="y">YELLOW</span>Write a short note on Cloud Service Providers.</li>
+<li><span class="y">YELLOW</span>Explain Cloud Service Management.</li>
+<li><span class="y">YELLOW</span>Explain Computing on Demand.</li>
+<li><span class="y">YELLOW</span>Write a short note on Cloud Sourcing.</li>
+<li><span class="y">YELLOW</span>Explain the role of SLA in Cloud Computing.</li>
+</ol>
+<h2>15-mark questions</h2>
+<ol>
+<li><span class="r">RED</span>Who are Cloud Service Providers? Explain the main components of the Cloud Ecosystem.</li>
+<li><span class="r">RED</span>What is Business Process Management (BPM) in Cloud Computing? Why is Cloud BPM software needed?</li>
+<li><span class="r">RED</span>Define SOA in Cloud Computing. What do you mean by Cloud Ecosystem?</li>
+<li><span class="y">YELLOW</span>Explain the Cloud Ecosystem and its different stakeholders in detail.</li>
+<li><span class="y">YELLOW</span>Explain Cloud Service Management and its major functions.</li>
+<li><span class="y">YELLOW</span>Explain Cloud Stack and its different layers.</li>
+<li><span class="y">YELLOW</span>Explain Computing on Demand and Cloud Sourcing.</li>
+</ol>
+<h1 id="u4">04. Unit IV. Cloud Offerings and Management</h1>
+<h2>1-mark questions</h2>
+<ol>
+<li>What is Cloud Security?</li>
+<li>What is Data Security?</li>
+<li>What is Network-Level Security?</li>
+<li>What is Host-Level Security?</li>
+<li>What is Application-Level Security?</li>
+<li>What is Virtual Desktop Infrastructure (VDI)?</li>
+<li>What is Storage Cloud?</li>
+<li>What is cloud provisioning?</li>
+<li>What is Cloud Governance?</li>
+<li>What is High Availability?</li>
+<li>What is Disaster Recovery?</li>
+<li>What is cloud metering?</li>
+<li>What is cloud billing?</li>
+<li>What is cloud resiliency?</li>
+</ol>
+<h2>5-mark questions</h2>
+<ol>
+<li><span class="y">YELLOW</span>Explain the primary security concerns in Cloud Computing.</li>
+<li><span class="y">YELLOW</span>Differentiate between Host-Level Security and Application-Level Security.</li>
+<li><span class="y">YELLOW</span>Explain Network-Level Security and Data Security.</li>
+<li><span class="y">YELLOW</span>Write a short note on Virtual Desktop Infrastructure.</li>
+<li><span class="y">YELLOW</span>Explain Cloud Governance and its importance.</li>
+<li><span class="y">YELLOW</span>Explain High Availability and Disaster Recovery.</li>
+<li><span class="y">YELLOW</span>Explain cloud charging models and metering.</li>
+</ol>
+<h2>15-mark questions</h2>
+<ol>
+<li><span class="r">RED</span>How does Cloud Security work? What are the primary concerns of Cloud Security?</li>
+<li><span class="r">RED</span>How is Host-Level Security different from Application-Level Security?</li>
+<li><span class="r">RED</span>What is Cloud Governance? Explain the principles of Cloud Governance.</li>
+<li><span class="y">YELLOW</span>Explain the different levels of security required in Cloud Computing.</li>
+<li><span class="y">YELLOW</span>Explain Information Storage, Retrieval, Archive and Protection in Cloud Computing.</li>
+<li><span class="y">YELLOW</span>Explain Storage Cloud and its benefits.</li>
+<li><span class="y">YELLOW</span>Explain High Availability, Disaster Recovery and Resiliency.</li>
+<li><span class="y">YELLOW</span>Explain cloud provisioning, asset management and resource allocation.</li>
+<li><span class="y">YELLOW</span>Explain charging models, usage reporting, billing and metering.</li>
+</ol>
+<h1 id="u5">05. Unit V. Cloud Virtualization Technology</h1>
+<h2>1-mark questions</h2>
+<ol>
+<li>Define Virtualization.</li>
+<li>What is a Virtual Machine?</li>
+<li>What is Server Virtualization?</li>
+<li>What is a Hypervisor?</li>
+<li>What is x86 architecture?</li>
+<li>What is LPAR?</li>
+<li>What is a VIO Server?</li>
+<li>What is Storage Virtualization?</li>
+<li>What is SAN?</li>
+<li>What is NAS?</li>
+<li>What is a Virtualized Data Center?</li>
+<li>Name the virtualization techniques used in x86 architecture.</li>
+</ol>
+<h2>5-mark questions</h2>
+<ol>
+<li><span class="y">YELLOW</span>Explain the benefits of virtualization.</li>
+<li><span class="y">YELLOW</span>Differentiate between Type 1 and Type 2 Hypervisors.</li>
+<li><span class="y">YELLOW</span>Explain Server Virtualization.</li>
+<li><span class="y">YELLOW</span>Explain the different x86 virtualization techniques.</li>
+<li><span class="y">YELLOW</span>Differentiate between SAN and NAS.</li>
+<li><span class="y">YELLOW</span>Explain Storage Virtualization.</li>
+</ol>
+<h2>15-mark questions</h2>
+<ol>
+<li><span class="r">RED</span>What is a Virtualized Data Center? Explain virtualization in x86 architecture.</li>
+<li><span class="r">RED</span>Explain x86 architecture and the different virtualization techniques used in it.</li>
+<li><span class="y">YELLOW</span>Define virtualization. Explain its benefits and types in detail.</li>
+<li><span class="y">YELLOW</span>Explain Server Virtualization and the role of Hypervisor Management Software.</li>
+<li><span class="y">YELLOW</span>Explain Storage Virtualization, SAN and NAS.</li>
+<li><span class="y">YELLOW</span>Explain LPAR and VIO Server.</li>
+<li><span class="y">YELLOW</span>Discuss the requirements of a Virtual Infrastructure.</li>
+<li><span class="y">YELLOW</span>Explain Cloud Server Virtualization and its benefits.</li>
+</ol>
+<h1 id="u6">06. Unit VI. Cloud and SOA</h1>
+<h2>1-mark questions</h2>
+<ol>
+<li>What is SOA?</li>
+<li>Expand SOA.</li>
+<li>What is a service in SOA?</li>
+<li>What is a Service Provider?</li>
+<li>What is a Service Consumer?</li>
+<li>What is a Service Registry?</li>
+<li>What is IaaS?</li>
+<li>What is loose coupling?</li>
+<li>What is service reusability?</li>
+</ol>
+<h2>5-mark questions</h2>
+<ol>
+<li><span class="r">RED</span>Define SOA in Cloud Computing.</li>
+<li><span class="y">YELLOW</span>Explain the relationship between SOA and Cloud Computing.</li>
+<li><span class="y">YELLOW</span>Explain the basic principles of SOA.</li>
+<li><span class="y">YELLOW</span>Differentiate between SOA and traditional architecture.</li>
+<li><span class="y">YELLOW</span>Explain the relationship between SOA and IaaS.</li>
+</ol>
+<h2>15-mark questions</h2>
+<ol>
+<li><span class="r">RED</span>Define SOA in Cloud Computing. What do you mean by Cloud Ecosystem?</li>
+<li><span class="r">RED</span>Explain SOA and its relationship with Cloud Computing.</li>
+<li><span class="y">YELLOW</span>Explain the journey of SOA to infrastructure.</li>
+<li><span class="y">YELLOW</span>Explain SOA and IaaS in detail.</li>
+<li><span class="y">YELLOW</span>Describe the steps involved in SOA-based Cloud Infrastructure.</li>
+<li><span class="y">YELLOW</span>Explain SOA Business Services and IT Services.</li>
+</ol>
+<h1 id="u7">07. Unit VII. Cloud Infrastructure Benchmarking</h1>
+<h2>1-mark questions</h2>
+<ol>
+<li>What is OLTP?</li>
+<li>Expand OLTP.</li>
+<li>What is OLAP?</li>
+<li>Expand OLAP.</li>
+<li>What is a Benchmark?</li>
+<li>What is a Business Intelligence Benchmark?</li>
+<li>What is an E-Business Benchmark?</li>
+<li>What is an ISV Benchmark?</li>
+<li>What is performance monitoring?</li>
+<li>What is throughput?</li>
+<li>What is response time?</li>
+</ol>
+<h2>5-mark questions</h2>
+<ol>
+<li><span class="r">RED</span>Differentiate between OLTP and OLAP Benchmark.</li>
+<li><span class="y">YELLOW</span>Explain Business Intelligence Benchmark.</li>
+<li><span class="y">YELLOW</span>Explain E-Business Benchmark.</li>
+<li><span class="y">YELLOW</span>Write a short note on ISV Benchmarks.</li>
+<li><span class="y">YELLOW</span>Explain Cloud Performance Data Collection.</li>
+<li><span class="y">YELLOW</span>Explain the importance of performance benchmarking in Cloud Computing.</li>
+</ol>
+<h2>15-mark questions</h2>
+<ol>
+<li><span class="r">RED</span>Differentiate between OLTP and OLAP Benchmark in Cloud Computing.</li>
+<li><span class="y">YELLOW</span>Explain the different types of Cloud Infrastructure Benchmarks.</li>
+<li><span class="y">YELLOW</span>Explain Business Intelligence and E-Business Benchmarks.</li>
+<li><span class="y">YELLOW</span>What are ISV Benchmarks? Explain their importance.</li>
+<li><span class="y">YELLOW</span>Explain Cloud Performance Data Collection and the parameters used to measure cloud performance.</li>
+</ol>
+<h1 id="sn">08. Additional Short Notes</h1>
+<p>These topics appeared in supplementary papers or help cover the syllabus.</p>
+<ol>
+<li><span class="y">YELLOW</span>Microsoft Azure</li>
+<li><span class="y">YELLOW</span>Cloud Service Providers</li>
+<li><span class="y">YELLOW</span>Service Level Agreement (SLA)</li>
+<li><span class="y">YELLOW</span>Grid Computing</li>
+<li><span class="y">YELLOW</span>Distributed Computing</li>
+<li><span class="y">YELLOW</span>Cloud Architecture</li>
+<li><span class="y">YELLOW</span>Cloud Security</li>
+<li><span class="y">YELLOW</span>Hybrid Cloud</li>
+</ol>
+<h1 id="prep">09. What to Prepare First</h1>
+<ol>
+<li><strong>Unit II:</strong> Cloud Models, Deployment Models and Service Models.</li>
+<li><strong>Unit IV:</strong> Cloud Security and Cloud Governance.</li>
+<li><strong>Unit V:</strong> Virtualization, x86 Architecture and Virtualized Data Center.</li>
+<li><strong>Unit III:</strong> Cloud Ecosystem and Cloud BPM.</li>
+<li><strong>Unit VI:</strong> SOA and Cloud.</li>
+<li><strong>Unit I:</strong> Benefits, Need and Characteristics.</li>
+<li><strong>Unit VII:</strong> OLTP vs OLAP Benchmark.</li>
+</ol>
+<div class="note"><p><strong>IMPORTANT CLARIFICATION</strong></p><p><span class="r">RED</span>questions are based on questions directly seen in previous papers. <span class="y">YELLOW</span>questions are related or predicted from the syllabus. They are <strong>not confirmed</strong> future exam questions. Prepare RED first, but do not skip the rest.</p></div>
+<h1 id="syl">10. Chapter-wise Syllabus with Priority</h1>
+<div class="note"><p><strong>HOW TO PREPARE</strong></p><p>Finish all RED topics first, then YELLOW topics. Give BLACK topics one reading so you know their basic meaning. These priorities come from the previous papers reviewed, not a guarantee for the next exam. Topics are retained from the Ranchi University syllabus PDF.</p></div>
+<h2>Unit I. Introduction</h2>
+<div class="tw"><table>
+<thead><tr><th>Syllabus topic</th><th>Priority</th></tr></thead>
+<tbody>
+<tr><td>Essentials of Cloud Computing</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Benefits of Cloud Computing</td><td><span class="r">RED</span></td></tr>
+<tr><td>Need for Cloud Computing</td><td><span class="r">RED</span></td></tr>
+<tr><td>Business and IT Perspective</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Cloud and Virtualization</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Cloud Services Requirements</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Cloud and Dynamic Infrastructure</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Cloud Computing Characteristics</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Cloud Adoption</td><td><span class="b">BLACK</span></td></tr>
+</tbody></table></div>
+<h2>Unit II-A. Cloud Models</h2>
+<div class="tw"><table>
+<thead><tr><th>Syllabus topic</th><th>Priority</th></tr></thead>
+<tbody>
+<tr><td>Cloud Characteristics</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Measured Service</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Cloud Models</td><td><span class="r">RED</span></td></tr>
+<tr><td>Security in a Public Cloud</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Public Versus Private Clouds</td><td><span class="r">RED</span></td></tr>
+<tr><td>Cloud Infrastructure Self-Service</td><td><span class="b">BLACK</span></td></tr>
+</tbody></table></div>
+<h2>Unit II-B. Cloud as a Service</h2>
+<div class="tw"><table>
+<thead><tr><th>Syllabus topic</th><th>Priority</th></tr></thead>
+<tbody>
+<tr><td>Gamut of Cloud Solutions</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Principal Technologies</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Cloud Strategy</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Cloud Design and Implementation Using SOA</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Conceptual Cloud Model</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Cloud Service Defined</td><td><span class="b">BLACK</span></td></tr>
+</tbody></table></div>
+<h2>Unit III. Cloud Solutions</h2>
+<div class="tw"><table>
+<thead><tr><th>Syllabus topic</th><th>Priority</th></tr></thead>
+<tbody>
+<tr><td>Cloud Ecosystem</td><td><span class="r">RED</span></td></tr>
+<tr><td>Cloud Business Process Management</td><td><span class="r">RED</span></td></tr>
+<tr><td>Cloud Service Management</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Cloud Stack</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Computing on Demand (COD)</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Cloud Sourcing</td><td><span class="b">BLACK</span></td></tr>
+</tbody></table></div>
+<h2>Unit IV. Cloud Offerings and Management</h2>
+<div class="tw"><table>
+<thead><tr><th>Syllabus topic</th><th>Priority</th></tr></thead>
+<tbody>
+<tr><td>Information Storage, Retrieval, Archive and Protection</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Cloud Analytics</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Testing Under Cloud</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Information Security</td><td><span class="r">RED</span></td></tr>
+<tr><td>Virtual Desktop Infrastructure</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Storage Cloud</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Resiliency</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Provisioning</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Asset Management</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Cloud Governance</td><td><span class="r">RED</span></td></tr>
+<tr><td>High Availability and Disaster Recovery</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Charging Models</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Usage Reporting, Billing and Metering</td><td><span class="y">YELLOW</span></td></tr>
+</tbody></table></div>
+<h2>Unit V. Cloud Virtualization Technology</h2>
+<div class="tw"><table>
+<thead><tr><th>Syllabus topic</th><th>Priority</th></tr></thead>
+<tbody>
+<tr><td>Virtualization Defined</td><td><span class="r">RED</span></td></tr>
+<tr><td>Virtualization Benefits</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Server Virtualization</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Virtualization for x86 Architecture</td><td><span class="r">RED</span></td></tr>
+<tr><td>Hypervisor Management Software</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Logical Partitioning (LPAR)</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>VIO Server</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Virtual Infrastructure Requirements</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Storage Virtualization</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Storage Area Networks (SAN)</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Network-Attached Storage (NAS)</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Cloud Server Virtualization</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Virtualized Data Center</td><td><span class="r">RED</span></td></tr>
+</tbody></table></div>
+<h2>Unit VI. Cloud and SOA</h2>
+<div class="tw"><table>
+<thead><tr><th>Syllabus topic</th><th>Priority</th></tr></thead>
+<tbody>
+<tr><td>SOA Journey to Infrastructure</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>SOA and Cloud</td><td><span class="r">RED</span></td></tr>
+<tr><td>SOA Defined</td><td><span class="r">RED</span></td></tr>
+<tr><td>SOA and IaaS</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>SOA-Based Cloud Infrastructure Steps</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>SOA Business and IT Services</td><td><span class="b">BLACK</span></td></tr>
+</tbody></table></div>
+<h2>Unit VII. Cloud Infrastructure Benchmarking</h2>
+<div class="tw"><table>
+<thead><tr><th>Syllabus topic</th><th>Priority</th></tr></thead>
+<tbody>
+<tr><td>OLTP Benchmark</td><td><span class="r">RED</span></td></tr>
+<tr><td>Business Intelligence Benchmark</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>E-Business Benchmark</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>ISV Benchmarks</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Cloud Performance Data Collection</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>Performance Monitoring Commands</td><td><span class="b">BLACK</span></td></tr>
+<tr><td>Benchmark Tools</td><td><span class="b">BLACK</span></td></tr>
+</tbody></table></div>
+</main>
+</body>
+</html>

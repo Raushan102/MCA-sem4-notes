@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Cloud Computing — Unit V Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&amp;family=Source+Code+Pro:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --desk: #dfe4ec;
+  --paper: #ffffff;
+  --rule: #d6e3f5;
+  --margin: #e4868a;
+  --ink: #1d3a8c;
+  --red: #b3261e;
+  --green: #1b6b3a;
+  --hl: rgba(255, 214, 0, 0.45);
+  --edge: rgba(29, 58, 140, 0.35);
+  --shadow: rgba(20, 30, 60, 0.2);
+  --hand: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --display: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --mono: "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace;
+  --vs-bg: #1e1e1e;
+  --vs-fg: #d4d4d4;
+  color-scheme: light;
+}
+html { background: var(--desk); }
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: 16px;
+  line-height: 32px;
+  padding-block: 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 28px 64px 76px;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 22px 48px, var(--desk) 8px, transparent 9px),
+    linear-gradient(to bottom, transparent 31px, var(--rule) 31px, var(--rule) 32px);
+  background-size: 44px 128px, 100% 32px;
+  background-repeat: repeat-y, repeat;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px var(--shadow), 0 14px 34px -14px var(--shadow);
+  overflow-wrap: break-word;
+}
+.sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 56px;
+  width: 4px;
+  border-left: 1px solid var(--margin);
+  border-right: 1px solid var(--margin);
+}
+@media (max-width: 520px) {
+  body { font-size: 15px; }
+  .sheet { padding: 64px 12px 64px 50px; }
+  .sheet::before { left: 34px; }
+}
+h1, h2, h3 { margin: 0; font-weight: 700; text-wrap: balance; }
+h1 {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  line-height: 64px;
+  color: var(--red);
+  text-decoration: underline wavy var(--red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 7px;
+  scroll-margin-top: 16px;
+}
+.sheet > h1:first-child { font-size: clamp(1.7rem, 5.2vw, 2.4rem); }
+h2 { font-family: var(--display); font-size: 1.3rem; line-height: 32px; color: var(--red); }
+h3 { font-family: var(--display); font-size: 1.15rem; line-height: 32px; color: var(--green); }
+p { margin: 0 0 32px; }
+hr {
+  height: 32px;
+  margin: 0;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--edge) 0 10px, transparent 10px 18px) center / 100% 2px no-repeat;
+}
+ul, ol { margin: 0 0 32px; }
+ul { list-style: none; padding-left: 34px; }
+ul li { position: relative; }
+ul li::before { content: "\2022"; position: absolute; left: -22px; color: var(--red); }
+ol { padding-left: 46px; }
+ol li::marker { color: var(--red); font-family: var(--display); font-weight: 700; }
+li > p { margin: 0; }
+strong {
+  font-weight: 600;
+  padding: 0 2px;
+  background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  line-height: 0;
+  color: #9cdcfe;
+  background: var(--vs-bg);
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+pre {
+  margin: 0 0 32px;
+  padding: 16px 20px;
+  background: var(--vs-bg);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), 0 6px 14px -8px rgba(0, 0, 0, 0.5);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 400;
+  font-variant-ligatures: contextual;
+  line-height: 32px;
+  color: var(--vs-fg);
+  overflow-x: auto;
+  tab-size: 4;
+  white-space: pre;
+}
+pre code { font: inherit; line-height: inherit; color: inherit; background: none; padding: 0; border-radius: 0; }
+pre .k  { color: #569cd6; }
+pre .kc { color: #c586c0; }
+pre .f  { color: #dcdcaa; }
+pre .t  { color: #4ec9b0; }
+pre .v  { color: #9cdcfe; }
+pre .ct { color: #4fc1ff; }
+pre .s  { color: #ce9178; }
+pre .n  { color: #b5cea8; }
+pre .c  { color: #6a9955; }
+.tw { margin: 0 0 32px; overflow-x: auto; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+.tw.wide table { min-width: 640px; }
+th, td {
+  padding: 0 14px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 32px;
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge);
+}
+th {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--red);
+  background: var(--hl);
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge);
+}
+th:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+td:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+.toc ul { columns: 2 280px; column-gap: 32px; padding-left: 0; }
+.toc li { break-inside: avoid; }
+.toc li::before { content: none; }
+.toc a { color: var(--ink); text-decoration: none; background: linear-gradient(var(--edge), var(--edge)) 0 100% / 100% 1px no-repeat; }
+.toc a:hover { color: var(--red); }
+a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; border-radius: 2px; }
+.note { margin: 0 0 32px; padding: 0 0 0 16px; border-left: 3px solid var(--red); }
+.note p { margin: 0; }
+h1 code, h2 code, h3 code { background: var(--vs-bg); }
+th code, td code { font-size: 0.85em; }
+.tp{margin:0 -14px 32px;padding:0 14px;border-left:5px solid;border-radius:4px}
+.tp.tr{background:rgba(179,38,30,.085);border-color:#b3261e}
+.tp.ty{background:rgba(255,214,0,.24);border-color:#e0b800}
+.tp.tb{background:rgba(0,0,0,.075);border-color:#333}
+.r,.y,.b{font-size:.72em;font-weight:700;padding:1px 7px;border-radius:3px;letter-spacing:.5px;margin-right:6px}
+.r{background:var(--red);color:#fff}.y{background:#ffd600;color:#4a3b00}.b{background:#222;color:#fff}
+main a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px;overflow-wrap:anywhere}
+main a:hover{color:var(--red)}
+.fig{margin:0 0 32px}.fig svg{display:block;width:100%;max-width:760px;margin:0 auto}
+.fig svg text{font-family:var(--hand);font-size:14px;fill:var(--ink);dominant-baseline:auto}
+.fig svg .cap{font-size:13px;fill:var(--red);font-weight:600}
+.fig svg .w{fill:#fff;font-weight:600}
+.fig svg .bx{fill:#fff;stroke:var(--ink);stroke-width:2}
+.fig svg .rx{fill:#fff;stroke:var(--red);stroke-width:2}
+.fig svg .kx{fill:var(--vs-bg);stroke:var(--vs-bg)}
+.fig svg .yx{fill:rgba(255,214,0,.45);stroke:var(--ink);stroke-width:2}
+.fig svg .ln{stroke:var(--ink);stroke-width:2;fill:none}
+.fig svg .rl{stroke:var(--red);stroke-width:2.5;fill:none}
+.fig svg .dl{stroke:var(--red);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+
+.video-help { margin: 18px 0 32px; padding: 14px 16px; border: 1px solid #b8c9e5; border-left: 4px solid #1d3a8c; border-radius: 8px; background: rgba(232, 240, 252, .72); }
+.video-help p { margin-bottom: 12px; }
+.video-help .video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; background: #111; margin: 10px 0 8px; }
+.video-help iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-help .video-note { display: block; font-size: .88em; line-height: 1.5; opacity: .9; }
+
+
+.reading-sources { margin: 18px 0 22px; padding: 12px 16px; border: 1px solid #c8d6e8; border-radius: 7px; background: rgba(255,255,255,.78); font-size: .92em; line-height: 1.65; }
+.reading-sources p { margin: 0 0 6px; }
+.reading-sources ul { margin: 0; padding-left: 24px; }
+.reading-sources ul li::before { left: -18px; }
+.reading-sources .source-note { font-size: .9em; opacity: .9; margin-top: 6px; }
+</style>
+</head>
+<body>
+<main class="sheet">
+<h1>CLOUD COMPUTING</h1>
+<h2>Unit V: Cloud Virtualization Technology</h2>
+<div class="note"><p><strong>THE CENTRAL IDEA</strong></p><p>Virtualization lets one physical computer behave like several independent computers. It separates the services an application needs—processor, memory, storage and network—from the exact physical machine that supplies them. This makes infrastructure easier to share, manage, scale and recover.</p></div>
+<div class="note"><p><strong>COLOUR GUIDE</strong></p><p><span class="r">RED</span> Directly present in the supplied primary MCA Semester IV paper: prepare thoroughly. <span class="y">YELLOW</span> Appears in the supplied compiled question collection: prepare well, but do not call it a confirmed direct paper question. <span class="b">BLACK</span> No matching question identified in the supplied material: learn the syllabus content without over-expanding it.</p></div>
+<div class="note"><p><strong>HOW THESE NOTES ARE SOURCED</strong></p><p>For student-friendly explanations, use <strong>GeeksforGeeks first</strong>, then TutorialsPoint when it adds useful detail. I checked W3Schools as requested, but did not find a relevant dedicated set of articles for most of these specialist virtualization topics, so I have not added unrelated W3Schools pages just to fill a source list. Where a topic needs product-specific or technically precise confirmation (especially x86, LPAR, VIOS, hypervisor architecture and SAN), I add the relevant official documentation as a verification source. The explanations in this notebook are rewritten in simpler student-friendly language; they are not copied word-for-word. <strong>Important:</strong> GeeksforGeeks is useful for learning, but individual articles can simplify or occasionally blur technical distinctions. I checked key technical claims against official documentation where precision matters and corrected the notes rather than copying a source blindly.</p></div><h2>Contents — Official Unit V Syllabus</h2>
+<div class="tw wide"><table><thead><tr><th>No.</th><th>Topic</th><th>Covered here</th></tr></thead><tbody>
+<tr><td>1</td><td><a href="#t1">Virtualization Defined</a></td><td>Definition, VM, host and guest</td></tr>
+<tr><td>2</td><td><a href="#t2">Virtualization Benefits</a></td><td>Technical and business benefits</td></tr>
+<tr><td>3</td><td><a href="#t3">Server Virtualization</a></td><td>Working, types and hypervisor</td></tr>
+<tr><td>4</td><td><a href="#t4">Virtualization for x86 Architecture</a></td><td>CPU rings and three common techniques</td></tr>
+<tr><td>5</td><td><a href="#t5">Hypervisor Management Software</a></td><td>Management plane, functions and examples</td></tr>
+<tr><td>6</td><td><a href="#t6">Logical Partitioning (LPAR)</a></td><td>Partitions, resource assignment and IBM Power</td></tr>
+<tr><td>7</td><td><a href="#t7">VIO Server (VIOS)</a></td><td>Virtual I/O and shared physical adapters</td></tr>
+<tr><td>8</td><td><a href="#t8">Virtual Infrastructure Requirements</a></td><td>Compute, storage, network, security and operations</td></tr>
+<tr><td>9</td><td><a href="#t9">Storage Virtualization</a></td><td>Pooling, abstraction and types</td></tr>
+<tr><td>10</td><td><a href="#t10">Storage Area Networks (SAN)</a></td><td>Block storage, fabric and protocols</td></tr>
+<tr><td>11</td><td><a href="#t11">Network-Attached Storage (NAS)</a></td><td>File storage, access and protocols</td></tr>
+<tr><td>12</td><td><a href="#t12">Cloud Server Virtualization</a></td><td>Cloud instances, lifecycle and isolation</td></tr>
+<tr><td>13</td><td><a href="#t13">Virtualized Data Center</a></td><td>Integrated compute, network and storage</td></tr>
+<tr><td>14</td><td><a href="#exam">Exam preparation and quick revision</a></td><td>Questions with source status</td></tr>
+</tbody></table></div>
+<section class="tp ty"><h1 id="t1">1. Virtualization Defined</h1>
+<p><span class="y">YELLOW</span> <strong>Start here:</strong> almost every later topic in this unit is built on this idea.</p>
+<h2>1.1 Meaning and definition</h2>
+<p><strong>Virtualization</strong> is the technology of creating a software-based (virtual) version of a computing resource—such as a server, operating system environment, storage device or network—so that multiple logical environments can use the resources of the same physical infrastructure.</p>
+<p>In simple words, virtualization allows one physical machine to act like several separate machines. Each virtual machine can run its own operating system and applications, while a software layer manages how the physical resources are shared.</p>
+<div class="note"><p><strong>Everyday example:</strong> Imagine a large apartment building. The building is one physical structure, but it contains many independent flats. Each flat has its own occupants and private space, while all flats share the building's foundation, lifts and water supply. A physical server is like the building; virtual machines are like the flats; the hypervisor manages the shared foundation and resources.</p></div>
+<h2>1.2 Important terms</h2>
+<div class="tw wide"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><strong>Physical machine / Host</strong></td><td>The real computer or server that contains the processor, RAM, disks and network interfaces.</td></tr>
+<tr><td><strong>Virtual Machine (VM)</strong></td><td>A software-defined computer with virtual CPU, memory, disk and network devices. It behaves like an independent computer.</td></tr>
+<tr><td><strong>Guest OS</strong></td><td>The operating system installed inside a VM, such as Windows Server or Linux.</td></tr>
+<tr><td><strong>Host OS</strong></td><td>The operating system of the physical computer in a hosted (Type 2) hypervisor arrangement.</td></tr>
+<tr><td><strong>Hypervisor / VMM</strong></td><td>Software or firmware that creates and runs VMs and controls their access to physical resources. VMM means Virtual Machine Monitor.</td></tr>
+<tr><td><strong>Virtual resource</strong></td><td>A resource presented to a VM, such as virtual CPU, virtual RAM, virtual disk or virtual network adapter.</td></tr>
+<tr><td><strong>Guest / Host isolation</strong></td><td>Separation that helps prevent one VM from directly interfering with another VM or the host.</td></tr>
+</tbody></table></div>
+<h2>1.3 Basic architecture of virtualization</h2>
+<div class="fig"><svg aria-label="Virtualization stack: physical hardware at bottom, hypervisor above it, and three isolated virtual machines each containing guest operating system and applications" height="430" role="img" viewbox="0 0 900 430" width="900">
+<defs><marker id="u5a1" markerheight="7" markerwidth="7" orient="auto" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0 0L10 5L0 10z" fill="#1d3a8c"></path></marker></defs>
+<rect class="yx" height="70" rx="10" width="790" x="55" y="25"></rect><text class="cap" text-anchor="middle" x="450" y="53">VIRTUAL MACHINES (GUESTS)</text>
+<rect class="bx" height="120" rx="8" width="220" x="85" y="65"></rect><text class="cap" text-anchor="middle" x="195" y="93">VM 1</text><text text-anchor="middle" x="195" y="122">Applications</text><text text-anchor="middle" x="195" y="150">Guest OS: Linux</text>
+<rect class="bx" height="120" rx="8" width="220" x="340" y="65"></rect><text class="cap" text-anchor="middle" x="450" y="93">VM 2</text><text text-anchor="middle" x="450" y="122">Applications</text><text text-anchor="middle" x="450" y="150">Guest OS: Windows</text>
+<rect class="bx" height="120" rx="8" width="220" x="595" y="65"></rect><text class="cap" text-anchor="middle" x="705" y="93">VM 3</text><text text-anchor="middle" x="705" y="122">Applications</text><text text-anchor="middle" x="705" y="150">Guest OS: Linux</text>
+<path class="ln" d="M195 187V225H450V250M450 187V250M705 187V225H450"></path>
+<rect class="rx" height="62" rx="9" width="560" x="170" y="250"></rect><text class="cap" text-anchor="middle" x="450" y="276">HYPERVISOR / VIRTUAL MACHINE MONITOR</text><text text-anchor="middle" x="450" y="299">Creates VMs • allocates resources • enforces isolation</text>
+<path class="ln" d="M450 314V340" marker-end="url(#u5a1)"></path>
+<rect class="yx" height="62" rx="9" width="560" x="170" y="346"></rect><text class="cap" text-anchor="middle" x="450" y="372">PHYSICAL HARDWARE</text><text text-anchor="middle" x="450" y="395">CPU • RAM • Storage • Network interfaces</text>
+</svg></div><p class="cap-p"><em>Figure 1: Basic virtualization stack. Several VMs share one physical host through the hypervisor. Each VM has its own guest operating system and applications.</em></p>
+<h2>1.4 How virtualization works — in order</h2><ol>
+<li>The administrator installs or enables a hypervisor on a physical server.</li><li>The hypervisor detects and manages the host's CPU, memory, storage and network devices.</li><li>The administrator creates a VM and assigns virtual hardware, such as 4 virtual CPUs, 8 GB RAM and a virtual disk.</li><li>An operating system is installed inside that VM. This becomes the guest OS.</li><li>When the guest OS requests CPU time, memory or I/O, the hypervisor manages or mediates access to the underlying physical resources.</li><li>Multiple VMs can run at the same time, subject to the capacity and configuration of the physical host.</li></ol>
+<div class="note"><p><strong>Important distinction:</strong> A VM is not simply a folder or a second user account. It is an isolated computing environment with virtual hardware and its own operating system.</p></div>
+<div class="reading-sources"><p><strong>Read more / verify this topic</strong></p><ul><li><a href="https://www.geeksforgeeks.org/cloud-computing/virtualization-cloud-computing-types/" rel="noopener" target="_blank">GeeksforGeeks — Virtualization in Cloud Computing and Types</a></li><li><a href="https://www.tutorialspoint.com/cloud_computing/pdf/cloud_computing_quick_guide.pdf" rel="noopener" target="_blank">TutorialsPoint — Cloud Computing Quick Guide (Virtualization section)</a></li></ul><p class="source-note">Start with the GeeksforGeeks explanation when available. Use the official reference for exact platform-specific details.</p></div><div class="note video-help"><p><strong>Need a video explanation?</strong> Watch it here without leaving these notes:</p><div class="video-frame"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube-nocookie.com/embed/BNTFJJMh2eU" title="Virtualization and hypervisor basics — M Prashant"></iframe></div><span class="video-note">If the player does not load, use the YouTube link below. Virtualization and hypervisor basics — M Prashant.</span><p><a href="https://www.youtube.com/watch?v=BNTFJJMh2eU" rel="noopener" target="_blank">Watch the Hindi video by M Prashant</a></p></div>
+</section>
+<section class="tp ty"><h1 id="t2">2. Virtualization Benefits</h1>
+<h2>2.1 Major benefits</h2><ol>
+<li><strong>Better resource utilisation:</strong> several workloads can share a powerful server instead of leaving many separate servers underused.</li><li><strong>Server consolidation:</strong> multiple physical servers can be replaced by fewer high-capacity hosts running multiple VMs.</li><li><strong>Lower cost:</strong> consolidation can reduce hardware purchases, electricity, cooling, rack space and maintenance effort.</li><li><strong>Isolation:</strong> workloads run in separate VMs, helping contain faults and separate environments when configured correctly.</li><li><strong>Flexibility and scalability:</strong> administrators can create, resize or remove VMs more easily than purchasing and installing new physical servers.</li><li><strong>Faster deployment:</strong> a VM can be created from a prepared image or template in a short time.</li><li><strong>Portability:</strong> VM files and images can often be copied, migrated or restored on compatible infrastructure.</li><li><strong>Testing and development:</strong> developers can run different operating systems and test environments on one computer.</li><li><strong>Backup and recovery:</strong> snapshots, images and replication can help protect workloads; a snapshot alone is not a complete backup strategy.</li><li><strong>Business continuity:</strong> VMs can be restarted or moved to another suitable host when supported by the platform and architecture.</li></ol>
+<h2>2.2 Limitations and challenges</h2><ul><li><strong>Performance overhead:</strong> virtualisation adds management layers; poorly designed workloads may experience latency or resource contention.</li><li><strong>Resource contention:</strong> too many VMs competing for CPU, RAM, disk I/O or network bandwidth can slow each other down.</li><li><strong>Single-host failure impact:</strong> if one physical host fails, several VMs on it may be affected unless high availability and recovery are configured.</li><li><strong>Management complexity:</strong> virtual environments require monitoring, patching, capacity planning and skilled administration.</li><li><strong>Security risks:</strong> a compromised hypervisor or weakly isolated VM environment can affect multiple workloads.</li><li><strong>Licensing and infrastructure cost:</strong> enterprise hypervisors, management platforms and high-end hardware may be expensive.</li></ul>
+<h2>2.3 Traditional physical servers vs virtualized servers</h2><div class="tw wide"><table><thead><tr><th>Traditional physical setup</th><th>Virtualized setup</th></tr></thead><tbody><tr><td>Often one main workload or OS per physical server.</td><td>Multiple isolated VMs can run on one physical host.</td></tr><tr><td>Capacity expansion often requires purchasing and configuring another server.</td><td>Additional VMs can be created if sufficient host capacity exists.</td></tr><tr><td>Hardware may remain underutilised.</td><td>Workloads can share CPU, memory, storage and network resources.</td></tr><tr><td>Moving a workload may require substantial manual migration.</td><td>VM migration and image-based deployment may simplify movement.</td></tr><tr><td>Failure usually affects workloads on that physical machine.</td><td>Host failure can affect multiple VMs; HA design is therefore important.</td></tr></tbody></table></div>
+<div class="reading-sources"><p><strong>Read more / verify this topic</strong></p><ul><li><a href="https://www.geeksforgeeks.org/cloud-computing/pros-and-cons-of-virtualization-in-cloud-computing/" rel="noopener" target="_blank">GeeksforGeeks — Pros and Cons of Virtualization in Cloud Computing</a></li><li><a href="https://www.geeksforgeeks.org/cloud-computing/virtualization-cloud-computing-types/" rel="noopener" target="_blank">GeeksforGeeks — Virtualization in Cloud Computing and Types</a></li></ul><p class="source-note">Start with the GeeksforGeeks explanation when available. Use the official reference for exact platform-specific details.</p></div><div class="note video-help"><p><strong>Need a video explanation?</strong> If the written explanation is not clear, use this: <a href="https://www.youtube.com/results?search_query=benefits+and+limitations+of+virtualization+in+cloud+computing+Hindi" rel="noopener" target="_blank">Find Hindi video explanations on YouTube</a>. <span>YouTube search pages cannot play inside an embedded video frame. Use this link to choose a topic-specific video; direct videos can be watched here when available.</span></p></div>
+</section>
+<section class="tp ty"><h1 id="t3">3. Server Virtualization</h1>
+<h2>3.1 Definition</h2><p><strong>Server virtualization</strong> is the process of dividing the computing resources of one physical server into multiple virtual servers (VMs), each of which can run its own operating system and applications.</p>
+<p>Instead of purchasing a separate physical server for every application, an organisation can run multiple virtual servers on a powerful physical host. The hypervisor manages the sharing of the underlying resources.</p>
+<h2>3.2 Architecture and working</h2><div class="fig"><svg aria-label="Server virtualization: physical server resources shared by a hypervisor among virtual server A, B and C" height="390" role="img" viewbox="0 0 900 390" width="900">
+<rect class="yx" height="115" rx="9" width="245" x="45" y="30"></rect><text class="cap" text-anchor="middle" x="167" y="58">VIRTUAL SERVER A</text><text text-anchor="middle" x="167" y="88">OS + web application</text><text text-anchor="middle" x="167" y="116">Assigned virtual resources</text>
+<rect class="yx" height="115" rx="9" width="245" x="328" y="30"></rect><text class="cap" text-anchor="middle" x="450" y="58">VIRTUAL SERVER B</text><text text-anchor="middle" x="450" y="88">OS + database</text><text text-anchor="middle" x="450" y="116">Assigned virtual resources</text>
+<rect class="yx" height="115" rx="9" width="245" x="610" y="30"></rect><text class="cap" text-anchor="middle" x="732" y="58">VIRTUAL SERVER C</text><text text-anchor="middle" x="732" y="88">OS + application</text><text text-anchor="middle" x="732" y="116">Assigned virtual resources</text>
+<path class="ln" d="M167 147V180H450V200M450 147V200M732 147V180H450"></path>
+<rect class="rx" height="65" rx="9" width="600" x="150" y="205"></rect><text class="cap" text-anchor="middle" x="450" y="232">HYPERVISOR</text><text text-anchor="middle" x="450" y="256">Schedules CPU • manages memory • virtualises I/O • isolates VMs</text>
+<path class="ln" d="M450 272V300"></path>
+<rect class="bx" height="65" rx="9" width="600" x="150" y="305"></rect><text class="cap" text-anchor="middle" x="450" y="332">ONE PHYSICAL SERVER</text><text text-anchor="middle" x="450" y="356">Processors • RAM • disks • network cards</text>
+</svg></div><p class="cap-p"><em>Figure 2: Server virtualization allows several virtual servers to share one physical server.</em></p>
+<h2>3.3 Types / approaches of server virtualization</h2><div class="tw wide"><table><thead><tr><th>Approach</th><th>Explanation</th><th>Key point</th></tr></thead><tbody>
+<tr><td><strong>Full virtualization</strong></td><td>The hypervisor presents virtual hardware so an unmodified guest OS can run as if it were on a real machine.</td><td>Guest OS usually does not need to know it is virtualized.</td></tr>
+<tr><td><strong>Para-virtualization</strong></td><td>The guest OS is modified or virtualization-aware and cooperates with the hypervisor using hypercalls for certain operations.</td><td>Cooperation can reduce overhead; guest support is required.</td></tr>
+<tr><td><strong>Hardware-assisted virtualization</strong></td><td>Processor features such as Intel VT-x or AMD-V provide hardware support for virtual machine execution.</td><td>Reduces the need for some software workarounds.</td></tr>
+<tr><td><strong>OS-level virtualization</strong></td><td>Multiple isolated user environments share one host OS kernel, as in containers.</td><td>Containers are not the same as full VMs; they share the host kernel.</td></tr></tbody></table></div>
+<p><strong>Note:</strong> Some textbooks classify server virtualization differently (for example, by full, para and hardware-assisted techniques; others also discuss OS-level virtualization). Learn the categories and definitions your course material uses.</p>
+<div class="reading-sources"><p><strong>Read more / verify this topic</strong></p><ul><li><a href="https://www.geeksforgeeks.org/computer-networks/server-virtualization/" rel="noopener" target="_blank">GeeksforGeeks — Server Virtualization</a></li><li><a href="https://www.geeksforgeeks.org/cloud-computing/virtualization-cloud-computing-types/" rel="noopener" target="_blank">GeeksforGeeks — Virtualization in Cloud Computing and Types</a></li></ul><p class="source-note">Start with the GeeksforGeeks explanation when available. Use the official reference for exact platform-specific details.</p></div><div class="note video-help"><p><strong>Need a video explanation?</strong> Watch it here without leaving these notes:</p><div class="video-frame"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube-nocookie.com/embed/eJEk5FKjfUk" title="Server virtualization — 5 Minutes Engineering"></iframe></div><span class="video-note">If the player does not load, use the YouTube link below. Server virtualization — 5 Minutes Engineering.</span><p><a href="https://www.youtube.com/results?search_query=server+virtualization+explained+in+Hindi+cloud+computing" rel="noopener" target="_blank">Find Hindi video explanations on YouTube</a></p></div>
+</section>
+<section class="tp tr"><h1 id="t4">4. Virtualization for x86 Architecture</h1>
+<p><span class="r">RED</span> <strong>Highest-priority area:</strong> the supplied primary MCA Semester IV paper directly asks about the number of x86 virtualization techniques and asks a 15-mark question combining x86 virtualization with a virtualized data center.</p>
+<h2>4.1 What is x86 architecture?</h2><p><strong>x86</strong> is a family of processor instruction-set architectures that originated with Intel's 8086 processor. Modern desktop and server processors commonly use the 32-bit IA-32 or 64-bit x86-64 (also called x64 or AMD64) forms. The architecture defines how software instructions interact with the processor and its execution modes.</p>
+<h2>4.2 Why did x86 virtualization need special techniques?</h2><p>Traditional x86 processors were designed mainly for one operating system to control the machine. The operating system kernel executes privileged instructions and manages memory and devices. When several guest operating systems are run on one physical processor, the hypervisor must safely control privileged operations while making each guest believe it has its own computer.</p>
+<p>In the classic x86 protection model, privilege levels are called <strong>rings</strong>. Ring 0 is the most privileged level and is traditionally used by the OS kernel; Ring 3 is used by ordinary applications. Rings 1 and 2 exist in the architecture but are rarely used by mainstream operating systems.</p>
+<div class="fig"><svg aria-label="Simplified x86 privilege rings: ring 0 is most privileged for operating system kernel, ring 1 and 2 are generally unused by mainstream operating systems, ring 3 is for applications" height="330" role="img" viewbox="0 0 900 330" width="900">
+<rect class="yx" height="58" rx="8" width="600" x="150" y="25"></rect><text class="cap" text-anchor="middle" x="450" y="49">RING 3 — USER MODE</text><text text-anchor="middle" x="450" y="72">Ordinary applications</text>
+<rect class="bx" height="48" rx="8" width="520" x="190" y="92"></rect><text text-anchor="middle" x="450" y="122">RING 2 — Rarely used by mainstream OSs</text>
+<rect class="bx" height="48" rx="8" width="440" x="230" y="149"></rect><text text-anchor="middle" x="450" y="179">RING 1 — Rarely used by mainstream OSs</text>
+<rect class="rx" height="72" rx="8" width="360" x="270" y="206"></rect><text class="cap" text-anchor="middle" x="450" y="234">RING 0 — KERNEL MODE</text><text text-anchor="middle" x="450" y="260">Operating system kernel</text>
+<text class="cap" text-anchor="middle" x="450" y="310">Higher privilege is closer to Ring 0</text>
+</svg></div><p class="cap-p"><em>Figure 3: Simplified x86 privilege-ring model. This explains the privilege problem; it is not a complete diagram of modern hardware-assisted virtualization.</em></p>
+<h2>4.3 Three commonly taught x86 virtualization techniques</h2><p>For this unit, the three commonly taught techniques are <strong>full virtualization, para-virtualization and hardware-assisted virtualization</strong>.</p>
+<h3>A. Full virtualization</h3><ul><li>The hypervisor provides a complete virtual hardware environment to the guest operating system.</li><li>The guest OS can run without being modified for virtualization.</li><li>The hypervisor handles sensitive or privileged operations, using techniques such as binary translation or trap-and-emulate depending on the platform.</li><li><strong>Advantage:</strong> good compatibility with unmodified operating systems.</li><li><strong>Limitation:</strong> some workloads may experience extra overhead due to instruction handling and device emulation.</li></ul>
+<h3>B. Para-virtualization</h3><ul><li>The guest operating system is modified or otherwise made aware that it is running in a virtual environment.</li><li>For certain privileged operations, the guest makes explicit calls to the hypervisor. These are called <strong>hypercalls</strong>.</li><li><strong>Advantage:</strong> cooperation can reduce the overhead associated with emulating certain operations.</li><li><strong>Limitation:</strong> guest OS support or modification is required; this can reduce compatibility.</li></ul>
+<h3>C. Hardware-assisted virtualization</h3><ul><li>The processor provides special virtualization extensions, such as <strong>Intel VT-x</strong> and <strong>AMD-V</strong>.</li><li>These extensions provide processor support for switching between hypervisor and guest execution contexts.</li><li>The guest OS can run with its expected kernel privilege inside a controlled guest mode, while the hypervisor retains control over the physical machine.</li><li><strong>Advantage:</strong> improves support for unmodified guest operating systems and reduces the need for some software techniques.</li><li><strong>Limitation:</strong> compatible processor, firmware settings and hypervisor support are required; hardware assistance does not remove all virtualization overhead.</li></ul>
+<h2>4.4 Comparison of the three techniques</h2><div class="tw wide"><table><thead><tr><th>Basis</th><th>Full virtualization</th><th>Para-virtualization</th><th>Hardware-assisted</th></tr></thead><tbody>
+<tr><td>Guest OS modification</td><td>Usually not required</td><td>Usually required or guest must be virtualization-aware</td><td>Usually not required for CPU virtualization</td></tr>
+<tr><td>How it works</td><td>Virtual hardware is presented; sensitive operations are handled by hypervisor</td><td>Guest cooperates with hypervisor using hypercalls</td><td>CPU virtualization extensions assist execution</td></tr>
+<tr><td>Compatibility</td><td>High with supported unmodified OSs</td><td>Depends on guest OS support</td><td>High with supported unmodified OSs</td></tr>
+<tr><td>Examples / terms</td><td>Binary translation, trap-and-emulate</td><td>Hypercalls; classic Xen PV</td><td>Intel VT-x, AMD-V</td></tr>
+<tr><td>Main trade-off</td><td>May require more software handling</td><td>Needs guest cooperation</td><td>Needs hardware support and correct configuration</td></tr></tbody></table></div>
+<div class="note"><p><strong>Exam memory line:</strong> Full = virtual hardware; Para = guest cooperates; Hardware-assisted = CPU helps. If asked “How many commonly taught x86 virtualization techniques are there?”, answer <strong>three</strong> and name all three.</p></div>
+<h2>4.5 Binary translation and trap-and-emulate</h2><p>These are mechanisms that may be used in full virtualization:</p><ul><li><strong>Trap-and-emulate:</strong> when a guest performs a sensitive operation that must be controlled, execution traps to the hypervisor. The hypervisor safely handles the operation and returns control to the guest.</li><li><strong>Binary translation:</strong> the virtualization layer dynamically rewrites certain guest instruction sequences into safe sequences before execution, allowing the guest OS to run without modification on platforms where direct execution is unsafe.</li></ul>
+<p>Do not confuse these mechanisms with the three broad technique categories above. Binary translation is a method used by some full-virtualization implementations; it is not normally listed as a fourth broad category in this three-part classification.</p>
+<h2>4.6 Hardware support: Intel VT-x and AMD-V</h2><p>Intel VT-x and AMD-V add processor capabilities designed to support virtual machine execution. They allow the hypervisor to control transitions between guest execution and hypervisor control, and support safer handling of privileged operations. Memory virtualisation extensions (such as Intel EPT or AMD NPT/RVI) help translate guest memory addresses efficiently.</p>
+<p><strong>Practical note:</strong> On many computers, virtualization support may need to be enabled in BIOS/UEFI settings. The exact setting name varies by manufacturer.</p>
+<div class="reading-sources"><p><strong>Read more / verify this topic</strong></p><ul><li><a href="https://www.geeksforgeeks.org/operating-systems/virtualization-vmware-full-virtualization/" rel="noopener" target="_blank">GeeksforGeeks — Full Virtualization</a></li><li><a href="https://www.geeksforgeeks.org/cloud-computing/virtualization-xen-paravirtualization/" rel="noopener" target="_blank">GeeksforGeeks — Xen: Paravirtualization</a></li><li><a href="https://www.geeksforgeeks.org/computer-networks/hardware-based-virtualization/" rel="noopener" target="_blank">GeeksforGeeks — Hardware Based Virtualization</a></li><li><a href="https://csrc.nist.gov/pubs/sp/800/125/final" rel="noopener" target="_blank">NIST — Guide to Security for Full Virtualization Technologies</a></li></ul><p class="source-note">Start with the GeeksforGeeks explanation when available. Use the official reference for exact platform-specific details.</p></div><div class="note video-help"><p><strong>Need a video explanation?</strong> If the written explanation is not clear, use this: <a href="https://www.youtube.com/results?search_query=x86+virtualization+full+virtualization+para+virtualization+hardware+assisted+virtualization+Hindi" rel="noopener" target="_blank">Find Hindi video explanations on YouTube</a>. <span>YouTube search pages cannot play inside an embedded video frame. Use this link to choose a topic-specific video; direct videos can be watched here when available.</span></p></div>
+</section>
+<section class="tp ty"><h1 id="t5">5. Hypervisor Management Software</h1>
+<h2>5.1 Meaning</h2><p><strong>Hypervisor management software</strong> is the management layer or platform used by administrators to configure, monitor and control hypervisors and their virtual machines. The hypervisor runs and isolates VMs; the management software provides convenient central administration of one or more hosts and VMs.</p>
+<h2>5.2 Main functions</h2><ol><li><strong>VM creation:</strong> create VMs from templates or installation media.</li><li><strong>Resource allocation:</strong> assign virtual CPUs, RAM, virtual disks and network adapters.</li><li><strong>Power and lifecycle control:</strong> start, stop, restart, pause, clone and delete VMs.</li><li><strong>Monitoring:</strong> view CPU, memory, storage and network utilisation, as well as alerts.</li><li><strong>Migration:</strong> move a running or stopped VM between compatible hosts when supported (for example, live migration).</li><li><strong>High availability:</strong> coordinate VM restart on another host after a host failure when the cluster is configured for it.</li><li><strong>Snapshots and templates:</strong> capture VM state for short-term rollback/testing and standardise deployment. A snapshot is not a substitute for an independent backup.</li><li><strong>Access control:</strong> define administrator roles and permissions.</li><li><strong>Network and storage configuration:</strong> connect virtual switches, datastores and storage paths to VMs.</li><li><strong>Capacity planning:</strong> identify resource pressure and plan host expansion.</li></ol>
+<h2>5.3 Hypervisor types</h2><div class="tw wide"><table><thead><tr><th>Type 1 — Bare-metal</th><th>Type 2 — Hosted</th></tr></thead><tbody><tr><td>Runs directly on the physical server hardware.</td><td>Runs as an application on top of a host operating system.</td></tr><tr><td>Common in data centers and production server environments.</td><td>Common on personal computers for learning, testing and development.</td></tr><tr><td>Fewer software layers between hypervisor and hardware; generally efficient for server workloads.</td><td>Hardware access passes through the host OS, adding another software layer.</td></tr><tr><td>Examples: VMware ESXi, Microsoft Hyper-V (architecture-specific), Xen; KVM is commonly deployed as a type-1-style hypervisor integrated with Linux.</td><td>Examples: Oracle VirtualBox, VMware Workstation.</td></tr></tbody></table></div>
+<div class="fig"><svg aria-label="Comparison of Type 1 bare-metal hypervisor running directly on hardware and Type 2 hosted hypervisor running above a host operating system" height="360" role="img" viewbox="0 0 900 360" width="900">
+<rect class="yx" height="52" rx="8" width="390" x="35" y="22"></rect><text class="cap" text-anchor="middle" x="230" y="54">TYPE 1 — BARE METAL</text>
+<rect class="bx" height="52" rx="8" width="310" x="75" y="92"></rect><text text-anchor="middle" x="230" y="124">Virtual Machines (Guest OSs)</text>
+<rect class="rx" height="52" rx="8" width="310" x="75" y="158"></rect><text class="cap" text-anchor="middle" x="230" y="190">Hypervisor</text>
+<rect class="yx" height="52" rx="8" width="310" x="75" y="224"></rect><text text-anchor="middle" x="230" y="256">Physical Hardware</text>
+<rect class="yx" height="52" rx="8" width="390" x="475" y="22"></rect><text class="cap" text-anchor="middle" x="670" y="54">TYPE 2 — HOSTED</text>
+<rect class="bx" height="52" rx="8" width="310" x="515" y="92"></rect><text text-anchor="middle" x="670" y="124">Virtual Machines (Guest OSs)</text>
+<rect class="rx" height="52" rx="8" width="310" x="515" y="158"></rect><text class="cap" text-anchor="middle" x="670" y="190">Hosted Hypervisor</text>
+<rect class="bx" height="52" rx="8" width="310" x="515" y="224"></rect><text text-anchor="middle" x="670" y="256">Host Operating System</text>
+<rect class="yx" height="52" rx="8" width="310" x="515" y="290"></rect><text text-anchor="middle" x="670" y="322">Physical Hardware</text>
+</svg></div><p class="cap-p"><em>Figure 4: Type 1 has no general-purpose host OS layer underneath the hypervisor; Type 2 runs above a host OS.</em></p>
+<h2>5.4 Examples of management platforms</h2><ul><li><strong>VMware vCenter Server:</strong> central management for VMware vSphere environments.</li><li><strong>Microsoft Windows Admin Center / Hyper-V Manager / System Center Virtual Machine Manager:</strong> tools used to manage Hyper-V hosts and virtual machines, depending on deployment.</li><li><strong>Proxmox VE:</strong> web-based management platform for KVM virtual machines and Linux containers.</li><li><strong>IBM Hardware Management Console (HMC):</strong> manages IBM Power Systems partitions and related PowerVM resources.</li></ul>
+<p><strong>Remember:</strong> The hypervisor performs the core virtualization work. A management platform helps administrators control the hypervisor environment at scale.</p>
+<div class="reading-sources"><p><strong>Read more / verify this topic</strong></p><ul><li><a href="https://www.geeksforgeeks.org/system-design/hypervisor/" rel="noopener" target="_blank">GeeksforGeeks — Hypervisor</a></li><li><a href="https://www.geeksforgeeks.org/computer-networks/hardware-based-virtualization/" rel="noopener" target="_blank">GeeksforGeeks — Hardware Based Virtualization</a></li><li><a href="https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/architecture" rel="noopener" target="_blank">Microsoft Learn — Hyper-V Architecture</a></li></ul><p class="source-note">Start with the GeeksforGeeks explanation when available. Use the official reference for exact platform-specific details.</p></div><div class="note video-help"><p><strong>Need a video explanation?</strong> Watch it here without leaving these notes:</p><div class="video-frame"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube-nocookie.com/embed/qmPCBBBrc00" title="Hypervisor explained — 5 Minutes Engineering"></iframe></div><span class="video-note">If the player does not load, use the YouTube link below. Hypervisor explained — 5 Minutes Engineering.</span><p><a href="https://www.youtube.com/watch?v=qmPCBBBrc00" rel="noopener" target="_blank">Watch the Hindi video by 5 Minutes Engineering</a></p></div>
+</section>
+<section class="tp ty"><h1 id="t6">6. Logical Partitioning (LPAR)</h1>
+<h2>6.1 Definition</h2><p><strong>Logical Partitioning (LPAR)</strong> is a technology that divides one physical server into multiple independent logical partitions. Each partition behaves like a separate logical computer and can run its own operating system and applications using the processor, memory and I/O resources assigned to it.</p>
+<p>LPAR is strongly associated with IBM Power Systems and PowerVM. A partition is not necessarily a separate physical server; it is a logically separated environment created from shared hardware.</p>
+<h2>6.2 How LPAR works</h2><ol><li>A physical Power server contains processors, memory and I/O devices.</li><li>The Power Hypervisor (firmware layer) creates and maintains logical partitions.</li><li>The administrator assigns processor capacity, memory and I/O resources to each partition.</li><li>Each LPAR boots its own supported operating system, such as AIX, IBM i or Linux.</li><li>Partitions operate independently while the hypervisor controls access to the underlying physical resources.</li></ol>
+<div class="fig"><svg aria-label="IBM Power LPAR diagram showing one physical server with Power Hypervisor dividing hardware resources among three independent logical partitions, each running its own operating system" height="390" role="img" viewbox="0 0 900 390" width="900">
+<rect class="yx" height="50" rx="8" width="810" x="45" y="20"></rect><text class="cap" text-anchor="middle" x="450" y="51">ONE PHYSICAL IBM POWER SERVER</text>
+<rect class="rx" height="54" rx="8" width="810" x="45" y="85"></rect><text class="cap" text-anchor="middle" x="450" y="118">POWER HYPERVISOR / POWERVM PARTITIONING LAYER</text>
+<path class="ln" d="M190 140V164M450 140V164M710 140V164"></path>
+<rect class="bx" height="130" rx="8" width="250" x="55" y="170"></rect><text class="cap" text-anchor="middle" x="180" y="198">LPAR 1</text><text text-anchor="middle" x="180" y="229">AIX / Linux</text><text text-anchor="middle" x="180" y="257">Assigned CPU + RAM</text><text text-anchor="middle" x="180" y="281">Virtual or dedicated I/O</text>
+<rect class="bx" height="130" rx="8" width="250" x="325" y="170"></rect><text class="cap" text-anchor="middle" x="450" y="198">LPAR 2</text><text text-anchor="middle" x="450" y="229">IBM i / Linux</text><text text-anchor="middle" x="450" y="257">Assigned CPU + RAM</text><text text-anchor="middle" x="450" y="281">Virtual or dedicated I/O</text>
+<rect class="bx" height="130" rx="8" width="250" x="595" y="170"></rect><text class="cap" text-anchor="middle" x="720" y="198">LPAR 3</text><text text-anchor="middle" x="720" y="229">VIOS / AIX / Linux</text><text text-anchor="middle" x="720" y="257">Assigned CPU + RAM</text><text text-anchor="middle" x="720" y="281">Virtual or dedicated I/O</text>
+<text class="cap" text-anchor="middle" x="450" y="340">Partitions are logically isolated but share the physical server</text>
+</svg></div><p class="cap-p"><em>Figure 5: Logical partitioning on an IBM Power server. Exact operating systems and resource assignments depend on the model and configuration.</em></p>
+<h2>6.3 Types of resource assignment</h2><ul><li><strong>Dedicated resources:</strong> a processor or I/O resource is assigned exclusively to a partition.</li><li><strong>Shared processor capacity:</strong> processor capacity is drawn from a shared pool and scheduled among eligible partitions.</li><li><strong>Dynamic LPAR (DLPAR):</strong> supported resources, such as processors, memory or I/O, can be added to or removed from a running partition under supported conditions.</li></ul>
+<h2>6.4 Benefits of LPAR</h2><ul><li>Runs multiple independent operating-system environments on one physical server.</li><li>Improves utilisation and server consolidation.</li><li>Separates workloads for administration, testing and security boundaries.</li><li>Allows flexible resource allocation, including supported dynamic changes.</li><li>Can reduce data-center space, power and hardware requirements.</li></ul>
+<h2>6.5 LPAR vs ordinary VM — useful distinction</h2><p>Both provide isolated logical computing environments. LPAR is IBM Power's logical partitioning technology, managed by the Power Hypervisor/PowerVM. A conventional VM is a virtual machine created by a hypervisor platform such as VMware ESXi, Hyper-V or KVM. The precise implementation, hardware integration and resource controls differ by platform.</p>
+<div class="reading-sources"><p><strong>Read more / verify this topic</strong></p><ul><li><a href="https://www.ibm.com/docs/en/power10/0000-REF?topic=POWER10_REF%2Fp10jak%2Fp10jak_managing_lpars_concept.html" rel="noopener" target="_blank">IBM Documentation — Managing logical partitions (LPARs)</a></li><li><a href="https://www.geeksforgeeks.org/cloud-computing/virtualization-cloud-computing-types/" rel="noopener" target="_blank">GeeksforGeeks — Virtualization in Cloud Computing and Types (general virtualization background)</a></li></ul><p class="source-note">LPAR and VIOS are IBM Power technologies; the IBM documentation is the authoritative source for their exact behaviour.</p></div><div class="note video-help"><p><strong>Need a video explanation?</strong> If the written explanation is not clear, use this: <a href="https://www.youtube.com/results?search_query=IBM+PowerVM+logical+partitioning+LPAR+explained+Hindi" rel="noopener" target="_blank">Find Hindi video explanations on YouTube</a>. <span>YouTube search pages cannot play inside an embedded video frame. Use this link to choose a topic-specific video; direct videos can be watched here when available.</span></p></div>
+</section>
+<section class="tp ty"><h1 id="t7">7. VIO Server (VIOS)</h1>
+<h2>7.1 Definition</h2><p><strong>Virtual I/O Server (VIOS)</strong> is an IBM PowerVM component that runs inside a dedicated logical partition and allows client logical partitions to share physical I/O resources—such as storage and network adapters—through virtual devices.</p>
+<p>In simple terms, VIOS acts as an I/O sharing layer. Instead of giving every client LPAR its own physical adapter, the system can connect client partitions to virtual adapters that are backed by physical devices managed by VIOS.</p>
+<h2>7.2 VIOS architecture</h2><div class="fig"><svg aria-label="VIOS architecture showing client logical partitions connected through virtual SCSI and virtual Ethernet to a dedicated VIOS partition, which connects to physical storage and network adapters" height="430" role="img" viewbox="0 0 900 430" width="900">
+<rect class="bx" height="105" rx="8" width="245" x="40" y="20"></rect><text class="cap" text-anchor="middle" x="162" y="49">CLIENT LPAR A</text><text text-anchor="middle" x="162" y="79">Guest OS + applications</text><text text-anchor="middle" x="162" y="105">Virtual SCSI / Ethernet</text>
+<rect class="bx" height="105" rx="8" width="245" x="328" y="20"></rect><text class="cap" text-anchor="middle" x="450" y="49">CLIENT LPAR B</text><text text-anchor="middle" x="450" y="79">Guest OS + applications</text><text text-anchor="middle" x="450" y="105">Virtual SCSI / Ethernet</text>
+<rect class="bx" height="105" rx="8" width="245" x="615" y="20"></rect><text class="cap" text-anchor="middle" x="737" y="49">CLIENT LPAR C</text><text text-anchor="middle" x="737" y="79">Guest OS + applications</text><text text-anchor="middle" x="737" y="105">Virtual SCSI / Ethernet</text>
+<path class="ln" d="M162 127V155H450V178M450 127V178M737 127V155H450"></path>
+<rect class="rx" height="82" rx="9" width="530" x="185" y="183"></rect><text class="cap" text-anchor="middle" x="450" y="211">DEDICATED VIOS PARTITION</text><text text-anchor="middle" x="450" y="239">Virtual SCSI target • Shared Ethernet Adapter • Virtual Fibre Channel</text>
+<path class="ln" d="M450 267V300"></path>
+<rect class="yx" height="80" rx="8" width="340" x="60" y="306"></rect><text class="cap" text-anchor="middle" x="230" y="336">PHYSICAL STORAGE</text><text text-anchor="middle" x="230" y="365">Disks / SAN / Fibre Channel</text>
+<rect class="yx" height="80" rx="8" width="340" x="500" y="306"></rect><text class="cap" text-anchor="middle" x="670" y="336">PHYSICAL NETWORK</text><text text-anchor="middle" x="670" y="365">Ethernet adapters / external LAN</text>
+<path class="ln" d="M450 300H230V306M450 300H670V306"></path>
+</svg></div><p class="cap-p"><em>Figure 6: Conceptual VIOS arrangement. Client LPARs use virtual adapters; VIOS connects those virtual devices to physical I/O resources.</em></p>
+<h2>7.3 Main functions of VIOS</h2><ul><li><strong>Virtual SCSI:</strong> presents storage to client partitions through virtual SCSI adapters.</li><li><strong>Shared Ethernet Adapter (SEA):</strong> allows client partitions to communicate with external networks using physical network adapters assigned to VIOS.</li><li><strong>Virtual Fibre Channel:</strong> provides virtual Fibre Channel connectivity to storage networks when supported and configured.</li><li><strong>Resource sharing:</strong> allows multiple client LPARs to use shared physical I/O devices.</li><li><strong>Reduced adapter requirement:</strong> can reduce the number of physical I/O adapters needed for a group of partitions.</li></ul>
+<h2>7.4 Advantages and limitations</h2><div class="tw"><table><thead><tr><th>Advantages</th><th>Points to plan carefully</th></tr></thead><tbody><tr><td>Improves utilisation of physical I/O adapters.</td><td>VIOS becomes an important shared dependency for client I/O.</td></tr><tr><td>Can reduce hardware and cabling requirements.</td><td>Failure or misconfiguration can affect multiple client partitions.</td></tr><tr><td>Provides flexible virtual storage and network connectivity.</td><td>Needs correct redundancy, backups, patching and monitoring.</td></tr><tr><td>Can simplify the I/O layout of a Power server.</td><td>Performance depends on adapter capacity and configuration.</td></tr></tbody></table></div>
+<div class="note"><p><strong>Do not confuse:</strong> VIOS is not a general-purpose cloud operating system and is not the same as a hypervisor. It is a specialised IBM Power partition that provides virtual I/O services to other partitions.</p></div>
+<div class="reading-sources"><p><strong>Read more / verify this topic</strong></p><ul><li><a href="https://www.ibm.com/docs/en/power10?topic=server-virtual-io-overview" rel="noopener" target="_blank">IBM Documentation — Virtual I/O Server overview</a></li></ul><p class="source-note">VIOS is an IBM PowerVM-specific component. Use IBM documentation as the primary authority; general virtualization articles do not describe all VIOS details.</p></div><div class="note video-help"><p><strong>Need a video explanation?</strong> If the written explanation is not clear, use this: <a href="https://www.youtube.com/results?search_query=IBM+Virtual+I%2FO+Server+VIOS+explained+PowerVM+Hindi" rel="noopener" target="_blank">Find Hindi video explanations on YouTube</a>. <span>YouTube search pages cannot play inside an embedded video frame. Use this link to choose a topic-specific video; direct videos can be watched here when available.</span></p></div>
+</section>
+<section class="tp ty"><h1 id="t8">8. Virtual Infrastructure Requirements</h1>
+<h2>8.1 What is a virtual infrastructure?</h2><p>A <strong>virtual infrastructure</strong> is the complete set of physical hardware, virtualization software, virtual machines, storage, networking, security and management tools required to operate a virtualized IT environment.</p>
+<h2>8.2 Main requirements</h2><div class="tw wide"><table><thead><tr><th>Requirement</th><th>What is needed and why</th></tr></thead><tbody>
+<tr><td><strong>1. Compute hardware</strong></td><td>Compatible CPUs with sufficient cores, memory capacity and hardware virtualization support (for example Intel VT-x or AMD-V where required).</td></tr>
+<tr><td><strong>2. Hypervisor platform</strong></td><td>A supported hypervisor to create, run, isolate and manage VMs.</td></tr>
+<tr><td><strong>3. Memory (RAM)</strong></td><td>Enough physical RAM for the host and its VMs, with allowance for peaks and overhead.</td></tr>
+<tr><td><strong>4. Storage</strong></td><td>Reliable disks or shared storage with adequate capacity, IOPS, throughput, backup and recovery.</td></tr>
+<tr><td><strong>5. Network</strong></td><td>Physical NICs, switches, VLANs or virtual networks, sufficient bandwidth and redundant paths.</td></tr>
+<tr><td><strong>6. Management tools</strong></td><td>Tools for provisioning, monitoring, migration, access control, patching and capacity management.</td></tr>
+<tr><td><strong>7. Security</strong></td><td>Strong administrator authentication, role-based access, patching, secure configuration, network segmentation and logging.</td></tr>
+<tr><td><strong>8. Availability and backup</strong></td><td>Redundant power, cooling, network and storage paths; tested backups and disaster recovery procedures.</td></tr>
+<tr><td><strong>9. Facility and power</strong></td><td>Suitable rack space, electricity, cooling, fire protection and physical security for on-premises systems.</td></tr>
+<tr><td><strong>10. Skills and processes</strong></td><td>Trained administrators, documentation, change control, monitoring and incident response.</td></tr>
+</tbody></table></div>
+<h2>8.3 Capacity planning — do not simply count VMs</h2><p>A server's ability to host VMs depends on the resources each workload needs. An administrator should estimate average and peak CPU use, RAM, storage capacity, storage performance, network throughput and expected growth. Overcommitting resources can improve utilisation, but excessive overcommitment can cause performance problems.</p>
+<h2>8.4 Simple planning example</h2><p>A small organisation wants to run a web server, database server and development server. It should first estimate the CPU, memory, disk and network needs of all three workloads. It then selects a compatible host and hypervisor, plans separate virtual networks where appropriate, provides reliable storage and backup, and configures monitoring and administrator access. Only after checking total capacity should it decide how many VMs can safely run on the host.</p>
+<div class="reading-sources"><p><strong>Read more / verify this topic</strong></p><ul><li><a href="https://www.geeksforgeeks.org/cloud-computing/architecture-of-cloud-computing/" rel="noopener" target="_blank">GeeksforGeeks — Architecture of Cloud Computing</a></li><li><a href="https://www.tutorialspoint.com/cloud_computing/pdf/cloud_computing_quick_guide.pdf" rel="noopener" target="_blank">TutorialsPoint — Cloud Computing Quick Guide</a></li></ul><p class="source-note">Start with the GeeksforGeeks explanation when available. Use the official reference for exact platform-specific details.</p></div><div class="note video-help"><p><strong>Need a video explanation?</strong> If the written explanation is not clear, use this: <a href="https://www.youtube.com/results?search_query=virtual+infrastructure+requirements+compute+storage+network+security+cloud+computing+Hindi" rel="noopener" target="_blank">Find Hindi video explanations on YouTube</a>. <span>YouTube search pages cannot play inside an embedded video frame. Use this link to choose a topic-specific video; direct videos can be watched here when available.</span></p></div>
+</section>
+<section class="tp ty"><h1 id="t9">9. Storage Virtualization</h1>
+<h2>9.1 Definition</h2><p><strong>Storage virtualization</strong> is the process of combining or abstracting storage capacity from multiple physical storage devices and presenting it to servers or applications as logical storage resources.</p>
+<p>Instead of requiring an administrator to manage every physical disk separately, storage virtualization creates a logical view—such as a virtual volume, pool or datastore—that can be allocated to workloads.</p>
+<h2>9.2 How it works</h2><ol><li>Multiple physical storage devices are connected to a storage system or network.</li><li>Storage virtualization software or a storage controller abstracts the physical devices.</li><li>The devices may be combined into logical pools.</li><li>The administrator creates logical volumes or file shares from those pools.</li><li>Servers and VMs access the logical storage without needing to manage the physical disk layout directly.</li><li>The storage system maps logical requests to the appropriate physical locations.</li></ol>
+<div class="fig"><svg aria-label="Storage virtualization combines multiple physical disk arrays into a logical storage pool and presents virtual volumes to servers and virtual machines" height="370" role="img" viewbox="0 0 900 370" width="900">
+<rect class="yx" height="55" rx="8" width="830" x="35" y="25"></rect><text class="cap" text-anchor="middle" x="450" y="59">SERVERS AND VIRTUAL MACHINES</text>
+<path class="ln" d="M450 82V112"></path>
+<rect class="rx" height="64" rx="8" width="580" x="160" y="118"></rect><text class="cap" text-anchor="middle" x="450" y="145">STORAGE VIRTUALIZATION LAYER</text><text text-anchor="middle" x="450" y="169">Abstracts devices • builds pools • maps logical volumes</text>
+<path class="ln" d="M450 184V212M180 212H720M180 212V235M450 212V235M720 212V235"></path>
+<rect class="bx" height="85" rx="8" width="230" x="65" y="240"></rect><text class="cap" text-anchor="middle" x="180" y="270">ARRAY A</text><text text-anchor="middle" x="180" y="299">Physical disks</text>
+<rect class="bx" height="85" rx="8" width="230" x="335" y="240"></rect><text class="cap" text-anchor="middle" x="450" y="270">ARRAY B</text><text text-anchor="middle" x="450" y="299">Physical disks</text>
+<rect class="bx" height="85" rx="8" width="230" x="605" y="240"></rect><text class="cap" text-anchor="middle" x="720" y="270">ARRAY C</text><text text-anchor="middle" x="720" y="299">Physical disks</text>
+<text class="cap" text-anchor="middle" x="450" y="355">Logical storage is presented separately from physical disk layout</text>
+</svg></div><p class="cap-p"><em>Figure 7: Storage virtualization hides the complexity of physical devices and presents logical storage to servers.</em></p>
+<h2>9.3 Benefits</h2><ul><li>Centralised storage administration.</li><li>Better utilisation by pooling unused capacity.</li><li>Flexible allocation and expansion of logical volumes.</li><li>Can support data migration between physical devices with less disruption, depending on the platform.</li><li>Can simplify snapshots, replication, tiering and backup integration.</li><li>Can improve availability when redundancy and replication are properly designed.</li></ul>
+<h2>9.4 Common forms of storage virtualization</h2><ul><li><strong>Block-level virtualization:</strong> physical storage blocks are abstracted and presented as logical block devices or volumes. Common in SAN environments.</li><li><strong>File-level virtualization:</strong> abstracts the location of files and presents a unified namespace or file access layer. Common in NAS environments.</li><li><strong>Object storage abstraction:</strong> data is managed as objects with identifiers and metadata, usually accessed through APIs. This is common in cloud object storage, although object storage is not simply another name for SAN or NAS.</li></ul>
+<div class="reading-sources"><p><strong>Read more / verify this topic</strong></p><ul><li><a href="https://www.geeksforgeeks.org/cloud-computing/virtualization-cloud-computing-types/" rel="noopener" target="_blank">GeeksforGeeks — Virtualization in Cloud Computing and Types (Storage Virtualization section)</a></li><li><a href="https://www.tutorialspoint.com/cloud_computing/pdf/cloud_computing_quick_guide.pdf" rel="noopener" target="_blank">TutorialsPoint — Cloud Computing Quick Guide (Virtualization section)</a></li></ul><p class="source-note">Start with the GeeksforGeeks explanation when available. Use the official reference for exact platform-specific details.</p></div><div class="note video-help"><p><strong>Need a video explanation?</strong> Watch it here without leaving these notes:</p><div class="video-frame"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube-nocookie.com/embed/OUq-zNNTxBQ" title="Storage virtualization — 5 Minutes Engineering"></iframe></div><span class="video-note">If the player does not load, use the YouTube link below. Storage virtualization — 5 Minutes Engineering.</span><p><a href="https://www.youtube.com/results?search_query=storage+virtualization+explained+in+Hindi+cloud+computing" rel="noopener" target="_blank">Find Hindi video explanations on YouTube</a></p></div>
+</section>
+<section class="tp ty"><h1 id="t10">10. Storage Area Network (SAN)</h1>
+<h2>10.1 Definition</h2><p>A <strong>Storage Area Network (SAN)</strong> is a dedicated high-speed network that connects servers to shared storage systems and presents storage to servers primarily as block devices, similar to locally attached disks.</p>
+<h2>10.2 Main components</h2><ul><li><strong>Hosts / servers:</strong> systems that need access to shared storage.</li><li><strong>Host Bus Adapter (HBA):</strong> interface in a server used to connect to a storage network, commonly Fibre Channel.</li><li><strong>SAN switches / fabric:</strong> connect hosts and storage arrays and carry storage traffic.</li><li><strong>Storage arrays:</strong> systems containing disks or flash storage and controllers.</li><li><strong>Logical Unit Number (LUN):</strong> an addressable logical storage unit presented to a host.</li><li><strong>Multipathing:</strong> multiple physical paths between a server and storage to improve availability and sometimes performance.</li></ul>
+<h2>10.3 How SAN works</h2><ol><li>An administrator creates a logical volume or LUN on the storage array.</li><li>The storage network connects the server to the storage system through switches and adapters.</li><li>Access controls (such as zoning and LUN masking) determine which hosts can access the storage.</li><li>The server discovers the LUN and uses it as a block device, often formatting it with a file system or using it for a database.</li><li>Read and write requests travel over the SAN fabric to the storage array.</li></ol>
+<div class="fig"><svg aria-label="SAN diagram showing multiple servers connected by host bus adapters through a dedicated SAN switch fabric to shared block storage array" height="350" role="img" viewbox="0 0 900 350" width="900">
+<rect class="bx" height="95" rx="8" width="235" x="35" y="25"></rect><text class="cap" text-anchor="middle" x="152" y="55">SERVER 1</text><text text-anchor="middle" x="152" y="83">Application / database</text><text text-anchor="middle" x="152" y="106">HBA</text>
+<rect class="bx" height="95" rx="8" width="235" x="35" y="220"></rect><text class="cap" text-anchor="middle" x="152" y="250">SERVER 2</text><text text-anchor="middle" x="152" y="278">Virtualization host</text><text text-anchor="middle" x="152" y="301">HBA</text>
+<rect class="rx" height="135" rx="8" width="210" x="350" y="100"></rect><text class="cap" text-anchor="middle" x="455" y="135">SAN FABRIC</text><text text-anchor="middle" x="455" y="166">Dedicated switches</text><text text-anchor="middle" x="455" y="194">Fibre Channel / iSCSI</text>
+<rect class="yx" height="135" rx="8" width="225" x="640" y="100"></rect><text class="cap" text-anchor="middle" x="752" y="135">SHARED STORAGE ARRAY</text><text text-anchor="middle" x="752" y="166">Logical volumes / LUNs</text><text text-anchor="middle" x="752" y="194">Block storage</text>
+<path class="ln" d="M272 72H310V135H350M272 267H310V200H350M560 167H640"></path>
+<text class="cap" text-anchor="middle" x="455" y="290">Servers see assigned storage as block devices</text>
+</svg></div><p class="cap-p"><em>Figure 8: Simplified SAN layout. Real SANs commonly use redundant switches and multiple paths.</em></p>
+<h2>10.4 Common SAN protocols</h2><ul><li><strong>Fibre Channel (FC):</strong> a high-speed networking technology designed for storage traffic.</li><li><strong>iSCSI:</strong> carries SCSI storage commands over IP networks, commonly Ethernet.</li><li><strong>Fibre Channel over Ethernet (FCoE):</strong> carries Fibre Channel frames over Ethernet in supported environments.</li></ul>
+<h2>10.5 Advantages and limitations</h2><ul><li><strong>Advantages:</strong> high performance, centralised block storage, scalability, shared access for server clusters, and support for redundant paths.</li><li><strong>Limitations:</strong> higher cost, specialised skills, more complex design and administration, and careful zoning/access configuration.</li></ul>
+<div class="reading-sources"><p><strong>Read more / verify this topic</strong></p><ul><li><a href="https://www.geeksforgeeks.org/computer-networks/difference-between-storage-area-network-san-and-network-attached-storage-nas/" rel="noopener" target="_blank">GeeksforGeeks — Difference Between SAN and NAS</a></li><li><a href="https://www.ibm.com/think/topics/san-vs-nas" rel="noopener" target="_blank">IBM — SAN vs NAS</a></li></ul><p class="source-note">Use the comparison article for a quick student explanation; IBM provides an additional enterprise-oriented confirmation.</p></div><div class="note video-help"><p><strong>Need a video explanation?</strong> If the written explanation is not clear, use this: <a href="https://www.youtube.com/results?search_query=Storage+Area+Network+SAN+explained+in+Hindi" rel="noopener" target="_blank">Find Hindi video explanations on YouTube</a>. <span>YouTube search pages cannot play inside an embedded video frame. Use this link to choose a topic-specific video; direct videos can be watched here when available.</span></p></div>
+</section>
+<section class="tp ty"><h1 id="t11">11. Network-Attached Storage (NAS)</h1>
+<h2>11.1 Definition</h2><p><strong>Network-Attached Storage (NAS)</strong> is a dedicated file-storage system connected to a network. It allows authorised users and computers to store, retrieve and share files from a central location.</p>
+<p>Think of NAS as a shared network drive for a team or organisation. Users work with folders and files rather than managing raw disk blocks.</p>
+<h2>11.2 How NAS works</h2><ol><li>A NAS device or NAS server is connected to an Ethernet network.</li><li>The administrator creates shared folders and configures users and permissions.</li><li>A client connects to the NAS using a file-sharing protocol.</li><li>The user reads, creates, modifies or deletes files according to the permissions granted.</li><li>The NAS system manages the underlying disks and file system.</li></ol>
+<h2>11.3 Common NAS protocols</h2><ul><li><strong>NFS (Network File System):</strong> widely used for file sharing in Unix and Linux environments.</li><li><strong>SMB (Server Message Block):</strong> widely used for file and printer sharing, especially in Windows environments.</li></ul>
+<h2>11.4 Advantages and limitations</h2><ul><li><strong>Advantages:</strong> easy file sharing, centralised management, simpler deployment than many SAN designs, user-level permissions and convenient access from multiple devices.</li><li><strong>Limitations:</strong> performance depends on network capacity and NAS design; it may not be ideal for every high-IOPS database workload; scale and redundancy depend on the appliance or cluster architecture.</li></ul>
+<h2>11.5 SAN vs NAS — important comparison</h2><div class="tw wide"><table><thead><tr><th>Basis</th><th>SAN</th><th>NAS</th></tr></thead><tbody>
+<tr><td>Full form</td><td>Storage Area Network</td><td>Network-Attached Storage</td></tr><tr><td>Access level</td><td>Primarily block-level</td><td>File-level</td></tr><tr><td>What client sees</td><td>Logical disk / block device</td><td>Shared files and folders</td></tr><tr><td>Common protocols</td><td>Fibre Channel, iSCSI, FCoE</td><td>NFS, SMB</td></tr><tr><td>Network design</td><td>Often dedicated storage fabric or isolated storage network</td><td>Usually connects through Ethernet LAN</td></tr><tr><td>Typical uses</td><td>Databases, virtual machine datastores, enterprise workloads needing block access</td><td>Team file sharing, documents, media, home directories and shared files</td></tr><tr><td>Complexity / cost</td><td>Often more complex and costly</td><td>Often simpler and less costly to deploy</td></tr></tbody></table></div>
+<div class="note"><p><strong>Memory trick:</strong> SAN = block storage, like a disk presented to a server. NAS = file storage, like a shared network folder.</p></div>
+<div class="reading-sources"><p><strong>Read more / verify this topic</strong></p><ul><li><a href="https://www.geeksforgeeks.org/computer-networks/difference-between-storage-area-network-san-and-network-attached-storage-nas/" rel="noopener" target="_blank">GeeksforGeeks — Difference Between SAN and NAS</a></li><li><a href="https://www.ibm.com/think/topics/san-vs-nas" rel="noopener" target="_blank">IBM — SAN vs NAS</a></li></ul><p class="source-note">Use the comparison article for a quick student explanation; IBM provides an additional enterprise-oriented confirmation.</p></div><div class="note video-help"><p><strong>Need a video explanation?</strong> If the written explanation is not clear, use this: <a href="https://www.youtube.com/results?search_query=Network+Attached+Storage+NAS+explained+in+Hindi" rel="noopener" target="_blank">Find Hindi video explanations on YouTube</a>. <span>YouTube search pages cannot play inside an embedded video frame. Use this link to choose a topic-specific video; direct videos can be watched here when available.</span></p></div>
+</section>
+<section class="tp ty"><h1 id="t12">12. Cloud Server Virtualization</h1>
+<h2>12.1 Meaning</h2><p><strong>Cloud server virtualization</strong> is the use of virtualization technology in a cloud environment to create and operate virtual server instances from shared physical server infrastructure. A cloud provider pools physical servers and uses hypervisors or other virtualization technologies to allocate isolated compute environments to customers.</p>
+<p>A customer can request a virtual server with a chosen operating system, CPU, memory, storage and network configuration without buying the physical machine.</p>
+<h2>12.2 How it works</h2><ol><li>The cloud provider operates physical servers in data centers.</li><li>A hypervisor or virtualization platform abstracts the physical hardware.</li><li>The cloud control plane receives a request for a virtual server (instance).</li><li>The platform selects a suitable host and allocates virtual CPU, memory, storage and networking.</li><li>The instance boots an operating system image and becomes available to the customer.</li><li>The customer installs applications, manages the guest OS where permitted, and pays according to the provider's pricing and metering model.</li><li>The provider monitors the physical infrastructure and maintains the underlying platform; responsibility boundaries depend on the service model.</li></ol>
+<div class="fig"><svg aria-label="Cloud server virtualization diagram showing cloud management portal and API provisioning virtual server instances on a shared pool of physical hosts managed by hypervisors" height="410" role="img" viewbox="0 0 900 410" width="900">
+<rect class="yx" height="100" rx="8" width="260" x="35" y="25"></rect><text class="cap" text-anchor="middle" x="165" y="55">CUSTOMER / ADMIN</text><text text-anchor="middle" x="165" y="84">Portal or API request</text><text text-anchor="middle" x="165" y="108">Choose VM size and image</text>
+<path class="ln" d="M298 75H350"></path>
+<rect class="rx" height="100" rx="8" width="510" x="355" y="25"></rect><text class="cap" text-anchor="middle" x="610" y="55">CLOUD CONTROL PLANE</text><text text-anchor="middle" x="610" y="84">Authentication • scheduling • provisioning</text><text text-anchor="middle" x="610" y="108">Resource and lifecycle management</text>
+<path class="ln" d="M610 127V160"></path>
+<rect class="bx" height="65" rx="8" width="750" x="75" y="165"></rect><text class="cap" text-anchor="middle" x="450" y="192">VIRTUALIZATION / HYPERVISOR LAYER</text><text text-anchor="middle" x="450" y="216">Creates and isolates virtual server instances</text>
+<path class="ln" d="M450 232V260"></path>
+<rect class="yx" height="105" rx="8" width="245" x="55" y="265"></rect><text class="cap" text-anchor="middle" x="177" y="294">PHYSICAL HOST A</text><text text-anchor="middle" x="177" y="323">CPU • RAM • NIC</text><text text-anchor="middle" x="177" y="350">VMs / instances</text>
+<rect class="yx" height="105" rx="8" width="245" x="328" y="265"></rect><text class="cap" text-anchor="middle" x="450" y="294">PHYSICAL HOST B</text><text text-anchor="middle" x="450" y="323">CPU • RAM • NIC</text><text text-anchor="middle" x="450" y="350">VMs / instances</text>
+<rect class="yx" height="105" rx="8" width="245" x="600" y="265"></rect><text class="cap" text-anchor="middle" x="722" y="294">PHYSICAL HOST C</text><text text-anchor="middle" x="722" y="323">CPU • RAM • NIC</text><text text-anchor="middle" x="722" y="350">VMs / instances</text>
+<text class="cap" text-anchor="middle" x="450" y="399">Customers use virtual servers; the provider manages the physical host pool</text>
+</svg></div><p class="cap-p"><em>Figure 9: Conceptual cloud server virtualization. A provider's control plane provisions instances onto a shared physical host pool.</em></p>
+<h2>12.3 Benefits</h2><ul><li><strong>On-demand provisioning:</strong> virtual servers can be created when required.</li><li><strong>Elasticity:</strong> compute capacity can be increased or decreased according to workload and service limits.</li><li><strong>Resource pooling:</strong> many customers and workloads share a large physical resource pool with logical isolation.</li><li><strong>Cost model:</strong> customers can avoid purchasing and maintaining their own physical servers and may pay for measured usage.</li><li><strong>Faster deployment:</strong> standard images and automation speed up server creation.</li><li><strong>Geographic options:</strong> providers may offer deployment in multiple regions and availability zones.</li></ul>
+<h2>12.4 VM vs cloud server instance</h2><p>A cloud server instance is generally a VM or VM-like compute resource delivered as a managed cloud service. The important difference is not the basic virtual machine concept; it is the surrounding cloud service: self-service provisioning, APIs, resource pools, metering, networking options and provider-operated infrastructure.</p>
+<h2>12.5 Security and responsibility</h2><p>Virtualization provides isolation, but it does not automatically make a system secure. Hypervisors must be patched and protected, VM images must be trusted, management interfaces must be access-controlled, and virtual networks must be segmented. In IaaS, the provider generally protects the physical infrastructure and virtualization layer while the customer remains responsible for many guest OS, application, identity and data configurations. Exact responsibility depends on the service and provider.</p>
+<div class="reading-sources"><p><strong>Read more / verify this topic</strong></p><ul><li><a href="https://www.geeksforgeeks.org/cloud-computing/infrastructure-as-a-service-iaas/" rel="noopener" target="_blank">GeeksforGeeks — IaaS: Infrastructure as a Service</a></li><li><a href="https://www.geeksforgeeks.org/cloud-computing/virtualization-cloud-computing-types/" rel="noopener" target="_blank">GeeksforGeeks — Virtualization in Cloud Computing and Types</a></li><li><a href="https://aws.amazon.com/compare/the-difference-between-type-1-and-type-2-hypervisors/" rel="noopener" target="_blank">AWS — Type 1 vs Type 2 Hypervisors</a></li></ul><p class="source-note">Start with the GeeksforGeeks explanation when available. Use the official reference for exact platform-specific details.</p></div><div class="note video-help"><p><strong>Need a video explanation?</strong> If the written explanation is not clear, use this: <a href="https://www.youtube.com/results?search_query=cloud+server+virtualization+explained+in+Hindi+cloud+computing" rel="noopener" target="_blank">Find Hindi video explanations on YouTube</a>. <span>YouTube search pages cannot play inside an embedded video frame. Use this link to choose a topic-specific video; direct videos can be watched here when available.</span></p></div>
+</section>
+<section class="tp tr"><h1 id="t13">13. Virtualized Data Center</h1>
+<p><span class="r">RED</span> <strong>Direct 15-mark focus:</strong> “What is Virtualized Data Center? Explain virtualization in x86 architecture.” appears in the supplied primary MCA Semester IV 2022–24 paper. Prepare the definition, architecture, working and benefits clearly.</p>
+<h2>13.1 Definition</h2><p>A <strong>virtualized data center</strong> is a data-center environment in which physical computing, storage and networking resources are abstracted into logical or virtual resources and centrally managed through virtualization software.</p>
+<p>Instead of managing every workload as a separate physical server, the organisation operates pools of compute, storage and network capacity. Virtual machines and applications use these logical resources as needed.</p>
+<h2>13.2 Main components</h2><ul><li><strong>Compute virtualization:</strong> physical servers and CPUs are abstracted into virtual machines or compute instances.</li><li><strong>Storage virtualization:</strong> physical disks and arrays are pooled and presented as logical volumes, datastores or file/object services.</li><li><strong>Network virtualization:</strong> virtual switches, VLANs, virtual networks, routers and firewalls connect and isolate workloads.</li><li><strong>Hypervisor layer:</strong> creates and runs VMs on physical hosts.</li><li><strong>Management and orchestration:</strong> central tools automate provisioning, monitoring, migration and resource allocation.</li><li><strong>Security:</strong> identity and access control, segmentation, patching, logging and protection of management systems.</li><li><strong>Facilities:</strong> physical data center, power, cooling, racks and connectivity.</li></ul>
+<h2>13.3 Architecture of a virtualized data center</h2><div class="fig"><svg aria-label="Virtualized data center architecture with application and VM layer, compute virtualization hosts, virtual network and storage pools, central management and security, and physical data center hardware and facilities" height="520" role="img" viewbox="0 0 900 520" width="900">
+<rect class="yx" height="72" rx="8" width="790" x="55" y="20"></rect><text class="cap" text-anchor="middle" x="450" y="49">APPLICATIONS AND WORKLOADS</text><text text-anchor="middle" x="450" y="76">Web • Database • Business applications • Development</text>
+<rect class="bx" height="90" rx="8" width="790" x="55" y="105"></rect><text class="cap" text-anchor="middle" x="450" y="133">VIRTUAL COMPUTE LAYER</text><text text-anchor="middle" x="450" y="162">VM 1 (Guest OS)  |  VM 2 (Guest OS)  |  VM 3 (Guest OS)  |  VM pools</text><text text-anchor="middle" x="450" y="185">Hypervisors across physical hosts</text>
+<rect class="rx" height="88" rx="8" width="380" x="55" y="208"></rect><text class="cap" text-anchor="middle" x="245" y="237">VIRTUAL NETWORKING</text><text text-anchor="middle" x="245" y="266">Virtual switches • VLANs • routing</text><text text-anchor="middle" x="245" y="286">Segmentation • firewalls</text>
+<rect class="rx" height="88" rx="8" width="380" x="465" y="208"></rect><text class="cap" text-anchor="middle" x="655" y="237">VIRTUAL STORAGE</text><text text-anchor="middle" x="655" y="266">SAN • NAS • object / block pools</text><text text-anchor="middle" x="655" y="286">Datastores • volumes • replication</text>
+<rect class="yx" height="72" rx="8" width="790" x="55" y="310"></rect><text class="cap" text-anchor="middle" x="450" y="338">CENTRAL MANAGEMENT, AUTOMATION AND SECURITY</text><text text-anchor="middle" x="450" y="366">Provisioning • monitoring • access control • backup • orchestration</text>
+<rect class="bx" height="82" rx="8" width="790" x="55" y="396"></rect><text class="cap" text-anchor="middle" x="450" y="426">PHYSICAL DATA CENTER FOUNDATION</text><text text-anchor="middle" x="450" y="454">Servers • storage arrays • network switches • power • cooling • racks</text>
+<text class="cap" text-anchor="middle" x="450" y="507">All resource pools are coordinated as one managed infrastructure</text>
+</svg></div><p class="cap-p"><em>Figure 10: Conceptual virtualized data center. The compute, storage and network layers are virtualized and centrally managed over physical infrastructure.</em></p>
+<h2>13.4 How it works</h2><ol><li>Physical servers, storage arrays and network devices are installed in the data center.</li><li>Hypervisors are deployed on compute hosts to create virtual machines.</li><li>Storage systems are pooled and presented to hosts as logical storage.</li><li>Virtual switches and network policies connect VMs and separate traffic.</li><li>Management software provides a central view and automates VM provisioning, monitoring and migration.</li><li>Security, backup, replication and availability controls protect the workloads and infrastructure.</li><li>Administrators monitor utilisation and add or redistribute resources as demand changes.</li></ol>
+<h2>13.5 Benefits</h2><ul><li>Consolidates physical servers and improves resource utilisation.</li><li>Reduces hardware, power, cooling and floor-space requirements when properly planned.</li><li>Provides flexible and faster provisioning of compute, storage and network resources.</li><li>Supports centralised monitoring and automation.</li><li>Can improve availability and disaster recovery through clustering, replication and VM migration.</li><li>Enables workload isolation and supports multiple operating systems.</li><li>Can make infrastructure expansion more modular and manageable.</li></ul>
+<h2>13.6 Challenges</h2><ul><li>Initial investment and licensing costs can be high.</li><li>Management and troubleshooting require specialist skills.</li><li>Resource contention and overcommitment can affect performance.</li><li>A failure in shared infrastructure may affect many workloads.</li><li>Misconfiguration or compromise of central management and hypervisor layers can have a broad impact.</li><li>Backup, network segmentation, monitoring and disaster recovery need careful design.</li></ul>
+<h2>13.7 Virtualized data center vs traditional data center</h2><div class="tw wide"><table><thead><tr><th>Traditional data center</th><th>Virtualized data center</th></tr></thead><tbody><tr><td>More workloads tied to individual physical servers.</td><td>Workloads run on virtual resources pooled across hosts.</td></tr><tr><td>Provisioning often requires physical installation and configuration.</td><td>Many resources can be provisioned through software and automation.</td></tr><tr><td>Compute, storage and network may be managed in separate silos.</td><td>Virtual resource pools can be centrally coordinated.</td></tr><tr><td>Hardware utilisation may be lower if servers are dedicated to small workloads.</td><td>Resource sharing can improve utilisation, subject to capacity planning.</td></tr><tr><td>Workload movement may require physical migration.</td><td>VM migration and replication can support workload mobility where supported.</td></tr></tbody></table></div>
+<div class="reading-sources"><p><strong>Read more / verify this topic</strong></p><ul><li><a href="https://www.geeksforgeeks.org/cloud-computing/architecture-of-cloud-computing/" rel="noopener" target="_blank">GeeksforGeeks — Architecture of Cloud Computing</a></li><li><a href="https://www.geeksforgeeks.org/cloud-computing/the-architecture-of-virtualization-in-cloud-computing/" rel="noopener" target="_blank">GeeksforGeeks — The Architecture of Virtualization in Cloud Computing</a></li><li><a href="https://csrc.nist.gov/pubs/sp/800/125/final" rel="noopener" target="_blank">NIST — Guide to Security for Full Virtualization Technologies</a></li></ul><p class="source-note">Start with the GeeksforGeeks explanation when available. Use the official reference for exact platform-specific details.</p></div><div class="note video-help"><p><strong>Need a video explanation?</strong> If the written explanation is not clear, use this: <a href="https://www.youtube.com/results?search_query=virtualized+data+center+architecture+explained+in+Hindi+cloud+computing" rel="noopener" target="_blank">Find Hindi video explanations on YouTube</a>. <span>YouTube search pages cannot play inside an embedded video frame. Use this link to choose a topic-specific video; direct videos can be watched here when available.</span></p></div>
+</section>
+<section class="tp ty"><h1 id="exam">14. Exam Preparation and Quick Revision</h1>
+<h2>14.1 Previous-paper questions — source status</h2><div class="note"><p><strong>Important source distinction:</strong> The RED questions below are confirmed in the supplied primary MCA Semester IV 2022–24 paper (ECMCA-401C). The YELLOW questions are found in the supplied compiled question collection, not necessarily in that primary paper. They are useful preparation prompts, not proof of a previous-year appearance.</p></div>
+<h3><span class="r">RED — confirmed in primary MCA Sem IV paper</span></h3><ol><li><strong>1 mark:</strong> “How many virtualization techniques are there in x86 architecture?”</li><li><strong>15 marks:</strong> “What is Virtualized Data Center? Explain virtualization in x86 architecture.”</li></ol>
+<h3><span class="y">YELLOW — supplied compiled question collection</span></h3><h3>1-mark questions</h3><ol><li>Define Virtualization.</li><li>What is a Virtual Machine?</li><li>What is Server Virtualization?</li><li>What is a Hypervisor?</li><li>What is x86 architecture?</li><li>What is LPAR?</li><li>What is a VIO Server?</li><li>What is Storage Virtualization?</li><li>What is SAN?</li><li>What is NAS?</li><li>What is a Virtualized Data Center?</li><li>Name the virtualization techniques used in x86 architecture.</li></ol>
+<h3>5-mark questions</h3><ol><li>Explain the benefits of virtualization.</li><li>Differentiate between Type 1 and Type 2 Hypervisors.</li><li>Explain Server Virtualization.</li><li>Explain the different x86 virtualization techniques.</li><li>Differentiate between SAN and NAS.</li><li>Explain Storage Virtualization.</li></ol>
+<h3>15-mark questions</h3><ol><li>Explain x86 architecture and the different virtualization techniques used in it.</li><li>Define virtualization. Explain its benefits and types in detail.</li><li>Explain Server Virtualization and the role of Hypervisor Management Software.</li><li>Explain Storage Virtualization, SAN and NAS.</li><li>Explain LPAR and VIO Server.</li><li>Discuss the requirements of a Virtual Infrastructure.</li><li>Explain Cloud Server Virtualization and its benefits.</li></ol>
+<h2>14.2 How to structure a 15-mark answer</h2><p>For the confirmed question on virtualized data center and x86 virtualization, a strong answer can follow this sequence:</p><ol><li>Define virtualization and virtual machine.</li><li>Explain the role of the hypervisor and show the basic virtualization stack.</li><li>Introduce x86 architecture and privilege rings.</li><li>Explain the three common techniques: full, para and hardware-assisted virtualization.</li><li>Compare the techniques in a small table.</li><li>Define virtualized data center and explain its compute, storage, network and management layers.</li><li>Draw the virtualized data-center diagram and explain the flow.</li><li>Conclude with benefits and one or two challenges.</li></ol>
+<h2>14.3 One-line definitions for quick revision</h2><div class="tw wide"><table><thead><tr><th>Term</th><th>Quick definition</th></tr></thead><tbody>
+<tr><td>Virtualization</td><td>Creating logical versions of computing resources using software or firmware abstraction.</td></tr><tr><td>VM</td><td>An isolated software-based computer with virtual hardware and a guest OS.</td></tr><tr><td>Hypervisor</td><td>The layer that creates, runs and manages virtual machines.</td></tr><tr><td>Server virtualization</td><td>Running multiple virtual servers on one physical server.</td></tr><tr><td>x86</td><td>A family of processor instruction-set architectures used by many PCs and servers.</td></tr><tr><td>Full virtualization</td><td>Presenting virtual hardware so an unmodified guest OS can run.</td></tr><tr><td>Para-virtualization</td><td>A virtualization approach in which the guest cooperates with the hypervisor, often through hypercalls.</td></tr><tr><td>Hardware-assisted virtualization</td><td>Processor extensions such as Intel VT-x or AMD-V support VM execution.</td></tr><tr><td>LPAR</td><td>An independent logical partition created from a physical server's resources.</td></tr><tr><td>VIOS</td><td>An IBM Power partition that shares physical I/O resources with client LPARs.</td></tr><tr><td>Storage virtualization</td><td>Abstracting physical storage into logical storage pools or volumes.</td></tr><tr><td>SAN</td><td>A dedicated storage network that presents block-level storage to servers.</td></tr><tr><td>NAS</td><td>A network-connected file storage system that shares files and folders.</td></tr><tr><td>Cloud server virtualization</td><td>Using virtualized compute resources to deliver cloud server instances.</td></tr><tr><td>Virtualized data center</td><td>A data center where compute, storage and network resources are abstracted and centrally managed.</td></tr></tbody></table></div>
+<h2>14.4 Common confusions — clear them before the exam</h2><ul><li><strong>VM vs hypervisor:</strong> the VM is the virtual computer; the hypervisor creates and manages it.</li><li><strong>Host vs guest:</strong> host is the physical machine; guest OS runs inside a VM.</li><li><strong>Full vs para-virtualization:</strong> full virtualization generally supports an unmodified guest; para-virtualization requires guest cooperation.</li><li><strong>Hypervisor vs management software:</strong> the hypervisor runs VMs; management software administers hosts and VMs centrally.</li><li><strong>LPAR vs VIOS:</strong> LPAR is a logical partition; VIOS is a specialised partition that provides virtual I/O to client partitions.</li><li><strong>SAN vs NAS:</strong> SAN primarily presents block storage; NAS provides file-level access.</li><li><strong>Snapshot vs backup:</strong> a snapshot captures a point-in-time VM or disk state; a proper backup should be independently protected and recoverable.</li><li><strong>Virtualization vs cloud computing:</strong> virtualization is a technology that abstracts resources; cloud computing adds service delivery, self-service, resource pooling, elasticity and measured usage.</li></ul>
+<h2>14.5 Diagram practice checklist</h2><ul><li>Basic virtualization stack: VMs → hypervisor → physical hardware.</li><li>x86 privilege rings: Ring 0 kernel, Ring 3 applications, Rings 1 and 2 rarely used.</li><li>Type 1 vs Type 2 hypervisor stack.</li><li>LPAR architecture: physical Power server → Power Hypervisor → independent partitions.</li><li>VIOS architecture: client LPARs → VIOS → physical storage/network adapters.</li><li>Storage virtualization: physical arrays → virtualization layer → logical volumes.</li><li>SAN and NAS comparison diagrams.</li><li>Virtualized data center: applications/VMs → virtual compute, network and storage → management/security → physical foundation.</li></ul>
+<h2>14.6 YouTube videos and Hindi learning resources</h2>
+<p>These links are selected to help you study the actual Unit V topics. The first two are specific YouTube videos whose titles and descriptions were checked. For specialist topics such as x86 techniques, LPAR and VIOS, I have provided focused YouTube searches rather than pretending that an unrelated video is an exact match.</p>
+<h3>Start with these verified YouTube videos</h3>
+<ol>
+<li><strong>M Prashant — What is Virtualization? | Hypervisor Types | Virtual Machines [HINDI].</strong> A beginner-friendly explanation of VMs, how virtualization works and Type 1 / Type 2 hypervisors. <a href="https://www.youtube.com/watch?v=BNTFJJMh2eU" rel="noopener" target="_blank">Watch on YouTube</a>.</li>
+<li><strong>5 Minutes Engineering — What is Hypervisor Explained in Hindi | Cloud Computing Series.</strong> Focuses on the hypervisor and its role in cloud computing. <a href="https://www.youtube.com/watch?v=qmPCBBBrc00" rel="noopener" target="_blank">Watch on YouTube</a>.</li>
+</ol>
+<h3>Topic-wise YouTube searches</h3>
+<ul>
+<li><strong>Cloud virtualization and its types:</strong> <a href="https://www.youtube.com/results?search_query=cloud+virtualization+in+Hindi+cloud+computing" rel="noopener" target="_blank">Find Hindi lessons</a>.</li>
+<li><strong>x86 virtualization — full, para-virtualization and hardware-assisted:</strong> <a href="https://www.youtube.com/results?search_query=x86+virtualization+full+virtualization+paravirtualization+hardware+assisted+Hindi" rel="noopener" target="_blank">Find focused Hindi lessons</a>.</li>
+<li><strong>Hypervisor management software:</strong> <a href="https://www.youtube.com/results?search_query=hypervisor+management+software+cloud+computing+Hindi" rel="noopener" target="_blank">Find Hindi lessons</a>.</li>
+<li><strong>LPAR and IBM Virtual I/O Server (VIOS):</strong> <a href="https://www.youtube.com/results?search_query=IBM+PowerVM+LPAR+VIOS+explained+Hindi" rel="noopener" target="_blank">Find Hindi lessons</a>.</li>
+<li><strong>Virtual infrastructure requirements:</strong> <a href="https://www.youtube.com/results?search_query=virtual+infrastructure+requirements+cloud+computing+Hindi" rel="noopener" target="_blank">Find Hindi lessons</a>.</li>
+<li><strong>Storage virtualization:</strong> <a href="https://www.youtube.com/results?search_query=storage+virtualization+in+cloud+computing+Hindi" rel="noopener" target="_blank">Find Hindi lessons</a>.</li>
+<li><strong>SAN vs NAS:</strong> <a href="https://www.youtube.com/results?search_query=SAN+vs+NAS+storage+area+network+network+attached+storage+Hindi" rel="noopener" target="_blank">Find Hindi lessons</a>.</li>
+<li><strong>Cloud server virtualization and virtualized data center:</strong> <a href="https://www.youtube.com/results?search_query=cloud+server+virtualization+virtualized+data+center+Hindi" rel="noopener" target="_blank">Find Hindi lessons</a>.</li>
+</ul>
+<p><strong>Extra curated course index:</strong> <a href="https://easyexamnotes.com/cloud-computing-hindi-videos/" rel="noopener" target="_blank">EasyExamNotes — Cloud Computing Hindi Videos</a>. Its listed lessons include Cloud Virtualization, Hypervisor Management Software, Storage Virtualization and Xen Hypervisor. This is an index of lessons, not a claim that every item is a direct YouTube URL.</p>
+<h2>14.7 Trusted references used</h2><ul>
+<li><strong>NIST:</strong> <a href="https://csrc.nist.gov/pubs/sp/800/125/final" rel="noopener" target="_blank">SP 800-125 — Guide to Security for Full Virtualization Technologies</a> (VMs, hypervisors and virtualization fundamentals).</li>
+<li><strong>NIST:</strong> <a href="https://csrc.nist.gov/pubs/sp/800/125/a/r1/final" rel="noopener" target="_blank">SP 800-125A Rev. 1 — Security Recommendations for Server-based Hypervisor Platforms</a>.</li>
+<li><strong>Microsoft Learn:</strong> <a href="https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/architecture" rel="noopener" target="_blank">Hyper-V Architecture</a> (root and child partitions, hypervisor, virtual I/O).</li>
+<li><strong>AWS:</strong> <a href="https://aws.amazon.com/compare/the-difference-between-type-1-and-type-2-hypervisors/" rel="noopener" target="_blank">Difference between Type 1 and Type 2 Hypervisors</a>.</li>
+<li><strong>IBM:</strong> <a href="https://www.ibm.com/docs/en/power10?topic=server-virtual-io-overview" rel="noopener" target="_blank">Virtual I/O Server overview</a>.</li>
+<li><strong>IBM:</strong> <a href="https://www.ibm.com/docs/en/power10/0000-REF?topic=POWER10_REF%2Fp10jak%2Fp10jak_managing_lpars_concept.html" rel="noopener" target="_blank">Managing logical partitions (LPARs)</a>.</li>
+<li><strong>IBM:</strong> <a href="https://www.ibm.com/think/topics/san-vs-nas/jcr%3Acontent" rel="noopener" target="_blank">SAN vs NAS</a>.</li>
+<li><strong>Microsoft Learn:</strong> <a href="https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/hyper-v-storage-architecture" rel="noopener" target="_blank">Hyper-V storage architectures</a>.</li>
+</ul><p class="source-note">Source selection rule: GeeksforGeeks is the first student-oriented reference; TutorialsPoint is used where it adds explanatory coverage. W3Schools was checked, but no relevant dedicated coverage was found for most of the specialist Unit V topics, so unrelated W3Schools pages are intentionally not cited. Official NIST, Microsoft, AWS and IBM pages are used to verify technical details, not to replace the student-friendly explanations.</p>
+<div class="note"><p><strong>UNIT V STUDY CHECK</strong></p><p>Before moving to Unit VI, make sure you can explain virtualization in your own words, draw the basic stack, compare the three x86 techniques, distinguish Type 1 and Type 2 hypervisors, explain LPAR and VIOS, compare SAN and NAS, and draw a virtualized data center.</p></div>
+</section>
+</main>
+</body>
+</html>

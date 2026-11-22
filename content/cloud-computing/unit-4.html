@@ -1,0 +1,1660 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cloud Computing — Unit IV Notes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@400;600;700&display=swap">
+<style>
+:root {
+  --desk: #dfe4ec;
+  --paper: #ffffff;
+  --rule: #d6e3f5;
+  --margin: #e4868a;
+  --ink: #1d3a8c;
+  --red: #b3261e;
+  --green: #1b6b3a;
+  --hl: rgba(255, 214, 0, 0.45);
+  --edge: rgba(29, 58, 140, 0.35);
+  --shadow: rgba(20, 30, 60, 0.2);
+  --hand: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --display: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --mono: "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace;
+  --vs-bg: #1e1e1e;
+  --vs-fg: #d4d4d4;
+  color-scheme: light;
+}
+html { background: var(--desk); }
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: 16px;
+  line-height: 32px;
+  padding-block: 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 28px 64px 76px;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 22px 48px, var(--desk) 8px, transparent 9px),
+    linear-gradient(to bottom, transparent 31px, var(--rule) 31px, var(--rule) 32px);
+  background-size: 44px 128px, 100% 32px;
+  background-repeat: repeat-y, repeat;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px var(--shadow), 0 14px 34px -14px var(--shadow);
+  overflow-wrap: break-word;
+}
+.sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 56px;
+  width: 4px;
+  border-left: 1px solid var(--margin);
+  border-right: 1px solid var(--margin);
+}
+@media (max-width: 520px) {
+  body { font-size: 15px; }
+  .sheet { padding: 64px 12px 64px 50px; }
+  .sheet::before { left: 34px; }
+}
+h1, h2, h3 { margin: 0; font-weight: 700; text-wrap: balance; }
+h1 {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  line-height: 64px;
+  color: var(--red);
+  text-decoration: underline wavy var(--red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 7px;
+  scroll-margin-top: 16px;
+}
+h1[id] { line-height: 32px; }
+.sheet > h1:first-child { font-size: clamp(1.7rem, 5.2vw, 2.4rem); }
+h2 { font-family: var(--display); font-size: 1.3rem; line-height: 32px; color: var(--red); }
+h3 { font-family: var(--display); font-size: 1.15rem; line-height: 32px; color: var(--green); }
+p { margin: 0 0 32px; }
+hr {
+  height: 32px;
+  margin: 0;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--edge) 0 10px, transparent 10px 18px) center / 100% 2px no-repeat;
+}
+ul, ol { margin: 0 0 32px; }
+ul { list-style: none; padding-left: 34px; }
+ul li { position: relative; }
+ul li::before { content: "\2022"; position: absolute; left: -22px; color: var(--red); }
+ol { padding-left: 46px; }
+ol li::marker { color: var(--red); font-family: var(--display); font-weight: 700; }
+li > p { margin: 0; }
+strong {
+  font-weight: 600;
+  padding: 0 2px;
+  background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  line-height: 0;
+  color: #9cdcfe;
+  background: var(--vs-bg);
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+pre {
+  margin: 0 0 32px;
+  padding: 16px 20px;
+  background: var(--vs-bg);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), 0 6px 14px -8px rgba(0, 0, 0, 0.5);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 400;
+  font-variant-ligatures: contextual;
+  line-height: 32px;
+  color: var(--vs-fg);
+  overflow-x: auto;
+  tab-size: 4;
+  white-space: pre;
+}
+pre code { font: inherit; line-height: inherit; color: inherit; background: none; padding: 0; border-radius: 0; }
+pre .k  { color: #569cd6; }
+pre .kc { color: #c586c0; }
+pre .f  { color: #dcdcaa; }
+pre .t  { color: #4ec9b0; }
+pre .v  { color: #9cdcfe; }
+pre .ct { color: #4fc1ff; }
+pre .s  { color: #ce9178; }
+pre .n  { color: #b5cea8; }
+pre .c  { color: #6a9955; }
+.tw { margin: 0 0 32px; overflow-x: auto; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+.tw.wide table { min-width: 640px; }
+th, td {
+  padding: 0 14px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 32px;
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge);
+}
+th {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--red);
+  background: var(--hl);
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge);
+}
+th:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+td:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+.toc ul { columns: 2 280px; column-gap: 32px; padding-left: 0; }
+.toc li { break-inside: avoid; }
+.toc li::before { content: none; }
+.toc a { color: var(--ink); text-decoration: none; background: linear-gradient(var(--edge), var(--edge)) 0 100% / 100% 1px no-repeat; }
+.toc a:hover { color: var(--red); }
+a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; border-radius: 2px; }
+.note { margin: 0 0 32px; padding: 0 0 0 16px; border-left: 3px solid var(--red); }
+.note p { margin: 0; }
+h1 code, h2 code, h3 code { background: var(--vs-bg); }
+th code, td code { font-size: 0.85em; }
+.tp{margin:0 -14px 32px;padding:0 14px;border-left:5px solid;border-radius:4px}
+.tp.tr{background:rgba(179,38,30,.085);border-color:#b3261e;padding-top:24px}
+.tp.ty{background:rgba(255,214,0,.24);border-color:#e0b800}
+.tp.tb{background:rgba(0,0,0,.075);border-color:#333}
+.r,.y,.b{font-size:.72em;font-weight:700;padding:1px 7px;border-radius:3px;letter-spacing:.5px;margin-right:6px}
+.r{background:var(--red);color:#fff}.y{background:#ffd600;color:#4a3b00}.b{background:#222;color:#fff}
+main a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px;overflow-wrap:anywhere}
+main a:hover{color:var(--red)}
+.fig{margin:0 0 32px}.fig svg{display:block;width:100%;max-width:760px;margin:0 auto}
+.security-diagram{background:var(--paper);border-radius:6px}
+.security-diagram text{dominant-baseline:middle}
+.fig svg text{font-family:var(--hand);font-size:14px;fill:var(--ink)}
+.fig svg .cap{font-size:13px;fill:var(--red);font-weight:600}
+.fig svg .w{fill:#fff;font-weight:600}
+.fig svg .bx{fill:#fff;stroke:var(--ink);stroke-width:2}
+.fig svg .rx{fill:#fff;stroke:var(--red);stroke-width:2}
+.fig svg .kx{fill:var(--vs-bg);stroke:var(--vs-bg)}
+.fig svg .yx{fill:rgba(255,214,0,.45);stroke:var(--ink);stroke-width:2}
+.fig svg .ln{stroke:var(--ink);stroke-width:2;fill:none}
+.fig svg .rl{stroke:var(--red);stroke-width:2.5;fill:none}
+.fig svg .dl{stroke:var(--red);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+</style>
+</head>
+<body>
+<main class="sheet">
+<h1>CLOUD COMPUTING</h1>
+<h2>Unit IV: Cloud Offerings &amp; Management, Study Notes</h2>
+
+<div class="note">
+  <p><strong>COLOUR GUIDE</strong></p>
+  <p><span class="r">RED</span>Directly asked in previous papers: study thoroughly. <span class="y">YELLOW</span>Related to previous questions: understand properly. <span class="b">BLACK</span>Not directly asked in the papers checked: read once, but do not skip.</p>
+</div>
+
+<h2>Contents — Official Unit IV Syllabus</h2>
+<div class="tw wide">
+  <table>
+    <thead>
+      <tr><th>No.</th><th>Topic</th><th>Priority</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td><a href="#t1">Information Storage, Retrieval, Archive and Protection</a></td><td><span class="y">YELLOW</span></td></tr>
+      <tr><td>2</td><td><a href="#t2">Cloud Analytics</a></td><td><span class="b">BLACK</span></td></tr>
+      <tr><td>3</td><td><a href="#t3">Testing Under Cloud</a></td><td><span class="b">BLACK</span></td></tr>
+      <tr><td>4</td><td><a href="#t4">Information Security</a></td><td><span class="r">RED</span></td></tr>
+      <tr><td>5</td><td>Virtual Desktop Infrastructure (Upcoming)</td><td><span class="b">BLACK</span></td></tr>
+      <tr><td>6</td><td>Storage Cloud (Upcoming)</td><td><span class="y">YELLOW</span></td></tr>
+      <tr><td>7</td><td>Resiliency (Upcoming)</td><td><span class="b">BLACK</span></td></tr>
+      <tr><td>8</td><td>Provisioning (Upcoming)</td><td><span class="b">BLACK</span></td></tr>
+      <tr><td>9</td><td>Asset Management (Upcoming)</td><td><span class="b">BLACK</span></td></tr>
+      <tr><td>10</td><td>Cloud Governance (Upcoming)</td><td><span class="r">RED</span></td></tr>
+      <tr><td>11</td><td>High Availability and Disaster Recovery (Upcoming)</td><td><span class="b">BLACK</span></td></tr>
+      <tr><td>12</td><td>Charging Models (Upcoming)</td><td><span class="y">YELLOW</span></td></tr>
+      <tr><td>13</td><td>Usage Reporting, Billing and Metering (Upcoming)</td><td><span class="y">YELLOW</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<section class="tp ty">
+<h1 id="t1">Topic 1. Information Storage, Retrieval, Archive and Protection</h1>
+<p><span class="y">YELLOW</span><strong>YELLOW priority</strong> · Official Unit IV · Topic 1 of 13</p>
+
+<div class="note">
+  <p><strong>WHY STUDY THIS TOPIC?</strong></p>
+  <p>Cloud computing depends on storing large amounts of information and making it available whenever users need it. Organisations must also preserve old records and protect data against loss, damage and unauthorised access.</p>
+</div>
+
+<h2>How much depth is needed?</h2>
+<ul>
+  <li><strong>1 mark:</strong> Understand storage, retrieval, archive and data protection.</li>
+  <li><strong>5 marks:</strong> Explain the four activities and their importance.</li>
+  <li><strong>15 marks:</strong> Understand the complete information-management process, its architecture, working, examples and benefits.</li>
+</ul>
+<p><strong>Previous-paper status:</strong> The compiled question collection contains this related 15-mark question, marked YELLOW: <em>"Explain Information Storage, Retrieval, Archive and Protection in Cloud Computing."</em> This is not confirmed as a direct question in the primary 2022–24 MCA Semester IV paper.</p>
+
+<h2>1.1 What is Information Storage in Cloud Computing?</h2>
+<p><strong>Information storage</strong> is the process of saving digital data in a storage system so that it can be accessed and used whenever required.</p>
+<p>In cloud computing, data is stored on remote servers managed by a cloud service provider instead of being stored only on the user's local computer.</p>
+
+<h3>Simple example: Google Drive</h3>
+<ol>
+  <li>You select the photograph on your mobile.</li>
+  <li>The photograph is transferred through the internet.</li>
+  <li>Google's cloud infrastructure stores the data.</li>
+  <li>You can access it later from another device.</li>
+</ol>
+
+<div class="fig">
+  <svg viewBox="0 0 760 224" style="height:224px" role="img" aria-label="Cloud Information Storage Example">
+    <defs>
+      <marker id="ae1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0L10 5L0 10z" fill="#b3261e"/>
+      </marker>
+    </defs>
+    <rect x="20" y="64" width="160" height="80" rx="8" class="yx"/>
+    <text x="100" y="92" text-anchor="middle">1. Mobile Phone</text>
+    <text x="100" y="112" text-anchor="middle">Selects &amp; sends</text>
+    <text x="100" y="130" text-anchor="middle">photograph</text>
+
+    <line x1="182" y1="104" x2="278" y2="104" class="ln" marker-end="url(#ae1)"/>
+    <text x="230" y="92" text-anchor="middle" class="cap">Internet</text>
+
+    <rect x="280" y="54" width="200" height="100" rx="8" class="rx"/>
+    <text x="380" y="86" text-anchor="middle" class="cap">Cloud Infrastructure</text>
+    <text x="380" y="106" text-anchor="middle">Remote servers</text>
+    <text x="380" y="126" text-anchor="middle">store data reliably</text>
+
+    <line x1="482" y1="104" x2="578" y2="104" class="ln" marker-end="url(#ae1)"/>
+    <text x="530" y="92" text-anchor="middle" class="cap">Internet</text>
+
+    <rect x="580" y="64" width="160" height="80" rx="8" class="yx"/>
+    <text x="660" y="92" text-anchor="middle">2. Other Device</text>
+    <text x="660" y="112" text-anchor="middle">Accesses saved</text>
+    <text x="660" y="130" text-anchor="middle">photo anytime</text>
+
+    <text x="380" y="196" text-anchor="middle" class="cap">Figure 1: Information storage on remote cloud servers</text>
+  </svg>
+</div>
+<p class="cap-p"><em>Figure 1: Cloud information storage working example</em></p>
+
+<h3>Main characteristics of cloud information storage</h3>
+<ol>
+  <li><strong>Scalability:</strong> Storage capacity can be increased or decreased according to demand.</li>
+  <li><strong>Accessibility:</strong> Authorised users can access data over the internet or private networks.</li>
+  <li><strong>Durability:</strong> Storage systems are designed to preserve data reliably.</li>
+  <li><strong>Availability:</strong> Data can be made accessible when required.</li>
+  <li><strong>Security:</strong> Encryption and access controls help protect stored information.</li>
+</ol>
+
+<h2>1.2 Types of cloud storage</h2>
+<p>Cloud storage is commonly classified into three main types (with modern cloud-service examples to help understand the concepts):</p>
+<div class="tw">
+  <table>
+    <thead>
+      <tr><th>Storage Type</th><th>How Data is Stored</th><th>Use Case</th><th>Cloud Examples</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1. Object Storage</strong></td>
+        <td>Stores data as objects, each with its own data, metadata and unique identifier</td>
+        <td>Photographs, videos, backups and documents</td>
+        <td>Amazon S3, Google Cloud Storage, Azure Blob Storage</td>
+      </tr>
+      <tr>
+        <td><strong>2. Block Storage</strong></td>
+        <td>Divides data into fixed-sized blocks</td>
+        <td>Disk storage for virtual machines (OS disk) and databases</td>
+        <td>Amazon EBS, Azure Managed Disks</td>
+      </tr>
+      <tr>
+        <td><strong>3. File Storage</strong></td>
+        <td>Stores data in a hierarchical structure of files and folders</td>
+        <td>Shared office folders and team documents</td>
+        <td>Amazon EFS, Azure Files</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="fig">
+  <svg viewBox="0 0 760 256" style="height:256px" role="img" aria-label="Three Types of Cloud Storage">
+    <defs>
+      <marker id="ae2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0L10 5L0 10z" fill="#b3261e"/>
+      </marker>
+    </defs>
+    <rect x="260" y="12" width="240" height="44" rx="8" class="rx"/>
+    <text x="380" y="39" text-anchor="middle" class="cap">CLOUD STORAGE TYPES</text>
+
+    <line x1="380" y1="56" x2="130" y2="96" class="ln" marker-end="url(#ae2)"/>
+    <line x1="380" y1="56" x2="380" y2="96" class="ln" marker-end="url(#ae2)"/>
+    <line x1="380" y1="56" x2="630" y2="96" class="ln" marker-end="url(#ae2)"/>
+
+    <rect x="20" y="98" width="220" height="114" rx="8" class="yx"/>
+    <text x="130" y="122" text-anchor="middle" class="cap">Object Storage</text>
+    <text x="130" y="144" text-anchor="middle">Data + Metadata + ID</text>
+    <text x="130" y="164" text-anchor="middle">Photos, videos, backups</text>
+    <text x="130" y="186" text-anchor="middle">Ex: Amazon S3, GCS</text>
+
+    <rect x="270" y="98" width="220" height="114" rx="8" class="bx"/>
+    <text x="380" y="122" text-anchor="middle" class="cap">Block Storage</text>
+    <text x="380" y="144" text-anchor="middle">Fixed-sized data blocks</text>
+    <text x="380" y="164" text-anchor="middle">VM OS disks &amp; databases</text>
+    <text x="380" y="186" text-anchor="middle">Ex: Amazon EBS</text>
+
+    <rect x="520" y="98" width="220" height="114" rx="8" class="yx"/>
+    <text x="630" y="122" text-anchor="middle" class="cap">File Storage</text>
+    <text x="630" y="144" text-anchor="middle">Files &amp; folder hierarchy</text>
+    <text x="630" y="164" text-anchor="middle">Shared team folders</text>
+    <text x="630" y="186" text-anchor="middle">Ex: Amazon EFS, Azure Files</text>
+  </svg>
+</div>
+<p class="cap-p"><em>Figure 2: Classification of cloud storage into Object, Block, and File storage</em></p>
+
+<h2>1.3 What is Information Retrieval?</h2>
+<p><strong>Information retrieval</strong> is the process of finding and accessing stored information when a user or application requests it.</p>
+<p>In simple words, <strong>storing information</strong> means saving it; <strong>retrieving information</strong> means getting it back when needed.</p>
+<p><strong>Example:</strong> You open Google Drive and search for <code>MCA_Assignment.pdf</code>. Google Drive finds the file and allows you to open or download it.</p>
+
+<h3>How information retrieval works</h3>
+<div class="fig">
+  <svg viewBox="0 0 760 224" style="height:224px" role="img" aria-label="Simplified information retrieval process">
+    <defs>
+      <marker id="ae3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0L10 5L0 10z" fill="#b3261e"/>
+      </marker>
+    </defs>
+    <rect x="12" y="42" width="128" height="96" rx="8" class="yx"/>
+    <text x="76" y="70" text-anchor="middle" class="cap">1. Request</text>
+    <text x="76" y="92" text-anchor="middle">User searches</text>
+    <text x="76" y="110" text-anchor="middle">for a file</text>
+
+    <line x1="142" y1="90" x2="162" y2="90" class="ln" marker-end="url(#ae3)"/>
+
+    <rect x="164" y="42" width="132" height="96" rx="8" class="rx"/>
+    <text x="230" y="70" text-anchor="middle" class="cap">2. Auth Check</text>
+    <text x="230" y="92" text-anchor="middle">Verify identity</text>
+    <text x="230" y="110" text-anchor="middle">&amp; permissions</text>
+
+    <line x1="298" y1="90" x2="318" y2="90" class="ln" marker-end="url(#ae3)"/>
+
+    <rect x="320" y="42" width="128" height="96" rx="8" class="bx"/>
+    <text x="384" y="70" text-anchor="middle" class="cap">3. Search</text>
+    <text x="384" y="92" text-anchor="middle">Locate data in</text>
+    <text x="384" y="110" text-anchor="middle">storage index</text>
+
+    <line x1="450" y1="90" x2="470" y2="90" class="ln" marker-end="url(#ae3)"/>
+
+    <rect x="472" y="42" width="128" height="96" rx="8" class="bx"/>
+    <text x="536" y="70" text-anchor="middle" class="cap">4. Retrieve</text>
+    <text x="536" y="92" text-anchor="middle">Read stored</text>
+    <text x="536" y="110" text-anchor="middle">file / record</text>
+
+    <line x1="602" y1="90" x2="622" y2="90" class="ln" marker-end="url(#ae3)"/>
+
+    <rect x="624" y="42" width="124" height="96" rx="8" class="yx"/>
+    <text x="686" y="70" text-anchor="middle" class="cap">5. Deliver</text>
+    <text x="686" y="92" text-anchor="middle">Display or</text>
+    <text x="686" y="110" text-anchor="middle">download file</text>
+
+    <text x="380" y="182" text-anchor="middle" class="cap">End-to-end retrieval pipeline from user query to file delivery</text>
+  </svg>
+</div>
+<p class="cap-p"><em>Figure 3: Simplified information retrieval process</em></p>
+
+<h3>Important factors affecting retrieval</h3>
+<ul>
+  <li><strong>Search/indexing:</strong> Helps locate the required information.</li>
+  <li><strong>Network speed:</strong> Affects how quickly data is transferred.</li>
+  <li><strong>Storage performance:</strong> Affects how quickly the storage system responds.</li>
+  <li><strong>Access permissions:</strong> Determine whether a user can retrieve particular data.</li>
+  <li><strong>Retrieval latency:</strong> Time taken to obtain the requested information.</li>
+</ul>
+
+<h2>1.4 What is Information Archiving?</h2>
+<p><strong>Information archiving</strong> is the process of moving inactive or rarely accessed data into long-term storage for future use.</p>
+<p>Not all data is required every day. Organisations often need to preserve old records for legal, historical, business or compliance purposes.</p>
+<p><strong>Example:</strong> A college may use current-year student records regularly, while keeping examination records from ten years ago in archive storage.</p>
+
+<h3>Active Storage versus Archiving</h3>
+<div class="tw">
+  <table>
+    <thead>
+      <tr><th>Basis</th><th>Active Storage</th><th>Archiving</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Purpose</strong></td><td>Daily use</td><td>Long-term preservation</td></tr>
+      <tr><td><strong>Access</strong></td><td>Frequent</td><td>Infrequent</td></tr>
+      <tr><td><strong>Speed</strong></td><td>Usually faster</td><td>May be slower</td></tr>
+      <tr><td><strong>Cost</strong></td><td>Usually higher per unit</td><td>Often lower per unit</td></tr>
+      <tr><td><strong>Example</strong></td><td>Current student database</td><td>Old examination records</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>Hot, Warm and Cold storage</h3>
+<div class="fig">
+  <svg viewBox="0 0 760 224" style="height:224px" role="img" aria-label="Storage tiers based on frequency of access">
+    <defs>
+      <marker id="ae4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0L10 5L0 10z" fill="#b3261e"/>
+      </marker>
+    </defs>
+    <rect x="20" y="32" width="216" height="132" rx="8" class="rx"/>
+    <text x="128" y="60" text-anchor="middle" class="cap">HOT STORAGE</text>
+    <text x="128" y="84" text-anchor="middle">Frequent access</text>
+    <text x="128" y="106" text-anchor="middle">Current files, active</text>
+    <text x="128" y="124" text-anchor="middle">databases &amp; live data</text>
+    <text x="128" y="148" text-anchor="middle" class="cap">Fastest · Highest cost</text>
+
+    <line x1="238" y1="98" x2="270" y2="98" class="ln" marker-end="url(#ae4)"/>
+
+    <rect x="272" y="32" width="216" height="132" rx="8" class="yx"/>
+    <text x="380" y="60" text-anchor="middle" class="cap">WARM STORAGE</text>
+    <text x="380" y="84" text-anchor="middle">Occasional access</text>
+    <text x="380" y="106" text-anchor="middle">Older files accessed</text>
+    <text x="380" y="124" text-anchor="middle">every few weeks/months</text>
+    <text x="380" y="148" text-anchor="middle" class="cap">Moderate speed &amp; cost</text>
+
+    <line x1="490" y1="98" x2="522" y2="98" class="ln" marker-end="url(#ae4)"/>
+
+    <rect x="524" y="32" width="216" height="132" rx="8" class="kx"/>
+    <text x="632" y="60" text-anchor="middle" class="w">COLD / ARCHIVE</text>
+    <text x="632" y="84" text-anchor="middle" class="w">Rare access</text>
+    <text x="632" y="106" text-anchor="middle" class="w">Historical records,</text>
+    <text x="632" y="124" text-anchor="middle" class="w">old backups &amp; archives</text>
+    <text x="632" y="148" text-anchor="middle" class="w">Lowest storage cost</text>
+
+    <text x="380" y="198" text-anchor="middle" class="cap">Data moves from Hot to Cold as access frequency drops over time</text>
+  </svg>
+</div>
+<p class="cap-p"><em>Figure 4: Storage tiers based on frequency of access</em></p>
+
+<div class="note">
+  <p><strong>REMEMBER</strong></p>
+  <p>Archive storage is generally cheaper, but retrieving data from some archive tiers may take longer. The exact delay depends on the selected storage service.</p>
+</div>
+
+<h2>1.5 What is Information Protection?</h2>
+<p><strong>Information protection</strong> refers to the methods and technologies used to prevent data from being lost, damaged, stolen, modified or accessed by unauthorised users.</p>
+<p>In cloud computing, protecting information is important because data is stored and accessed through network-connected infrastructure.</p>
+
+<h3>Important data-protection methods</h3>
+<div class="tw">
+  <table>
+    <thead>
+      <tr><th>Method</th><th>Meaning</th><th>Example</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Encryption</strong></td><td>Converts readable data into protected form</td><td>Encrypting stored files</td></tr>
+      <tr><td><strong>Authentication</strong></td><td>Verifies user identity</td><td>Password or MFA</td></tr>
+      <tr><td><strong>Access control</strong></td><td>Restricts who can access data</td><td>Role-based permissions</td></tr>
+      <tr><td><strong>Backup</strong></td><td>Creates additional copies of data</td><td>Daily database backup</td></tr>
+      <tr><td><strong>Replication</strong></td><td>Maintains copies across systems</td><td>Copying data to another region</td></tr>
+      <tr><td><strong>Versioning</strong></td><td>Preserves earlier versions</td><td>Restoring an older file</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>Two important types of encryption</h3>
+<ul>
+  <li><strong>Encryption at rest:</strong> Protects data while it is stored.</li>
+  <li><strong>Encryption in transit:</strong> Protects data while it moves across a network.</li>
+</ul>
+
+<div class="fig">
+  <svg viewBox="0 0 760 224" style="height:224px" role="img" aria-label="Two stages of data encryption">
+    <defs>
+      <marker id="ae5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0L10 5L0 10z" fill="#b3261e"/>
+      </marker>
+    </defs>
+    <rect x="20" y="54" width="190" height="100" rx="8" class="bx"/>
+    <text x="115" y="86" text-anchor="middle" class="cap">User's Device</text>
+    <text x="115" y="108" text-anchor="middle">Original confidential</text>
+    <text x="115" y="126" text-anchor="middle">document</text>
+
+    <line x1="212" y1="104" x2="278" y2="104" class="rl" marker-end="url(#ae5)"/>
+
+    <rect x="280" y="54" width="200" height="100" rx="8" class="yx"/>
+    <text x="380" y="84" text-anchor="middle" class="cap">1. Encryption in Transit</text>
+    <text x="380" y="106" text-anchor="middle">Protects data while</text>
+    <text x="380" y="124" text-anchor="middle">moving over network (TLS)</text>
+
+    <line x1="482" y1="104" x2="548" y2="104" class="rl" marker-end="url(#ae5)"/>
+
+    <rect x="550" y="54" width="190" height="100" rx="8" class="rx"/>
+    <text x="645" y="84" text-anchor="middle" class="cap">2. Encryption at Rest</text>
+    <text x="645" y="106" text-anchor="middle">Cloud storage server</text>
+    <text x="645" y="124" text-anchor="middle">protects stored files</text>
+
+    <text x="380" y="194" text-anchor="middle" class="cap">Example: Uploading a confidential document safely to cloud storage</text>
+  </svg>
+</div>
+<p class="cap-p"><em>Figure 5: Two stages of data encryption (in transit and at rest)</em></p>
+
+<h2>1.6 Complete information-management lifecycle</h2>
+<p>The four concepts work together across the full lifecycle of data:</p>
+
+<div class="fig">
+  <svg viewBox="0 0 760 256" style="height:256px" role="img" aria-label="Simplified information-management lifecycle">
+    <defs>
+      <marker id="ae6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0L10 5L0 10z" fill="#b3261e"/>
+      </marker>
+    </defs>
+    <!-- Outer protection wrapper -->
+    <rect x="16" y="14" width="728" height="196" rx="12" class="rx"/>
+    <text x="380" y="38" text-anchor="middle" class="cap">5. INFORMATION PROTECTION (Applies across all stages: Encryption, Access Control, Backup)</text>
+
+    <rect x="34" y="64" width="150" height="96" rx="8" class="bx"/>
+    <text x="109" y="94" text-anchor="middle" class="cap">1. Creation</text>
+    <text x="109" y="116" text-anchor="middle">Data is</text>
+    <text x="109" y="134" text-anchor="middle">generated</text>
+
+    <line x1="186" y1="112" x2="212" y2="112" class="ln" marker-end="url(#ae6)"/>
+
+    <rect x="214" y="64" width="150" height="96" rx="8" class="yx"/>
+    <text x="289" y="94" text-anchor="middle" class="cap">2. Storage</text>
+    <text x="289" y="116" text-anchor="middle">Saved in cloud</text>
+    <text x="289" y="134" text-anchor="middle">storage</text>
+
+    <line x1="366" y1="112" x2="392" y2="112" class="ln" marker-end="url(#ae6)"/>
+
+    <rect x="394" y="64" width="150" height="96" rx="8" class="yx"/>
+    <text x="469" y="94" text-anchor="middle" class="cap">3. Retrieval</text>
+    <text x="469" y="116" text-anchor="middle">Accessed when</text>
+    <text x="469" y="134" text-anchor="middle">required</text>
+
+    <line x1="546" y1="112" x2="572" y2="112" class="ln" marker-end="url(#ae6)"/>
+
+    <rect x="574" y="64" width="150" height="96" rx="8" class="kx"/>
+    <text x="649" y="94" text-anchor="middle" class="w">4. Archiving</text>
+    <text x="649" y="116" text-anchor="middle" class="w">Inactive data</text>
+    <text x="649" y="134" text-anchor="middle" class="w">preserved</text>
+
+    <text x="380" y="190" text-anchor="middle">Continuous security, backup, and governance from creation to long-term archive</text>
+  </svg>
+</div>
+<p class="cap-p"><em>Figure 6: Simplified information-management lifecycle (Protection applies across all stages)</em></p>
+
+<h2>1.7 Advantages</h2>
+<ol>
+  <li><strong>Cost efficiency:</strong> Organisations can reduce investment in their own storage infrastructure.</li>
+  <li><strong>Scalability:</strong> Storage capacity can grow with business requirements.</li>
+  <li><strong>Accessibility:</strong> Users can access authorised information from different locations.</li>
+  <li><strong>Long-term preservation:</strong> Archives help retain historical and important records.</li>
+  <li><strong>Data recovery:</strong> Backups and replication can help restore lost information.</li>
+  <li><strong>Security:</strong> Encryption and access control reduce the risk of unauthorised access.</li>
+</ol>
+
+<h2>1.8 Important terms</h2>
+<div class="tw">
+  <table>
+    <thead>
+      <tr><th>Term</th><th>Meaning</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Data durability</strong></td><td>Ability to preserve data without loss</td></tr>
+      <tr><td><strong>Data availability</strong></td><td>Data can be accessed when required</td></tr>
+      <tr><td><strong>Retrieval</strong></td><td>Obtaining stored information</td></tr>
+      <tr><td><strong>Archive</strong></td><td>Long-term storage of inactive data</td></tr>
+      <tr><td><strong>Backup</strong></td><td>Additional copy for recovery</td></tr>
+      <tr><td><strong>Replication</strong></td><td>Maintaining copies of data</td></tr>
+      <tr><td><strong>Encryption</strong></td><td>Converting data into protected form</td></tr>
+      <tr><td><strong>Metadata</strong></td><td>Information describing stored data</td></tr>
+      <tr><td><strong>Retention policy</strong></td><td>Rules defining how long data must be kept</td></tr>
+      <tr><td><strong>Retrieval latency</strong></td><td>Time required to retrieve data</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>1.9 Exam preparation</h2>
+<p><span class="y">YELLOW</span><strong>Related question from compiled collection</strong></p>
+
+<h3>1-mark questions</h3>
+<p><strong>Q1. What is Information Storage in Cloud Computing?</strong><br>Information storage is the process of saving digital data on remote cloud servers managed by a cloud service provider so it can be accessed whenever required.</p>
+<p><strong>Q2. What is Information Archiving?</strong><br>Information archiving is the process of moving inactive or rarely accessed data into low-cost, long-term storage for future legal, historical or compliance use.</p>
+
+<h3>5-mark question</h3>
+<p><strong>Q. Briefly explain Information Storage, Retrieval, Archive and Protection in Cloud Computing.</strong><br>Cloud information management covers four core activities:</p>
+<ol>
+  <li><strong>Information Storage:</strong> Saving digital data on remote cloud servers (via Object, Block or File storage) with high scalability and durability.</li>
+  <li><strong>Information Retrieval:</strong> Searching, authenticating and accessing saved data from cloud storage whenever requested by authorised users.</li>
+  <li><strong>Information Archiving:</strong> Moving inactive or rarely used data into low-cost long-term cold storage for compliance or historical records.</li>
+  <li><strong>Information Protection:</strong> Safeguarding data against loss, damage or unauthorised access using encryption (at rest and in transit), authentication, access control, backup and replication.</li>
+</ol>
+
+<h3>15-mark question (compiled question collection)</h3>
+<p><strong>Q. Explain Information Storage, Retrieval, Archive and Protection in Cloud Computing.</strong></p>
+<p>A suitable answer structure:</p>
+<ol>
+  <li>Introduction to information management in cloud computing.</li>
+  <li>Meaning and types of information storage (Object, Block, File).</li>
+  <li>Information retrieval and its working process.</li>
+  <li>Information archiving and storage tiers (Hot, Warm, Cold).</li>
+  <li>Information protection methods (Encryption at rest/in transit, IAM, Backup, Replication).</li>
+  <li>Lifecycle diagram showing how protection wraps all stages.</li>
+  <li>Advantages and conclusion.</li>
+</ol>
+<div class="note">
+  <p><strong>IMPORTANT</strong></p>
+  <p>This 15-mark question is listed in the compiled question collection (marked YELLOW), not confirmed as a direct question from the primary 2022–24 MCA Semester IV paper.</p>
+</div>
+<h2>1.10 Quick revision</h2>
+<ul>
+  <li><strong>Storage</strong> = saving information.</li>
+  <li><strong>Retrieval</strong> = accessing saved information.</li>
+  <li><strong>Archiving</strong> = preserving inactive information for long-term use.</li>
+  <li><strong>Protection</strong> = preventing loss, damage and unauthorised access.</li>
+  <li><strong>Object storage</strong> = stores objects (data + metadata + ID).</li>
+  <li><strong>Block storage</strong> = stores data in fixed-sized blocks.</li>
+  <li><strong>File storage</strong> = stores files and folders hierarchically.</li>
+  <li><strong>Hot storage</strong> = frequently accessed.</li>
+  <li><strong>Cold storage</strong> = rarely accessed.</li>
+  <li><strong>Encryption at rest</strong> = protects stored data.</li>
+  <li><strong>Encryption in transit</strong> = protects moving data.</li>
+</ul>
+
+<h2>YouTube videos (Hindi)</h2>
+<ol>
+  <li><strong>Cloud Storage in Hindi (YouTube Search Link):</strong> Covers cloud storage types, working and examples in Hindi. <a href="https://www.youtube.com/results?search_query=Cloud+Storage+in+Hindi" target="_blank" rel="noopener">Open YouTube search</a></li>
+  <li><strong>Cloud Backup and Archiving in Hindi (YouTube Search Link):</strong> Covers data archiving, hot/warm/cold tiers and backup concepts in Hindi. <a href="https://www.youtube.com/results?search_query=Cloud+Backup+and+Archiving+in+Hindi" target="_blank" rel="noopener">Open YouTube search</a></li>
+  <li><strong>Cloud Data Protection in Hindi (YouTube Search Link):</strong> Covers encryption at rest, encryption in transit and cloud data security in Hindi. <a href="https://www.youtube.com/results?search_query=Cloud+Data+Protection+in+Hindi" target="_blank" rel="noopener">Open YouTube search</a></li>
+</ol>
+
+<h2>Sources</h2>
+<ul>
+  <li><a href="https://www.geeksforgeeks.org/cloud-computing/cloud-storage/" target="_blank" rel="noopener">GeeksforGeeks: Cloud Storage</a></li>
+  <li><a href="https://aws.amazon.com/archive/" target="_blank" rel="noopener">AWS: Data Archiving</a></li>
+  <li><a href="https://cloud.google.com/storage/docs" target="_blank" rel="noopener">Google Cloud: Storage Documentation</a></li>
+  <li><a href="https://csrc.nist.gov/publications/detail/sp/800-209/final" target="_blank" rel="noopener">NIST: Security Guidelines for Storage Infrastructure (SP 800-209)</a></li>
+</ul>
+</section>
+
+
+<section class="tp tb">
+<h1 id="t2">Topic 2. Cloud Analytics</h1>
+<p><span class="b">BLACK</span><strong>BLACK priority</strong> · One-time reading · Official syllabus · Topic 2 of 13</p>
+
+<div class="note">
+  <p><strong>WHY STUDY THIS TOPIC?</strong></p>
+  <p>Organisations generate massive volumes of data daily from websites, apps, databases and IoT devices. Cloud Analytics enables businesses to store, process and analyse large datasets on scalable cloud platforms without building costly local analytics infrastructure.</p>
+</div>
+
+<h2>How much depth is needed?</h2>
+<ul>
+  <li><strong>1 mark:</strong> Define Cloud Analytics and name its four main types.</li>
+  <li><strong>5 marks:</strong> Explain the Cloud Analytics workflow, main components, advantages and challenges.</li>
+  <li><strong>15 marks:</strong> Low priority (BLACK) — no confirmed direct PYQ identified; focus on clear definitions, workflow diagram, types table and real-life example for concise understanding.</li>
+</ul>
+
+<h2>2.1 What is Cloud Analytics?</h2>
+<p><strong>Cloud Analytics</strong> is the process of collecting, storing, processing and analysing data using cloud-based computing resources and analytical tools.</p>
+<p>In simple words, Cloud Analytics helps organisations understand large amounts of data using cloud platforms instead of depending entirely on their own computers and servers.</p>
+
+<h3>Example: Online Shopping Company</h3>
+<p>Suppose an online shopping company receives thousands of orders every day. Using Cloud Analytics, it can analyse:</p>
+<ul>
+  <li>Which products are selling the most.</li>
+  <li>Which city has the highest number of customers.</li>
+  <li>Which products are frequently returned.</li>
+  <li>How customer purchasing behaviour changes over time.</li>
+</ul>
+
+<h2>2.2 How does Cloud Analytics work?</h2>
+<p>The process generally involves five steps:</p>
+<ol>
+  <li><strong>Data Collection:</strong> Collect data from websites, applications, databases and devices.</li>
+  <li><strong>Data Storage:</strong> Store data in cloud storage or a cloud data warehouse.</li>
+  <li><strong>Data Processing:</strong> Clean, organise and transform the collected data.</li>
+  <li><strong>Data Analysis:</strong> Apply analytical methods to identify patterns and trends.</li>
+  <li><strong>Visualisation and Reporting:</strong> Display results through charts, dashboards and reports.</li>
+</ol>
+
+<div class="fig">
+  <svg viewBox="0 0 760 224" style="height:224px" role="img" aria-label="Cloud Analytics workflow">
+    <defs>
+      <marker id="ae2_1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0L10 5L0 10z" fill="#b3261e"/>
+      </marker>
+    </defs>
+    <rect x="12" y="42" width="128" height="96" rx="8" class="yx"/>
+    <text x="76" y="68" text-anchor="middle" class="cap">1. Collection</text>
+    <text x="76" y="90" text-anchor="middle">Web, apps, DBs</text>
+    <text x="76" y="108" text-anchor="middle">&amp; IoT devices</text>
+
+    <line x1="142" y1="90" x2="162" y2="90" class="ln" marker-end="url(#ae2_1)"/>
+
+    <rect x="164" y="42" width="128" height="96" rx="8" class="bx"/>
+    <text x="228" y="68" text-anchor="middle" class="cap">2. Storage</text>
+    <text x="228" y="90" text-anchor="middle">Cloud storage /</text>
+    <text x="228" y="108" text-anchor="middle">Data warehouse</text>
+
+    <line x1="294" y1="90" x2="314" y2="90" class="ln" marker-end="url(#ae2_1)"/>
+
+    <rect x="316" y="42" width="128" height="96" rx="8" class="bx"/>
+    <text x="380" y="68" text-anchor="middle" class="cap">3. Processing</text>
+    <text x="380" y="90" text-anchor="middle">Clean, organise</text>
+    <text x="380" y="108" text-anchor="middle">&amp; transform</text>
+
+    <line x1="446" y1="90" x2="466" y2="90" class="ln" marker-end="url(#ae2_1)"/>
+
+    <rect x="468" y="42" width="128" height="96" rx="8" class="rx"/>
+    <text x="532" y="68" text-anchor="middle" class="cap">4. Analysis</text>
+    <text x="532" y="90" text-anchor="middle">Identify trends</text>
+    <text x="532" y="108" text-anchor="middle">&amp; patterns</text>
+
+    <line x1="598" y1="90" x2="618" y2="90" class="ln" marker-end="url(#ae2_1)"/>
+
+    <rect x="620" y="42" width="128" height="96" rx="8" class="yx"/>
+    <text x="684" y="68" text-anchor="middle" class="cap">5. Reporting</text>
+    <text x="684" y="90" text-anchor="middle">Charts, reports</text>
+    <text x="684" y="108" text-anchor="middle">&amp; dashboards</text>
+
+    <text x="380" y="182" text-anchor="middle" class="cap">Five-stage Cloud Analytics pipeline from raw data to business insights</text>
+  </svg>
+</div>
+<p class="cap-p"><em>Figure 1: Cloud Analytics workflow</em></p>
+
+<h2>2.3 Main components</h2>
+<ol>
+  <li><strong>Data Sources:</strong> Websites, applications, databases and IoT devices.</li>
+  <li><strong>Cloud Storage:</strong> Stores collected data.</li>
+  <li><strong>Data Processing:</strong> Cleans and transforms data.</li>
+  <li><strong>Analytics Tools:</strong> Analyse data and identify useful information.</li>
+  <li><strong>Visualisation Tools:</strong> Present results using charts and dashboards.</li>
+</ol>
+
+<div class="fig">
+  <svg viewBox="0 0 760 256" style="height:256px" role="img" aria-label="Main Components of Cloud Analytics Architecture">
+    <defs>
+      <marker id="ae2_2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0L10 5L0 10z" fill="#b3261e"/>
+      </marker>
+    </defs>
+    <rect x="240" y="12" width="280" height="44" rx="8" class="rx"/>
+    <text x="380" y="39" text-anchor="middle" class="cap">CLOUD ANALYTICS ARCHITECTURE</text>
+
+    <line x1="380" y1="56" x2="86" y2="96" class="ln" marker-end="url(#ae2_2)"/>
+    <line x1="380" y1="56" x2="233" y2="96" class="ln" marker-end="url(#ae2_2)"/>
+    <line x1="380" y1="56" x2="380" y2="96" class="ln" marker-end="url(#ae2_2)"/>
+    <line x1="380" y1="56" x2="527" y2="96" class="ln" marker-end="url(#ae2_2)"/>
+    <line x1="380" y1="56" x2="674" y2="96" class="ln" marker-end="url(#ae2_2)"/>
+
+    <rect x="18" y="98" width="136" height="114" rx="8" class="bx"/>
+    <text x="86" y="124" text-anchor="middle" class="cap">Data Sources</text>
+    <text x="86" y="148" text-anchor="middle">Websites, apps,</text>
+    <text x="86" y="168" text-anchor="middle">DBs &amp; IoT</text>
+    <text x="86" y="188" text-anchor="middle">devices</text>
+
+    <rect x="165" y="98" width="136" height="114" rx="8" class="kx"/>
+    <text x="233" y="124" text-anchor="middle" class="w">Cloud Storage</text>
+    <text x="233" y="148" text-anchor="middle" class="w">Stores raw &amp;</text>
+    <text x="233" y="168" text-anchor="middle" class="w">structured</text>
+    <text x="233" y="188" text-anchor="middle" class="w">datasets</text>
+
+    <rect x="312" y="98" width="136" height="114" rx="8" class="yx"/>
+    <text x="380" y="124" text-anchor="middle" class="cap">Processing</text>
+    <text x="380" y="148" text-anchor="middle">Cleans, filters</text>
+    <text x="380" y="168" text-anchor="middle">&amp; transforms</text>
+    <text x="380" y="188" text-anchor="middle">data</text>
+
+    <rect x="459" y="98" width="136" height="114" rx="8" class="yx"/>
+    <text x="527" y="124" text-anchor="middle" class="cap">Analytics Tools</text>
+    <text x="527" y="148" text-anchor="middle">Models, mining</text>
+    <text x="527" y="168" text-anchor="middle">&amp; pattern</text>
+    <text x="527" y="188" text-anchor="middle">detection</text>
+
+    <rect x="606" y="98" width="136" height="114" rx="8" class="bx"/>
+    <text x="674" y="124" text-anchor="middle" class="cap">Visualisation</text>
+    <text x="674" y="148" text-anchor="middle">Interactive</text>
+    <text x="674" y="168" text-anchor="middle">charts &amp;</text>
+    <text x="674" y="188" text-anchor="middle">dashboards</text>
+  </svg>
+</div>
+<p class="cap-p"><em>Figure 2: Five main components of Cloud Analytics</em></p>
+
+<h2>2.4 Types of Cloud Analytics</h2>
+<div class="tw">
+  <table>
+    <thead>
+      <tr><th>Type</th><th>Purpose</th><th>Example</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Descriptive Analytics</strong></td><td>Understand what happened</td><td>Monthly sales report</td></tr>
+      <tr><td><strong>Diagnostic Analytics</strong></td><td>Understand why it happened</td><td>Why sales decreased</td></tr>
+      <tr><td><strong>Predictive Analytics</strong></td><td>Predict what may happen</td><td>Forecast future sales</td></tr>
+      <tr><td><strong>Prescriptive Analytics</strong></td><td>Suggest what action to take</td><td>Recommend inventory levels</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="fig">
+  <svg viewBox="0 0 760 224" style="height:224px" role="img" aria-label="Four Types of Cloud Analytics Progression">
+    <defs>
+      <marker id="ae2_3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0L10 5L0 10z" fill="#b3261e"/>
+      </marker>
+    </defs>
+    <rect x="16" y="34" width="166" height="126" rx="8" class="bx"/>
+    <text x="99" y="60" text-anchor="middle" class="cap">1. Descriptive</text>
+    <text x="99" y="84" text-anchor="middle">What happened?</text>
+    <text x="99" y="112" text-anchor="middle">Ex: Monthly</text>
+    <text x="99" y="130" text-anchor="middle">sales report</text>
+
+    <line x1="184" y1="97" x2="202" y2="97" class="ln" marker-end="url(#ae2_3)"/>
+
+    <rect x="204" y="34" width="166" height="126" rx="8" class="yx"/>
+    <text x="287" y="60" text-anchor="middle" class="cap">2. Diagnostic</text>
+    <text x="287" y="84" text-anchor="middle">Why did it happen?</text>
+    <text x="287" y="112" text-anchor="middle">Ex: Why sales</text>
+    <text x="287" y="130" text-anchor="middle">decreased</text>
+
+    <line x1="372" y1="97" x2="390" y2="97" class="ln" marker-end="url(#ae2_3)"/>
+
+    <rect x="392" y="34" width="166" height="126" rx="8" class="yx"/>
+    <text x="475" y="60" text-anchor="middle" class="cap">3. Predictive</text>
+    <text x="475" y="84" text-anchor="middle">What may happen?</text>
+    <text x="475" y="112" text-anchor="middle">Ex: Forecast</text>
+    <text x="475" y="130" text-anchor="middle">future sales</text>
+
+    <line x1="560" y1="97" x2="578" y2="97" class="ln" marker-end="url(#ae2_3)"/>
+
+    <rect x="580" y="34" width="164" height="126" rx="8" class="rx"/>
+    <text x="662" y="60" text-anchor="middle" class="cap">4. Prescriptive</text>
+    <text x="662" y="84" text-anchor="middle">What action to take?</text>
+    <text x="662" y="112" text-anchor="middle">Ex: Recommend</text>
+    <text x="662" y="130" text-anchor="middle">inventory levels</text>
+
+    <text x="380" y="194" text-anchor="middle" class="cap">Increasing analytical value: from past reporting to future action recommendations</text>
+  </svg>
+</div>
+<p class="cap-p"><em>Figure 3: Four types of Cloud Analytics</em></p>
+
+<h2>2.5 Advantages</h2>
+<ul>
+  <li><strong>Scalability:</strong> Process increasing amounts of data.</li>
+  <li><strong>Cost efficiency:</strong> Reduce investment in local infrastructure.</li>
+  <li><strong>Accessibility:</strong> Analyse information from different locations.</li>
+  <li><strong>Faster processing:</strong> Use cloud computing resources when needed.</li>
+  <li><strong>Better decisions:</strong> Identify trends and patterns.</li>
+  <li><strong>Integration:</strong> Combine data from multiple sources.</li>
+</ul>
+
+<h2>2.6 Challenges</h2>
+<ul>
+  <li>Data privacy and security.</li>
+  <li>Internet dependency.</li>
+  <li>Data integration difficulties.</li>
+  <li>Cloud service costs.</li>
+  <li>Vendor lock-in.</li>
+  <li>Need for skilled professionals.</li>
+</ul>
+
+<h2>2.7 Real-life example</h2>
+<p>Consider an online shopping company:</p>
+<ol>
+  <li>Customers place orders through its website.</li>
+  <li>Order information is stored in cloud databases.</li>
+  <li>Cloud Analytics processes sales and customer information.</li>
+  <li>Reports show popular products and customer trends.</li>
+  <li>Management uses these reports to improve business decisions.</li>
+</ol>
+
+<h2>2.8 Important terms</h2>
+<div class="tw">
+  <table>
+    <thead>
+      <tr><th>Term</th><th>Meaning</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Big Data</strong></td><td>Very large and complex datasets</td></tr>
+      <tr><td><strong>Data Warehouse</strong></td><td>Centralised system for analytical data</td></tr>
+      <tr><td><strong>Business Intelligence</strong></td><td>Tools and methods for business decision-making</td></tr>
+      <tr><td><strong>Dashboard</strong></td><td>Visual display of important information</td></tr>
+      <tr><td><strong>Data Mining</strong></td><td>Finding useful patterns in data</td></tr>
+      <tr><td><strong>Data Visualisation</strong></td><td>Presenting data visually</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>2.9 Exam preparation</h2>
+<p><span class="b">BLACK</span><strong>No confirmed direct PYQ identified</strong></p>
+<div class="note">
+  <p><strong>EXAM NOTE</strong></p>
+  <p>Your reviewed question collection does not list a specific Cloud Analytics question, and the primary MCA Semester IV paper does not contain a confirmed direct question on this topic. Prepare the definition, workflow, components, types, advantages and challenges for basic understanding. No 1-, 5- or 15-mark PYQ answer is being invented here.</p>
+</div>
+
+<h2>2.10 Quick revision</h2>
+<ul>
+  <li><strong>Cloud Analytics</strong> = analysing data using cloud resources.</li>
+  <li><strong>Data collection</strong> = gathering information.</li>
+  <li><strong>Data processing</strong> = cleaning and organising information.</li>
+  <li><strong>Data analysis</strong> = identifying useful patterns.</li>
+  <li><strong>Visualisation</strong> = displaying results.</li>
+  <li><strong>Predictive Analytics</strong> = estimating future outcomes.</li>
+  <li><strong>Prescriptive Analytics</strong> = recommending actions.</li>
+</ul>
+
+<h2>YouTube videos (Hindi)</h2>
+<ol>
+  <li><strong>Cloud Analytics in Hindi (YouTube Search Link):</strong> Covers cloud data analytics concepts, workflow and tools in Hindi. <a href="https://www.youtube.com/results?search_query=Cloud+Analytics+in+Hindi" target="_blank" rel="noopener">Open YouTube search</a></li>
+  <li><strong>Big Data and Cloud Analytics in Hindi (YouTube Search Link):</strong> Covers cloud data warehousing, processing and analytics basics in Hindi. <a href="https://www.youtube.com/results?search_query=Big+Data+and+Cloud+Analytics+in+Hindi" target="_blank" rel="noopener">Open YouTube search</a></li>
+  <li><strong>Types of Data Analytics Descriptive Diagnostic Predictive Prescriptive in Hindi (YouTube Search Link):</strong> Explains the four types of analytics with examples in Hindi. <a href="https://www.youtube.com/results?search_query=Descriptive+Diagnostic+Predictive+Prescriptive+Analytics+in+Hindi" target="_blank" rel="noopener">Open YouTube search</a></li>
+</ol>
+
+<h2>Sources</h2>
+<ul>
+  <li><a href="https://www.geeksforgeeks.org/blogs/role-of-cloud-computing-in-big-data-analytics/" target="_blank" rel="noopener">GeeksforGeeks: Role of Cloud Computing in Big Data Analytics</a></li>
+  <li><a href="https://www.tutorialspoint.com/article/what-is-cloud-analytics" target="_blank" rel="noopener">TutorialsPoint: What is Cloud Analytics?</a></li>
+</ul>
+</section>
+
+
+<section class="tp tb">
+<h1 id="t3">Topic 3. Testing Under Cloud</h1>
+<p><span class="b">BLACK</span><strong>BLACK priority</strong> · One-time syllabus coverage · Official syllabus · Topic 3 of 13</p>
+
+<div class="note">
+  <p><strong>WHY STUDY THIS TOPIC?</strong></p>
+  <p>No direct or related question on Testing Under Cloud was found in the checked question collection or the primary MCA Semester IV 2022–24 paper. This topic is for one-time syllabus coverage—do not spend as much time on it as RED-priority topics.</p>
+</div>
+
+<h2>How much depth is needed?</h2>
+<ul>
+  <li><strong>1 mark:</strong> Define Testing Under Cloud and differentiate it from testing a cloud-based application.</li>
+  <li><strong>5 marks:</strong> Explain the need for cloud testing, its five main types, workflow, advantages and challenges.</li>
+  <li><strong>15 marks:</strong> Low priority (BLACK) — no confirmed direct or related PYQ found; focus on definitions, types, 6-step workflow diagram and comparison table.</li>
+</ul>
+
+<h2>3.1 What is Testing Under Cloud?</h2>
+<p><strong>Testing Under Cloud</strong> means using cloud-based infrastructure, platforms and tools to test software applications.</p>
+<p>Instead of purchasing and maintaining physical testing servers, developers can use cloud resources to create testing environments whenever required.</p>
+
+<h3>Simple example: Online Shopping Website</h3>
+<p>Suppose you develop an online shopping website. Before releasing it, you need to check whether:</p>
+<ul>
+  <li>Users can log in successfully.</li>
+  <li>Products are displayed correctly.</li>
+  <li>Payments work properly.</li>
+  <li>The website can handle 10,000 users simultaneously.</li>
+  <li>User information is secure.</li>
+</ul>
+<p>You can use cloud resources such as <strong>AWS</strong> or <strong>Microsoft Azure</strong> to perform these tests.</p>
+
+<h2>3.2 Why do we need Cloud Testing?</h2>
+<p>Consider a company that wants to test its application with 10,000 users. If it uses traditional infrastructure, it may need to purchase and maintain many physical servers, which is expensive. <strong>Cloud testing</strong> solves this problem by providing testing resources on demand.</p>
+<ol>
+  <li><strong>Cost reduction:</strong> No need to purchase expensive physical testing servers.</li>
+  <li><strong>Scalability:</strong> Increase or decrease testing resources as required.</li>
+  <li><strong>Flexibility:</strong> Create different testing environments easily.</li>
+  <li><strong>Accessibility:</strong> Testing teams can access resources from different locations.</li>
+  <li><strong>Faster testing:</strong> Multiple tests can run simultaneously.</li>
+</ol>
+
+<h2>3.3 Types of Cloud Testing</h2>
+<p>Different types of testing are performed to check different aspects of an application:</p>
+
+<h3>A. Functional Testing</h3>
+<p>Checks whether the application's features work according to requirements.</p>
+<ul>
+  <li><strong>Example:</strong> Does login work? Can users add products to a cart? Does the payment process work?</li>
+</ul>
+
+<h3>B. Performance Testing</h3>
+<p>Checks how well an application performs under different workloads. <strong>Example:</strong> Testing whether a shopping website works properly when 10,000 users visit it simultaneously.</p>
+<div class="tw">
+  <table>
+    <thead>
+      <tr><th>Type</th><th>Meaning</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Load testing</strong></td><td>Checks performance under expected user load.</td></tr>
+      <tr><td><strong>Stress testing</strong></td><td>Checks behaviour beyond normal capacity.</td></tr>
+      <tr><td><strong>Scalability testing</strong></td><td>Checks whether the application can handle increasing workloads.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>C. Security Testing</h3>
+<p>Checks whether the application and its data are protected against security threats.</p>
+<ul>
+  <li><strong>Example:</strong> Can an unauthorised user access private information? Is sensitive data protected? Are authentication mechanisms working correctly?</li>
+</ul>
+
+<h3>D. Compatibility Testing</h3>
+<p>Checks whether the application works across different environments.</p>
+<ul>
+  <li><strong>Example:</strong> Chrome, Firefox and Edge; Windows, Linux and macOS; different mobile devices.</li>
+</ul>
+
+<h3>E. Availability and Reliability Testing</h3>
+<p>Checks whether an application remains available and works correctly over time.</p>
+<ul>
+  <li><strong>Example:</strong> Checking whether an application continues working when one server fails.</li>
+</ul>
+
+<div class="fig">
+  <svg viewBox="0 0 760 256" style="height:256px" role="img" aria-label="Five Main Types of Cloud Testing">
+    <defs>
+      <marker id="ae3_1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0L10 5L0 10z" fill="#b3261e"/>
+      </marker>
+    </defs>
+    <rect x="240" y="12" width="280" height="44" rx="8" class="rx"/>
+    <text x="380" y="39" text-anchor="middle" class="cap">TYPES OF CLOUD TESTING</text>
+
+    <line x1="380" y1="56" x2="86" y2="96" class="ln" marker-end="url(#ae3_1)"/>
+    <line x1="380" y1="56" x2="233" y2="96" class="ln" marker-end="url(#ae3_1)"/>
+    <line x1="380" y1="56" x2="380" y2="96" class="ln" marker-end="url(#ae3_1)"/>
+    <line x1="380" y1="56" x2="527" y2="96" class="ln" marker-end="url(#ae3_1)"/>
+    <line x1="380" y1="56" x2="674" y2="96" class="ln" marker-end="url(#ae3_1)"/>
+
+    <rect x="18" y="98" width="136" height="118" rx="8" class="yx"/>
+    <text x="86" y="122" text-anchor="middle" class="cap">Functional</text>
+    <text x="86" y="146" text-anchor="middle">Features work</text>
+    <text x="86" y="166" text-anchor="middle">per specs</text>
+    <text x="86" y="188" text-anchor="middle">(Login, cart)</text>
+
+    <rect x="165" y="98" width="136" height="118" rx="8" class="rx"/>
+    <text x="233" y="122" text-anchor="middle" class="cap">Performance</text>
+    <text x="233" y="146" text-anchor="middle">Load, Stress</text>
+    <text x="233" y="166" text-anchor="middle">&amp; Scalability</text>
+    <text x="233" y="188" text-anchor="middle">(10,000 users)</text>
+
+    <rect x="312" y="98" width="136" height="118" rx="8" class="kx"/>
+    <text x="380" y="122" text-anchor="middle" class="w">Security</text>
+    <text x="380" y="146" text-anchor="middle" class="w">Auth &amp; data</text>
+    <text x="380" y="166" text-anchor="middle" class="w">protection</text>
+    <text x="380" y="188" text-anchor="middle" class="w">from threats</text>
+
+    <rect x="459" y="98" width="136" height="118" rx="8" class="bx"/>
+    <text x="527" y="122" text-anchor="middle" class="cap">Compatibility</text>
+    <text x="527" y="146" text-anchor="middle">Browsers, OS</text>
+    <text x="527" y="166" text-anchor="middle">&amp; mobile</text>
+    <text x="527" y="188" text-anchor="middle">devices</text>
+
+    <rect x="606" y="98" width="136" height="118" rx="8" class="yx"/>
+    <text x="674" y="122" text-anchor="middle" class="cap">Reliability</text>
+    <text x="674" y="146" text-anchor="middle">Uptime &amp;</text>
+    <text x="674" y="166" text-anchor="middle">availability</text>
+    <text x="674" y="188" text-anchor="middle">on failure</text>
+  </svg>
+</div>
+<p class="cap-p"><em>Figure 1: Five main categories of Cloud Testing</em></p>
+
+<h2>3.4 How Does Cloud Testing Work?</h2>
+<p>The general process follows six sequential stages:</p>
+<ol>
+  <li><strong>Requirements:</strong> Decide what needs to be tested.</li>
+  <li><strong>Test Planning:</strong> Prepare test cases and testing strategy.</li>
+  <li><strong>Create Cloud Environment:</strong> Provision cloud servers and testing tools.</li>
+  <li><strong>Execute Tests:</strong> Run functional, performance and security tests.</li>
+  <li><strong>Monitor and Analyse:</strong> Collect logs, errors and performance results.</li>
+  <li><strong>Report and Retest:</strong> Fix problems and test the application again.</li>
+</ol>
+
+<div class="fig">
+  <svg viewBox="0 0 760 288" style="height:288px" role="img" aria-label="Six-step Cloud Testing Process">
+    <defs>
+      <marker id="ae3_2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0L10 5L0 10z" fill="#b3261e"/>
+      </marker>
+    </defs>
+    <!-- Row 1: Steps 1 -> 2 -> 3 -->
+    <rect x="24" y="24" width="210" height="84" rx="8" class="bx"/>
+    <text x="129" y="50" text-anchor="middle" class="cap">1. Requirements</text>
+    <text x="129" y="72" text-anchor="middle">Decide what needs</text>
+    <text x="129" y="90" text-anchor="middle">to be tested</text>
+
+    <line x1="236" y1="66" x2="273" y2="66" class="ln" marker-end="url(#ae3_2)"/>
+
+    <rect x="275" y="24" width="210" height="84" rx="8" class="yx"/>
+    <text x="380" y="50" text-anchor="middle" class="cap">2. Test Planning</text>
+    <text x="380" y="72" text-anchor="middle">Prepare test cases</text>
+    <text x="380" y="90" text-anchor="middle">&amp; testing strategy</text>
+
+    <line x1="487" y1="66" x2="524" y2="66" class="ln" marker-end="url(#ae3_2)"/>
+
+    <rect x="526" y="24" width="210" height="84" rx="8" class="kx"/>
+    <text x="631" y="50" text-anchor="middle" class="w">3. Cloud Environment</text>
+    <text x="631" y="72" text-anchor="middle" class="w">Provision cloud servers</text>
+    <text x="631" y="90" text-anchor="middle" class="w">&amp; testing tools</text>
+
+    <!-- Connector from Step 3 down to Step 4 -->
+    <line x1="631" y1="110" x2="631" y2="148" class="rl" marker-end="url(#ae3_2)"/>
+
+    <!-- Row 2: Steps 6 <- 5 <- 4 -->
+    <rect x="526" y="150" width="210" height="84" rx="8" class="rx"/>
+    <text x="631" y="176" text-anchor="middle" class="cap">4. Execute Tests</text>
+    <text x="631" y="198" text-anchor="middle">Run functional, load</text>
+    <text x="631" y="216" text-anchor="middle">&amp; security tests</text>
+
+    <line x1="524" y1="192" x2="487" y2="192" class="ln" marker-end="url(#ae3_2)"/>
+
+    <rect x="275" y="150" width="210" height="84" rx="8" class="yx"/>
+    <text x="380" y="176" text-anchor="middle" class="cap">5. Monitor &amp; Analyse</text>
+    <text x="380" y="198" text-anchor="middle">Collect logs, errors &amp;</text>
+    <text x="380" y="216" text-anchor="middle">performance metrics</text>
+
+    <line x1="273" y1="192" x2="236" y2="192" class="ln" marker-end="url(#ae3_2)"/>
+
+    <rect x="24" y="150" width="210" height="84" rx="8" class="bx"/>
+    <text x="129" y="176" text-anchor="middle" class="cap">6. Report &amp; Retest</text>
+    <text x="129" y="198" text-anchor="middle">Fix defects &amp; re-run</text>
+    <text x="129" y="216" text-anchor="middle">verification tests</text>
+
+    <text x="380" y="266" text-anchor="middle" class="cap">Six-step lifecycle of Testing Under Cloud</text>
+  </svg>
+</div>
+<p class="cap-p"><em>Figure 2: Six-step Cloud Testing workflow</em></p>
+
+<h2>3.5 Advantages of Cloud Testing</h2>
+<ul>
+  <li><strong>Cost-effective:</strong> Reduces hardware and maintenance expenses.</li>
+  <li><strong>Scalable:</strong> Resources can be increased or decreased.</li>
+  <li><strong>Flexible:</strong> Different testing environments can be created.</li>
+  <li><strong>Faster execution:</strong> Multiple testing activities can run simultaneously.</li>
+  <li><strong>Global access:</strong> Teams can access testing environments remotely.</li>
+</ul>
+
+<h2>3.6 Challenges of Cloud Testing</h2>
+<ul>
+  <li><strong>Internet dependency:</strong> A stable internet connection is required.</li>
+  <li><strong>Security concerns:</strong> Test data may contain sensitive information.</li>
+  <li><strong>Network variability:</strong> Network delays can affect test results.</li>
+  <li><strong>Cost management:</strong> Unused cloud resources may increase expenses.</li>
+  <li><strong>Resource limitations:</strong> Cloud providers may impose usage limits.</li>
+</ul>
+
+<h2>3.7 Practical Example</h2>
+<p>Imagine an e-commerce company developing a shopping application on <strong>AWS</strong>. Before launching it, the company:</p>
+<ol>
+  <li>Performs functional testing to check login and payment.</li>
+  <li>Performs load testing to simulate thousands of users.</li>
+  <li>Performs security testing to protect customer information.</li>
+  <li>Performs compatibility testing on different browsers.</li>
+  <li>Analyses the test reports and fixes errors.</li>
+</ol>
+<p>After successful testing, the company releases the application.</p>
+
+<h2>3.8 Important Terms</h2>
+<div class="tw">
+  <table>
+    <thead>
+      <tr><th>Term</th><th>Meaning</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Test Case</strong></td><td>A set of steps used to check a feature.</td></tr>
+      <tr><td><strong>Test Environment</strong></td><td>The setup in which testing is performed.</td></tr>
+      <tr><td><strong>Load Testing</strong></td><td>Testing under expected user load.</td></tr>
+      <tr><td><strong>Stress Testing</strong></td><td>Testing beyond normal capacity.</td></tr>
+      <tr><td><strong>Test Automation</strong></td><td>Running tests automatically using tools.</td></tr>
+      <tr><td><strong>Test Report</strong></td><td>A document containing testing results.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>3.9 Testing Under Cloud vs Testing a Cloud-Based Application</h2>
+<p>These terms are related, but they describe different things:</p>
+<div class="tw">
+  <table>
+    <thead>
+      <tr><th>Testing Under Cloud</th><th>Testing a Cloud-Based Application</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Uses cloud resources to perform testing.</td><td>Tests an application that runs on the cloud.</td></tr>
+      <tr><td>Focuses on the testing environment.</td><td>Focuses on the application and its behaviour.</td></tr>
+      <tr><td><strong>Example:</strong> Using AWS servers to run automated tests.</td><td><strong>Example:</strong> Checking whether an application hosted on AWS works correctly.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="fig">
+  <svg viewBox="0 0 760 224" style="height:224px" role="img" aria-label="Testing Under Cloud vs Testing a Cloud-Based Application">
+    <rect x="24" y="28" width="336" height="148" rx="8" class="yx"/>
+    <text x="192" y="56" text-anchor="middle" class="cap">Testing Under Cloud</text>
+    <text x="192" y="84" text-anchor="middle">Uses cloud infrastructure &amp; tools</text>
+    <text x="192" y="106" text-anchor="middle">as the testing environment</text>
+    <text x="192" y="138" text-anchor="middle" class="cap">Ex: Running automated tests on AWS</text>
+
+    <rect x="400" y="28" width="336" height="148" rx="8" class="bx"/>
+    <text x="568" y="56" text-anchor="middle" class="cap">Testing a Cloud-Based App</text>
+    <text x="568" y="84" text-anchor="middle">Verifies an application that is</text>
+    <text x="568" y="106" text-anchor="middle">hosted and running in the cloud</text>
+    <text x="568" y="138" text-anchor="middle" class="cap">Ex: Checking if an AWS app works</text>
+
+    <text x="380" y="204" text-anchor="middle" class="cap">Environment focus (Left) vs Application behaviour focus (Right)</text>
+  </svg>
+</div>
+<p class="cap-p"><em>Figure 3: Testing Under Cloud vs Testing a Cloud-Based Application</em></p>
+
+<h2>3.10 Exam preparation</h2>
+<p><span class="b">BLACK</span><strong>No confirmed direct or related PYQ found</strong></p>
+<div class="note">
+  <p><strong>EXAM NOTE</strong></p>
+  <p>No confirmed direct or related PYQ was found in the checked papers. These are syllabus notes, not predicted exam questions—review definitions, the five testing types, the 6-step workflow and the comparison table once for conceptual clarity.</p>
+</div>
+
+<h2>3.11 Quick Revision</h2>
+<ul>
+  <li><strong>Cloud testing</strong> uses cloud resources to test software.</li>
+  <li>It reduces the need for physical testing infrastructure.</li>
+  <li>Main types include <strong>functional</strong>, <strong>performance</strong>, <strong>security</strong>, <strong>compatibility</strong> and <strong>reliability</strong> testing.</li>
+  <li>Main advantages are <strong>scalability</strong>, <strong>flexibility</strong> and <strong>cost reduction</strong>.</li>
+  <li>Main challenges include <strong>internet dependency</strong>, <strong>security</strong> and <strong>cost management</strong>.</li>
+</ul>
+
+<h2>YouTube videos (Hindi)</h2>
+<ol>
+  <li><strong>Cloud Testing in Hindi (YouTube Search Link):</strong> Covers cloud testing concepts, types and benefits in Hindi. <a href="https://www.youtube.com/results?search_query=Cloud+Testing+in+Hindi" target="_blank" rel="noopener">Open YouTube search</a></li>
+  <li><strong>Performance Load and Stress Testing in Cloud in Hindi (YouTube Search Link):</strong> Explains functional, load, stress and scalability testing in Hindi. <a href="https://www.youtube.com/results?search_query=Load+and+Stress+Testing+in+Cloud+in+Hindi" target="_blank" rel="noopener">Open YouTube search</a></li>
+  <li><strong>Software Testing in Cloud Computing in Hindi (YouTube Search Link):</strong> Covers cloud testing workflow and challenges for university exams in Hindi. <a href="https://www.youtube.com/results?search_query=Software+Testing+in+Cloud+Computing+in+Hindi" target="_blank" rel="noopener">Open YouTube search</a></li>
+</ol>
+
+<h2>Sources</h2>
+<ul>
+  <li><a href="https://www.geeksforgeeks.org/software-testing/cloud-testing/" target="_blank" rel="noopener">GeeksforGeeks: Cloud Testing</a></li>
+  <li><a href="https://www.tutorialspoint.com/software_testing_dictionary/cloud_testing.htm" target="_blank" rel="noopener">TutorialsPoint: Cloud Testing</a></li>
+</ul>
+</section>
+
+<section class="tp tr">
+<h1 id="t4">Topic 4. Information Security</h1>
+<p><span class="r">RED</span><strong>RED priority</strong> · Topic 4 of 13</p>
+
+<div class="note">
+  <p><strong>WHY IS THIS IMPORTANT?</strong></p>
+  <p>Information Security is a major topic in Unit IV. The compiled question collection lists Cloud Security and its different security levels as important questions, including 15-mark questions about how Cloud Security works and its primary concerns, and Host-Level Security versus Application-Level Security.</p>
+  <p><strong>PYQ clarification:</strong> These questions are listed in the compiled question collection. The primary MCA Semester IV 2022–24 paper checked did not contain a direct Cloud Security question. It did contain a 15-mark Cloud Governance question, which is a separate topic.</p>
+</div>
+
+<h2>4.1 What is Information Security?</h2>
+<p><strong>Definition:</strong> Information Security is the process of protecting information and information systems from unauthorised access, use, disclosure, modification, destruction or disruption.</p>
+<p>In simple words, Information Security ensures that only authorised people can access information and that the information remains safe and correct.</p>
+<p><strong>Example:</strong> In an online banking application, only you should access your account, your password should remain private, nobody should modify your account balance illegally, and your banking information should be available when needed. These protections come under Information Security.</p>
+
+<h2>4.2 Three Main Principles of Information Security — CIA Triad</h2>
+<p>The CIA Triad is one of the most important concepts in Information Security. It consists of three principles:</p>
+<ul>
+  <li><strong>Confidentiality:</strong> Ensures that information is accessible only to authorised people. For example, only you can access your banking password.</li>
+  <li><strong>Integrity:</strong> Ensures that information remains accurate and is not modified without permission. For example, nobody should change your bank balance illegally.</li>
+  <li><strong>Availability:</strong> Ensures that information and services are available whenever authorised users need them. For example, your banking application should be available when you want to transfer money.</li>
+</ul>
+<p><strong>Easy way to remember:</strong> Confidentiality = Who can see the data? Integrity = Is the data correct? Availability = Can I access the data when needed?</p>
+<div class="fig">
+  <svg class="security-diagram" viewBox="0 0 760 190" role="img" aria-label="CIA Triad: confidentiality, integrity and availability">
+    <rect x="18" y="28" width="224" height="132" rx="8" class="rx"/>
+    <text x="130" y="62" text-anchor="middle" class="cap">CONFIDENTIALITY</text>
+    <text x="130" y="100" text-anchor="middle">Only authorised people</text>
+    <text x="130" y="124" text-anchor="middle">can view information</text>
+    <rect x="268" y="28" width="224" height="132" rx="8" class="yx"/>
+    <text x="380" y="62" text-anchor="middle" class="cap">INTEGRITY</text>
+    <text x="380" y="100" text-anchor="middle">Information stays</text>
+    <text x="380" y="124" text-anchor="middle">accurate and unchanged</text>
+    <rect x="518" y="28" width="224" height="132" rx="8" class="bx"/>
+    <text x="630" y="62" text-anchor="middle" class="cap">AVAILABILITY</text>
+    <text x="630" y="100" text-anchor="middle">Ready when authorised</text>
+    <text x="630" y="124" text-anchor="middle">users need it</text>
+  </svg>
+</div>
+<p><em>Figure: The three principles of the CIA Triad</em></p>
+
+<h2>4.3 Why is Information Security Required in Cloud Computing?</h2>
+<p>In cloud computing, organisations store their data on infrastructure managed by cloud service providers, and users access that data through networks. This creates several security risks.</p>
+<ol>
+  <li><strong>Data protection:</strong> Protect sensitive information from theft or unauthorised access.</li>
+  <li><strong>Privacy:</strong> Ensure that personal and business information remains private.</li>
+  <li><strong>Prevent data modification:</strong> Stop unauthorised users from changing information.</li>
+  <li><strong>Business continuity:</strong> Keep cloud services available during failures and attacks.</li>
+  <li><strong>Regulatory compliance:</strong> Help organisations meet legal and industry security requirements.</li>
+  <li><strong>Customer trust:</strong> Maintain customer confidence in cloud services.</li>
+</ol>
+
+<h2>4.4 Primary Security Concerns in Cloud Computing</h2>
+<p>These are major problems that organisations must consider when using cloud services.</p>
+<div class="tw">
+  <table>
+    <thead><tr><th>Security concern</th><th>Simple explanation</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Data Breach</strong></td><td>An unauthorised person gets access to confidential data.</td></tr>
+      <tr><td><strong>Data Loss</strong></td><td>Important information gets deleted, damaged or becomes unavailable.</td></tr>
+      <tr><td><strong>Account Hijacking</strong></td><td>An attacker gains control of a user's cloud account.</td></tr>
+      <tr><td><strong>Insecure APIs</strong></td><td>Weak application interfaces may be exploited by attackers.</td></tr>
+      <tr><td><strong>Insider Threat</strong></td><td>An employee or authorised person misuses their access.</td></tr>
+      <tr><td><strong>Denial of Service (DoS)</strong></td><td>Attackers make a service unavailable by overwhelming it.</td></tr>
+      <tr><td><strong>Misconfiguration</strong></td><td>Incorrect cloud security settings expose data or services.</td></tr>
+      <tr><td><strong>Privacy Issues</strong></td><td>Personal or confidential information is accessed or used improperly.</td></tr>
+    </tbody>
+  </table>
+</div>
+<h3>Understand with a simple example</h3>
+<p>Imagine a company stores customer information on a cloud server:</p>
+<ul>
+  <li>If an attacker steals customer records, it is a <strong>Data Breach</strong>.</li>
+  <li>If someone deletes the records, it is <strong>Data Loss</strong>.</li>
+  <li>If someone steals an employee's login credentials, it is <strong>Account Hijacking</strong>.</li>
+  <li>If storage permissions are set incorrectly, it is a <strong>Misconfiguration</strong>.</li>
+  <li>If attackers flood the website with requests, it is a <strong>Denial of Service</strong>.</li>
+</ul>
+
+<h2>4.5 Different Levels of Security in Cloud Computing</h2>
+<p>Cloud security is not provided through a single mechanism. Different layers protect different parts of the cloud environment. Four important levels are:</p>
+<ol>
+  <li>Network-Level Security</li>
+  <li>Host-Level Security</li>
+  <li>Application-Level Security</li>
+  <li>Data Security</li>
+</ol>
+<div class="fig">
+  <svg class="security-diagram" viewBox="0 0 760 190" role="img" aria-label="Four layers of cloud security">
+    <rect x="12" y="30" width="174" height="126" rx="8" class="rx"/>
+    <text x="99" y="62" text-anchor="middle" class="cap">NETWORK</text>
+    <text x="99" y="100" text-anchor="middle">Protects network</text>
+    <text x="99" y="124" text-anchor="middle">communication</text>
+    <rect x="204" y="30" width="174" height="126" rx="8" class="yx"/>
+    <text x="291" y="62" text-anchor="middle" class="cap">HOST</text>
+    <text x="291" y="100" text-anchor="middle">Protects servers</text>
+    <text x="291" y="124" text-anchor="middle">and their OS</text>
+    <rect x="396" y="30" width="174" height="126" rx="8" class="rx"/>
+    <text x="483" y="62" text-anchor="middle" class="cap">APPLICATION</text>
+    <text x="483" y="100" text-anchor="middle">Protects software</text>
+    <text x="483" y="124" text-anchor="middle">and its functions</text>
+    <rect x="588" y="30" width="160" height="126" rx="8" class="yx"/>
+    <text x="668" y="62" text-anchor="middle" class="cap">DATA</text>
+    <text x="668" y="100" text-anchor="middle">Protects stored</text>
+    <text x="668" y="124" text-anchor="middle">and moving data</text>
+  </svg>
+</div>
+<p><em>Figure: Four complementary levels of cloud security</em></p>
+
+<h3>A. Network-Level Security</h3>
+<p><strong>Definition:</strong> Network-Level Security protects communication networks and data travelling between users, servers and cloud resources. It prevents unauthorised network access and network-based attacks.</p>
+<p><strong>Common security methods:</strong></p>
+<ul>
+  <li>Firewalls control incoming and outgoing network traffic.</li>
+  <li>VPN creates a protected connection over a network.</li>
+  <li>Network segmentation divides networks into separate sections.</li>
+  <li>Intrusion Detection System (IDS) detects suspicious network activity.</li>
+  <li>Intrusion Prevention System (IPS) detects and blocks certain malicious activity.</li>
+  <li>TLS protects data while it travels across a network.</li>
+</ul>
+<p><strong>Example:</strong> When you access a cloud application, a firewall can prevent unauthorised network traffic from reaching its servers.</p>
+
+<h3>B. Host-Level Security</h3>
+<p><strong>Definition:</strong> Host-Level Security protects individual servers, virtual machines and operating systems running in a cloud environment. A host is a computer or server that runs applications and services.</p>
+<p><strong>Common security methods:</strong></p>
+<ul>
+  <li>Operating system updates and security patches.</li>
+  <li>Antivirus and endpoint protection.</li>
+  <li>Strong user authentication.</li>
+  <li>Restricting administrator privileges.</li>
+  <li>Disabling unnecessary services and ports.</li>
+  <li>Monitoring server activities.</li>
+</ul>
+<p><strong>Example:</strong> A company runs its application on an AWS virtual machine. It updates the operating system and restricts administrator access to protect that server.</p>
+
+<h3>C. Application-Level Security</h3>
+<p><strong>Definition:</strong> Application-Level Security protects software applications from vulnerabilities, attacks and unauthorised access. It focuses on securing the application itself.</p>
+<p><strong>Common security methods:</strong></p>
+<ul>
+  <li>Input validation checks user input before processing it.</li>
+  <li>Authentication verifies user identity.</li>
+  <li>Authorisation controls what an authenticated user can do.</li>
+  <li>Secure coding reduces programming vulnerabilities.</li>
+  <li>API security protects application programming interfaces.</li>
+  <li>Regular security testing finds vulnerabilities before attackers exploit them.</li>
+</ul>
+<p><strong>Example:</strong> An online shopping website should not allow users to access another customer's order simply by changing an order ID in the URL.</p>
+
+<h3>D. Data Security</h3>
+<p><strong>Definition:</strong> Data Security protects stored and transmitted information from unauthorised access, modification, disclosure or destruction.</p>
+<p><strong>Common security methods:</strong></p>
+<ul>
+  <li>Encryption at rest.</li>
+  <li>Encryption in transit.</li>
+  <li>Access control and permissions.</li>
+  <li>Backup and recovery.</li>
+  <li>Data masking.</li>
+  <li>Data classification.</li>
+</ul>
+<p><strong>Example:</strong> A cloud database stores customer passwords securely using password hashing rather than storing plain-text passwords.</p>
+
+<h2>4.6 Difference Between Host-Level Security and Application-Level Security</h2>
+<p>This comparison is listed as an important 15-mark question in the compiled collection.</p>
+<div class="tw">
+  <table>
+    <thead><tr><th>Basis</th><th>Host-Level Security</th><th>Application-Level Security</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Meaning</strong></td><td>Protects servers and operating systems.</td><td>Protects software applications.</td></tr>
+      <tr><td><strong>Focus</strong></td><td>Server and operating system.</td><td>Application code and functionality.</td></tr>
+      <tr><td><strong>Protection</strong></td><td>Protects the host environment.</td><td>Protects application features and data access.</td></tr>
+      <tr><td><strong>Methods</strong></td><td>OS patches, antivirus and access restrictions.</td><td>Input validation, authentication and secure coding.</td></tr>
+      <tr><td><strong>Example</strong></td><td>Securing an AWS virtual machine.</td><td>Securing the login feature of a website.</td></tr>
+    </tbody>
+  </table>
+</div>
+<p><strong>Remember:</strong> Host-Level Security protects the server on which software runs. Application-Level Security protects the software running on that server.</p>
+<div class="fig">
+  <svg class="security-diagram" viewBox="0 0 760 190" role="img" aria-label="Host-level versus application-level security">
+    <rect x="24" y="24" width="344" height="142" rx="8" class="yx"/>
+    <text x="196" y="56" text-anchor="middle" class="cap">HOST-LEVEL SECURITY</text>
+    <text x="196" y="94" text-anchor="middle">Protects the server and its OS</text>
+    <text x="196" y="122" text-anchor="middle">Example: patches and access rules</text>
+    <rect x="392" y="24" width="344" height="142" rx="8" class="rx"/>
+    <text x="564" y="56" text-anchor="middle" class="cap">APPLICATION-LEVEL SECURITY</text>
+    <text x="564" y="94" text-anchor="middle">Protects app code and features</text>
+    <text x="564" y="122" text-anchor="middle">Example: validation and login checks</text>
+  </svg>
+</div>
+<p><em>Figure: The host is protected separately from the application it runs</em></p>
+
+<h2>4.7 How Does Cloud Security Work?</h2>
+<p>Cloud Security works through multiple security controls that protect users, networks, servers, applications and data.</p>
+<ol>
+  <li><strong>User Authentication:</strong> Verify the user's identity using passwords, MFA or other methods.</li>
+  <li><strong>Authorisation:</strong> Check whether the user has permission to access the requested resource.</li>
+  <li><strong>Network Protection:</strong> Firewalls, VPNs and network controls protect communication.</li>
+  <li><strong>Server and Application Protection:</strong> Secure configurations, patches and application controls protect systems.</li>
+  <li><strong>Data Protection:</strong> Encryption, backup and access controls protect information.</li>
+  <li><strong>Monitoring and Detection:</strong> Logs and monitoring tools help detect suspicious activities.</li>
+</ol>
+<div class="fig">
+  <svg class="security-diagram" viewBox="0 0 760 270" role="img" aria-label="Cloud security workflow in six steps">
+    <defs>
+      <marker id="security-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0 0L10 5L0 10z" fill="#b3261e"/>
+      </marker>
+    </defs>
+    <rect x="22" y="20" width="216" height="88" rx="8" class="yx"/>
+    <text x="130" y="48" text-anchor="middle" class="cap">1. AUTHENTICATE</text>
+    <text x="130" y="78" text-anchor="middle">Verify user identity</text>
+    <line x1="240" y1="64" x2="270" y2="64" class="rl" marker-end="url(#security-arrow)"/>
+    <rect x="272" y="20" width="216" height="88" rx="8" class="rx"/>
+    <text x="380" y="48" text-anchor="middle" class="cap">2. AUTHORISE</text>
+    <text x="380" y="78" text-anchor="middle">Check permissions</text>
+    <line x1="490" y1="64" x2="520" y2="64" class="rl" marker-end="url(#security-arrow)"/>
+    <rect x="522" y="20" width="216" height="88" rx="8" class="yx"/>
+    <text x="630" y="48" text-anchor="middle" class="cap">3. PROTECT NETWORK</text>
+    <text x="630" y="78" text-anchor="middle">Secure connection</text>
+
+    <rect x="22" y="152" width="216" height="88" rx="8" class="rx"/>
+    <text x="130" y="180" text-anchor="middle" class="cap">4. PROTECT SYSTEMS</text>
+    <text x="130" y="210" text-anchor="middle">Harden hosts and apps</text>
+    <line x1="240" y1="196" x2="270" y2="196" class="rl" marker-end="url(#security-arrow)"/>
+    <rect x="272" y="152" width="216" height="88" rx="8" class="yx"/>
+    <text x="380" y="180" text-anchor="middle" class="cap">5. PROTECT DATA</text>
+    <text x="380" y="210" text-anchor="middle">Encrypt and back up data</text>
+    <line x1="490" y1="196" x2="520" y2="196" class="rl" marker-end="url(#security-arrow)"/>
+    <rect x="522" y="152" width="216" height="88" rx="8" class="rx"/>
+    <text x="630" y="180" text-anchor="middle" class="cap">6. MONITOR</text>
+    <text x="630" y="210" text-anchor="middle">Detect unusual activity</text>
+  </svg>
+</div>
+<p><em>Figure: Six controls used in a cloud security workflow</em></p>
+<p><strong>Practical example:</strong> When you log in to a cloud-based banking application, the application verifies your identity, checks your permissions, protects communication and operations, safeguards your account information, and records activities to help identify suspicious behaviour.</p>
+
+<h2>4.8 Shared Responsibility Model</h2>
+<p><strong>Definition:</strong> The Shared Responsibility Model means that cloud security responsibilities are divided between the Cloud Service Provider (CSP) and the customer. The exact division depends on whether you use IaaS, PaaS or SaaS.</p>
+<h3>Cloud Provider's Responsibility</h3>
+<p>The provider generally protects the underlying cloud infrastructure, such as:</p>
+<ul>
+  <li>Physical data centres.</li>
+  <li>Physical servers.</li>
+  <li>Networking infrastructure.</li>
+  <li>Physical storage equipment.</li>
+  <li>Infrastructure facilities.</li>
+</ul>
+<h3>Customer's Responsibility</h3>
+<p>The customer is responsible for protecting resources and information they control, such as:</p>
+<ul>
+  <li>User accounts and permissions.</li>
+  <li>Passwords and authentication.</li>
+  <li>Data and its classification.</li>
+  <li>Application configuration.</li>
+  <li>Access policies.</li>
+</ul>
+<p><strong>Example:</strong> If you host an application on AWS EC2, AWS protects the physical data centre and underlying infrastructure. You are responsible for securing your EC2 operating system, application, user permissions and data.</p>
+<p><strong>Important:</strong> The responsibility boundary changes between IaaS, PaaS and SaaS. It is not correct to assume the provider handles all security.</p>
+<div class="fig">
+  <svg class="security-diagram" viewBox="0 0 760 220" role="img" aria-label="Shared responsibility between cloud provider and customer">
+    <rect x="24" y="22" width="344" height="176" rx="8" class="rx"/>
+    <text x="196" y="52" text-anchor="middle" class="cap">CLOUD PROVIDER</text>
+    <text x="196" y="88" text-anchor="middle">Physical data centres</text>
+    <text x="196" y="116" text-anchor="middle">Servers and storage</text>
+    <text x="196" y="144" text-anchor="middle">Networking infrastructure</text>
+    <text x="196" y="172" text-anchor="middle">Underlying cloud facilities</text>
+    <rect x="392" y="22" width="344" height="176" rx="8" class="yx"/>
+    <text x="564" y="52" text-anchor="middle" class="cap">CUSTOMER</text>
+    <text x="564" y="88" text-anchor="middle">User accounts and permissions</text>
+    <text x="564" y="116" text-anchor="middle">Data and access policies</text>
+    <text x="564" y="144" text-anchor="middle">Applications and configuration</text>
+    <text x="564" y="172" text-anchor="middle">Passwords and authentication</text>
+  </svg>
+</div>
+<p><em>Figure: Cloud provider and customer share security responsibilities</em></p>
+
+<h2>4.9 Important Security Techniques and Terms</h2>
+<div class="tw">
+  <table>
+    <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Encryption</strong></td><td>Converts readable information into protected form.</td></tr>
+      <tr><td><strong>Authentication</strong></td><td>Verifies who a user is.</td></tr>
+      <tr><td><strong>Authorisation</strong></td><td>Determines what a user can access.</td></tr>
+      <tr><td><strong>Firewall</strong></td><td>Filters network traffic according to rules.</td></tr>
+      <tr><td><strong>VPN</strong></td><td>Provides a protected network connection.</td></tr>
+      <tr><td><strong>MFA</strong></td><td>Uses more than one verification factor.</td></tr>
+      <tr><td><strong>IDS</strong></td><td>Detects suspicious activity.</td></tr>
+      <tr><td><strong>IPS</strong></td><td>Detects and blocks certain attacks.</td></tr>
+      <tr><td><strong>IAM</strong></td><td>Manages identities and access permissions.</td></tr>
+      <tr><td><strong>Data Backup</strong></td><td>Creates additional copies for recovery.</td></tr>
+    </tbody>
+  </table>
+</div>
+<h3>Authentication vs Authorisation</h3>
+<p>This is a common source of confusion:</p>
+<ul>
+  <li><strong>Authentication:</strong> Are you really who you claim to be?</li>
+  <li><strong>Authorisation:</strong> Are you allowed to perform this action?</li>
+</ul>
+<p><strong>Example:</strong> Logging in to a college portal using your credentials is authentication. Whether you can view student marks or modify them depends on authorisation.</p>
+
+<h2>4.10 Exam Preparation</h2>
+<p>The following questions are from the compiled question collection. They are not all confirmed as questions from the primary MCA Semester IV 2022–24 paper.</p>
+<h3>1-mark questions listed in the collection</h3>
+<ol>
+  <li><strong>What is Cloud Security?</strong> Cloud Security is the collection of policies, technologies and controls used to protect cloud-based data, applications and infrastructure from security threats.</li>
+  <li><strong>What is Data Security?</strong> Data Security is the process of protecting data from unauthorised access, modification, disclosure or destruction.</li>
+  <li><strong>What is Network-Level Security?</strong> Network-Level Security protects network communication and infrastructure from unauthorised access and attacks.</li>
+  <li><strong>What is Host-Level Security?</strong> Host-Level Security protects individual servers, virtual machines and operating systems from security threats.</li>
+  <li><strong>What is Application-Level Security?</strong> Application-Level Security protects software applications from vulnerabilities, attacks and unauthorised access.</li>
+</ol>
+<h3>5-mark questions listed in the collection</h3>
+<ul>
+  <li>Explain the primary security concerns in Cloud Computing.</li>
+  <li>Differentiate between Host-Level Security and Application-Level Security.</li>
+  <li>Explain Network-Level Security and Data Security.</li>
+</ul>
+<h3>15-mark questions listed in the collection</h3>
+<p><span class="r">RED</span><strong>Prepare thoroughly</strong></p>
+<ol>
+  <li><strong>How does Cloud Security work? What are the primary concerns of Cloud Security?</strong>
+    <ol>
+      <li>Introduction and definition of Cloud Security.</li>
+      <li>Need for Cloud Security.</li>
+      <li>CIA Triad.</li>
+      <li>Primary security concerns.</li>
+      <li>Different security levels.</li>
+      <li>How Cloud Security works.</li>
+      <li>Conclusion.</li>
+    </ol>
+  </li>
+  <li><strong>How is Host-Level Security different from Application-Level Security?</strong>
+    <ol>
+      <li>Introduction to both security levels.</li>
+      <li>Definition of Host-Level Security.</li>
+      <li>Definition of Application-Level Security.</li>
+      <li>Comparison table.</li>
+      <li>Examples and conclusion.</li>
+    </ol>
+  </li>
+</ol>
+
+<h2>4.11 Quick Revision</h2>
+<ul>
+  <li>Information Security = Protecting information and systems.</li>
+  <li>CIA Triad = Confidentiality, Integrity and Availability.</li>
+  <li>Confidentiality = Only authorised people can see information.</li>
+  <li>Integrity = Information remains accurate.</li>
+  <li>Availability = Information is accessible when required.</li>
+  <li>Network-Level Security = Protects network communication.</li>
+  <li>Host-Level Security = Protects servers and operating systems.</li>
+  <li>Application-Level Security = Protects software applications.</li>
+  <li>Data Security = Protects stored and transmitted information.</li>
+  <li>Shared Responsibility Model = Security responsibilities are divided between CSP and customer.</li>
+</ul>
+
+<h2>Hindi Learning Resources</h2>
+<p>These are targeted YouTube searches rather than individually verified video recommendations:</p>
+<ul>
+  <li><a href="https://www.youtube.com/results?search_query=Cloud+Security+in+Hindi" target="_blank" rel="noopener">Cloud Security in Hindi</a></li>
+  <li><a href="https://www.youtube.com/results?search_query=CIA+Triad+Confidentiality+Integrity+Availability+in+Hindi" target="_blank" rel="noopener">CIA Triad in Hindi</a></li>
+  <li><a href="https://www.youtube.com/results?search_query=Network+Host+Application+Data+Security+in+Cloud+Computing+Hindi" target="_blank" rel="noopener">Cloud Security Levels in Hindi</a></li>
+  <li><a href="https://www.youtube.com/results?search_query=Shared+Responsibility+Model+AWS+in+Hindi" target="_blank" rel="noopener">Shared Responsibility Model in Hindi</a></li>
+</ul>
+
+<h2>Learning Resources</h2>
+<div class="tw">
+  <table>
+    <thead><tr><th>Website</th><th>What to study</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://www.geeksforgeeks.org/cloud-computing/cloud-security/" target="_blank" rel="noopener">GeeksforGeeks: Cloud Security</a></td><td>Cloud security concepts and controls.</td></tr>
+      <tr><td><a href="https://aws.amazon.com/security/" target="_blank" rel="noopener">AWS: Cloud Security</a></td><td>Cloud security services and practices.</td></tr>
+      <tr><td><a href="https://learn.microsoft.com/en-us/azure/security/" target="_blank" rel="noopener">Microsoft: Azure Security</a></td><td>Azure security guidance.</td></tr>
+      <tr><td><a href="https://csrc.nist.gov/publications" target="_blank" rel="noopener">NIST: Cloud Computing Security</a></td><td>Cloud security publications and guidance.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<p><strong>Topic 4 completed</strong></p>
+<p><strong>Unit IV progress: 4 of 13 topics completed.</strong></p>
+<p>Next in the official syllabus: <strong>Topic 5 — Virtual Desktop Infrastructure (VDI)</strong>, BLACK priority.</p>
+</section>
+
+</main>
+</body>
+</html>
+
+✕Merlin

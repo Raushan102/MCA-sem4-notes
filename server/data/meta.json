@@ -1,0 +1,620 @@
+[
+ {
+  "slug": "computer-graphics",
+  "name": "Computer Graphics",
+  "code": "CCMCA403",
+  "emoji": "🎨",
+  "units": [
+   {
+    "key": "unit-1",
+    "n": 1,
+    "title": "Introduction",
+    "file": "unit-1.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "topic1-start",
+      "title": "Basic Raster Graphics Algorithms for Drawing 2D Primitives",
+      "priority": "mixed"
+     },
+     {
+      "id": "topic2-start",
+      "title": "Scan Converting Lines",
+      "priority": "yellow"
+     },
+     {
+      "id": "circle-topic",
+      "title": "Scan Converting Circles",
+      "priority": "red"
+     },
+     {
+      "id": "ellipse-topic",
+      "title": "Scan Converting Ellipses",
+      "priority": "yellow"
+     },
+     {
+      "id": "t5-filling",
+      "title": "Filling Techniques",
+      "priority": "yellow"
+     },
+     {
+      "id": "t6-clipping",
+      "title": "Clipping in Raster World",
+      "priority": "yellow"
+     },
+     {
+      "id": "t7-antialiasing",
+      "title": "Antialiasing",
+      "priority": "black"
+     }
+    ]
+   },
+   {
+    "key": "unit-2",
+    "n": 2,
+    "title": "Graphics Hardware and Input Devices",
+    "file": "unit-2.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "u2-topic1-hardcopy-display",
+      "title": "Hardcopy and Display Technologies",
+      "priority": "red"
+     },
+     {
+      "id": "u2-topic2-raster-scan",
+      "title": "Raster Scan Display Systems",
+      "priority": "red"
+     },
+     {
+      "id": "u2-topic3-video-controller",
+      "title": "The Video Controller",
+      "priority": "yellow"
+     },
+     {
+      "id": "u2-topic4-random-scan-processor",
+      "title": "Random Scan Processor",
+      "priority": "red"
+     },
+     {
+      "id": "u2-topic5-input-devices",
+      "title": "Input Devices for Operator Interaction",
+      "priority": "black"
+     },
+     {
+      "id": "u2-topic6-image-scanners",
+      "title": "Image Scanners",
+      "priority": "black"
+     }
+    ]
+   },
+   {
+    "key": "unit-3",
+    "n": 3,
+    "title": "Interaction",
+    "file": "unit-3.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "u3-topic1-input-devices",
+      "title": "Input Devices",
+      "priority": "yellow"
+     },
+     {
+      "id": "u3-topic2-interaction-techniques",
+      "title": "Interaction Techniques and Interaction Tasks",
+      "priority": "red"
+     },
+     {
+      "id": "u3-topic3-interaction-hardware",
+      "title": "Interaction Hardware",
+      "priority": "black"
+     },
+     {
+      "id": "u3-topic4-basic-interaction-tasks",
+      "title": "Basic Interaction Tasks",
+      "priority": "yellow"
+     },
+     {
+      "id": "u3-topic5-composite-interaction-tasks",
+      "title": "Composite Interaction Tasks",
+      "priority": "red"
+     }
+    ]
+   },
+   {
+    "key": "unit-4",
+    "n": 4,
+    "title": "Geometrical Transformation",
+    "file": "unit-4.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "u4-topic1-2d-transformations",
+      "title": "2D Transformations",
+      "priority": "red"
+     },
+     {
+      "id": "u4-topic2-homogeneous-coordinates",
+      "title": "Homogeneous Coordinates and Matrix Representation of 2D Transformation",
+      "priority": "yellow"
+     },
+     {
+      "id": "u4-topic3-composition",
+      "title": "Composition of 2D Transformation",
+      "priority": "yellow"
+     },
+     {
+      "id": "u4-topic4-window-viewport",
+      "title": "Windows-to-Viewport Transformation",
+      "priority": "red"
+     },
+     {
+      "id": "u4-topic5-efficiency",
+      "title": "Efficiency",
+      "priority": "black"
+     }
+    ]
+   },
+   {
+    "key": "unit-5",
+    "n": 5,
+    "title": "3D Transformation",
+    "file": "unit-5.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "u5-topic1-matrix-3d",
+      "title": "Matrix Representation of 3D Transformation",
+      "priority": "yellow"
+     },
+     {
+      "id": "u5-topic2-composition",
+      "title": "Composition of 3D Transformation",
+      "priority": "yellow"
+     },
+     {
+      "id": "u5-topic3-coordinate-system",
+      "title": "Transformation as a Change in Coordinate System",
+      "priority": "black"
+     }
+    ]
+   },
+   {
+    "key": "unit-6",
+    "n": 6,
+    "title": "Viewing in 3D",
+    "file": "unit-6.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "u6-topic1-projections",
+      "title": "Projections",
+      "priority": "red"
+     },
+     {
+      "id": "u6-topic2-arbitrary-view",
+      "title": "Specifying an Arbitrary 3D View",
+      "priority": "black"
+     },
+     {
+      "id": "u6-topic3-examples",
+      "title": "Examples of 3D Viewing",
+      "priority": "black"
+     },
+     {
+      "id": "u6-topic4-mathematics",
+      "title": "The Mathematics of Planar Geometric Projections",
+      "priority": "black"
+     },
+     {
+      "id": "u6-topic5-implementing",
+      "title": "Implementing Planar Geometric Projection",
+      "priority": "black"
+     },
+     {
+      "id": "u6-topic6-coordinate-systems",
+      "title": "Coordinate Systems",
+      "priority": "black"
+     }
+    ]
+   },
+   {
+    "key": "unit-7",
+    "n": 7,
+    "title": "Achromatic and Coloured Light",
+    "file": "unit-7.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "u7-topic1-achromatic",
+      "title": "Achromatic Light",
+      "priority": "black"
+     },
+     {
+      "id": "u7-topic2-chromatic",
+      "title": "Chromatic Colour",
+      "priority": "red"
+     },
+     {
+      "id": "u7-topic3-colour-models",
+      "title": "Colour Models for Raster Graphics",
+      "priority": "red"
+     },
+     {
+      "id": "u7-topic4-reproducing-colour",
+      "title": "Reproducing Colour",
+      "priority": "black"
+     },
+     {
+      "id": "u7-topic5-using-colour",
+      "title": "Using Colour in Computer Graphics",
+      "priority": "black"
+     }
+    ]
+   },
+   {
+    "key": "unit-8",
+    "n": 8,
+    "title": "Visible-Surface Determination",
+    "file": "unit-8.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "u8-topic1-functions",
+      "title": "Functions of Two Variables",
+      "priority": "black"
+     },
+     {
+      "id": "u8-topic2-efficient-algorithms",
+      "title": "Efficient Visible-Surface Algorithms",
+      "priority": "yellow"
+     },
+     {
+      "id": "u8-topic3-scan-line",
+      "title": "Scan-Line Determination",
+      "priority": "black"
+     },
+     {
+      "id": "u8-topic4-z-buffer",
+      "title": "Z-Buffer Algorithms",
+      "priority": "red"
+     },
+     {
+      "id": "u8-topic5-list-priority",
+      "title": "List-Priority Algorithms",
+      "priority": "red"
+     },
+     {
+      "id": "u8-topic6-area-subdivision",
+      "title": "Area-Subdivision Algorithms",
+      "priority": "yellow"
+     },
+     {
+      "id": "u8-topic7-octree",
+      "title": "Octree Algorithms",
+      "priority": "yellow"
+     }
+    ]
+   }
+  ],
+  "extras": []
+ },
+ {
+  "slug": "cloud-computing",
+  "name": "Cloud Computing",
+  "code": "",
+  "emoji": "☁️",
+  "units": [
+   {
+    "key": "unit-1",
+    "n": 1,
+    "title": "Introduction",
+    "file": "unit-1.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "t1",
+      "title": "Topic 1. Essentials of Cloud Computing",
+      "priority": "black"
+     },
+     {
+      "id": "t2",
+      "title": "Topic 2. Benefits and Need for Cloud Computing",
+      "priority": "red"
+     },
+     {
+      "id": "t3",
+      "title": "Topic 4. Cloud and Virtualization",
+      "priority": "yellow"
+     },
+     {
+      "id": "t4",
+      "title": "Topic 5. Cloud Services Requirements",
+      "priority": "black"
+     },
+     {
+      "id": "t5",
+      "title": "Topic 6. Cloud and Dynamic Infrastructure",
+      "priority": "black"
+     },
+     {
+      "id": "t6",
+      "title": "Topic 7. Cloud Computing Characteristics",
+      "priority": "yellow"
+     }
+    ]
+   },
+   {
+    "key": "unit-2",
+    "n": 2,
+    "title": "Cloud Models and Cloud as a Service",
+    "file": "unit-2.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "t1",
+      "title": "Topic 1. Cloud Characteristics",
+      "priority": "yellow"
+     },
+     {
+      "id": "t2",
+      "title": "Topic 4. Security in a Public Cloud",
+      "priority": "yellow"
+     },
+     {
+      "id": "t3",
+      "title": "Topic 5. Public Versus Private Clouds",
+      "priority": "red"
+     },
+     {
+      "id": "t4",
+      "title": "Topic 6. Cloud Infrastructure Self-Service",
+      "priority": "black"
+     },
+     {
+      "id": "t5",
+      "title": "Topic 7. Gamut of Cloud Solutions",
+      "priority": "black"
+     },
+     {
+      "id": "t6",
+      "title": "Topic 8. Principal Technologies",
+      "priority": "black"
+     },
+     {
+      "id": "t7",
+      "title": "Topic 9. Cloud Strategy",
+      "priority": "black"
+     },
+     {
+      "id": "t8",
+      "title": "Topic 10. Cloud Design and Implementation Using SOA",
+      "priority": "yellow"
+     },
+     {
+      "id": "t9",
+      "title": "Topic 11. Conceptual Cloud Model",
+      "priority": "black"
+     },
+     {
+      "id": "t10",
+      "title": "Topic 12. Cloud Service Defined",
+      "priority": "black"
+     }
+    ]
+   },
+   {
+    "key": "unit-3",
+    "n": 3,
+    "title": "Cloud Solutions",
+    "file": null,
+    "missing": true,
+    "topics": []
+   },
+   {
+    "key": "unit-4",
+    "n": 4,
+    "title": "Cloud Offerings and Management",
+    "file": "unit-4.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "t1",
+      "title": "Topic 1. Information Storage, Retrieval, Archive and Protection",
+      "priority": "yellow"
+     },
+     {
+      "id": "t2",
+      "title": "Topic 2. Cloud Analytics",
+      "priority": "black"
+     },
+     {
+      "id": "t3",
+      "title": "Topic 3. Testing Under Cloud",
+      "priority": "black"
+     },
+     {
+      "id": "t4",
+      "title": "Topic 4. Information Security",
+      "priority": "red"
+     }
+    ]
+   },
+   {
+    "key": "unit-5",
+    "n": 5,
+    "title": "Cloud Virtualization Technology",
+    "file": "unit-5.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "t1",
+      "title": "1. Virtualization Defined",
+      "priority": "yellow"
+     },
+     {
+      "id": "t2",
+      "title": "2. Virtualization Benefits",
+      "priority": "yellow"
+     },
+     {
+      "id": "t3",
+      "title": "3. Server Virtualization",
+      "priority": "yellow"
+     },
+     {
+      "id": "t4",
+      "title": "4. Virtualization for x86 Architecture",
+      "priority": "red"
+     },
+     {
+      "id": "t5",
+      "title": "5. Hypervisor Management Software",
+      "priority": "yellow"
+     },
+     {
+      "id": "t6",
+      "title": "6. Logical Partitioning (LPAR)",
+      "priority": "yellow"
+     },
+     {
+      "id": "t7",
+      "title": "7. VIO Server (VIOS)",
+      "priority": "yellow"
+     },
+     {
+      "id": "t8",
+      "title": "8. Virtual Infrastructure Requirements",
+      "priority": "yellow"
+     },
+     {
+      "id": "t9",
+      "title": "9. Storage Virtualization",
+      "priority": "yellow"
+     },
+     {
+      "id": "t10",
+      "title": "10. Storage Area Network (SAN)",
+      "priority": "yellow"
+     },
+     {
+      "id": "t11",
+      "title": "11. Network-Attached Storage (NAS)",
+      "priority": "yellow"
+     },
+     {
+      "id": "t12",
+      "title": "12. Cloud Server Virtualization",
+      "priority": "yellow"
+     },
+     {
+      "id": "t13",
+      "title": "13. Virtualized Data Center",
+      "priority": "red"
+     },
+     {
+      "id": "exam",
+      "title": "14. Exam Preparation and Quick Revision",
+      "priority": "yellow"
+     }
+    ]
+   },
+   {
+    "key": "unit-6",
+    "n": 6,
+    "title": "Cloud and SOA",
+    "file": "unit-6.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "t1",
+      "title": "1. SOA Journey To Infrastructure",
+      "priority": "yellow"
+     },
+     {
+      "id": "t2",
+      "title": "2. SOA And Cloud",
+      "priority": "red"
+     },
+     {
+      "id": "t3",
+      "title": "3. SOA Defined",
+      "priority": "red"
+     },
+     {
+      "id": "t4",
+      "title": "4. SOA and IaaS",
+      "priority": "yellow"
+     },
+     {
+      "id": "t5",
+      "title": "5. SOA-Based Cloud Infrastructure Steps",
+      "priority": "black"
+     },
+     {
+      "id": "t6",
+      "title": "6. SOA Business And IT Services",
+      "priority": "black"
+     }
+    ]
+   },
+   {
+    "key": "unit-7",
+    "n": 7,
+    "title": "Cloud Infrastructure Benchmarking",
+    "file": "unit-7.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "oltp",
+      "title": "1. OLTP Benchmark",
+      "priority": "red"
+     },
+     {
+      "id": "bi",
+      "title": "2. Business Intelligence Benchmark",
+      "priority": "yellow"
+     },
+     {
+      "id": "ebiz",
+      "title": "3. E-Business Benchmark",
+      "priority": "black"
+     },
+     {
+      "id": "isv",
+      "title": "4. ISV Benchmarks",
+      "priority": "black"
+     },
+     {
+      "id": "collection",
+      "title": "5. Cloud Performance Data Collection",
+      "priority": "yellow"
+     },
+     {
+      "id": "commands",
+      "title": "6. Performance Monitoring Commands",
+      "priority": "black"
+     },
+     {
+      "id": "tools",
+      "title": "7. Benchmark Tools",
+      "priority": "black"
+     }
+    ]
+   }
+  ],
+  "extras": [
+   {
+    "key": "question-bank",
+    "title": "Previous-Year Question Bank",
+    "file": "question-bank.html"
+   },
+   {
+    "key": "important-questions",
+    "title": "Important Questions and Priority",
+    "file": "important-questions.html"
+   }
+  ]
+ }
+]

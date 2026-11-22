@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="light" name="color-scheme"/>
+<title>Computer Graphics — Unit VIII: Visible-Surface Determination</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&amp;family=Source+Code+Pro:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+html { color-scheme: light; }
+
+:root {
+  --desk: #dfe4ec;
+  --paper: #ffffff;
+  --rule: #d6e3f5;
+  --margin: #e4868a;
+  --ink: #1d3a8c;
+  --red: #b3261e;
+  --green: #1b6b3a;
+  --hl: rgba(255, 214, 0, 0.45);
+  --edge: rgba(29, 58, 140, 0.35);
+  --shadow: rgba(20, 30, 60, 0.2);
+  --hand: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --display: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --mono: "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace;
+  --vs-bg: #1e1e1e;
+  --vs-fg: #d4d4d4;
+  color-scheme: light;
+}
+html { background: var(--desk); }
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: 16px;
+  line-height: 36px;
+  padding-block: 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 28px 64px 76px;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 22px 48px, var(--desk) 8px, transparent 9px),
+    linear-gradient(to bottom, transparent 35px, var(--rule) 35px, var(--rule) 36px);
+  background-size: 44px 144px, 100% 36px;
+  background-repeat: repeat-y, repeat;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px var(--shadow), 0 14px 34px -14px var(--shadow);
+  overflow-wrap: break-word;
+}
+.sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 56px;
+  width: 4px;
+  border-left: 1px solid var(--margin);
+  border-right: 1px solid var(--margin);
+}
+@media (max-width: 520px) {
+  body { font-size: 15px; }
+  .sheet { padding: 64px 12px 64px 50px; }
+  .sheet::before { left: 34px; }
+}
+h1, h2, h3 { margin: 0; font-weight: 700; text-wrap: balance; }
+h1 {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  line-height: 64px;
+  color: var(--red);
+  text-decoration: underline wavy var(--red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 7px;
+  scroll-margin-top: 16px;
+}
+.sheet > h1:first-child { font-size: clamp(1.7rem, 5.2vw, 2.4rem); }
+h2 { font-family: var(--display); font-size: 1.3rem; line-height: 36px; color: var(--red); }
+h3 { font-family: var(--display); font-size: 1.15rem; line-height: 36px; color: var(--green); }
+p { margin: 0 0 36px; }
+hr {
+  height: 36px;
+  margin: 0;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--edge) 0 10px, transparent 10px 18px) center / 100% 2px no-repeat;
+}
+ul, ol { margin: 0 0 36px; }
+ul { list-style: none; padding-left: 34px; }
+ul li { position: relative; }
+ul li::before { content: "\2022"; position: absolute; left: -22px; color: var(--red); }
+ol { padding-left: 46px; }
+ol li::marker { color: var(--red); font-family: var(--display); font-weight: 700; }
+li > p { margin: 0; }
+strong {
+  font-weight: 600;
+  padding: 0 2px;
+  background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  line-height: 0;
+  color: #9cdcfe;
+  background: var(--vs-bg);
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+pre {
+  margin: 0 0 32px;
+  padding: 16px 20px;
+  background: var(--vs-bg);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), 0 6px 14px -8px rgba(0, 0, 0, 0.5);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 400;
+  font-variant-ligatures: contextual;
+  line-height: 32px;
+  color: var(--vs-fg);
+  overflow-x: auto;
+  tab-size: 4;
+  white-space: pre;
+}
+pre code { font: inherit; line-height: inherit; color: inherit; background: none; padding: 0; border-radius: 0; }
+pre .k  { color: #569cd6; }
+pre .kc { color: #c586c0; }
+pre .f  { color: #dcdcaa; }
+pre .t  { color: #4ec9b0; }
+pre .v  { color: #9cdcfe; }
+pre .ct { color: #4fc1ff; }
+pre .s  { color: #ce9178; }
+pre .n  { color: #b5cea8; }
+pre .c  { color: #6a9955; }
+.tw { margin: 0 0 32px; overflow-x: auto; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+.tw.wide table { min-width: 640px; }
+th, td {
+  padding: 0 14px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 36px;
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge);
+}
+th {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--red);
+  background: var(--hl);
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge);
+}
+th:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+td:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+.toc ul { columns: 2 280px; column-gap: 32px; padding-left: 0; }
+.toc li { break-inside: avoid; }
+.toc li::before { content: none; }
+.toc a { color: var(--ink); text-decoration: none; background: linear-gradient(var(--edge), var(--edge)) 0 100% / 100% 1px no-repeat; }
+.toc a:hover { color: var(--red); }
+a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; border-radius: 2px; }
+.note { margin: 0 0 32px; padding: 0 0 0 16px; border-left: 3px solid var(--red); }
+.note p { margin: 0; }
+h1 code, h2 code, h3 code { background: var(--vs-bg); }
+th code, td code { font-size: 0.85em; }
+.tp{margin:0 -14px 32px;padding:0 14px;border-left:5px solid;border-radius:4px}
+.tp.tr{background:rgba(179,38,30,.085);border-color:#b3261e}
+.tp.ty{background:rgba(255,214,0,.24);border-color:#e0b800}
+.tp.tb{background:rgba(0,0,0,.075);border-color:#333}
+.r,.y,.b{font-size:.72em;font-weight:700;padding:1px 7px;border-radius:3px;letter-spacing:.5px;margin-right:6px}
+.r{background:var(--red);color:#fff}.y{background:#ffd600;color:#4a3b00}.b{background:#222;color:#fff}
+main a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px;overflow-wrap:anywhere}
+main a:hover{color:var(--red)}
+.fig{margin:12px 0 40px}.fig svg{display:block;width:100%;max-width:760px;margin:0 auto}
+.fig svg text{font-family:var(--hand);font-size:14px;fill:var(--ink);dominant-baseline:auto}
+.fig svg .cap{font-size:13px;fill:var(--red);font-weight:600}
+.fig svg .w{fill:#fff;font-weight:600}
+.fig svg .bx{fill:#fff;stroke:var(--ink);stroke-width:2}
+.fig svg .rx{fill:#fff;stroke:var(--red);stroke-width:2}
+.fig svg .kx{fill:var(--vs-bg);stroke:var(--vs-bg)}
+.fig svg .yx{fill:rgba(255,214,0,.45);stroke:var(--ink);stroke-width:2}
+.fig svg .ln{stroke:var(--ink);stroke-width:2;fill:none}
+.fig svg .rl{stroke:var(--red);stroke-width:2.5;fill:none}
+.fig svg .dl{stroke:var(--red);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+
+.video-help { margin: 18px 0 32px; padding: 14px 16px; border: 1px solid #b8c9e5; border-left: 4px solid #1d3a8c; border-radius: 8px; background: rgba(232, 240, 252, .72); }
+.video-help p { margin-bottom: 12px; }
+.video-help .video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; background: #111; margin: 10px 0 8px; }
+.video-help iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-help .video-note { display: block; font-size: .88em; line-height: 1.5; opacity: .9; }
+
+
+.reading-sources { margin: 18px 0 22px; padding: 12px 16px; border: 1px solid #c8d6e8; border-radius: 7px; background: rgba(255,255,255,.78); font-size: .92em; line-height: 1.65; }
+.reading-sources p { margin: 0 0 6px; }
+.reading-sources ul { margin: 0; padding-left: 24px; }
+.reading-sources ul li::before { left: -18px; }
+.reading-sources .source-note { font-size: .9em; opacity: .9; margin-top: 6px; }
+
+.video-help{break-inside:avoid;margin:18px 0 32px;padding:14px 16px;border:1px solid #b8c9e5;border-left:4px solid #1d3a8c;border-radius:8px;background:rgba(232,240,252,.72)}.video-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:8px;background:#111;margin:10px 0 8px}.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.reading-sources{margin:24px 0 30px;padding:12px 16px;border:1px solid #c8d6e8;border-radius:7px;background:rgba(255,255,255,.78);font-size:.92em;line-height:1.65}.reading-sources p{margin:0 0 6px}.reading-sources ul{margin:0;padding-left:24px}.reading-sources ul li::before{left:-18px}.source-note{font-size:.9em;opacity:.9;margin-top:6px}
+/* Clear priority treatment across the FULL topic answer area */
+.tp{position:relative;margin:58px -14px 64px;padding:22px 22px 8px;border:1px solid rgba(29,58,140,.18);border-left:8px solid;border-radius:12px;box-shadow:0 5px 18px rgba(20,30,60,.07);}
+.tp.tr{background:linear-gradient(135deg,rgba(179,38,30,.17),rgba(179,38,30,.075));border-color:#b3261e;}
+.tp.ty{background:linear-gradient(135deg,rgba(255,214,0,.34),rgba(255,214,0,.13));border-color:#d2a900;}
+.tp.tb{background:linear-gradient(135deg,rgba(35,39,48,.13),rgba(35,39,48,.055));border-color:#333;}
+.tp h1{padding-bottom:8px;margin-bottom:12px;}
+.tp.tr h1::after,.tp.ty h1::after,.tp.tb h1::after{display:inline-block;vertical-align:middle;margin-left:12px;padding:2px 10px;border-radius:5px;font-family:var(--display);font-size:.48em;line-height:1.8;letter-spacing:.7px;text-decoration:none;white-space:nowrap;}
+.tp.tr h1::after{content:"RED PRIORITY";background:#b3261e;color:#fff;}
+.tp.ty h1::after{content:"YELLOW PRIORITY";background:#ffd600;color:#463900;}
+.tp.tb h1::after{content:"BLACK PRIORITY";background:#222;color:#fff;}
+/* Decorative floral divider gives every new topic a clear visual beginning */
+.tp::before{content:"✿  ───────────────  ✿  ───────────────  ✿";display:block;text-align:center;color:#b3261e;font-family:Georgia,serif;font-size:19px;line-height:36px;letter-spacing:2px;margin:-12px 0 16px;opacity:.9;}
+.tp.tr::before{color:#b3261e}.tp.ty::before{color:#9a7900}.tp.tb::before{color:#444}
+@media(max-width:520px){.tp{padding:16px 13px 4px;margin:44px -7px 50px}.tp.tr h1::after,.tp.ty h1::after,.tp.tb h1::after{margin:6px 0 0 4px;font-size:.42em}.tp::before{font-size:14px;letter-spacing:0}}
+.exam-box{padding:16px 20px;border:1px solid var(--edge);border-radius:6px;background:rgba(255,255,255,.78);margin-bottom:32px}.fig figcaption{font-size:.88em;text-align:center;color:var(--red);line-height:32px}
+
+/* Compatibility styles retained for the original Topic 1 content */
+.priority{padding:11px 14px;margin:12px 0 20px;border-left:5px solid;border-radius:4px}
+.priority.pr{background:rgba(179,38,30,.08);border-color:#b3261e}
+.priority.py{background:rgba(255,214,0,.2);border-color:#d0a900}
+.priority.pb{background:rgba(0,0,0,.06);border-color:#333}
+.tag{display:inline-block;font:700 12px Arial;padding:2px 8px;border-radius:4px;letter-spacing:.4px}
+.tag.red{background:#b3261e;color:white}.tag.yellow{background:#ffd600;color:#493b00}.tag.black{background:#222;color:white}
+.diagram{border:1px solid var(--edge);border-radius:8px;padding:10px;background:#ffffffc9;margin:8px 0 22px;text-align:center}
+.diagram svg{width:100%;max-width:680px;height:auto}
+.caption{font-size:.9rem;color:#456}
+
+/* Topic-adjacent learning resources: clear website and video link cards */
+.resource-panel{margin:18px 0 32px;padding:16px;border:1px solid #c8d6e8;border-radius:9px;background:rgba(255,255,255,.88);box-shadow:0 3px 10px rgba(20,30,60,.07)}
+.resource-panel h3{margin:0 0 10px;color:var(--red)}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:10px 0 18px}
+.resource-card{display:block;padding:12px 14px;border:1px solid #c8d6e8;border-left:4px solid var(--ink);border-radius:7px;background:#f7faff;text-decoration:none!important;color:var(--ink)!important;line-height:1.5;transition:transform .15s ease,box-shadow .15s ease}
+.resource-card:hover{transform:translateY(-2px);box-shadow:0 5px 12px rgba(20,30,60,.12);color:var(--red)!important}
+.resource-card.video{border-left-color:#b3261e;background:#fff8f7}
+.resource-card .resource-kind{display:block;font-size:.72em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#65728a;margin-bottom:4px}
+.resource-card strong{display:block;background:none;padding:0;color:inherit}
+.resource-card small{display:block;font-size:.86em;line-height:1.45;margin-top:4px;color:#46536b}
+.video-help{border-left-width:5px}
+.video-help>a,.reading-sources a{display:inline-block;margin:4px 4px 4px 0;padding:5px 10px;border:1px solid #b8c9e5;border-radius:6px;background:#f7faff;font-weight:600;text-decoration:none!important}
+.video-help>a:hover,.reading-sources a:hover{background:#e8f0fc;color:var(--red)}
+.reading-sources li{margin:5px 0}
+@media(max-width:520px){.resource-panel{padding:12px}.resource-grid{grid-template-columns:1fr}}
+
+
+/* Quick navigation index */
+.quick-index{margin:24px 0 40px;padding:20px 22px;border:2px solid #9fb4d5;border-radius:12px;background:linear-gradient(135deg,rgba(232,240,252,.96),rgba(255,255,255,.96));box-shadow:0 5px 16px rgba(20,30,60,.08)}
+.quick-index h2{margin:0 0 12px}
+.quick-index .index-intro{margin:0 0 16px;font-size:.94em}
+.index-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.index-card{display:block;padding:14px 15px;border:1px solid #c5d3e7;border-left:6px solid #555;border-radius:9px;background:#fff;color:var(--ink);text-decoration:none;line-height:1.65;box-shadow:0 2px 7px rgba(20,30,60,.06);transition:transform .15s ease,box-shadow .15s ease}
+.index-card:hover{transform:translateY(-2px);box-shadow:0 5px 13px rgba(20,30,60,.12);color:var(--red)}
+.index-card.red-card{border-left-color:#b3261e;background:#fff4f2}
+.index-card.yellow-card{border-left-color:#d6ad00;background:#fffbea}
+.index-card.black-card{border-left-color:#333;background:#f4f4f4}
+.index-card strong{display:block;margin-bottom:4px;background:none}
+.index-card .index-priority{display:inline-block;margin-top:7px;padding:1px 8px;border-radius:4px;font-size:.78em;font-weight:700;line-height:1.6}
+.index-card .index-priority.red{background:#b3261e;color:white}
+.index-card .index-priority.yellow{background:#ffe27a;color:#4a3b00}
+.index-card .index-priority.black{background:#333;color:white}
+.index-card .index-priority.mixed{background:linear-gradient(90deg,#b3261e 0 33%,#ffe27a 33% 66%,#333 66%);color:#fff;text-shadow:0 1px 2px #333}
+@media(max-width:520px){.quick-index{padding:15px}.index-grid{grid-template-columns:1fr}}
+
+
+
+/* Mathematical expressions: yellow notebook-paper panel with blue handwritten-style ink. */
+.formula {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 16px auto 24px;
+  padding: 12px 20px;
+  border: 1px solid #eadb91;
+  border-left: 4px solid #e5c64b;
+  border-radius: 7px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0) 0,
+      rgba(255,255,255,0) 31px,
+      rgba(105,145,190,.18) 32px,
+      rgba(255,255,255,0) 33px
+    ),
+    #fff4b8;
+  color: #164b91;
+  font-family: var(--hand, "Comic Sans MS", "Segoe Print", cursive);
+  font-size: 1.13rem;
+  font-weight: 700;
+  line-height: 1.95;
+  letter-spacing: .015em;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(70,55,10,.10);
+  overflow-wrap: anywhere;
+}
+.formula strong, .formula sub, .formula sup { color: #164b91; }
+.formula strong { background: transparent; padding: 0; }
+.math-inline {
+  display: inline-block;
+  padding: 1px 6px 2px;
+  margin: 1px 2px;
+  border-radius: 4px;
+  background: #fff1a8;
+  color: #164b91;
+  border-bottom: 2px solid #e4c64c;
+  font-family: var(--hand, "Comic Sans MS", "Segoe Print", cursive);
+  font-size: .98em;
+  font-weight: 700;
+  line-height: 1.55;
+  vertical-align: baseline;
+  white-space: normal;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.math-inline sub, .math-inline sup { color: #164b91; }
+@media(max-width:520px) {
+  .formula { font-size: 1rem; padding: 9px 12px; line-height: 1.8; }
+}
+
+/* PYQ priority finish — shared with Unit VI */
+.priority-legend{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 24px;padding:14px 16px;border:1px solid #e4d8c8;border-radius:12px;background:#fffdf8}
+.priority-legend span{display:inline-flex;align-items:center;gap:7px;font-size:.88rem}
+.priority-dot{display:inline-block;width:11px;height:11px;border-radius:50%}
+.priority-dot.red{background:#c94b45}.priority-dot.yellow{background:#d6a62c}.priority-dot.black{background:#333}
+.topic-priority{display:inline-block;margin:8px 0 14px;padding:5px 10px;border-radius:7px;font-size:.78rem;font-weight:700;letter-spacing:.04em}
+.topic-priority.red{background:#fbe7e5;color:#a8322c;border-left:4px solid #c94b45}
+.topic-priority.yellow{background:#fff4d6;color:#8b6500;border-left:4px solid #d6a62c}
+.topic-priority.black{background:#ececec;color:#333;border-left:4px solid #333}
+.index-card.red-card{border-left:4px solid #c94b45}.index-card.yellow-card{border-left:4px solid #d6a62c}.index-card.black-card{border-left:4px solid #333}
+.index-priority{display:block;margin-top:7px;font-size:.76rem;font-weight:700}
+.index-priority.red{color:#a8322c}.index-priority.yellow{color:#8b6500}.index-priority.black{color:#333}
+
+
+/* ===== Final polish: Unit VIII ===== */
+html{scroll-behavior:smooth}
+section[id]{scroll-margin-top:16px}
+figure{margin:0}img{max-width:100%;height:auto}
+h4{margin:0;font-family:var(--display);font-size:1.05rem;line-height:36px;color:var(--ink)}
+.small{font-size:.9em}
+
+/* hero */
+.hero{position:relative;margin:-24px -8px 32px 0;padding:28px 26px 22px;border-radius:14px;color:#fff;overflow:hidden;
+  background:radial-gradient(circle at 92% 12%,rgba(255,214,0,.35),transparent 42%),linear-gradient(135deg,#1d3a8c 0%,#2b4fb8 55%,#b3261e 140%);
+  box-shadow:0 8px 22px -8px rgba(20,30,60,.55)}
+.hero::after{content:"VIII";position:absolute;right:14px;bottom:-34px;font:800 9rem/1 var(--display);color:rgba(255,255,255,.12);pointer-events:none}
+.hero .eyebrow{font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;opacity:.85;line-height:24px}
+.hero h1{color:#fff;text-decoration:none;font-size:clamp(1.6rem,5vw,2.3rem);line-height:1.25;margin:6px 0 4px}
+.hero .sub{margin:0 0 14px;font-size:1.05rem;line-height:28px;color:#ffe27a;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.chip{display:inline-block;padding:2px 12px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);font-size:.8rem;line-height:26px;font-weight:600}
+.chip.hot{background:#ffd600;color:#463900;border-color:#ffd600}
+
+/* cards */
+.panel{margin:0 0 32px;padding:16px 20px 6px;border:1px solid #c8d6e8;border-radius:12px;background:rgba(255,255,255,.92);box-shadow:0 3px 10px rgba(20,30,60,.07)}
+.panel h2{margin:0 0 6px;font-size:1.15rem}
+.panel p,.panel ul{margin-bottom:14px}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:0 0 14px}
+.legend div{padding:8px 12px;border-radius:8px;border-left:6px solid;line-height:1.5;font-size:.9em}
+.legend .lr{background:rgba(179,38,30,.1);border-color:#b3261e}
+.legend .ly{background:rgba(255,214,0,.28);border-color:#d2a900}
+.legend .lb{background:rgba(35,39,48,.1);border-color:#333}
+.legend b{display:inline-block;margin-right:6px;padding:0 8px;border-radius:4px;font-size:.78em;line-height:1.7;color:#fff;background:#b3261e}
+.legend .ly b{background:#ffd600;color:#463900}.legend .lb b{background:#222}
+.focus li{line-height:1.6;margin-bottom:4px}
+
+/* index */
+.quick-index{margin:0 0 40px}
+.index-card{position:relative;padding-left:62px}
+.index-card .num{position:absolute;left:12px;top:12px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:700 1.05rem/1 var(--display);color:#fff;background:#555}
+.index-card.red-card .num{background:#b3261e}.index-card.yellow-card .num{background:#e0b800;color:#3d3100}.index-card.black-card .num{background:#222}
+.index-card .index-priority.red{background:#b3261e;color:#fff}.index-card .index-priority.yellow{background:#ffe27a;color:#4a3b00}.index-card .index-priority.black{background:#333;color:#fff}
+
+/* topic sections */
+.topic-section.tp{position:relative;margin:52px -14px 60px;padding:20px 24px 6px;border:1px solid rgba(29,58,140,.18);border-left:9px solid;border-radius:14px;box-shadow:0 6px 20px rgba(20,30,60,.09)}
+.topic-section.tp::before{display:none}
+.tp.tr{background:linear-gradient(135deg,rgba(179,38,30,.16),rgba(179,38,30,.07));border-color:#b3261e}
+.tp.ty{background:linear-gradient(135deg,rgba(255,214,0,.34),rgba(255,214,0,.13));border-color:#d2a900}
+.tp.tb{background:linear-gradient(135deg,rgba(35,39,48,.15),rgba(35,39,48,.06));border-color:#333}
+.topic-title{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;margin:0 0 6px;padding-bottom:8px;border-bottom:2px dashed currentColor;line-height:1.35;font-size:1.5rem}
+.tnum{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:800 1.7rem/1 var(--display);color:#fff;background:var(--red);box-shadow:0 0 0 4px rgba(255,255,255,.75),0 3px 8px rgba(0,0,0,.25)}
+.tp.ty .tnum{background:#e0b800;color:#3d3100}.tp.tb .tnum{background:#222}
+.tlabel{display:block;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:#455;line-height:1.2}
+.tprio{margin-left:auto;padding:2px 12px;border-radius:6px;font-size:.5em;letter-spacing:.8px;line-height:1.9;white-space:nowrap;background:#b3261e;color:#fff}
+.tp.ty .tprio{background:#ffd600;color:#463900}.tp.tb .tprio{background:#222}
+.evidence{margin:0 0 28px;padding:8px 14px;border-radius:8px;background:rgba(255,255,255,.7);font-size:.9em;line-height:1.6;border:1px dashed var(--edge)}
+.tp h3{margin-top:8px;color:var(--green);border-left:4px solid currentColor;padding-left:10px}
+.tp .exam-box h3{border:0;padding:0;margin-top:0}
+.exam-box{break-inside:avoid;border-left:5px solid var(--green);background:rgba(255,255,255,.9);box-shadow:0 2px 8px rgba(20,30,60,.08)}
+.exam-box h3::before{content:"★ ";color:#e0b800}
+.tw{background:rgba(255,255,255,.8);border-radius:6px}
+.floral-divider{text-align:center;color:var(--red);letter-spacing:6px;line-height:36px;margin:0 0 6px}
+.tp.ty .floral-divider{color:#9a7900}.tp.tb .floral-divider{color:#444}
+.back-top{margin:0 0 30px;font-size:.9em;text-align:right}
+.unit-end{margin:40px 0 0;padding:16px;text-align:center;border-radius:12px;background:linear-gradient(135deg,#e8f0fc,#fff4b8);border:1px solid #c8d6e8;line-height:1.7}
+@media(max-width:520px){.hero{margin-right:0;padding:20px 16px}.hero::after{font-size:6rem}.topic-section.tp{margin:40px -8px 48px;padding:14px 12px 4px}.tnum{width:42px;height:42px;font-size:1.3rem}.topic-title{font-size:1.2rem}.tprio{margin-left:0}}
+@media print{html,body{background:#fff}body{padding:0}.sheet{box-shadow:none;max-width:none}.topic-section{break-before:page}.back-top{display:none}pre,.exam-box,.hero{break-inside:avoid}.hero,.tp,.tnum,.tprio{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+.tp::before{display:none!important}
+.tp .exam-box h3{border:0;padding:0}
+</style>
+</head>
+<body><main class="sheet" id="top">
+<header class="hero">
+<div class="eyebrow">Computer Graphics · MCA Semester IV</div>
+<h1>UNIT VIII — VISIBLE-SURFACE DETERMINATION</h1>
+<p class="sub">Hidden surfaces: Z-buffer, depth sort, scan-line, area subdivision and octree</p>
+<p class="chips"><span class="chip">Ranchi University CBCS</span><span class="chip">Core Course C10 · CCMCA403</span><span class="chip">7 Topics</span><span class="chip hot">NEEDS ATTENTION</span></p>
+</header>
+
+<div class="panel">
+<h2>✿ Official Unit VIII syllabus ✿</h2>
+<p>Functions of Two Variables; Efficient Visible-Surface Algorithms; Scan-Line Determination; Z-Buffer Algorithms; List-Priority Algorithms; Area-Subdivision Algorithms; Octree Algorithms.</p>
+</div>
+
+<div class="panel focus">
+<h2>★ What to prepare for the exam ★</h2>
+<ul>
+<li>Visible-surface determination and hidden-surface elimination.</li>
+<li>Z-buffer algorithm.</li>
+<li>Depth-sort algorithm.</li>
+<li>Scan-line algorithm.</li>
+<li>Area-subdivision algorithm.</li>
+<li>Octree-based hidden-surface determination.</li>
+</ul>
+<p class="small"><strong>Evidence:</strong> Z-buffer and depth-sort appeared in the older MCA paper; related hidden-surface questions appeared in BCA papers (exam plan). Priority colours describe checked question-paper evidence; they do not guarantee future questions.</p>
+</div>
+
+<div class="panel">
+<h2>✿ Exam-priority colour guide ✿</h2>
+<div class="legend">
+<div class="lr"><b>RED</b>Direct question in the supplied MCA papers.</div>
+<div class="ly"><b>YELLOW</b>Related evidence (for example BCA papers), not a direct MCA question.</div>
+<div class="lb"><b>BLACK</b>No matching question confirmed.</div>
+</div>
+</div>
+
+<nav class="quick-index" aria-label="Unit VIII topic index">
+<h2>✿ Quick Index — Unit VIII ✿</h2>
+<div class="index-grid">
+<a class="index-card black-card" href="#u8-topic1-functions"><span class="num">1</span><strong>Functions of Two Variables</strong>Representing 3D surfaces using mathematical functions.<span class="index-priority black">BLACK · no direct PYQ confirmed</span></a>
+<a class="index-card yellow-card" href="#u8-topic2-efficient-algorithms"><span class="num">2</span><strong>Efficient Visible-Surface Algorithms</strong>Classification, depth sorting and coherence for faster visibility testing.<span class="index-priority yellow">YELLOW · related hidden-surface PYQ evidence</span></a>
+<a class="index-card black-card" href="#u8-topic3-scan-line"><span class="num">3</span><strong>Scan-Line Determination</strong>Processing polygons one horizontal scan line at a time.<span class="index-priority black">BLACK · no direct scan-line PYQ confirmed</span></a>
+<a class="index-card red-card" href="#u8-topic4-z-buffer"><span class="num">4</span><strong>Z-Buffer Algorithms</strong>Per-pixel depth storage and comparison to keep the nearest surface.<span class="index-priority red">RED · older MCA Z-buffer PYQ</span></a>
+<a class="index-card red-card" href="#u8-topic5-list-priority"><span class="num">5</span><strong>List-Priority Algorithms</strong>Painter’s / depth-sort method: render farther polygons before nearer ones.<span class="index-priority red">RED · older MCA depth-sort PYQ</span></a>
+<a class="index-card yellow-card" href="#u8-topic6-area-subdivision"><span class="num">6</span><strong>Area-Subdivision Algorithms</strong>Recursively divides the screen into regions and tests visibility in each area.<span class="index-priority yellow">YELLOW · related BCA hidden-surface evidence only</span></a>
+<a class="index-card yellow-card" href="#u8-topic7-octree"><span class="num">7</span><strong>Octree Algorithms</strong>Uses an eight-way 3D space tree and front-to-back traversal for visibility.<span class="index-priority yellow">YELLOW · related BCA hidden-surface evidence only</span></a>
+</div>
+</nav>
+
+<section id="u8-topic1-functions" class="topic-section tp tb">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">1</span><span><span class="tlabel">Topic 1 of 7</span>Functions of Two Variables</span><span class="tprio">BLACK PRIORITY</span></h2>
+<p class="evidence"><strong>Why BLACK?</strong> The available exam plan records Z-buffer and depth-sort questions in the older MCA paper, but it does not confirm a separate question specifically on Functions of Two Variables. This topic is included because it is explicitly listed in the official Unit VIII syllabus.</p>
+<h3>1.1 Meaning of a Function of Two Variables</h3>
+<p>A <strong>function of two variables</strong> takes two independent input values, usually x and y, and produces one output value, usually z. In computer graphics, this form is useful for describing a 3D surface over the x-y plane.</p>
+<div class="formula-box">
+<p><strong>Explicit surface representation</strong></p>
+<p class="formula">z = f(x, y)</p>
+<p>For every pair (x, y), the function gives the corresponding height or depth value z.</p>
+</div>
+<h3>1.2 Example of a Surface Function</h3>
+<p>Consider the function:</p>
+<p class="formula">z = 2x + 3y</p>
+<p>If x = 1 and y = 2, then:</p>
+<p class="formula">z = 2(1) + 3(2) = 8</p>
+<p>Therefore, the point on the surface is <strong>(1, 2, 8)</strong>. By calculating z for many pairs of x and y, we can obtain points that form a 3D surface.</p>
+<h3>1.3 Common Ways to Represent a Surface</h3>
+<ul>
+<li><strong>Explicit form:</strong> The dependent coordinate is written directly as a function of two independent coordinates, for example z = f(x, y).</li>
+<li><strong>Implicit form:</strong> The surface is described by an equation involving x, y and z, for example F(x, y, z) = 0.</li>
+</ul>
+<p>Example of an implicit surface:</p>
+<p class="formula">x² + y² + z² − 25 = 0</p>
+<p>This equation represents a sphere of radius 5 centred at the origin.</p>
+<h3>1.4 Domain and Range</h3>
+<ul>
+<li><strong>Domain:</strong> The set of allowed input pairs (x, y) for which the function is defined.</li>
+<li><strong>Range:</strong> The set of output values z produced by the function.</li>
+</ul>
+<p>For example, if z = x + y and both x and y are restricted to values from 0 to 2, the domain is the selected square region in the x-y plane, and the output z ranges from 0 to 4.</p>
+<h3>1.5 Connection with Visible-Surface Determination</h3>
+<p>When a 3D scene is projected onto a 2D viewing plane, different surfaces may overlap at the same screen position. A surface function can provide the z value at a particular (x, y) position. This value helps determine the relative depth of the surface at that position.</p>
+<ul>
+<li>For a given projected position (x, y), calculate or obtain the depth of each surface covering that position.</li>
+<li>Compare the depth values using the viewing system's depth convention.</li>
+<li>The surface nearest to the viewer is the visible one at that position; the other surface is hidden there.</li>
+</ul>
+<p><strong>Important:</strong> Whether the nearest surface has the smaller or larger numerical z value depends on the coordinate and depth convention being used. Do not assume that the smallest z is always closest in every system.</p>
+<h3>1.6 Why This Concept Is Useful</h3>
+<ul>
+<li>It provides a mathematical way to describe 3D surfaces.</li>
+<li>It helps calculate the depth of a surface at a given projected position.</li>
+<li>It provides a foundation for understanding depth comparison in visible-surface algorithms.</li>
+</ul>
+<div class="exam-answer">
+<h3>Exam Answer</h3>
+<p>A function of two variables is a mathematical function in which two independent variables, usually x and y, determine a third value z. In computer graphics, a 3D surface can be represented in explicit form as z = f(x, y), where each pair (x, y) gives a point on the surface. A surface may also be represented implicitly by an equation such as F(x, y, z) = 0. These functions are useful in visible-surface determination because they can provide the depth value of a surface at a projected position. When multiple surfaces overlap at the same screen position, their depth values are compared according to the viewing coordinate convention to identify the surface nearest to the viewer.</p>
+</div>
+<h3>1.7 Previous-Year Question Status</h3>
+<div class="note"><strong>PYQ status:</strong> The available exam plan records Z-buffer and depth-sort questions in the older MCA paper, but it does not confirm a separate question specifically on Functions of Two Variables. This topic is included because it is explicitly listed in the official Unit VIII syllabus.</div>
+<h3>1.8 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/computer-graphics-curve-in-computer-graphics/" rel="noopener" target="_blank">GeeksforGeeks — Curves in Computer Graphics</a></li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/visible_surface_detection.htm" rel="noopener" target="_blank">TutorialsPoint — Visible Surface Detection</a></li>
+</ul>
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Efficient Visible-Surface Algorithms · <a href="#top">↑ Back to index</a></p>
+</section>
+<section id="u8-topic2-efficient-algorithms" class="topic-section tp ty">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">2</span><span><span class="tlabel">Topic 2 of 7</span>Efficient Visible-Surface Algorithms</span><span class="tprio">YELLOW PRIORITY</span></h2>
+<p class="evidence"><strong>Why YELLOW?</strong> The available exam-plan evidence records older MCA questions on Z-buffer and depth-sort, which are examples of visible-surface techniques. It does not confirm a separate question specifically worded as “Efficient Visible-Surface Algorithms”. Do not treat this topic title as an exact previous-year question.</p>
+<h3>2.1 Meaning and Need</h3>
+<p><strong>Visible-surface determination</strong> (also called hidden-surface removal) identifies the surfaces or parts of objects that can be seen from a given viewing position. Surfaces hidden behind nearer opaque surfaces are not displayed.</p>
+<p>In a complex 3D scene, checking every surface repeatedly can take considerable processing time. Efficient algorithms reduce unnecessary calculations and avoid drawing hidden parts wherever possible.</p>
+<h3>2.2 Main Approaches</h3>
+<ul>
+<li><strong>Object-space methods:</strong> Compare objects or surfaces with one another in the 3D scene to decide which parts are visible. These methods work with the geometric objects themselves.</li>
+<li><strong>Image-space methods:</strong> Decide visibility at positions on the projected image, usually pixel by pixel. The algorithm determines which surface is nearest at each image position.</li>
+<li><strong>Mixed methods:</strong> Combine object-space and image-space operations, for example by arranging surfaces using depth and then resolving visibility in the image.</li>
+</ul>
+<div class="note"><strong>Remember:</strong> Object-space methods reason about the scene geometry; image-space methods reason about the projected image pixels.</div>
+<h3>2.3 Sorting</h3>
+<p><strong>Sorting</strong> means arranging surfaces according to their depth or distance from the viewer. It helps the algorithm compare overlapping surfaces in a useful order.</p>
+<p>For example, in a painter-style approach, farther surfaces are drawn first and nearer surfaces are drawn later, so nearer surfaces cover the farther ones. Depth sorting is useful, but intersecting or cyclically overlapping polygons may require additional tests or splitting.</p>
+<h3>2.4 Coherence</h3>
+<p><strong>Coherence</strong> is the tendency for nearby parts of a scene or image to have similar properties. Efficient algorithms use already calculated information when it is likely to remain valid for nearby positions, instead of repeating the same work.</p>
+<ul>
+<li><strong>Object coherence:</strong> Parts belonging to the same object often share useful properties.</li>
+<li><strong>Face coherence:</strong> Nearby points on one face generally belong to that same face.</li>
+<li><strong>Edge coherence:</strong> The visibility relationship along a polygon edge usually changes gradually.</li>
+<li><strong>Scan-line coherence:</strong> Adjacent scan lines often have similar visibility patterns.</li>
+<li><strong>Area coherence:</strong> Nearby pixels in a small screen region are often covered by the same surface.</li>
+<li><strong>Depth coherence:</strong> Depth values at nearby points on a surface usually change smoothly.</li>
+<li><strong>Frame coherence:</strong> Consecutive animation frames usually differ only where objects or the viewpoint have changed.</li>
+</ul>
+<h3>2.5 Examples of Techniques</h3>
+<ul>
+<li><strong>Back-face detection:</strong> Removes polygon faces that point away from the viewer, avoiding further visibility work for those faces.</li>
+<li><strong>Z-buffer method:</strong> Stores depth for each pixel and keeps the nearest surface found at that pixel.</li>
+<li><strong>Scan-line method:</strong> Processes the image one horizontal scan line at a time and uses similarities between spans and adjacent lines.</li>
+<li><strong>Depth-sort / painter’s method:</strong> Orders surfaces by depth before drawing them.</li>
+<li><strong>Area-subdivision method:</strong> Divides the viewing area into smaller regions until visibility in each region can be determined.</li>
+</ul>
+<p>These techniques exploit different combinations of object-space processing, image-space processing, sorting and coherence. The later topics in this unit explain several of them separately.</p>
+<h3>2.6 Choosing an Efficient Method</h3>
+<p>The suitable method depends on factors such as:</p>
+<ul>
+<li>Number and complexity of objects in the scene.</li>
+<li>Whether the objects are polygons or other surface types.</li>
+<li>Available memory and processing capability.</li>
+<li>Whether the scene is static or animated.</li>
+<li>Required image quality and handling of overlapping or transparent surfaces.</li>
+</ul>
+<h3>2.7 Exam-Oriented Answer</h3>
+<p>Efficient visible-surface algorithms determine which parts of a 3D scene are visible from a specified viewpoint while reducing unnecessary calculations. They are commonly classified into object-space, image-space and mixed methods. Their efficiency is improved using <strong>sorting</strong>, which orders surfaces according to depth, and <strong>coherence</strong>, which reuses information about nearby objects, faces, edges, scan lines, areas, depths or frames. Examples include back-face detection, Z-buffer, scan-line, depth-sort and area-subdivision methods.</p>
+<h3>2.8 Previous-Year Question Status</h3>
+<div class="note"><strong>PYQ status:</strong> The available exam-plan evidence records older MCA questions on Z-buffer and depth-sort, which are examples of visible-surface techniques. It does not confirm a separate question specifically worded as “Efficient Visible-Surface Algorithms”. Do not treat this topic title as an exact previous-year question.</div>
+<h3>2.9 Sources</h3>
+<ul>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/visible_surface_detection.htm" rel="noopener" target="_blank">TutorialsPoint — Visible Surface Detection</a></li>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/computer-graphics-2/" rel="noopener" target="_blank">GeeksforGeeks — Computer Graphics (Visible Surface Detection topics)</a></li>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/computer-graphics-area-subdivison-algorithm-in-3dhidden-surface-removal/" rel="noopener" target="_blank">GeeksforGeeks — Area Subdivision Algorithm in 3D</a></li>
+</ul>
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Scan-Line Determination · <a href="#top">↑ Back to index</a></p>
+</section>
+<section id="u8-topic3-scan-line" class="topic-section tp tb">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">3</span><span><span class="tlabel">Topic 3 of 7</span>Scan-Line Determination</span><span class="tprio">BLACK PRIORITY</span></h2>
+<p class="evidence"><strong>Why BLACK?</strong> The available exam-plan evidence does not confirm a separate direct MCA question specifically on the Scan-Line Determination algorithm. The topic is part of the official Unit VIII syllabus and is a standard visible-surface detection method.</p>
+<h3>3.1 Meaning</h3>
+<p>The <strong>scan-line method</strong> is an image-space visible-surface detection method. It determines the visible surface one horizontal scan line at a time, moving across the screen from left to right and then proceeding to the next scan line.</p>
+<p>Instead of keeping depth information for the entire image, the method needs depth information for the current scan line. All polygons intersecting that scan line are considered together.</p>
+<h3>3.2 Data Structures Used</h3>
+<ul>
+<li><strong>Edge Table (ET):</strong> Stores polygon edge information, such as edge endpoints, the inverse slope and a reference to the polygon to which the edge belongs. It helps identify where edges intersect scan lines.</li>
+<li><strong>Polygon Table (PT):</strong> Stores polygon information, such as plane coefficients, surface properties and references to related edges.</li>
+<li><strong>Active Edge List (AEL):</strong> Contains only the edges that intersect the current scan line. The edges are maintained in increasing order of their x-coordinate.</li>
+<li><strong>Inside/outside flag:</strong> Each polygon has a flag indicating whether the current position along the scan line lies inside or outside that polygon.</li>
+</ul>
+<h3>3.3 Working of the Scan-Line Method</h3>
+<ol>
+<li>Start with the first scan line at the top of the viewing area.</li>
+<li>Use the Edge Table to find all polygon edges intersecting the current scan line.</li>
+<li>Build the Active Edge List and arrange its edges in increasing x-coordinate order.</li>
+<li>Move from left to right across the scan line. When a polygon's left boundary is reached, turn its inside flag ON.</li>
+<li>When its right boundary is reached, turn its inside flag OFF.</li>
+<li>If no polygon is active, the position belongs to the background. If exactly one polygon is active, that polygon is visible there.</li>
+<li>If two or more polygons overlap at a position, compare their depth values and select the nearest surface according to the viewing convention.</li>
+<li>Store the selected surface's intensity or colour in the frame buffer for the corresponding pixels.</li>
+<li>Update the active edges for the next scan line and repeat until the entire viewing area has been processed.</li>
+</ol>
+<h3>3.4 Why Depth Comparison Is Needed</h3>
+<p>When only one polygon covers a part of the scan line, its surface is visible without comparing it against another polygon. When multiple polygons cover the same position, the algorithm calculates or updates their depth values and chooses the nearest one.</p>
+<div class="note"><strong>Important:</strong> The numerical meaning of “nearer” depends on the chosen depth-coordinate convention. The algorithm compares depths consistently using that convention.</div>
+<h3>3.5 Scan-Line Coherence</h3>
+<p><strong>Scan-line coherence</strong> means that neighbouring scan lines often have similar edge intersections and visibility relationships. The algorithm can use information from the previous scan line to update the active edge list instead of rebuilding everything from the beginning.</p>
+<p>This reduces repeated work when adjacent scan lines pass through the same polygons.</p>
+<h3>3.6 Advantages and Limitations</h3>
+<ul>
+<li><strong>Advantages:</strong> Processes only one scan line of depth information at a time; considers all polygons crossing that line together; can exploit scan-line coherence to reduce repeated calculations.</li>
+<li><strong>Limitations:</strong> Requires management of edge and polygon tables; overlapping polygons require depth comparisons; the active edge list must be updated as each scan line is processed.</li>
+</ul>
+<h3>3.7 Exam-Oriented Answer</h3>
+<p>The scan-line method is an image-space algorithm for visible-surface determination. It processes the image one horizontal scan line at a time. It uses an Edge Table, Polygon Table and an Active Edge List. The active edges are sorted by increasing x-coordinate. As the algorithm moves from left to right, a polygon's inside flag is switched ON at its left boundary and OFF at its right boundary. If several polygons overlap, their depth values are compared and the nearest surface is written to the frame buffer. Scan-line coherence helps reuse information from neighbouring scan lines and reduces repeated work.</p>
+<h3>3.8 Previous-Year Question Status</h3>
+<div class="note"><strong>PYQ status:</strong> The available exam-plan evidence does not confirm a separate direct MCA question specifically on the Scan-Line Determination algorithm. The topic is part of the official Unit VIII syllabus and is a standard visible-surface detection method. The yellow index colour indicates related hidden-surface topic evidence, not a confirmed scan-line question.</div>
+<h3>3.9 Sources</h3>
+<ul>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/visible_surface_detection.htm" rel="noopener" target="_blank">TutorialsPoint — Visible Surface Detection (Scan-Line Method)</a></li>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/computer-graphics-2/" rel="noopener" target="_blank">GeeksforGeeks — Computer Graphics</a></li>
+</ul>
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Z-Buffer Algorithms · <a href="#top">↑ Back to index</a></p>
+</section>
+<section id="u8-topic4-z-buffer" class="topic-section tp tr">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">4</span><span><span class="tlabel">Topic 4 of 7</span>Z-Buffer Algorithms</span><span class="tprio">RED PRIORITY</span></h2>
+<p class="evidence"><strong>Why RED?</strong> The available exam-plan evidence records a Z-buffer question in the older MCA paper (MCA-2/D-12, code CS-DE-21). The exact original wording is not preserved in the available notes, so this is topic-level PYQ evidence rather than a verbatim question.</p>
+<h3>4.1 Meaning of the Z-Buffer</h3>
+<p>The <strong>Z-buffer algorithm</strong>, also called the <strong>depth-buffer algorithm</strong>, is an image-space method used to determine which surface is visible at each pixel. It stores the depth of the currently visible surface for every pixel in a special memory area called the Z-buffer.</p>
+<p>The frame buffer stores the pixel's colour or intensity, while the Z-buffer stores its depth value.</p>
+<h3>4.2 Buffers Used</h3>
+<ul>
+<li><strong>Frame Buffer:</strong> Stores the colour or intensity value that will appear at each screen pixel.</li>
+<li><strong>Z-Buffer:</strong> Stores the depth value of the surface currently selected as visible at each pixel.</li>
+</ul>
+<p>Both buffers have corresponding entries for the pixels in the image.</p>
+<h3>4.3 Working Principle</h3>
+<ol>
+<li>Initialize every Z-buffer entry to a depth value representing the farthest possible depth (or the appropriate initial value for the chosen depth convention).</li>
+<li>Initialize the frame buffer with the background colour.</li>
+<li>Process each polygon or surface in the scene.</li>
+<li>For every pixel covered by the current surface, calculate or obtain its depth value.</li>
+<li>Compare this depth with the value already stored at that pixel in the Z-buffer.</li>
+<li>If the new surface is nearer, update the Z-buffer entry with the new depth and update the corresponding frame-buffer pixel with the surface colour.</li>
+<li>If the new surface is farther, leave both buffer entries unchanged.</li>
+<li>After all surfaces have been processed, the frame buffer contains the visible image.</li>
+</ol>
+<div class="formula-box">
+<p><strong>Depth comparison (concept)</strong></p>
+<p class="formula">If new depth is nearer → update Z-buffer and frame buffer</p>
+<p class="formula">Otherwise → keep the existing values</p>
+<p>The comparison operator depends on the depth-coordinate convention. In one convention smaller depth means nearer; in another, larger depth may mean nearer.</p>
+</div>
+<h3>4.4 Simple Example</h3>
+<p>Suppose two opaque surfaces cover the same pixel. Surface A has depth 8 and Surface B has depth 3. If smaller depth represents a nearer surface, Surface B is selected.</p>
+<p>The Z-buffer stores depth 3, and the frame buffer stores the colour of Surface B at that pixel. If the depth convention is reversed, the comparison must also be reversed.</p>
+<h3>4.5 Advantages</h3>
+<ul>
+<li>Simple and widely used method for visible-surface detection.</li>
+<li>Surfaces can generally be processed in any order because each pixel keeps the nearest depth found so far.</li>
+<li>Suitable for scenes containing many overlapping polygons.</li>
+<li>Visibility decisions are made independently for each pixel.</li>
+</ul>
+<h3>4.6 Limitations</h3>
+<ul>
+<li>Requires additional memory for the Z-buffer.</li>
+<li>Depth precision is limited by the number of bits used to store each depth value.</li>
+<li>Insufficient depth precision can cause <strong>Z-fighting</strong>, where nearly coplanar surfaces compete and the displayed result may flicker or appear irregular.</li>
+<li>Basic Z-buffering handles opaque surfaces directly; transparency generally requires additional handling and correct blending order.</li>
+</ul>
+<h3>4.7 Exam-Oriented Answer</h3>
+<p>The Z-buffer or depth-buffer algorithm is an image-space visible-surface detection technique. It uses two buffers: the frame buffer, which stores pixel colours, and the Z-buffer, which stores pixel depths. Initially, the Z-buffer is filled with the farthest depth and the frame buffer with the background colour. Each polygon is processed, and its depth is compared with the stored depth at every covered pixel. If the new surface is nearer, both the Z-buffer and frame-buffer entries are updated. Otherwise, the old values are retained. After all polygons are processed, the frame buffer represents the visible scene.</p>
+<h3>4.8 Previous-Year Question Status</h3>
+<div class="note"><strong>PYQ status:</strong> The available exam-plan evidence records a Z-buffer question in the older MCA paper (MCA-2/D-12, code CS-DE-21). The exact original wording is not preserved in the available notes, so this is topic-level PYQ evidence rather than a verbatim question.</div>
+<h3>4.9 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/videos/z-buffer-or-depth-buffer-algorithm-in-computer-graphics/" rel="noopener" target="_blank">GeeksforGeeks — Z-Buffer / Depth-Buffer Algorithm</a></li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/visible_surface_detection.htm" rel="noopener" target="_blank">TutorialsPoint — Visible Surface Detection</a></li>
+</ul>
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> List-Priority Algorithms · <a href="#top">↑ Back to index</a></p>
+</section>
+<section id="u8-topic5-list-priority" class="topic-section tp tr">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">5</span><span><span class="tlabel">Topic 5 of 7</span>List-Priority Algorithms</span><span class="tprio">RED PRIORITY</span></h2>
+<p class="evidence"><strong>Why RED?</strong> The available exam-plan evidence records a depth-sort question in the older MCA paper (MCA-2/D-12, code CS-DE-21). The exact original wording is not preserved in the available notes, so this is topic-level PYQ evidence rather than a verbatim question. The red index colour indicates this older MCA depth-sort evidence.</p>
+<h3>5.1 Meaning</h3>
+<p><strong>List-priority algorithms</strong> determine a visibility order for the surfaces in a scene. The surfaces are arranged in a list according to their depth priority, and then drawn in that order so that nearer surfaces cover farther surfaces.</p>
+<p>The best-known example is the <strong>Painter’s Algorithm</strong>, also called the <strong>Depth-Sort Algorithm</strong> or <strong>Priority Algorithm</strong>.</p>
+<h3>5.2 Painter’s Algorithm — Basic Idea</h3>
+<p>The method works like an artist painting a picture. The artist first paints the background and distant objects, then paints nearer objects over them. In the same way, the algorithm draws polygons from back to front:</p>
+<ul>
+<li>Farther polygons are drawn first.</li>
+<li>Nearer polygons are drawn later.</li>
+<li>When a nearer polygon covers a farther polygon, its pixels overwrite the earlier pixels in the frame buffer.</li>
+</ul>
+<h3>5.3 Working Steps</h3>
+<ol>
+<li>Find the depth range of each polygon, commonly represented by its minimum and maximum depth values.</li>
+<li>Sort the polygons according to depth priority, arranging them from farthest to nearest.</li>
+<li>Initialize the frame buffer with the background colour.</li>
+<li>Scan-convert and draw the farthest polygon first.</li>
+<li>Continue drawing the remaining polygons in back-to-front order. Later, nearer polygons overwrite pixels belonging to farther polygons wherever they overlap.</li>
+<li>Check ambiguous overlapping polygons. If their depth order cannot be established safely, perform additional tests and split polygons when necessary.</li>
+</ol>
+<h3>5.4 Handling Overlapping Polygons</h3>
+<p>Sorting only by one depth value may not be sufficient when polygon depth ranges overlap. The algorithm uses additional tests to decide whether the assumed order is valid.</p>
+<ul>
+<li><strong>Screen extent test:</strong> Check whether the projected x- or y-ranges of two polygons are separate. If they do not overlap in either direction, one cannot cover the other in the image.</li>
+<li><strong>Depth-range test:</strong> Compare the minimum and maximum depth ranges. If one polygon is entirely behind the other, their order can be established.</li>
+<li><strong>Plane test:</strong> Check whether the polygons lie on opposite sides of the other polygon’s plane, where applicable.</li>
+<li><strong>Splitting:</strong> If no reliable order can be established, divide one or both polygons into smaller parts so that the pieces can be placed in a consistent back-to-front order.</li>
+</ul>
+<h3>5.5 Cyclic Overlap Problem</h3>
+<p>A difficult case occurs when polygons overlap in a cycle: polygon A appears in front of B in one region, B appears in front of C, and C appears in front of A. No single global drawing order can satisfy all these relationships.</p>
+<p>In such cases, the algorithm may need to split polygons into smaller pieces. After splitting, the pieces can often be sorted and drawn in a valid order.</p>
+<h3>5.6 Advantages</h3>
+<ul>
+<li>The basic idea is simple and easy to understand.</li>
+<li>It can be efficient when the polygons have a clear, consistent depth order.</li>
+<li>It does not require a separate depth value to be stored for every screen pixel in the way a Z-buffer does.</li>
+</ul>
+<h3>5.7 Limitations</h3>
+<ul>
+<li>Sorting and checking overlapping polygons can be expensive.</li>
+<li>Intersecting or cyclically overlapping polygons may not have a simple global order.</li>
+<li>Polygon splitting may be required, increasing processing complexity.</li>
+<li>Farther polygons may be drawn even in areas that are later covered by nearer polygons, causing unnecessary drawing work.</li>
+</ul>
+<h3>5.8 Difference Between Z-Buffer and List-Priority Method</h3>
+<table>
+<thead><tr><th>Basis</th><th>Z-Buffer</th><th>List-Priority / Painter’s</th></tr></thead>
+<tbody>
+<tr><td>Basic approach</td><td>Compares depth at each pixel.</td><td>Sorts surfaces into a drawing order.</td></tr>
+<tr><td>Visibility decision</td><td>Pixel by pixel.</td><td>Primarily surface or polygon order.</td></tr>
+<tr><td>Drawing order</td><td>Surfaces can generally be processed in any order.</td><td>Far-to-near order is required.</td></tr>
+<tr><td>Extra handling</td><td>Needs depth-buffer memory and adequate depth precision.</td><td>May need overlap tests and polygon splitting.</td></tr>
+</tbody>
+</table>
+<h3>5.9 Exam-Oriented Answer</h3>
+<p>List-priority algorithms determine the visibility order of surfaces by arranging them in a list according to depth. The Painter’s Algorithm, also called the depth-sort or priority algorithm, is a common example. It draws polygons from farthest to nearest. The frame buffer is first filled with the background colour. Far polygons are drawn first, and nearer polygons are drawn later, overwriting the pixels of distant polygons wherever they overlap. If overlapping polygons cannot be placed in a correct order, additional overlap tests are performed and polygons may be split. The method is simple, but sorting, intersecting surfaces and cyclic overlap can make it expensive.</p>
+<h3>5.10 Previous-Year Question Status</h3>
+<div class="note"><strong>PYQ status:</strong> The available exam-plan evidence records a depth-sort question in the older MCA paper (MCA-2/D-12, code CS-DE-21). The exact original wording is not preserved in the available notes, so this is topic-level PYQ evidence rather than a verbatim question. The red index colour indicates this older MCA depth-sort evidence.</div>
+<h3>5.11 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/dsa/painters-algorithm-in-computer-graphics/" rel="noopener" target="_blank">GeeksforGeeks — Painter’s Algorithm in Computer Graphics</a></li>
+<li><a href="https://www.geeksforgeeks.org/videos/painters-algorithm-in-computer-graphics//" rel="noopener" target="_blank">GeeksforGeeks — Painter’s Algorithm Video</a></li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/visible_surface_detection.htm" rel="noopener" target="_blank">TutorialsPoint — Visible Surface Detection</a></li>
+</ul>
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Area-Subdivision Algorithms · <a href="#top">↑ Back to index</a></p>
+</section>
+<section id="u8-topic6-area-subdivision" class="topic-section tp ty">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">6</span><span><span class="tlabel">Topic 6 of 7</span>Area-Subdivision Algorithms</span><span class="tprio">YELLOW PRIORITY</span></h2>
+<p class="evidence"><strong>Why YELLOW?</strong> The available exam-plan evidence does not confirm a separate direct MCA question specifically on the Area-Subdivision Algorithm. Related hidden-surface questions appear in the available BCA-paper evidence, but that is not the same as a confirmed MCA question on this algorithm.</p>
+<h3>6.1 Meaning</h3>
+<p>The <strong>area-subdivision algorithm</strong> is an image-space visible-surface detection method. It divides the viewing screen into smaller areas and determines which surface is visible in each area. If visibility cannot be decided for an area, that area is subdivided again into smaller regions.</p>
+<p>The process continues until the visible surface can be identified or the region becomes small enough to be treated as a pixel.</p>
+<h3>6.2 Basic Principle</h3>
+<p>The algorithm uses the idea that a region may be classified easily when the surfaces covering it have a simple relationship. It checks the polygons that overlap a region and decides whether one polygon is definitely visible throughout that region.</p>
+<ul>
+<li>If a region is clearly covered by one visible surface, display that surface.</li>
+<li>If the region contains no polygon, display the background.</li>
+<li>If visibility is ambiguous because multiple surfaces overlap, divide the region into smaller parts and test each part again.</li>
+</ul>
+<h3>6.3 Working Steps</h3>
+<ol>
+<li>Start with the entire viewing area as one region.</li>
+<li>Identify the polygons that overlap the current region.</li>
+<li>Test whether the region can be assigned to a single visible surface using coverage and depth information.</li>
+<li>If no polygon covers the region, fill it with the background colour.</li>
+<li>If one polygon is definitely visible throughout the region, fill the region with that polygon's colour or shading.</li>
+<li>If the visibility test is ambiguous, divide the region into four smaller subregions.</li>
+<li>Apply the same tests recursively to each subregion.</li>
+<li>Stop subdividing when visibility is resolved or the region reaches the chosen minimum size, commonly a pixel.</li>
+</ol>
+<h3>6.4 The Four Subregions</h3>
+<p>A common implementation divides a rectangular region into four equal quadrants:</p>
+<div class="formula-box">
+<p><strong>Quadtree-style subdivision</strong></p>
+<p class="formula">Top-left · Top-right</p>
+<p class="formula">Bottom-left · Bottom-right</p>
+<p>Each quadrant is tested independently. Only ambiguous quadrants need further subdivision.</p>
+</div>
+<p>This repeated four-way division creates a hierarchical structure similar to a <strong>quadtree</strong>, where each parent region can have four child regions.</p>
+<h3>6.5 Tests for Determining Visibility</h3>
+<p>The algorithm examines the polygons overlapping a region. A region can be classified when the coverage and depth relationships show that a particular polygon is in front throughout that region. If the polygons overlap in a way that prevents a safe decision, subdivision is used to make the problem smaller.</p>
+<ul>
+<li><strong>Coverage:</strong> Check whether a polygon completely covers the region.</li>
+<li><strong>Depth:</strong> Compare the depth of candidate surfaces over the region.</li>
+<li><strong>Ambiguity:</strong> If the available tests cannot determine one visible surface for the entire region, subdivide it.</li>
+</ul>
+<h3>6.6 Advantages</h3>
+<ul>
+<li>Large areas can be classified together instead of testing every pixel separately.</li>
+<li>Only ambiguous regions need further subdivision.</li>
+<li>It can be efficient when large parts of the screen are covered by one surface or by the background.</li>
+<li>The hierarchical subdivision structure makes the process systematic.</li>
+</ul>
+<h3>6.7 Limitations</h3>
+<ul>
+<li>Repeated subdivision can create many small regions in complex scenes.</li>
+<li>Intersecting or closely overlapping surfaces may cause extensive subdivision.</li>
+<li>Additional work is needed to test polygon coverage and depth within each region.</li>
+<li>In the worst case, subdivision may continue down to individual pixels, reducing the advantage of processing large areas together.</li>
+</ul>
+<h3>6.8 Exam-Oriented Answer</h3>
+<p>The area-subdivision algorithm is an image-space hidden-surface removal method. It starts with the complete viewing area and tests the polygons overlapping it. If the area is uncovered, the background is displayed. If one surface is definitely visible throughout the area, that surface is displayed. If visibility is ambiguous because multiple surfaces overlap, the area is divided into four smaller regions. The same procedure is repeated for each subregion until visibility is resolved or the region becomes a pixel. This method is efficient when large regions can be classified together, but complex scenes may require repeated subdivision.</p>
+<h3>6.9 Previous-Year Question Status</h3>
+<div class="note"><strong>PYQ status:</strong> The available exam-plan evidence does not confirm a separate direct MCA question specifically on the Area-Subdivision Algorithm. Related hidden-surface questions appear in the available BCA-paper evidence, but that is not the same as a confirmed MCA question on this algorithm. The yellow index colour indicates related hidden-surface evidence only.</div>
+<h3>6.10 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/computer-graphics-area-subdivison-algorithm-in-3dhidden-surface-removal/" rel="noopener" target="_blank">GeeksforGeeks — Area Subdivision Algorithm in 3D (Hidden Surface Removal)</a></li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/visible_surface_detection.htm" rel="noopener" target="_blank">TutorialsPoint — Visible Surface Detection</a></li>
+</ul>
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Octree Algorithms · <a href="#top">↑ Back to index</a></p>
+</section>
+<section id="u8-topic7-octree" class="topic-section tp ty">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">7</span><span><span class="tlabel">Topic 7 of 7</span>Octree Algorithms</span><span class="tprio">YELLOW PRIORITY</span></h2>
+<p class="evidence"><strong>Why YELLOW?</strong> The available exam-plan evidence does not confirm a separate direct MCA question specifically on Octree Algorithms. Related hidden-surface questions appear in the available BCA-paper evidence, but that does not establish a direct MCA Octree question. The yellow index colour indicates related hidden-surface evidence only.</p>
+<h3>7.1 Meaning of an Octree</h3>
+<p>An <strong>octree</strong> is a hierarchical tree structure used to represent and organize objects or data in three-dimensional space. Each internal node can be divided into at most eight child regions, called <strong>octants</strong>.</p>
+<p>In visible-surface determination, the viewing volume is represented using octree nodes. The nodes are projected onto the viewing plane in a suitable <strong>front-to-back order</strong> so that nearer surfaces are processed before farther surfaces.</p>
+<h3>7.2 How 3D Space Is Divided</h3>
+<ul>
+<li>Begin with a cube or a 3D bounding region containing the scene.</li>
+<li>Divide the region into eight smaller 3D regions by splitting it along the x, y and z directions.</li>
+<li>Each smaller region is an octant and is represented by a child node.</li>
+<li>If a region still needs more detail, subdivide it again into eight smaller regions.</li>
+<li>Continue until the required level of detail or voxel size is reached.</li>
+</ul>
+<p>A smallest represented volume element is commonly called a <strong>voxel</strong> (volume element). An octree therefore stores a hierarchical description of the 3D volume rather than treating every location as an unrelated element.</p>
+<h3>7.3 Octree for Visible-Surface Determination</h3>
+<p>For hidden-surface removal, the octree nodes are visited in an order that processes the regions nearest to the viewer before the regions behind them. For a particular viewing direction, the four front octants are processed before the four rear octants. The same front-to-back ordering is applied recursively inside each subdivided octant.</p>
+<p>When a node contains a surface colour, its projected area is written to the corresponding frame-buffer area only if that area has not already received a colour from a nearer node. Thus, a farther node does not overwrite a pixel already assigned by a nearer surface.</p>
+<h3>7.4 Working Steps</h3>
+<ol>
+<li>Represent the 3D viewing volume using an octree.</li>
+<li>Identify the order of the octants according to the viewing direction, from front to back.</li>
+<li>Traverse the octree recursively in that order, processing nearer child regions before farther child regions.</li>
+<li>Project each relevant node or voxel onto its corresponding area on the viewing plane.</li>
+<li>Check the corresponding frame-buffer area. If it has not yet been assigned a surface colour, write the current node's colour.</li>
+<li>If the projected area already contains a colour from a nearer node, do not overwrite it with the farther node's colour.</li>
+<li>Skip a node and its descendants when the node is completely obscured and cannot contribute visible pixels.</li>
+<li>Continue until all potentially visible nodes have been processed.</li>
+</ol>
+<h3>7.5 Example of Front-to-Back Processing</h3>
+<p>Suppose a viewing direction makes octants 0, 1, 2 and 3 the front group, while octants 4, 5, 6 and 7 are behind them. The algorithm processes the front group first. If a front octant paints a particular pixel area, a later rear octant cannot replace that colour.</p>
+<div class="formula-box">
+<p><strong>Visibility rule</strong></p>
+<p class="formula">First visible colour written → keep it</p>
+<p class="formula">Later farther colour → do not overwrite</p>
+<p>The exact octant order depends on the viewing direction and the octree's numbering convention.</p>
+</div>
+<h3>7.6 Difference Between Quadtree and Octree</h3>
+<table>
+<thead><tr><th>Basis</th><th>Quadtree</th><th>Octree</th></tr></thead>
+<tbody>
+<tr><td>Space represented</td><td>Two-dimensional area</td><td>Three-dimensional volume</td></tr>
+<tr><td>Subdivision</td><td>Four smaller regions</td><td>Eight smaller regions</td></tr>
+<tr><td>Basic unit</td><td>Area or image region</td><td>Voxel or volume region</td></tr>
+<tr><td>Typical use here</td><td>Organizing subdivisions on the viewing plane</td><td>Organizing the 3D viewing volume for visibility processing</td></tr>
+</tbody>
+</table>
+<h3>7.7 Advantages</h3>
+<ul>
+<li>Organizes 3D space hierarchically.</li>
+<li>Front-to-back traversal helps process nearer surfaces first.</li>
+<li>Completely hidden regions can be skipped, avoiding unnecessary processing of their descendants.</li>
+<li>Supports different levels of spatial detail through recursive subdivision.</li>
+</ul>
+<h3>7.8 Limitations</h3>
+<ul>
+<li>Building and maintaining the tree requires additional memory and processing.</li>
+<li>Complex or unevenly distributed scenes may require many subdivisions.</li>
+<li>The traversal order must be selected correctly for the viewing direction.</li>
+<li>Projection and visibility checks are still required for nodes that may contribute to the final image.</li>
+</ul>
+<h3>7.9 Exam-Oriented Answer</h3>
+<p>An octree is a hierarchical structure used to represent a three-dimensional viewing volume. Each node can be divided into eight smaller regions called octants. In visible-surface determination, octree nodes are projected onto the viewing plane in front-to-back order. The front octants are processed before the rear octants, and the same order is followed recursively. When a node's colour is projected onto the frame buffer, it is written only if the corresponding area has not already been filled by a nearer node. Completely obscured nodes can be skipped. This removes hidden surfaces and avoids processing regions that cannot affect the visible image.</p>
+<h3>7.10 Previous-Year Question Status</h3>
+<div class="note"><strong>PYQ status:</strong> The available exam-plan evidence does not confirm a separate direct MCA question specifically on Octree Algorithms. Related hidden-surface questions appear in the available BCA-paper evidence, but that does not establish a direct MCA Octree question. The yellow index colour indicates related hidden-surface evidence only.</div>
+<h3>7.11 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/dsa/octree-insertion-and-searching/" rel="noopener" target="_blank">GeeksforGeeks — Octree: Insertion and Searching</a></li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/visible_surface_detection.htm" rel="noopener" target="_blank">TutorialsPoint — Visible Surface Detection</a></li>
+</ul>
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><a href="#top">↑ Back to index</a></p>
+</section>
+
+<div class="unit-end"><strong>✿ Unit VIII complete ✿</strong><br>Computer Graphics syllabus complete — all eight units finished.</div>
+</main>
+</body>
+</html>
