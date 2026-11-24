@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cloud Computing — Unit III Notes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@400;600;700&display=swap">
+<style>
+:root {
+  --desk: #dfe4ec;
+  --paper: #ffffff;
+  --rule: #d6e3f5;
+  --margin: #e4868a;
+  --ink: #1d3a8c;
+  --red: #b3261e;
+  --green: #1b6b3a;
+  --hl: rgba(255, 214, 0, 0.45);
+  --edge: rgba(29, 58, 140, 0.35);
+  --shadow: rgba(20, 30, 60, 0.2);
+  --hand: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --display: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --mono: "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace;
+  --vs-bg: #1e1e1e;
+  --vs-fg: #d4d4d4;
+  color-scheme: light;
+}
+html { background: var(--desk); }
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: 16px;
+  line-height: 32px;
+  padding-block: 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 28px 64px 76px;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 22px 48px, var(--desk) 8px, transparent 9px),
+    linear-gradient(to bottom, transparent 31px, var(--rule) 31px, var(--rule) 32px);
+  background-size: 44px 128px, 100% 32px;
+  background-repeat: repeat-y, repeat;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px var(--shadow), 0 14px 34px -14px var(--shadow);
+  overflow-wrap: break-word;
+}
+.sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 56px;
+  width: 4px;
+  border-left: 1px solid var(--margin);
+  border-right: 1px solid var(--margin);
+}
+@media (max-width: 520px) {
+  body { font-size: 15px; }
+  .sheet { padding: 64px 12px 64px 50px; }
+  .sheet::before { left: 34px; }
+}
+h1, h2, h3 { margin: 0; font-weight: 700; text-wrap: balance; }
+h1 {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  line-height: 64px;
+  color: var(--red);
+  text-decoration: underline wavy var(--red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 7px;
+  scroll-margin-top: 16px;
+}
+.sheet > h1:first-child { font-size: clamp(1.7rem, 5.2vw, 2.4rem); }
+h2 { font-family: var(--display); font-size: 1.3rem; line-height: 32px; color: var(--red); }
+h3 { font-family: var(--display); font-size: 1.15rem; line-height: 32px; color: var(--green); }
+p { margin: 0 0 32px; }
+hr {
+  height: 32px;
+  margin: 0;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--edge) 0 10px, transparent 10px 18px) center / 100% 2px no-repeat;
+}
+ul, ol { margin: 0 0 32px; }
+ul { list-style: none; padding-left: 34px; }
+ul li { position: relative; }
+ul li::before { content: "\2022"; position: absolute; left: -22px; color: var(--red); }
+ol { padding-left: 46px; }
+ol li::marker { color: var(--red); font-family: var(--display); font-weight: 700; }
+li > p { margin: 0; }
+strong {
+  font-weight: 600;
+  padding: 0 2px;
+  background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  line-height: 0;
+  color: #9cdcfe;
+  background: var(--vs-bg);
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+pre {
+  margin: 0 0 32px;
+  padding: 16px 20px;
+  background: var(--vs-bg);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), 0 6px 14px -8px rgba(0, 0, 0, 0.5);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 400;
+  font-variant-ligatures: contextual;
+  line-height: 32px;
+  color: var(--vs-fg);
+  overflow-x: auto;
+  tab-size: 4;
+  white-space: pre;
+}
+pre code { font: inherit; line-height: inherit; color: inherit; background: none; padding: 0; border-radius: 0; }
+pre .k  { color: #569cd6; }
+pre .kc { color: #c586c0; }
+pre .f  { color: #dcdcaa; }
+pre .t  { color: #4ec9b0; }
+pre .v  { color: #9cdcfe; }
+pre .ct { color: #4fc1ff; }
+pre .s  { color: #ce9178; }
+pre .n  { color: #b5cea8; }
+pre .c  { color: #6a9955; }
+.tw { margin: 0 0 32px; overflow-x: auto; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+.tw.wide table { min-width: 640px; }
+th, td {
+  padding: 0 14px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 32px;
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge);
+}
+th {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--red);
+  background: var(--hl);
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge);
+}
+th:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+td:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+.toc ul { columns: 2 280px; column-gap: 32px; padding-left: 0; }
+.toc li { break-inside: avoid; }
+.toc li::before { content: none; }
+.toc a { color: var(--ink); text-decoration: none; background: linear-gradient(var(--edge), var(--edge)) 0 100% / 100% 1px no-repeat; }
+.toc a:hover { color: var(--red); }
+a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; border-radius: 2px; }
+.note { margin: 0 0 32px; padding: 0 0 0 16px; border-left: 3px solid var(--red); }
+.note p { margin: 0; }
+h1 code, h2 code, h3 code { background: var(--vs-bg); }
+th code, td code { font-size: 0.85em; }
+.r,.y,.b{font-size:.72em;font-weight:700;padding:1px 7px;border-radius:3px;letter-spacing:.5px;margin-right:6px}
+.r{background:var(--red);color:#fff}.y{background:#ffd600;color:#4a3b00}.b{background:#222;color:#fff}
+main a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px;overflow-wrap:anywhere}
+main a:hover{color:var(--red)}
+.fig{margin:0 0 32px}.fig svg{display:block;width:100%;max-width:760px;margin:0 auto}
+.fig svg text{font-family:var(--hand);font-size:14px;fill:var(--ink)}
+.fig svg .cap{font-size:13px;fill:var(--red);font-weight:600}
+.fig svg .w{fill:#fff;font-weight:600}
+.fig svg .bx{fill:#fff;stroke:var(--ink);stroke-width:2}
+.fig svg .rx{fill:#fff;stroke:var(--red);stroke-width:2}
+.fig svg .kx{fill:var(--vs-bg);stroke:var(--vs-bg)}
+.fig svg .yx{fill:rgba(255,214,0,.45);stroke:var(--ink);stroke-width:2}
+.fig svg .ln{stroke:var(--ink);stroke-width:2;fill:none}
+.fig svg .rl{stroke:var(--red);stroke-width:2.5;fill:none}
+.fig svg .dl{stroke:var(--red);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+
+/* FINAL VISUAL REFINEMENTS — preserve the requested 32px notebook grid */
+:root { font-synthesis: none; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.sheet {
+  width: min(880px, 100%);
+  min-height: 100vh;
+  padding-top: 64px;
+  padding-bottom: 80px;
+  background-position: 0 0, 0 0;
+  background-size: 44px 128px, 100% 32px;
+}
+/* Keep ordinary text on the ruled baseline: each line box occupies exactly one rule interval. */
+.sheet p, .sheet li, .sheet td, .sheet th, .sheet .note p {
+  font-size: 15px;
+  line-height: 32px;
+  font-kerning: normal;
+}
+.sheet p { margin-bottom: 32px; }
+.sheet li { min-height: 32px; }
+.sheet ul, .sheet ol { margin-bottom: 32px; }
+.sheet h1, .sheet h2, .sheet h3 {
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+.sheet h1 {
+  margin: 32px 0;
+  padding: 0 12px 0 0;
+  line-height: 64px;
+  text-decoration-thickness: 2px;
+}
+.sheet > h1:first-child {
+  margin-top: 0;
+  padding: 12px 16px 8px 0;
+  line-height: 64px;
+  letter-spacing: -0.045em;
+}
+.sheet h2 {
+  margin: 32px 0 16px;
+  padding: 0 10px 0 0;
+  line-height: 32px;
+}
+.sheet h3 {
+  margin: 16px 0;
+  line-height: 32px;
+}
+.sheet .note {
+  margin: 16px 0 32px;
+  padding: 8px 16px;
+  background: rgba(255,255,255,.82);
+  border-left: 4px solid var(--red);
+  border-radius: 0 8px 8px 0;
+  box-shadow: 0 3px 12px rgba(29,58,140,.07);
+}
+.sheet .note p { margin: 0; }
+.sheet .note p + p { margin-top: 8px; }
+.sheet .tw {
+  margin: 16px 0 32px;
+  border-radius: 8px;
+  overflow-x: auto;
+  box-shadow: 0 4px 14px rgba(29,58,140,.08);
+}
+.sheet table { font-size: 14px; background: rgba(255,255,255,.94); }
+.sheet th, .sheet td {
+  padding: 0 12px;
+  line-height: 32px;
+}
+.sheet th { position: sticky; top: 0; }
+.sheet .fig {
+  margin: 16px 0 8px;
+  padding: 12px 10px 4px;
+  background: rgba(255,255,255,.84);
+  border: 1px solid rgba(29,58,140,.16);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(29,58,140,.07);
+}
+.sheet .fig svg { max-width: 100%; height: auto !important; }
+.sheet .cap-p {
+  margin: 0 0 32px;
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 32px;
+}
+.sheet a { overflow-wrap: anywhere; }
+.sheet a:hover { text-decoration-thickness: 2px; }
+.sheet .r, .sheet .y, .sheet .b {
+  display: inline-block;
+  vertical-align: 2px;
+  line-height: 20px;
+  padding: 1px 8px;
+  border-radius: 5px;
+  letter-spacing: .04em;
+}
+.sheet .toc {
+  padding: 12px 16px;
+  margin: 12px 0 32px;
+  background: rgba(255,255,255,.86);
+  border: 1px solid rgba(29,58,140,.18);
+  border-radius: 10px;
+}
+.sheet .toc ul { column-gap: 24px; }
+.sheet .toc li { line-height: 32px; }
+.sheet > h1[id] {
+  border-bottom: 1px solid rgba(179,38,30,.22);
+  padding-bottom: 4px;
+}
+@media (max-width: 520px) {
+  body { padding: 10px 8px; font-size: 15px; }
+  .sheet {
+    padding: 48px 12px 56px 48px;
+    border-radius: 3px;
+  }
+  .sheet::before { left: 34px; }
+  .sheet > h1:first-child { font-size: 1.65rem; }
+  .sheet h1 { font-size: 1.35rem; line-height: 64px; }
+  .sheet h2 { font-size: 1.08rem; }
+  .sheet h3 { font-size: 1rem; }
+  .sheet .tw.wide table { min-width: 560px; }
+  .sheet .fig { padding: 8px 4px; }
+}
+@media print {
+  @page { size: A4; margin: 12mm; }
+  html, body { background: #fff !important; padding: 0; }
+  .sheet {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding: 18mm 10mm 18mm 22mm;
+    border-radius: 0;
+    box-shadow: none;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .sheet .tw, .sheet .fig, .sheet .note { break-inside: avoid; }
+  a { color: inherit; }
+}
+
+</style>
+</head>
+<body>
+<main class="sheet">
+<h1>CLOUD COMPUTING</h1>
+<h2>Unit III: Cloud Solutions, Study Notes</h2>
+<div class="note"><p><strong>COLOUR GUIDE</strong></p><p><span class="r">RED</span>Directly asked in previous papers: study thoroughly. <span class="y">YELLOW</span>Related to previous questions: understand properly. <span class="b">BLACK</span>Not directly asked in the papers checked: read once, but do not skip.</p></div>
+<h2>Contents</h2>
+<div class="tw wide"><table><thead><tr><th>Topic</th><th>Name</th><th>Priority</th></tr></thead><tbody><tr><td>1</td><td><a href="#t1">Essentials of Cloud Computing</a></td><td><span class="b">BLACK</span></td></tr><tr><td>2</td><td><a href="#t2">Benefits and Need for Cloud Computing</a></td><td><span class="r">RED</span></td></tr><tr><td>4</td><td><a href="#t3">Cloud and Virtualization</a></td><td><span class="y">YELLOW</span></td></tr><tr><td>5</td><td><a href="#t4">Cloud Services Requirements</a></td><td><span class="b">BLACK</span></td></tr><tr><td>6</td><td><a href="#t5">Cloud and Dynamic Infrastructure</a></td><td><span class="b">BLACK</span></td></tr><tr><td>7</td><td><a href="#t6">Cloud Computing Characteristics</a></td><td><span class="y">YELLOW</span></td></tr></tbody></table></div>
+<div class="note"><p><strong>SYLLABUS COVERAGE NOTE</strong></p><p>The supplied notes move from Topic 2 to Topic 4. Topic 3 is not included in this source file, so no content has been invented for it.</p></div>
+<h1 id="t1">Topic 1. Essentials of Cloud Computing</h1>
+<p><span class="b">BLACK</span><strong>BLACK priority</strong>: one-time reading, but understand the fundamentals</p>
+<div class="note"><p><strong>WHY STUDY THIS TOPIC?</strong></p><p>It was not directly asked in the previous papers, but it provides the foundational concepts for Unit III. Understand the basic meaning, how cloud computing works and what resources it provides.</p></div>
+<h2>How much depth is needed?</h2>
+<ul><li><strong>1 mark:</strong> Define Cloud Computing; explain the term Cloud.</li><li><strong>5 marks:</strong> Explain Cloud Computing with basic working and examples; know its basic types.</li><li><strong>15 marks:</strong> Not a confirmed direct 15-mark question. Cover the fundamentals, then study benefits, need and characteristics separately.</li></ul>
+<h2>1.1 Meaning of Cloud Computing</h2>
+<p><strong>Cloud:</strong> the word <em>cloud</em> generally refers to resources and services available through a network, usually the Internet. They are hosted at remote locations, not only on your personal computer.</p>
+<p><strong>Computing:</strong> using computer resources to process data, store files, run applications and manage databases.</p>
+<h3>Definition</h3>
+<p><strong>Cloud Computing is a technology that provides computing resources such as servers, storage, databases, networking and software over the Internet whenever users need them.</strong></p>
+<p>These resources are generally managed by a cloud service provider. Users access them remotely without buying and maintaining all the hardware themselves.</p>
+<h3>Real-life example: Google Drive</h3>
+<ol><li>You open Google Drive on your mobile phone.</li><li>You upload a photo using the Internet.</li><li>Google stores the photo on its remote infrastructure.</li><li>Later, you open Google Drive on your laptop.</li><li>You access the same photo without transferring it manually.</li></ol>
+<div class="note"><p><strong>IMPORTANT</strong></p><p>The cloud does not mean data is stored somewhere in the sky. Data and computing resources are hosted on remote computers, usually inside large data centres.</p></div>
+<h2>1.2 What does Cloud Computing provide?</h2>
+<div class="tw"><table><thead><tr><th>Resource</th><th>Meaning</th><th>Example</th></tr></thead><tbody><tr><td>Computing power</td><td>Processing capacity to run applications</td><td>Virtual CPU</td></tr><tr><td>Storage</td><td>Space to save files and data</td><td>Google Drive</td></tr><tr><td>Database</td><td>System to store and manage data</td><td>Cloud-hosted database</td></tr><tr><td>Networking</td><td>Connectivity between computers and services</td><td>Virtual network</td></tr><tr><td>Software</td><td>Ready-to-use applications over the Internet</td><td>Gmail</td></tr><tr><td>Development tools</td><td>Tools to build applications</td><td>Cloud development platform</td></tr></tbody></table></div>
+<div class="fig"><svg viewBox="0 0 760 224" style="height:224px" role="img" aria-label="Google Drive example"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="20" y="70" width="150" height="80" rx="8" class="yx"/><text x="95.0" y="97.0" text-anchor="middle" class="">Mobile phone</text><text x="95.0" y="115.0" text-anchor="middle" class="">1. upload</text><text x="95.0" y="133.0" text-anchor="middle" class="">photo</text><ellipse cx="380" cy="110" rx="105" ry="62" class="rx"/><text x="380" y="97" text-anchor="middle" class="cap">Google cloud</text><text x="380" y="115" text-anchor="middle" class="cap">(remote data centre)</text><text x="380" y="133" text-anchor="middle" class="cap">photo stored here</text><rect x="590" y="70" width="150" height="80" rx="8" class="yx"/><text x="665.0" y="97.0" text-anchor="middle" class="">Laptop</text><text x="665.0" y="115.0" text-anchor="middle" class="">2. open same</text><text x="665.0" y="133.0" text-anchor="middle" class="">photo</text><line x1="172" y1="96" x2="273" y2="96" class="ln" marker-end="url(#ae)"/><line x1="487" y1="96" x2="588" y2="96" class="ln" marker-end="url(#ae)" marker-start="url(#as)"/><text x="222" y="87" text-anchor="middle" class="cap">Internet</text><text x="538" y="87" text-anchor="middle" class="cap">Internet</text><text x="380" y="205" text-anchor="middle" class="cap">Data lives on remote servers, so any device can reach it</text></svg></div>
+<p class="cap-p"><em>Figure: Google Drive as a cloud example</em></p>
+<div class="fig"><svg viewBox="0 0 760 288" style="height:288px" role="img" aria-label="Cloud resources"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><ellipse cx="380" cy="144.0" rx="92" ry="34" class="rx"/><text x="380" y="140.0" text-anchor="middle" class="cap">CLOUD</text><text x="380" y="158.0" text-anchor="middle" class="cap">RESOURCES</text><rect x="108" y="10" width="172" height="50" rx="8" class="yx"/><text x="194.0" y="31.0" text-anchor="middle" class="">Computing power</text><text x="194.0" y="49.0" text-anchor="middle" class="">(virtual CPU)</text><line x1="380" y1="114.0" x2="194" y2="60" class="ln" marker-end="url(#ae)"/><rect x="294" y="10" width="172" height="50" rx="8" class="yx"/><text x="380.0" y="31.0" text-anchor="middle" class="">Storage</text><text x="380.0" y="49.0" text-anchor="middle" class="">(Google Drive)</text><line x1="380" y1="114.0" x2="380" y2="60" class="ln" marker-end="url(#ae)"/><rect x="480" y="10" width="172" height="50" rx="8" class="yx"/><text x="566.0" y="31.0" text-anchor="middle" class="">Database</text><text x="566.0" y="49.0" text-anchor="middle" class="">(cloud-hosted)</text><line x1="380" y1="114.0" x2="566" y2="60" class="ln" marker-end="url(#ae)"/><rect x="108" y="228" width="172" height="50" rx="8" class="bx"/><text x="194.0" y="249.0" text-anchor="middle" class="">Networking</text><text x="194.0" y="267.0" text-anchor="middle" class="">(virtual network)</text><line x1="380" y1="174.0" x2="194" y2="228" class="ln" marker-end="url(#ae)"/><rect x="294" y="228" width="172" height="50" rx="8" class="bx"/><text x="380.0" y="249.0" text-anchor="middle" class="">Software</text><text x="380.0" y="267.0" text-anchor="middle" class="">(Gmail)</text><line x1="380" y1="174.0" x2="380" y2="228" class="ln" marker-end="url(#ae)"/><rect x="480" y="228" width="172" height="50" rx="8" class="bx"/><text x="566.0" y="249.0" text-anchor="middle" class="">Development</text><text x="566.0" y="267.0" text-anchor="middle" class="">tools</text><line x1="380" y1="174.0" x2="566" y2="228" class="ln" marker-end="url(#ae)"/></svg></div>
+<p class="cap-p"><em>Figure: What cloud computing provides</em></p>
+<h2>1.3 How does Cloud Computing work?</h2>
+<p><strong>Traditional local computing:</strong> the user installs software and stores files on their own computer or the organization’s own servers.</p>
+<p><strong>Cloud computing:</strong> the user connects to a cloud provider over a network and uses resources hosted by that provider.</p>
+<h3>Basic working steps</h3>
+<ol><li><strong>User request:</strong> a user opens a cloud application or requests a resource.</li><li><strong>Internet connection:</strong> the request travels through the Internet to the provider.</li><li><strong>Cloud infrastructure:</strong> the provider’s servers process the request or retrieve the data.</li><li><strong>Response:</strong> the result is sent back to the user’s device.</li><li><strong>Resource management:</strong> the provider manages the infrastructure; the user’s responsibilities depend on the service used.</li></ol>
+<p><strong>Example:</strong> when you open Gmail, your browser sends a request to Google’s systems, which process it and return your emails.</p>
+<h2>1.4 Basic components</h2>
+<ol><li><strong>Client or Front End:</strong> the device or interface used to access cloud services (mobile, laptop, web browser).</li><li><strong>Internet or Network:</strong> connects the user’s device to the cloud infrastructure.</li><li><strong>Cloud Infrastructure or Back End:</strong> remote servers, storage, databases and software that provide the services.</li></ol>
+<p>Example with Google Drive: your laptop is the client, your Internet connection carries the request, and Google’s cloud infrastructure stores and retrieves your files.</p>
+<pre><code>[ Client ] &lt;----- Internet -----&gt; [ Cloud Infrastructure ]
+ laptop / mobile                   servers, storage, database</code></pre>
+<div class="fig"><svg viewBox="0 0 760 192" style="height:192px" role="img" aria-label="Client, Internet and cloud infrastructure"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="20" y="50" width="150" height="90" rx="8" class="yx"/><text x="95.0" y="73.0" text-anchor="middle" class="">Client</text><text x="95.0" y="91.0" text-anchor="middle" class="">(front end)</text><text x="95.0" y="109.0" text-anchor="middle" class="">laptop, mobile,</text><text x="95.0" y="127.0" text-anchor="middle" class="">browser</text><ellipse cx="360" cy="95" rx="90" ry="50" class="bx"/><text x="360" y="91" text-anchor="middle" class="">Internet</text><text x="360" y="109" text-anchor="middle" class="">(network)</text><rect x="550" y="12" width="190" height="170" rx="8" class="rx"/><text x="645.0" y="102.0" text-anchor="middle" class=""></text><text x="645" y="39" text-anchor="middle" class="cap">Cloud Infrastructure</text><text x="645" y="59" text-anchor="middle" class="">(back end)</text><rect x="570" y="70" width="150" height="30" rx="8" class="bx"/><text x="645.0" y="90.0" text-anchor="middle" class="">Servers</text><rect x="570" y="108" width="150" height="30" rx="8" class="bx"/><text x="645.0" y="128.0" text-anchor="middle" class="">Storage</text><rect x="570" y="146" width="150" height="30" rx="8" class="bx"/><text x="645.0" y="166.0" text-anchor="middle" class="">Database</text><line x1="172" y1="80" x2="268" y2="80" class="ln" marker-end="url(#ae)" marker-start="url(#as)"/><line x1="452" y1="80" x2="548" y2="80" class="ln" marker-end="url(#ae)" marker-start="url(#as)"/><text x="220" y="69" text-anchor="middle" class="cap">request</text><text x="500" y="69" text-anchor="middle" class="cap">response</text></svg></div>
+<p class="cap-p"><em>Figure: Basic components of cloud computing</em></p>
+<h2>1.5 Important terms</h2>
+<div class="tw"><table><thead><tr><th>Term</th><th>Simple meaning</th></tr></thead><tbody><tr><td>Cloud Service Provider (CSP)</td><td>Company providing cloud services: AWS, Google Cloud, Microsoft Azure</td></tr><tr><td>Data Centre</td><td>Facility containing servers, storage and networking equipment</td></tr><tr><td>Remote Server</td><td>Server accessed through a network, not used directly on your own machine</td></tr><tr><td>On-Premises</td><td>IT infrastructure installed and managed at the organization’s own location</td></tr><tr><td>Pay-as-you-go</td><td>Paying according to the resources or services used</td></tr></tbody></table></div>
+<h2>1.6 Three main service models (basic introduction)</h2>
+<p>Studied in detail in Unit II. Remember only the basic meanings now.</p>
+<div class="tw"><table><thead><tr><th>Model</th><th>Full form</th><th>What it provides</th><th>Example</th></tr></thead><tbody><tr><td>IaaS</td><td>Infrastructure as a Service</td><td>Virtual servers, storage, networking</td><td>Amazon EC2</td></tr><tr><td>PaaS</td><td>Platform as a Service</td><td>Platform to develop and deploy applications</td><td>Google App Engine</td></tr><tr><td>SaaS</td><td>Software as a Service</td><td>Ready-to-use software over the Internet</td><td>Gmail</td></tr></tbody></table></div>
+<div class="fig"><svg viewBox="0 0 760 288" style="height:288px" role="img" aria-label="Service models"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="30" y="10" width="430" height="80" rx="8" class="yx"/><text x="245.0" y="37.0" text-anchor="middle" class="">SaaS</text><text x="245.0" y="55.0" text-anchor="middle" class="">Software as a Service</text><text x="245.0" y="73.0" text-anchor="middle" class="">ready-to-use software</text><rect x="540" y="30" width="190" height="40" rx="8" class="kx"/><text x="635.0" y="55.0" text-anchor="middle" class="w">Gmail</text><line x1="462" y1="50" x2="538" y2="50" class="ln" marker-end="url(#ae)"/><rect x="30" y="102" width="430" height="80" rx="8" class="bx"/><text x="245.0" y="129.0" text-anchor="middle" class="">PaaS</text><text x="245.0" y="147.0" text-anchor="middle" class="">Platform as a Service</text><text x="245.0" y="165.0" text-anchor="middle" class="">build and deploy applications</text><rect x="540" y="122" width="190" height="40" rx="8" class="kx"/><text x="635.0" y="147.0" text-anchor="middle" class="w">Google App Engine</text><line x1="462" y1="142" x2="538" y2="142" class="ln" marker-end="url(#ae)"/><rect x="30" y="194" width="430" height="80" rx="8" class="rx"/><text x="245.0" y="221.0" text-anchor="middle" class="">IaaS</text><text x="245.0" y="239.0" text-anchor="middle" class="">Infrastructure as a Service</text><text x="245.0" y="257.0" text-anchor="middle" class="">servers, storage, networking</text><rect x="540" y="214" width="190" height="40" rx="8" class="kx"/><text x="635.0" y="239.0" text-anchor="middle" class="w">Amazon EC2</text><line x1="462" y1="234" x2="538" y2="234" class="ln" marker-end="url(#ae)"/><text x="500" y="7" text-anchor="middle" class=""></text></svg></div>
+<p class="cap-p"><em>Figure: IaaS, PaaS and SaaS with examples</em></p>
+<h2>1.7 Exam preparation</h2>
+<h3>1-mark answer</h3>
+<p><strong>Q. Define Cloud Computing.</strong><br>Cloud Computing is a technology that provides computing resources such as servers, storage, databases and software over the Internet on demand.</p>
+<h3>5-mark answer</h3>
+<p><strong>Q. What is Cloud Computing? Explain its basic working.</strong><br>Cloud Computing is a technology that provides computing resources such as servers, storage, databases, networking and software over the Internet. It lets users access resources hosted on remote servers without buying and maintaining all the physical infrastructure themselves.</p>
+<p><strong>Working:</strong></p>
+<ol><li>The user sends a request through a device.</li><li>The request travels through the Internet.</li><li>The cloud provider’s infrastructure processes the request.</li><li>The required data or service is returned to the user.</li><li>The provider manages the underlying infrastructure.</li></ol>
+<p><strong>Example:</strong> Google Drive lets users store files on remote servers and access them through the Internet.</p>
+<h2>1.8 Quick revision</h2>
+<ul><li>Cloud generally refers to remote computing resources accessible through a network.</li><li>Cloud Computing provides computing resources over the Internet.</li><li>Resources include servers, storage, databases, networking and software.</li><li>A cloud service provider manages the underlying infrastructure.</li><li>Google Drive and Gmail are familiar examples.</li><li>IaaS, PaaS and SaaS are the three main service models.</li></ul>
+<h1 id="t2">Topic 2. Benefits and Need for Cloud Computing</h1>
+<p><span class="r">RED</span><strong>RED priority</strong>: directly asked in the MCA Semester IV previous paper (5 marks)</p>
+<div class="note"><p><strong>WHY THIS TOPIC?</strong></p><p>It deserves more detail than Topic 1. Prepare it so you can answer a 5-mark question confidently and also expand it into a longer answer.</p></div>
+<h2>2.1 Why do we need Cloud Computing?</h2>
+<p>Before cloud computing, organizations generally bought and maintained their own IT infrastructure. A company launching an online shop needs physical servers, storage devices, networking equipment, software and databases, plus IT professionals to install, manage and maintain everything.</p>
+<h3>Problems with traditional computing</h3>
+<ol><li><strong>High initial investment:</strong> servers, storage, networking equipment and software must be purchased before starting.</li><li><strong>Maintenance responsibility:</strong> IT staff must maintain hardware, install updates, monitor systems and solve problems.</li><li><strong>Difficulty handling changing demand:</strong> a website with 1,000 visitors a day may get 100,000 during a festival sale, and existing servers may not cope.</li><li><strong>Resource wastage:</strong> extra hardware bought for peak demand is wasted if unused.</li><li><strong>Limited accessibility:</strong> local infrastructure makes remote access need extra arrangements.</li><li><strong>Slow infrastructure setup:</strong> buying, installing and configuring servers takes time.</li></ol>
+<h3>How Cloud Computing solves these problems</h3>
+<p>Organizations rent computing resources from providers instead of buying and maintaining all the hardware.</p>
+<ul><li>Start with the resources you need.</li><li>Increase or decrease resources when demand changes.</li><li>Pay according to the selected pricing model and usage.</li><li>The provider manages the physical infrastructure.</li><li>Applications and data are accessed remotely through a network.</li></ul>
+<div class="fig"><svg viewBox="0 0 760 192" style="height:192px" role="img" aria-label="Problems and cloud solution"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="10" y="10" width="230" height="160" rx="8" class="rx"/><text x="125.0" y="41.0" text-anchor="middle" class="">Traditional problems</text><text x="125.0" y="59.0" text-anchor="middle" class="">1. High initial cost</text><text x="125.0" y="77.0" text-anchor="middle" class="">2. Maintenance burden</text><text x="125.0" y="95.0" text-anchor="middle" class="">3. Changing demand</text><text x="125.0" y="113.0" text-anchor="middle" class="">4. Resource wastage</text><text x="125.0" y="131.0" text-anchor="middle" class="">5. Limited access</text><text x="125.0" y="149.0" text-anchor="middle" class="">6. Slow setup</text><line x1="242" y1="90" x2="298" y2="90" class="ln" marker-end="url(#ae)"/><ellipse cx="380" cy="90" rx="78" ry="40" class="yx"/><text x="380" y="86" text-anchor="middle" class="cap">CLOUD</text><text x="380" y="104" text-anchor="middle" class="cap">COMPUTING</text><line x1="458" y1="90" x2="518" y2="90" class="ln" marker-end="url(#ae)"/><rect x="520" y="10" width="230" height="160" rx="8" class="bx"/><text x="635.0" y="50.0" text-anchor="middle" class="">Cloud solutions</text><text x="635.0" y="68.0" text-anchor="middle" class="">Rent resources</text><text x="635.0" y="86.0" text-anchor="middle" class="">Scale up and down</text><text x="635.0" y="104.0" text-anchor="middle" class="">Pay by usage</text><text x="635.0" y="122.0" text-anchor="middle" class="">Provider runs hardware</text><text x="635.0" y="140.0" text-anchor="middle" class="">Access over Internet</text></svg></div>
+<p class="cap-p"><em>Figure: Problems of traditional computing and how cloud solves them</em></p>
+<h2>2.2 Benefits of Cloud Computing</h2>
+<p><span class="y">YELLOW</span>Important for 5 and 15 marks</p>
+<div class="fig"><svg viewBox="0 0 760 288" style="height:288px" role="img" aria-label="Ten benefits"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><ellipse cx="380" cy="144.0" rx="92" ry="34" class="rx"/><text x="380" y="140.0" text-anchor="middle" class="cap">CLOUD</text><text x="380" y="158.0" text-anchor="middle" class="cap">BENEFITS</text><rect x="20" y="10" width="133" height="50" rx="8" class="yx"/><text x="86.5" y="31.0" text-anchor="middle" class="">Cost</text><text x="86.5" y="49.0" text-anchor="middle" class="">Savings</text><line x1="380" y1="114.0" x2="86" y2="60" class="ln" marker-end="url(#ae)"/><rect x="167" y="10" width="133" height="50" rx="8" class="yx"/><text x="233.5" y="40.0" text-anchor="middle" class="">Scalability</text><line x1="380" y1="114.0" x2="233" y2="60" class="ln" marker-end="url(#ae)"/><rect x="314" y="10" width="133" height="50" rx="8" class="yx"/><text x="380.5" y="40.0" text-anchor="middle" class="">Flexibility</text><line x1="380" y1="114.0" x2="380" y2="60" class="ln" marker-end="url(#ae)"/><rect x="460" y="10" width="133" height="50" rx="8" class="yx"/><text x="526.5" y="31.0" text-anchor="middle" class="">High</text><text x="526.5" y="49.0" text-anchor="middle" class="">Accessibility</text><line x1="380" y1="114.0" x2="527" y2="60" class="ln" marker-end="url(#ae)"/><rect x="607" y="10" width="133" height="50" rx="8" class="yx"/><text x="673.5" y="40.0" text-anchor="middle" class="">Reliability</text><line x1="380" y1="114.0" x2="674" y2="60" class="ln" marker-end="url(#ae)"/><rect x="20" y="228" width="133" height="50" rx="8" class="bx"/><text x="86.5" y="249.0" text-anchor="middle" class="">Faster</text><text x="86.5" y="267.0" text-anchor="middle" class="">Deployment</text><line x1="380" y1="174.0" x2="86" y2="228" class="ln" marker-end="url(#ae)"/><rect x="167" y="228" width="133" height="50" rx="8" class="bx"/><text x="233.5" y="249.0" text-anchor="middle" class="">Easy</text><text x="233.5" y="267.0" text-anchor="middle" class="">Collaboration</text><line x1="380" y1="174.0" x2="233" y2="228" class="ln" marker-end="url(#ae)"/><rect x="314" y="228" width="133" height="50" rx="8" class="bx"/><text x="380.5" y="249.0" text-anchor="middle" class="">Backup and</text><text x="380.5" y="267.0" text-anchor="middle" class="">Recovery</text><line x1="380" y1="174.0" x2="380" y2="228" class="ln" marker-end="url(#ae)"/><rect x="460" y="228" width="133" height="50" rx="8" class="bx"/><text x="526.5" y="249.0" text-anchor="middle" class="">Reduced</text><text x="526.5" y="267.0" text-anchor="middle" class="">Maintenance</text><line x1="380" y1="174.0" x2="527" y2="228" class="ln" marker-end="url(#ae)"/><rect x="607" y="228" width="133" height="50" rx="8" class="bx"/><text x="673.5" y="249.0" text-anchor="middle" class="">Global</text><text x="673.5" y="267.0" text-anchor="middle" class="">Reach</text><line x1="380" y1="174.0" x2="674" y2="228" class="ln" marker-end="url(#ae)"/></svg></div>
+<p class="cap-p"><em>Figure: Ten benefits of cloud computing</em></p>
+<h3>1. Cost savings</h3>
+<p>Reduces the need to buy expensive servers, storage and networking equipment. Rent resources and pay by usage instead of a large initial investment.<br><strong>Example:</strong> a startup rents a virtual server from AWS instead of buying a physical one.<br><strong>Remember:</strong> cloud is not always free or cheaper. Poor resource management can also increase costs.</p>
+<h3>2. Scalability</h3>
+<p>The ability to increase or decrease computing resources according to requirements.<br><strong>Example:</strong> during a festival sale an e-commerce site adds server capacity, then reduces it after the sale.</p>
+<h3>3. Flexibility</h3>
+<p>The ability to use and adjust resources according to changing requirements, without buying new physical infrastructure each time.<br><strong>Example:</strong> a software company uses extra cloud storage or computing power for a new project.</p>
+<h3>4. High accessibility</h3>
+<p>Services can be accessed from different locations and devices through the Internet.<br><strong>Example:</strong> upload a document to Google Drive from your phone, open it on your laptop.</p>
+<h3>5. Reliability</h3>
+<p>Providers generally use backup systems, redundant infrastructure and data replication to reduce the impact of hardware failures.<br><strong>Example:</strong> if one storage device fails, a properly configured system retrieves the data from another copy.<br><strong>Important:</strong> reliability depends on the provider’s design and the customer’s configuration. Cloud does not guarantee zero downtime.</p>
+<h3>6. Faster deployment and speed</h3>
+<p>Cloud resources can be created much faster than buying and installing hardware.<br><strong>Example:</strong> a developer creates a virtual machine within minutes.</p>
+<h3>7. Easy collaboration</h3>
+<p>Multiple users can work on shared files and applications from different locations.<br><strong>Example:</strong> several students edit the same Google Docs document.</p>
+<h3>8. Data backup and disaster recovery</h3>
+<p>Backup and recovery services help restore information if hardware is damaged or data is deleted.<br><strong>Example:</strong> a company keeps cloud backups of its business database to recover after a server failure.</p>
+<h3>9. Automatic updates and reduced maintenance</h3>
+<p>Providers handle many infrastructure tasks such as hardware maintenance and certain software updates, reducing the IT team’s workload.<br><strong>Example:</strong> a managed cloud database. Customers may still update their own applications and manage their data.</p>
+<h3>10. Global reach</h3>
+<p>Providers have infrastructure in multiple regions, so applications can be deployed closer to users, improving accessibility and reducing delay.<br><strong>Example:</strong> an Indian company deploys its application in an AWS region closer to European customers.</p>
+<div class="fig"><svg viewBox="0 0 760 224" style="height:224px" role="img" aria-label="Demand versus capacity"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><line x1="60" y1="30" x2="60" y2="190" class="ln"/><line x1="60" y1="190" x2="720" y2="190" class="ln"/><text x="64" y="16" class="cap">Demand / resources</text><text x="690" y="212" class="cap" text-anchor="middle">Time</text><polyline points="70,165 200,165 280,150 360,70 440,50 520,70 600,140 710,165" class="ln" style="stroke-width:3"/><polyline points="70,128 710,128" class="dl" style="stroke:#555"/><polyline points="70,158 250,158 250,138 330,138 330,38 520,38 520,100 620,100 620,155 710,155" class="rl"/><text x="72" y="120" class="cap" style="fill:#555">Traditional: fixed capacity</text><text x="440" y="26" class="cap" text-anchor="middle">Festival sale peak</text><text x="640" y="72" class="cap" text-anchor="middle">Cloud capacity scales up,</text><text x="640" y="88" class="cap" text-anchor="middle">then back down</text><text x="76" y="184">Blue = demand</text></svg></div>
+<p class="cap-p"><em>Figure: Traditional fixed capacity (dashed) vs cloud scaling (red line follows the blue demand line)</em></p>
+<h2>2.3 Business and IT reasons for adopting Cloud Computing</h2>
+<div class="tw"><table><thead><tr><th>Business perspective</th><th>IT perspective</th></tr></thead><tbody><tr><td>Reduce infrastructure expenses</td><td>Reduce physical hardware requirements</td></tr><tr><td>Start business operations faster</td><td>Provision servers quickly</td></tr><tr><td>Support business growth</td><td>Scale computing resources</td></tr><tr><td>Improve employee collaboration</td><td>Provide shared applications and storage</td></tr><tr><td>Expand into new markets</td><td>Deploy services in different regions</td></tr><tr><td>Reduce infrastructure management workload</td><td>Use managed cloud services</td></tr></tbody></table></div>
+<h2>2.4 Traditional computing vs Cloud computing</h2>
+<div class="tw"><table><thead><tr><th>Basis</th><th>Traditional computing</th><th>Cloud computing</th></tr></thead><tbody><tr><td>Infrastructure</td><td>Bought and maintained by the organization</td><td>Provided by a cloud provider</td></tr><tr><td>Initial investment</td><td>Generally high</td><td>Can be lower</td></tr><tr><td>Maintenance</td><td>Organization manages it</td><td>Provider manages physical infrastructure</td></tr><tr><td>Scalability</td><td>Needs extra hardware</td><td>Resources increased or decreased more easily</td></tr><tr><td>Accessibility</td><td>Depends on local infrastructure or network arrangements</td><td>Accessible through the Internet</td></tr><tr><td>Payment</td><td>Hardware purchase and maintenance costs</td><td>Usage-based or subscription pricing</td></tr><tr><td>Deployment</td><td>Hardware setup takes time</td><td>Resources provisioned quickly</td></tr></tbody></table></div>
+<div class="fig"><svg viewBox="0 0 760 288" style="height:288px" role="img" aria-label="Traditional vs cloud"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="30" y="10" width="320" height="34" rx="8" class="rx"/><text x="190.0" y="32.0" text-anchor="middle" class="">TRADITIONAL</text><rect x="410" y="10" width="320" height="34" rx="8" class="yx"/><text x="570.0" y="32.0" text-anchor="middle" class="">CLOUD</text><rect x="30" y="60" width="320" height="44" rx="8" class="bx"/><text x="190.0" y="78.0" text-anchor="middle" class="">Buy servers, storage</text><text x="190.0" y="96.0" text-anchor="middle" class="">(CapEx)</text><rect x="410" y="60" width="320" height="44" rx="8" class="bx"/><text x="570.0" y="78.0" text-anchor="middle" class="">Rent resources</text><text x="570.0" y="96.0" text-anchor="middle" class="">(OpEx, pay as you go)</text><line x1="190" y1="104" x2="190" y2="114" class="ln" marker-end="url(#ae)"/><line x1="570" y1="104" x2="570" y2="114" class="ln" marker-end="url(#ae)"/><rect x="30" y="114" width="320" height="44" rx="8" class="bx"/><text x="190.0" y="132.0" text-anchor="middle" class="">Install and maintain</text><text x="190.0" y="150.0" text-anchor="middle" class="">by own IT team</text><rect x="410" y="114" width="320" height="44" rx="8" class="bx"/><text x="570.0" y="132.0" text-anchor="middle" class="">Provider manages</text><text x="570.0" y="150.0" text-anchor="middle" class="">physical infrastructure</text><line x1="190" y1="158" x2="190" y2="168" class="ln" marker-end="url(#ae)"/><line x1="570" y1="158" x2="570" y2="168" class="ln" marker-end="url(#ae)"/><rect x="30" y="168" width="320" height="44" rx="8" class="bx"/><text x="190.0" y="186.0" text-anchor="middle" class="">Fixed capacity</text><text x="190.0" y="204.0" text-anchor="middle" class="">needs new hardware</text><rect x="410" y="168" width="320" height="44" rx="8" class="bx"/><text x="570.0" y="186.0" text-anchor="middle" class="">Scale up or down</text><text x="570.0" y="204.0" text-anchor="middle" class="">on demand</text><line x1="190" y1="212" x2="190" y2="222" class="ln" marker-end="url(#ae)"/><line x1="570" y1="212" x2="570" y2="222" class="ln" marker-end="url(#ae)"/><rect x="30" y="222" width="320" height="44" rx="8" class="bx"/><text x="190.0" y="249.0" text-anchor="middle" class="">Slow setup</text><rect x="410" y="222" width="320" height="44" rx="8" class="bx"/><text x="570.0" y="249.0" text-anchor="middle" class="">Resources in minutes</text></svg></div>
+<p class="cap-p"><em>Figure: Traditional computing vs cloud computing</em></p>
+<h2>2.5 Important terms</h2>
+<div class="tw"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody><tr><td>Capital Expenditure (CapEx)</td><td>Money spent buying long-term assets such as physical servers</td></tr><tr><td>Operational Expenditure (OpEx)</td><td>Regular expenses of running business operations</td></tr><tr><td>Scalability</td><td>Ability to increase or decrease resources</td></tr><tr><td>Reliability</td><td>Ability to provide services consistently</td></tr><tr><td>Resource Provisioning</td><td>Making resources available when required</td></tr><tr><td>Disaster Recovery</td><td>Restoring systems and data after a failure</td></tr><tr><td>Pay-as-you-go</td><td>Paying according to resources consumed</td></tr></tbody></table></div>
+<p><strong>CapEx vs OpEx:</strong> traditional computing needs more upfront investment in physical infrastructure (CapEx). Cloud computing can shift some of this spending to ongoing operational expenses (OpEx), depending on the pricing arrangement.</p>
+<h2>2.6 Exam-ready answers</h2>
+<h3>1-mark question</h3>
+<p><strong>Q. Write any two benefits of Cloud Computing.</strong></p>
+<ol><li>Cost savings.</li><li>Scalability.</li></ol>
+<p>Other acceptable answers: flexibility, accessibility, reliability.</p>
+<h3>5-mark question (previous paper)</h3>
+<p><strong>Q. Explain the benefits and need for Cloud Computing.</strong><br>Cloud Computing provides computing resources such as servers, storage, databases and software over the Internet. Organizations need it because traditional IT infrastructure requires high initial investment, regular maintenance and extra hardware for increasing workloads.</p>
+<p>The major benefits are:</p>
+<ol><li><strong>Cost Savings:</strong> reduces the need to buy expensive hardware.</li><li><strong>Scalability:</strong> resources increase or decrease according to demand.</li><li><strong>Flexibility:</strong> different resources according to business requirements.</li><li><strong>Accessibility:</strong> access applications and data from different locations.</li><li><strong>Reliability:</strong> backup and redundant systems reduce service interruptions.</li><li><strong>Faster Deployment:</strong> resources provisioned quickly.</li><li><strong>Easy Collaboration:</strong> multiple users work on shared applications and data.</li><li><strong>Disaster Recovery:</strong> important data recovered through backups.</li></ol>
+<p>Thus, cloud computing helps organizations reduce infrastructure management effort, improve flexibility and use resources according to their requirements.</p>
+<h3>15-mark preparation</h3>
+<p>Expand using this structure:</p>
+<ol><li>Introduction and definition of Cloud Computing.</li><li>Need for Cloud Computing.</li><li>Problems with traditional computing.</li><li>Ten benefits explained with examples.</li><li>Traditional vs Cloud Computing comparison.</li><li>Conclusion.</li></ol>
+<h2>2.7 Quick revision</h2>
+<ul><li>Cloud reduces the need for large upfront hardware investment.</li><li>Scalability: resources increase or decrease with demand.</li><li>Flexibility: adjust resources to changing requirements.</li><li>Accessibility: use services remotely.</li><li>Reliability improves through redundancy and backup.</li><li>Faster deployment helps start projects quickly.</li><li>Cloud backup supports disaster recovery.</li><li>Cloud can reduce maintenance responsibilities.</li></ul>
+<h2>YouTube videos</h2>
+<ol><li><strong>Great Learning: Cloud Computing Tutorial for Beginners in Hindi.</strong> Covers fundamentals, models and why cloud is used. <a href="https://www.classcentral.com/course/youtube-cloud-computing-tutorial-for-beginners-in-hindi-what-is-cloud-computing-great-learning-99099" target="_blank" rel="noopener">Open course and video</a></li><li><strong>Gate Smashers: What is cloud computing and why use it today?</strong> Hindi, explained with real-life examples. <a href="https://www.youtube.com/watch?v=3X4JfYf06_g" target="_blank" rel="noopener">Watch on YouTube</a></li><li><strong>Search: Benefits and advantages of cloud computing (Hindi).</strong> A YouTube search link, because I could not verify one single video for this exact heading. <a href="https://www.youtube.com/results?search_query=advantages+of+cloud+computing+hindi" target="_blank" rel="noopener">Open search</a></li></ol>
+<h2>Sources</h2>
+<ul><li><a href="https://www.geeksforgeeks.org/cloud-computing/advantages-of-cloud-computing/" target="_blank" rel="noopener">GeeksforGeeks: Advantages of Cloud Computing</a></li><li><a href="https://www.w3schools.in/cloud-computing/advantages" target="_blank" rel="noopener">W3Schools.in: Advantages of Cloud Computing</a></li><li><a href="https://www.w3schools.com/aws/aws_cloudessentials_benefits.php" target="_blank" rel="noopener">W3Schools.com: AWS Cloud Benefits</a></li><li><a href="https://www.tutorialspoint.com/cloud_computing/index.htm" target="_blank" rel="noopener">TutorialsPoint: Cloud Computing Tutorial</a></li><li>TutorialsPoint PDF categories: cost effectiveness, reliability, flexibility, location independence, utility-style costing and high scalability.</li></ul>
+<h1 id="t3">Topic 4. Cloud and Virtualization</h1>
+<p><span class="y">YELLOW</span><strong>YELLOW priority</strong>: related to previous-paper questions, understand properly</p>
+<div class="note"><p><strong>WHY IMPORTANT?</strong></p><p>Virtualization is one of the technologies that makes cloud computing possible. It helps providers use physical hardware efficiently and give virtual resources to multiple users.</p><p>Covered here: meaning of virtualization, meaning of cloud, relationship between them, how virtualization works, role of the hypervisor, difference, advantages and limitations.</p></div>
+<h2>4.1 What is Virtualization?</h2>
+<p><strong>Virtualization is a technology that creates virtual versions of computing resources, such as computers, servers, operating systems, storage and networks, using software.</strong></p>
+<p>It lets multiple virtual environments run on a single physical machine. Instead of buying separate computers for different tasks, one powerful computer creates multiple virtual computers.</p>
+<h3>Example</h3>
+<p>A company has one powerful server and wants to run Application A (Linux), Application B (Windows Server) and Application C (another Linux environment). Without virtualization it may need three physical servers. With virtualization it creates three virtual machines on one server. Each VM behaves like an independent computer with its own operating system and applications.</p>
+<div class="fig"><svg viewBox="0 0 760 288" style="height:288px" role="img" aria-label="Virtual machines on one physical server"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="40" y="196" width="680" height="56" rx="8" class="kx"/><text x="380.0" y="229.0" text-anchor="middle" class="w">Physical Server  (CPU, RAM, Storage)</text><rect x="40" y="138" width="680" height="44" rx="8" class="rx"/><text x="380.0" y="165.0" text-anchor="middle" class="">Hypervisor  (creates and manages VMs)</text><rect x="40" y="20" width="216" height="100" rx="8" class="yx"/><text x="148.0" y="57.0" text-anchor="middle" class="">VM 1</text><text x="148.0" y="75.0" text-anchor="middle" class="">Linux</text><text x="148.0" y="93.0" text-anchor="middle" class="">Application A</text><line x1="148" y1="138" x2="148" y2="122" class="ln" marker-end="url(#ae)" marker-start="url(#as)"/><rect x="272" y="20" width="216" height="100" rx="8" class="yx"/><text x="380.0" y="57.0" text-anchor="middle" class="">VM 2</text><text x="380.0" y="75.0" text-anchor="middle" class="">Windows Server</text><text x="380.0" y="93.0" text-anchor="middle" class="">Application B</text><line x1="380" y1="138" x2="380" y2="122" class="ln" marker-end="url(#ae)" marker-start="url(#as)"/><rect x="504" y="20" width="216" height="100" rx="8" class="yx"/><text x="612.0" y="57.0" text-anchor="middle" class="">VM 3</text><text x="612.0" y="75.0" text-anchor="middle" class="">Linux</text><text x="612.0" y="93.0" text-anchor="middle" class="">Application C</text><line x1="612" y1="138" x2="612" y2="122" class="ln" marker-end="url(#ae)" marker-start="url(#as)"/></svg></div>
+<p class="cap-p"><em>Figure: Virtualization: three VMs on one physical server</em></p>
+<h2>4.2 What is a Virtual Machine (VM)?</h2>
+<p>A <strong>Virtual Machine</strong> is a software-based computer that behaves like a physical computer. It has virtual CPU, RAM, storage, network interface and an operating system.</p>
+<p>Example: on a Windows laptop you create a VM to run Ubuntu Linux.</p>
+<ul><li><strong>Host machine</strong> = the actual physical computer.</li><li><strong>Guest machine</strong> = the virtual computer running on the host.</li></ul>
+<div class="fig"><svg viewBox="0 0 760 256" style="height:256px" role="img" aria-label="Host and guest"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="20" y="10" width="720" height="232" rx="8" class="bx"/><text x="380.0" y="131.0" text-anchor="middle" class=""></text><text x="380" y="35" text-anchor="middle" class="cap">HOST MACHINE: physical Windows laptop (CPU, RAM, storage)</text><rect x="60" y="48" width="640" height="180" rx="8" class="rx"/><text x="380.0" y="143.0" text-anchor="middle" class=""></text><text x="380" y="71" text-anchor="middle" class="cap">Hypervisor (VirtualBox)</text><rect x="110" y="84" width="230" height="120" rx="8" class="yx"/><text x="225.0" y="122.0" text-anchor="middle" class="">GUEST</text><text x="225.0" y="140.0" text-anchor="middle" class="">virtual machine</text><text x="225.0" y="158.0" text-anchor="middle" class="">Ubuntu Linux</text><text x="225.0" y="176.0" text-anchor="middle" class="">virtual CPU, RAM, disk</text><rect x="400" y="100" width="270" height="90" rx="8" class="bx"/><text x="535.0" y="132.0" text-anchor="middle" class="">Host = actual physical computer</text><text x="535.0" y="150.0" text-anchor="middle" class="">Guest = virtual computer</text><text x="535.0" y="168.0" text-anchor="middle" class="">running on the host</text></svg></div>
+<p class="cap-p"><em>Figure: Host machine and guest virtual machine</em></p>
+<h2>4.3 What is a Hypervisor?</h2>
+<p>A <strong>Hypervisor</strong> is software (or a software layer supported by hardware) that creates and manages virtual machines. It allocates physical CPU, RAM and storage to different VMs.</p>
+<p>Example: a server with 16 CPU cores, 64 GB RAM and 1 TB storage. The hypervisor allocates different portions to multiple VMs, manages the allocation and keeps VMs isolated from one another.</p>
+<p>Type 1 and Type 2 hypervisors are studied in detail in Unit V.<br><strong>Examples:</strong> VMware ESXi, Microsoft Hyper-V, Oracle VirtualBox.</p>
+<div class="fig"><svg viewBox="0 0 760 224" style="height:224px" role="img" aria-label="Hypervisor allocation"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="10" y="50" width="170" height="130" rx="8" class="kx"/><text x="95.0" y="93.0" text-anchor="middle" class="w">Physical server</text><text x="95.0" y="111.0" text-anchor="middle" class="w">16 CPU cores</text><text x="95.0" y="129.0" text-anchor="middle" class="w">64 GB RAM</text><text x="95.0" y="147.0" text-anchor="middle" class="w">1 TB storage</text><line x1="182" y1="115" x2="238" y2="115" class="ln" marker-end="url(#ae)"/><rect x="240" y="70" width="130" height="90" rx="8" class="rx"/><text x="305.0" y="102.0" text-anchor="middle" class="">Hypervisor</text><text x="305.0" y="120.0" text-anchor="middle" class="">allocates</text><text x="305.0" y="138.0" text-anchor="middle" class="">resources</text><rect x="450" y="10" width="300" height="52" rx="8" class="yx"/><text x="600.0" y="41.0" text-anchor="middle" class="">VM 1: 4 cores, 16 GB, 250 GB</text><line x1="372" y1="115" x2="448" y2="36" class="ln" marker-end="url(#ae)"/><rect x="450" y="82" width="300" height="52" rx="8" class="yx"/><text x="600.0" y="113.0" text-anchor="middle" class="">VM 2: 8 cores, 32 GB, 500 GB</text><line x1="372" y1="115" x2="448" y2="108" class="ln" marker-end="url(#ae)"/><rect x="450" y="154" width="300" height="52" rx="8" class="yx"/><text x="600.0" y="185.0" text-anchor="middle" class="">VM 3: 4 cores, 16 GB, 250 GB</text><line x1="372" y1="115" x2="448" y2="180" class="ln" marker-end="url(#ae)"/><text x="380" y="220" text-anchor="middle" class="cap">(example split of one physical server)</text></svg></div>
+<p class="cap-p"><em>Figure: Hypervisor dividing server resources among VMs</em></p>
+<h2>4.4 What is Cloud Computing?</h2>
+<p>Cloud Computing provides computing resources such as servers, storage, databases and networking over the Internet whenever users need them. Instead of buying and maintaining physical infrastructure, users access resources provided by a cloud service provider.<br><strong>Example:</strong> Amazon EC2 lets users create and use virtual servers through AWS.</p>
+<h2>4.5 Relationship between Cloud Computing and Virtualization</h2>
+<p><span class="r">RED</span>Most important part of this topic</p>
+<p>They are related but not the same. <strong>Virtualization is a technology, whereas cloud computing is a way of delivering computing resources as services.</strong></p>
+<p>Virtualization creates multiple virtual resources from physical hardware. Cloud computing uses virtualization, resource pooling, automation and network access to deliver those resources on demand.</p>
+<h3>How are they connected? (AWS example)</h3>
+<ol><li>AWS has physical servers in its data centres.</li><li>Virtualization divides their resources into virtual computing environments.</li><li>The cloud platform manages and allocates these resources.</li><li>Users request virtual servers when required.</li><li>Users access them through the Internet and pay according to the pricing model.</li></ol>
+<div class="fig"><svg viewBox="0 0 760 256" style="height:256px" role="img" aria-label="Layers linking cloud and virtualization"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="130" y="10" width="500" height="42" rx="8" class="bx"/><text x="380.0" y="36.0" text-anchor="middle" class="">Users: laptop, mobile, browser</text><rect x="130" y="68" width="500" height="42" rx="8" class="rx"/><text x="380.0" y="94.0" text-anchor="middle" class="">Cloud platform (allocation, automation, billing)</text><rect x="130" y="126" width="500" height="42" rx="8" class="yx"/><text x="380.0" y="152.0" text-anchor="middle" class="">Virtualization layer (hypervisor, virtual resources)</text><rect x="130" y="184" width="500" height="42" rx="8" class="kx"/><text x="380.0" y="210.0" text-anchor="middle" class="w">Physical servers in data centres</text><line x1="380" y1="52" x2="380" y2="68" class="ln" marker-end="url(#ae)" marker-start="url(#as)"/><line x1="380" y1="110" x2="380" y2="126" class="ln" marker-end="url(#ae)" marker-start="url(#as)"/><line x1="380" y1="168" x2="380" y2="184" class="ln" marker-end="url(#ae)" marker-start="url(#as)"/></svg></div>
+<p class="cap-p"><em>Figure: How virtualization supports cloud computing</em></p>
+<h2>4.6 Difference between Cloud Computing and Virtualization</h2>
+<div class="tw"><table><thead><tr><th>Basis</th><th>Virtualization</th><th>Cloud Computing</th></tr></thead><tbody><tr><td>Meaning</td><td>Creates virtual versions of computing resources</td><td>Delivers computing resources as services</td></tr><tr><td>Nature</td><td>Technology</td><td>Service delivery model</td></tr><tr><td>Main purpose</td><td>Uses physical hardware efficiently</td><td>Provides resources on demand</td></tr><tr><td>Access</td><td>Can work within a local network</td><td>Commonly accessed over the Internet</td></tr><tr><td>Resource management</td><td>Virtualization software</td><td>Cloud platforms and automation</td></tr><tr><td>Example</td><td>Running Ubuntu in VirtualBox</td><td>Creating a virtual server on AWS EC2</td></tr></tbody></table></div>
+<p><strong>Important:</strong> virtualization can exist without cloud computing. VirtualBox on your own laptop uses no cloud service.</p>
+<div class="fig"><svg viewBox="0 0 760 256" style="height:256px" role="img" aria-label="Venn diagram"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><circle cx="305" cy="124" r="112" style="fill:rgba(255,214,0,.35);stroke:#1d3a8c;stroke-width:2"/><circle cx="455" cy="124" r="112" style="fill:rgba(179,38,30,.12);stroke:#b3261e;stroke-width:2"/><text x="235" y="69" text-anchor="middle" class="">VIRTUALIZATION</text><text x="235" y="87" text-anchor="middle" class="">a technology</text><text x="235" y="105" text-anchor="middle" class="">creates virtual</text><text x="235" y="123" text-anchor="middle" class="">versions of</text><text x="235" y="141" text-anchor="middle" class="">resources</text><text x="525" y="78" text-anchor="middle" class="">CLOUD COMPUTING</text><text x="525" y="96" text-anchor="middle" class="">a service model</text><text x="525" y="114" text-anchor="middle" class="">delivers resources</text><text x="525" y="132" text-anchor="middle" class="">on demand</text><text x="380" y="114" text-anchor="middle" class="cap">enables</text><text x="380" y="132" text-anchor="middle" class="cap">cloud</text><text x="380" y="253" text-anchor="middle" class="cap">Virtualization can exist without cloud (VirtualBox on your laptop)</text></svg></div>
+<p class="cap-p"><em>Figure: Virtualization and cloud computing overlap</em></p>
+<h2>4.7 Benefits of Virtualization</h2>
+<ol><li><strong>Better hardware utilization:</strong> multiple VMs share one physical server.</li><li><strong>Cost reduction:</strong> fewer physical servers needed.</li><li><strong>Isolation:</strong> each VM operates in a separate environment.</li><li><strong>Flexibility:</strong> different operating systems on the same machine.</li><li><strong>Easy management:</strong> VMs created, configured and managed through software.</li><li><strong>Scalability:</strong> virtual resources adjusted within available hardware capacity.</li><li><strong>Testing and development:</strong> test applications on different operating systems without extra computers.</li></ol>
+<div class="fig"><svg viewBox="0 0 760 288" style="height:288px" role="img" aria-label="Virtualization benefits"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><ellipse cx="380" cy="144.0" rx="92" ry="34" class="rx"/><text x="380" y="140.0" text-anchor="middle" class="cap">VIRTUALIZATION</text><text x="380" y="158.0" text-anchor="middle" class="cap">BENEFITS</text><rect x="20" y="10" width="170" height="50" rx="8" class="yx"/><text x="105.0" y="31.0" text-anchor="middle" class="">Better hardware</text><text x="105.0" y="49.0" text-anchor="middle" class="">utilization</text><line x1="380" y1="114.0" x2="105" y2="60" class="ln" marker-end="url(#ae)"/><rect x="204" y="10" width="170" height="50" rx="8" class="yx"/><text x="289.0" y="31.0" text-anchor="middle" class="">Cost</text><text x="289.0" y="49.0" text-anchor="middle" class="">reduction</text><line x1="380" y1="114.0" x2="288" y2="60" class="ln" marker-end="url(#ae)"/><rect x="387" y="10" width="170" height="50" rx="8" class="yx"/><text x="472.0" y="40.0" text-anchor="middle" class="">Isolation</text><line x1="380" y1="114.0" x2="472" y2="60" class="ln" marker-end="url(#ae)"/><rect x="570" y="10" width="170" height="50" rx="8" class="yx"/><text x="655.0" y="31.0" text-anchor="middle" class="">Flexibility</text><text x="655.0" y="49.0" text-anchor="middle" class="">(many OS)</text><line x1="380" y1="114.0" x2="655" y2="60" class="ln" marker-end="url(#ae)"/><rect x="108" y="228" width="172" height="50" rx="8" class="bx"/><text x="194.0" y="249.0" text-anchor="middle" class="">Easy</text><text x="194.0" y="267.0" text-anchor="middle" class="">management</text><line x1="380" y1="174.0" x2="194" y2="228" class="ln" marker-end="url(#ae)"/><rect x="294" y="228" width="172" height="50" rx="8" class="bx"/><text x="380.0" y="258.0" text-anchor="middle" class="">Scalability</text><line x1="380" y1="174.0" x2="380" y2="228" class="ln" marker-end="url(#ae)"/><rect x="480" y="228" width="172" height="50" rx="8" class="bx"/><text x="566.0" y="249.0" text-anchor="middle" class="">Testing and</text><text x="566.0" y="267.0" text-anchor="middle" class="">development</text><line x1="380" y1="174.0" x2="566" y2="228" class="ln" marker-end="url(#ae)"/></svg></div>
+<p class="cap-p"><em>Figure: Benefits of virtualization</em></p>
+<h2>4.8 Limitations of Virtualization</h2>
+<ul><li><strong>Performance overhead:</strong> VMs may be slower than running directly on hardware.</li><li><strong>Resource competition:</strong> VMs may compete for CPU, RAM and storage.</li><li><strong>Management complexity:</strong> managing many VMs can become complicated.</li><li><strong>Host failure:</strong> if the physical host fails, its VMs may become unavailable unless recovery arrangements exist.</li><li><strong>Security risks:</strong> a hypervisor vulnerability can potentially affect multiple VMs.</li></ul>
+<h2>4.9 Exam-ready answers</h2>
+<h3>1-mark question</h3>
+<p><strong>Q. What is Virtualization?</strong><br>Virtualization is a technology that creates virtual versions of computing resources, such as servers, operating systems and storage, using software.</p>
+<h3>5-mark question</h3>
+<p><strong>Q. Explain the relationship between Cloud Computing and Virtualization.</strong><br>Virtualization creates multiple virtual computing environments from a single physical machine, allowing multiple virtual machines to share its resources. Cloud Computing provides computing resources such as servers, storage and databases over the Internet on demand.</p>
+<p>Virtualization supports cloud computing as follows:</p>
+<ol><li>It lets multiple virtual machines run on one physical server.</li><li>It improves hardware utilization.</li><li>It helps cloud providers create virtual computing resources.</li><li>It supports resource sharing and allocation.</li><li>It helps provide resources quickly according to user requirements.</li></ol>
+<p>For example, AWS uses virtualization technologies to provide virtual servers through EC2. Thus, virtualization is an important enabling technology for cloud computing, while cloud computing delivers resources as services to users.</p>
+<h3>15-mark preparation</h3>
+<ol><li>Introduction to virtualization.</li><li>Definition and explanation of virtual machines.</li><li>Hypervisor and its role.</li><li>Relationship between cloud computing and virtualization.</li><li>Architecture diagram.</li><li>Difference between cloud computing and virtualization.</li><li>Benefits and limitations.</li><li>Conclusion.</li></ol>
+<h2>YouTube videos (top 3)</h2>
+<ol><li><strong>GeeksforGeeks: Virtualization in Cloud Computing.</strong> Recommended first. About 8 minutes, concept and benefits. <a href="https://www.geeksforgeeks.org/videos/virtualization-in-cloud-computing/" target="_blank" rel="noopener">Watch on GeeksforGeeks</a></li><li><strong>Great Learning: What is Virtualization in Cloud Computing?</strong> Good for beginners. English, virtualization, hypervisor and types. <a href="https://www.youtube.com/watch?v=s8cPheRCltc" target="_blank" rel="noopener">Watch on YouTube</a></li><li><strong>Jeremy’s IT Lab: How Do Virtualization and Cloud Computing Work?</strong> Deeper understanding. English, how virtualization connects with cloud computing. <a href="https://www.youtube.com/watch?v=_S3greGajJA" target="_blank" rel="noopener">Watch on YouTube</a></li></ol>
+<h2>Sources</h2>
+<ul><li><a href="https://www.geeksforgeeks.org/cloud-computing/virtualization-cloud-computing-types/" target="_blank" rel="noopener">GeeksforGeeks: Virtualization in Cloud Computing, types</a></li><li><a href="https://www.geeksforgeeks.org/computer-networks/difference-between-cloud-computing-and-virtualization/" target="_blank" rel="noopener">GeeksforGeeks: Difference between Cloud Computing and Virtualization</a></li><li><a href="https://www.w3schools.in/cloud-computing/cloud-virtualization" target="_blank" rel="noopener">W3Schools.in: Cloud Virtualization</a></li><li><a href="https://www.geeksforgeeks.org/cloud-computing/the-architecture-of-virtualization-in-cloud-computing/" target="_blank" rel="noopener">GeeksforGeeks: Architecture of Virtualization</a></li></ul>
+<h1 id="t4">Topic 5. Cloud Services Requirements</h1>
+<p><span class="b">BLACK</span><strong>BLACK priority</strong>: short notes, one-time reading</p>
+<div class="note"><p><strong>WHY STUDY THIS TOPIC?</strong></p><p>Before choosing a cloud service, an organization must identify what it expects from it. A banking application, for example, needs strong security, high availability and reliable performance. These expectations are the Cloud Services Requirements.</p></div>
+<h2>5.1 Meaning</h2>
+<p>Cloud Services Requirements are the technical and operational conditions a cloud service must satisfy to meet the needs of its users or organizations. In simple words: what a cloud service must provide to work properly, securely and reliably.</p>
+<h2>5.2 Major requirements</h2>
+<h3>1. Security</h3>
+<p>Protect data and applications from unauthorized access, theft and cyberattacks.<br><strong>Example:</strong> a cloud database uses authentication and encryption to protect customer information.</p>
+<h3>2. Availability</h3>
+<p>The service should be accessible whenever users need it.<br><strong>Example:</strong> an online banking application remains accessible throughout the day.</p>
+<h3>3. Reliability</h3>
+<p>The service should work consistently and correctly without frequent failures.<br><strong>Example:</strong> cloud storage stores and retrieves files without unexpected data loss.</p>
+<h3>4. Scalability</h3>
+<p>Resources should increase or decrease with changing workloads.<br><strong>Example:</strong> an online shop handles extra visitors during festival sales.</p>
+<h3>5. Performance</h3>
+<p>Acceptable response time, processing speed and network performance.<br><strong>Example:</strong> a cloud application responds without unnecessary delays.</p>
+<h3>6. Network connectivity</h3>
+<p>Reliable network connectivity so users can communicate with cloud servers and access applications.</p>
+<h3>7. Backup and disaster recovery</h3>
+<p>Support data backup and recovery so important information can be restored after failures or disasters.</p>
+<h3>8. Interoperability and portability</h3>
+<ul><li><strong>Interoperability:</strong> different systems and cloud services can communicate and work together.</li><li><strong>Portability:</strong> data and applications can move between compatible environments with minimum difficulty.</li></ul>
+<div class="fig"><svg viewBox="0 0 760 320" style="height:320px" role="img" aria-label="Cloud service requirements"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="290" y="120" width="180" height="70" rx="10" class="rx"/><text x="380" y="151" text-anchor="middle" class="cap">Cloud Service</text><text x="380" y="169" text-anchor="middle" class="cap">+ SLA</text><rect x="20" y="12" width="160" height="50" rx="8" class="yx"/><text x="100.0" y="42.0" text-anchor="middle" class="">Security</text><line x1="100" y1="62" x2="380" y2="120" class="ln" marker-end="url(#ae)"/><rect x="204" y="12" width="160" height="50" rx="8" class="yx"/><text x="284.0" y="42.0" text-anchor="middle" class="">Availability</text><line x1="284" y1="62" x2="380" y2="120" class="ln" marker-end="url(#ae)"/><rect x="388" y="12" width="160" height="50" rx="8" class="yx"/><text x="468.0" y="42.0" text-anchor="middle" class="">Reliability</text><line x1="468" y1="62" x2="380" y2="120" class="ln" marker-end="url(#ae)"/><rect x="572" y="12" width="160" height="50" rx="8" class="yx"/><text x="652.0" y="42.0" text-anchor="middle" class="">Scalability</text><line x1="652" y1="62" x2="380" y2="120" class="ln" marker-end="url(#ae)"/><rect x="20" y="232" width="160" height="50" rx="8" class="bx"/><text x="100.0" y="262.0" text-anchor="middle" class="">Performance</text><line x1="100" y1="232" x2="380" y2="190" class="ln" marker-end="url(#ae)"/><rect x="204" y="232" width="160" height="50" rx="8" class="bx"/><text x="284.0" y="262.0" text-anchor="middle" class="">Connectivity</text><line x1="284" y1="232" x2="380" y2="190" class="ln" marker-end="url(#ae)"/><rect x="388" y="232" width="160" height="50" rx="8" class="bx"/><text x="468.0" y="253.0" text-anchor="middle" class="">Backup and</text><text x="468.0" y="271.0" text-anchor="middle" class="">Recovery</text><line x1="468" y1="232" x2="380" y2="190" class="ln" marker-end="url(#ae)"/><rect x="572" y="232" width="160" height="50" rx="8" class="bx"/><text x="652.0" y="253.0" text-anchor="middle" class="">Interoperability</text><text x="652.0" y="271.0" text-anchor="middle" class="">and Portability</text><line x1="652" y1="232" x2="380" y2="190" class="ln" marker-end="url(#ae)"/></svg></div>
+<p class="cap-p"><em>Figure: Major requirements of cloud services</em></p>
+<h2>5.3 Service Level Agreement (SLA)</h2>
+<p>An <strong>SLA</strong> is an agreement between a cloud service provider and a customer that defines the expected service level. It may include:</p>
+<ul><li>Service availability.</li><li>Response time and performance.</li><li>Security responsibilities.</li><li>Support and maintenance.</li><li>Backup and recovery arrangements.</li><li>Compensation or service credits if agreed targets are not achieved.</li></ul>
+<p><strong>Example:</strong> a provider promises a particular monthly availability percentage. An SLA helps both parties understand their responsibilities and expected service quality.</p>
+<div class="fig"><svg viewBox="0 0 760 224" style="height:224px" role="img" aria-label="SLA"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="10" y="60" width="150" height="90" rx="8" class="yx"/><text x="85.0" y="101.0" text-anchor="middle" class="">Cloud Service</text><text x="85.0" y="119.0" text-anchor="middle" class="">Provider</text><rect x="600" y="60" width="150" height="90" rx="8" class="yx"/><text x="675.0" y="110.0" text-anchor="middle" class="">Customer</text><rect x="250" y="6" width="260" height="196" rx="8" class="rx"/><text x="380.0" y="55.0" text-anchor="middle" class="">SLA</text><text x="380.0" y="73.0" text-anchor="middle" class="">availability</text><text x="380.0" y="91.0" text-anchor="middle" class="">response time, performance</text><text x="380.0" y="109.0" text-anchor="middle" class="">security responsibilities</text><text x="380.0" y="127.0" text-anchor="middle" class="">support and maintenance</text><text x="380.0" y="145.0" text-anchor="middle" class="">backup and recovery</text><text x="380.0" y="163.0" text-anchor="middle" class="">service credits</text><line x1="162" y1="105" x2="248" y2="105" class="ln" marker-end="url(#ae)"/><line x1="598" y1="105" x2="512" y2="105" class="ln" marker-end="url(#ae)"/><text x="205" y="97" text-anchor="middle" class="cap">agrees</text><text x="555" y="97" text-anchor="middle" class="cap">agrees</text></svg></div>
+<p class="cap-p"><em>Figure: Service Level Agreement between provider and customer</em></p>
+<h2>5.4 Quick revision table</h2>
+<div class="tw"><table><thead><tr><th>Requirement</th><th>Meaning</th></tr></thead><tbody><tr><td>Security</td><td>Protect data and applications</td></tr><tr><td>Availability</td><td>Keep services accessible</td></tr><tr><td>Reliability</td><td>Ensure consistent operation</td></tr><tr><td>Scalability</td><td>Adjust resources according to demand</td></tr><tr><td>Performance</td><td>Good response time and speed</td></tr><tr><td>Connectivity</td><td>Maintain network access</td></tr><tr><td>Backup and Recovery</td><td>Restore data after failures</td></tr><tr><td>Interoperability</td><td>Different systems work together</td></tr><tr><td>Portability</td><td>Data and applications can move</td></tr></tbody></table></div>
+<h2>5.5 Exam-ready answer</h2>
+<p><strong>Q. What are Cloud Services Requirements? Explain the major requirements.</strong><br>Cloud Services Requirements are the technical and operational conditions that a cloud service must satisfy to meet the needs of its users.</p>
+<p>The major requirements are:</p>
+<ol><li><strong>Security:</strong> protects data and applications from unauthorized access.</li><li><strong>Availability:</strong> services are accessible when required.</li><li><strong>Reliability:</strong> consistent and correct operation.</li><li><strong>Scalability:</strong> resources increase or decrease according to demand.</li><li><strong>Performance:</strong> acceptable response time and processing speed.</li><li><strong>Connectivity:</strong> reliable network access.</li><li><strong>Backup and Recovery:</strong> restore data after failures.</li><li><strong>Interoperability:</strong> different systems communicate with each other.</li></ol>
+<p>An SLA defines the expected service quality and the responsibilities of the provider and customer. Thus, cloud service requirements help ensure that services are secure, reliable, available and suitable for users.</p>
+<h2>YouTube videos (Hindi)</h2>
+<ol><li><strong>5 Minutes Engineering: Complete Cloud Computing Course.</strong> Recommended. Includes SLA and performance monitoring around 3:30:26. <a href="https://www.classcentral.com/course/youtube-complete-cloud-computing-in-oneshot-4-hours-explained-in-hindi-semester-exams-496113" target="_blank" rel="noopener">Open course and video</a></li><li><strong>Great Learning: Cloud Computing for Beginners.</strong> Basic cloud concepts and service models. <a href="https://www.classcentral.com/course/youtube-cloud-computing-tutorial-for-beginners-in-hindi-what-is-cloud-computing-great-learning-99099" target="_blank" rel="noopener">Open course and video</a></li><li><strong>SLA and Quality of Service, Hindi video search.</strong> Explanations of availability, reliability and SLA. <a href="https://www.youtube.com/results?search_query=Cloud+Computing+SLA+QoS+Hindi" target="_blank" rel="noopener">Find Hindi videos on YouTube</a></li></ol>
+<h2>Sources</h2>
+<ul><li><a href="https://www.itu.int/rec/dologin_pub.asp?id=T-REC-Y.3501-201305-S!!PDF-E&amp;lang=e&amp;type=items" target="_blank" rel="noopener">ITU-T: Cloud Computing Framework and High-Level Requirements</a></li><li><a href="https://dev.tutorialspoint.com/cloud_computing/cloud_computing_planning.htm" target="_blank" rel="noopener">TutorialsPoint: Cloud Computing Planning</a></li><li><a href="https://www.tutorialspoint.com/cloud_computing/cloud_computing_service_level_agreements.htm" target="_blank" rel="noopener">TutorialsPoint: Service Level Agreements</a></li><li><a href="https://www.geeksforgeeks.org/cloud-computing/service-level-agreements-in-cloud-computing/" target="_blank" rel="noopener">GeeksforGeeks: Service Level Agreements in Cloud Computing</a></li></ul>
+<h1 id="t5">Topic 6. Cloud and Dynamic Infrastructure</h1>
+<p><span class="b">BLACK</span><strong>BLACK priority</strong>: short notes, one-time reading</p>
+<div class="note"><p><strong>WHY STUDY THIS TOPIC?</strong></p><p>Traditional IT infrastructure is often fixed: the organization buys servers and decides how many resources it needs. Cloud infrastructure is flexible: resources can be allocated, adjusted and released as requirements change. This dynamic management is the central idea of the topic.</p></div>
+<h2>6.1 Meaning of Dynamic Infrastructure</h2>
+<p><strong>Dynamic Infrastructure</strong> is an IT infrastructure in which computing resources such as servers, storage and networks can be allocated, adjusted and released according to changing requirements.</p>
+<p>In simple words: instead of keeping the same amount of resources all the time, an organization changes them whenever needed.</p>
+<p><strong>Example:</strong> a shopping website normally gets 1,000 visitors a day, but 50,000 during a festival sale. Cloud infrastructure provides extra servers for the increased traffic and releases them when demand falls.</p>
+<h2>6.2 What is Cloud Infrastructure?</h2>
+<p>The hardware and software resources required to provide cloud services. Main components:</p>
+<ol><li><strong>Servers:</strong> process requests and run applications.</li><li><strong>Storage:</strong> stores files, databases and other information.</li><li><strong>Networking:</strong> connects users, servers and cloud services.</li><li><strong>Virtualization:</strong> creates virtual resources from physical hardware.</li><li><strong>Management software:</strong> controls resource allocation, monitoring and provisioning.</li></ol>
+<div class="fig"><svg viewBox="0 0 760 256" style="height:256px" role="img" aria-label="Cloud infrastructure"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="40" y="10" width="680" height="48" rx="8" class="rx"/><text x="380.0" y="39.0" text-anchor="middle" class="">Management software (provisioning, monitoring, allocation)</text><rect x="40" y="74" width="680" height="48" rx="8" class="yx"/><text x="380.0" y="103.0" text-anchor="middle" class="">Virtualization (creates virtual resources)</text><rect x="40" y="140" width="208" height="76" rx="8" class="bx"/><text x="144.0" y="174.0" text-anchor="middle" class="">Servers</text><text x="144.0" y="192.0" text-anchor="middle" class="">process requests</text><rect x="276" y="140" width="208" height="76" rx="8" class="bx"/><text x="380.0" y="174.0" text-anchor="middle" class="">Storage</text><text x="380.0" y="192.0" text-anchor="middle" class="">files and databases</text><rect x="512" y="140" width="208" height="76" rx="8" class="bx"/><text x="616.0" y="174.0" text-anchor="middle" class="">Networking</text><text x="616.0" y="192.0" text-anchor="middle" class="">connects everything</text><line x1="144" y1="138" x2="144" y2="124" class="ln" marker-end="url(#ae)"/><line x1="380" y1="138" x2="380" y2="124" class="ln" marker-end="url(#ae)"/><line x1="616" y1="138" x2="616" y2="124" class="ln" marker-end="url(#ae)"/><line x1="380" y1="72" x2="380" y2="60" class="ln" marker-end="url(#ae)"/></svg></div>
+<p class="cap-p"><em>Figure: Components of cloud infrastructure</em></p>
+<h2>6.3 How does Dynamic Infrastructure work?</h2>
+<ol><li><strong>Monitor demand:</strong> the system monitors CPU, memory and network traffic.</li><li><strong>Allocate resources:</strong> additional resources are provided when required.</li><li><strong>Scale infrastructure:</strong> server capacity or storage is increased or decreased.</li><li><strong>Release resources:</strong> unnecessary resources are released when demand falls.</li></ol>
+<p>This process can be automated using cloud management tools.</p>
+<div class="fig"><svg viewBox="0 0 760 224" style="height:224px" role="img" aria-label="Dynamic infrastructure cycle"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="20" y="30" width="160" height="80" rx="8" class="yx"/><text x="100.0" y="66.0" text-anchor="middle" class="">1. Monitor</text><text x="100.0" y="84.0" text-anchor="middle" class="">demand</text><rect x="205" y="30" width="160" height="80" rx="8" class="bx"/><text x="285.0" y="66.0" text-anchor="middle" class="">2. Allocate</text><text x="285.0" y="84.0" text-anchor="middle" class="">resources</text><rect x="390" y="30" width="160" height="80" rx="8" class="yx"/><text x="470.0" y="66.0" text-anchor="middle" class="">3. Scale</text><text x="470.0" y="84.0" text-anchor="middle" class="">up or down</text><rect x="575" y="30" width="160" height="80" rx="8" class="bx"/><text x="655.0" y="66.0" text-anchor="middle" class="">4. Release</text><text x="655.0" y="84.0" text-anchor="middle" class="">unused resources</text><line x1="182" y1="70" x2="203" y2="70" class="ln" marker-end="url(#ae)"/><line x1="367" y1="70" x2="388" y2="70" class="ln" marker-end="url(#ae)"/><line x1="552" y1="70" x2="573" y2="70" class="ln" marker-end="url(#ae)"/><path d="M600 112 L600 170 L100 170 L100 114" class="rl" marker-end="url(#ae)"/><text x="350" y="197" text-anchor="middle" class="cap">repeats continuously, can be automated</text></svg></div>
+<p class="cap-p"><em>Figure: Working of dynamic infrastructure</em></p>
+<h2>6.4 Role of virtualization and automation</h2>
+<ul><li><strong>Virtualization:</strong> separates computing resources from physical hardware and creates virtual machines or other virtual resources.</li><li><strong>Automation:</strong> automatically provisions, configures and manages resources according to predefined requirements.</li></ul>
+<p>Together they help providers deliver resources quickly and efficiently.</p>
+<div class="fig"><svg viewBox="0 0 760 256" style="height:256px" role="img" aria-label="Elastic infrastructure"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><line x1="60" y1="190" x2="720" y2="190" class="ln"/><rect x="110" y="166" width="100" height="24" class="yx"/><text x="160" y="161" text-anchor="middle" class="cap">2 servers</text><text x="160" y="208" text-anchor="middle" class="">Normal day</text><text x="160" y="226" text-anchor="middle" class="">1,000 visitors</text><rect x="330" y="40" width="100" height="150" class="yx"/><text x="380" y="35" text-anchor="middle" class="cap">20 servers</text><text x="380" y="208" text-anchor="middle" class="">Festival sale</text><text x="380" y="226" text-anchor="middle" class="">50,000 visitors</text><rect x="550" y="166" width="100" height="24" class="yx"/><text x="600" y="161" text-anchor="middle" class="cap">2 servers</text><text x="600" y="208" text-anchor="middle" class="">After sale</text><text x="600" y="226" text-anchor="middle" class="">resources released</text><line x1="222" y1="150" x2="326" y2="120" class="rl" marker-end="url(#ae)"/><line x1="432" y1="120" x2="546" y2="150" class="rl" marker-end="url(#ae)"/><text x="250" y="131" text-anchor="middle" class="cap">add</text><text x="500" y="131" text-anchor="middle" class="cap">release</text></svg></div>
+<p class="cap-p"><em>Figure: Dynamic infrastructure: resources follow demand (example numbers)</em></p>
+<h2>6.5 Benefits of Dynamic Infrastructure</h2>
+<ol><li><strong>Flexibility:</strong> resources change according to requirements.</li><li><strong>Scalability:</strong> supports increasing workloads.</li><li><strong>Better resource utilization:</strong> fewer idle resources.</li><li><strong>Cost efficiency:</strong> avoid paying for unused resources when pricing is usage-based.</li><li><strong>Faster deployment:</strong> new computing environments created quickly.</li><li><strong>Automation:</strong> less manual infrastructure management.</li></ol>
+<h2>6.6 Exam-ready answer</h2>
+<p><strong>Q. What is Cloud and Dynamic Infrastructure?</strong><br>Dynamic Infrastructure is an IT infrastructure in which computing resources such as servers, storage and networks can be allocated, adjusted and released according to changing requirements. Cloud infrastructure consists of servers, storage, networking, virtualization and management software.</p>
+<p>Dynamic infrastructure works through these steps:</p>
+<ol><li>Monitoring resource requirements.</li><li>Allocating resources according to demand.</li><li>Increasing or decreasing computing capacity.</li><li>Releasing unnecessary resources.</li></ol>
+<p>Virtualization and automation play important roles in managing it.<br><strong>Example:</strong> an e-commerce website uses extra cloud servers during festival sales and reduces them when traffic decreases.<br>Thus, dynamic infrastructure makes cloud computing flexible, scalable and efficient.</p>
+<h2>YouTube videos (Hindi)</h2>
+<ol><li><strong>Jayesh Umre: Cloud Dynamic Infrastructure.</strong> Best match, covers this exact topic. <a href="https://www.youtube.com/watch?v=sUP4acrumfY" target="_blank" rel="noopener">Watch on YouTube</a></li><li><strong>5 Minutes Engineering: Complete Cloud Computing.</strong> Beginner-level course. <a href="https://www.classcentral.com/course/youtube-complete-cloud-computing-in-oneshot-4-hours-explained-in-hindi-semester-exams-496113" target="_blank" rel="noopener">Open course</a></li><li><strong>Gate Smashers: Cloud Computing Complete Course.</strong> Broader concepts. <a href="https://playlistduration.com/playlist/PLxCzCOWd7aiHRHVUtR-O52MsrdUSrzuy4" target="_blank" rel="noopener">Open YouTube playlist</a></li></ol>
+<h2>Sources</h2>
+<ul><li><a href="https://www.geeksforgeeks.org/cloud-computing/cloud-computing/" target="_blank" rel="noopener">GeeksforGeeks: Introduction to Cloud Computing</a></li><li><a href="https://www.w3schools.in/cloud-computing" target="_blank" rel="noopener">W3Schools.in: Cloud Computing</a></li><li><a href="https://www.pnsset.ac.in/public/uploads/lres-315.pdf" target="_blank" rel="noopener">Cloud and Dynamic Infrastructure, study material (PDF)</a></li><li><a href="https://www.oreilly.com/library/view/infrastructure-as-code/9781491924334/ch02.html" target="_blank" rel="noopener">O’Reilly: Dynamic Infrastructure Platforms</a></li></ul>
+<h1 id="t6">Topic 7. Cloud Computing Characteristics</h1>
+<p><span class="y">YELLOW</span><strong>YELLOW priority</strong>: moderate detail, important fundamentals</p>
+<div class="note"><p><strong>WHY IMPORTANT?</strong></p><p>Cloud Computing has special features that distinguish it from traditional computing. They explain how resources are accessed, shared, increased or decreased, and billed. The most important exam point is the <strong>five essential characteristics defined by NIST</strong> (National Institute of Standards and Technology). Learn these five carefully.</p></div>
+<h2>7.1 Meaning</h2>
+<p><strong>Cloud Computing Characteristics</strong> are the special features that describe how cloud services work and how they provide resources to users. In simple words, they explain what makes cloud computing different from traditional computing. According to NIST, cloud computing has five essential characteristics.</p>
+<h2>7.2 Five essential characteristics</h2>
+<p><span class="r">RED</span>Important: learn all five</p>
+<h3>1. On-demand self-service</h3>
+<p>Users obtain computing resources such as servers and storage whenever needed, without contacting the provider’s staff.<br><strong>Example:</strong> you create a virtual server on AWS yourself through its website.<br><strong>Remember:</strong> the user requests the resource and the cloud platform provides it automatically.</p>
+<div class="fig"><svg viewBox="0 0 760 224" style="height:224px" role="img" aria-label="On-demand self-service"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="20" y="58" width="176" height="84" rx="8" class="yx"/><text x="108.0" y="96.0" text-anchor="middle" class="">User</text><text x="108.0" y="114.0" text-anchor="middle" class="">requests a server</text><line x1="198" y1="100" x2="290" y2="100" class="ln" marker-end="url(#ae)"/><text x="244" y="89" text-anchor="middle" class="cap">request</text><rect x="292" y="58" width="176" height="84" rx="8" class="bx"/><text x="380.0" y="96.0" text-anchor="middle" class="">Cloud platform</text><text x="380.0" y="114.0" text-anchor="middle" class="">self-service portal</text><line x1="470" y1="100" x2="562" y2="100" class="ln" marker-end="url(#ae)"/><text x="516" y="89" text-anchor="middle" class="cap">provision</text><rect x="564" y="58" width="176" height="84" rx="8" class="yx"/><text x="652.0" y="96.0" text-anchor="middle" class="">Virtual server</text><text x="652.0" y="114.0" text-anchor="middle" class="">created automatically</text><text x="380" y="191" text-anchor="middle" class="cap">No provider staff needed: the platform does it automatically</text></svg></div>
+<p class="cap-p"><em>Figure: On-demand self-service</em></p>
+<h3>2. Broad network access</h3>
+<p>Cloud services are available over a network and can be accessed through different devices using standard network mechanisms.<br><strong>Example:</strong> Google Drive from a mobile phone, laptop, tablet or desktop.</p>
+<div class="fig"><svg viewBox="0 0 760 224" style="height:224px" role="img" aria-label="Broad network access"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><ellipse cx="380" cy="112.0" rx="92" ry="34" class="rx"/><text x="380" y="108.0" text-anchor="middle" class="cap">CLOUD</text><text x="380" y="126.0" text-anchor="middle" class="cap">SERVICE</text><rect x="201" y="10" width="172" height="50" rx="8" class="yx"/><text x="287.0" y="40.0" text-anchor="middle" class="">Mobile phone</text><line x1="380" y1="82.0" x2="287" y2="60" class="ln" marker-end="url(#ae)"/><rect x="387" y="10" width="172" height="50" rx="8" class="yx"/><text x="473.0" y="40.0" text-anchor="middle" class="">Laptop</text><line x1="380" y1="82.0" x2="473" y2="60" class="ln" marker-end="url(#ae)"/><rect x="201" y="164" width="172" height="50" rx="8" class="bx"/><text x="287.0" y="194.0" text-anchor="middle" class="">Tablet</text><line x1="380" y1="142.0" x2="287" y2="164" class="ln" marker-end="url(#ae)"/><rect x="387" y="164" width="172" height="50" rx="8" class="bx"/><text x="473.0" y="194.0" text-anchor="middle" class="">Desktop</text><line x1="380" y1="142.0" x2="473" y2="164" class="ln" marker-end="url(#ae)"/></svg></div>
+<p class="cap-p"><em>Figure: Broad network access: one service, many devices</em></p>
+<h3>3. Resource pooling</h3>
+<p>The provider combines its computing resources (servers, storage, processing power, network resources) into a shared pool and provides them to multiple customers according to their requirements.<br><strong>Example:</strong> one provider uses a large shared infrastructure to serve different companies.<br><strong>Remember:</strong> multiple customers share a common pool, while their environments are logically separated.</p>
+<div class="fig"><svg viewBox="0 0 760 224" style="height:224px" role="img" aria-label="Resource pooling"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="20" y="50" width="230" height="130" rx="8" class="rx"/><text x="135.0" y="93.0" text-anchor="middle" class="">Shared resource pool</text><text x="135.0" y="111.0" text-anchor="middle" class="">servers, storage,</text><text x="135.0" y="129.0" text-anchor="middle" class="">processing power,</text><text x="135.0" y="147.0" text-anchor="middle" class="">network</text><rect x="490" y="10" width="250" height="50" rx="8" class="yx"/><text x="615.0" y="31.0" text-anchor="middle" class="">Company A</text><text x="615.0" y="49.0" text-anchor="middle" class="">(logically separated)</text><line x1="252" y1="115" x2="488" y2="35" class="ln" marker-end="url(#ae)"/><rect x="490" y="76" width="250" height="50" rx="8" class="yx"/><text x="615.0" y="97.0" text-anchor="middle" class="">Company B</text><text x="615.0" y="115.0" text-anchor="middle" class="">(logically separated)</text><line x1="252" y1="115" x2="488" y2="101" class="ln" marker-end="url(#ae)"/><rect x="490" y="142" width="250" height="50" rx="8" class="yx"/><text x="615.0" y="163.0" text-anchor="middle" class="">Company C</text><text x="615.0" y="181.0" text-anchor="middle" class="">(logically separated)</text><line x1="252" y1="115" x2="488" y2="167" class="ln" marker-end="url(#ae)"/></svg></div>
+<p class="cap-p"><em>Figure: Resource pooling: many customers share one pool</em></p>
+<h3>4. Rapid elasticity</h3>
+<p>Resources can be quickly increased or decreased according to changing demand.<br><strong>Example:</strong> a shopping site normally has 1,000 visitors a day, 50,000 during a festival sale. The cloud adds resources for the extra traffic and reduces them later.<br><strong>Remember:</strong> scale up = increase resources, scale down = decrease resources.</p>
+<div class="fig"><svg viewBox="0 0 760 192" style="height:192px" role="img" aria-label="Rapid elasticity"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="20" y="50" width="170" height="90" rx="8" class="bx"/><text x="105.0" y="91.0" text-anchor="middle" class="">Low demand</text><text x="105.0" y="109.0" text-anchor="middle" class="">few resources</text><rect x="295" y="40" width="170" height="110" rx="8" class="yx"/><text x="380.0" y="91.0" text-anchor="middle" class="">High demand</text><text x="380.0" y="109.0" text-anchor="middle" class="">more resources</text><rect x="570" y="50" width="170" height="90" rx="8" class="bx"/><text x="655.0" y="91.0" text-anchor="middle" class="">Low demand</text><text x="655.0" y="109.0" text-anchor="middle" class="">few resources</text><line x1="192" y1="80" x2="293" y2="80" class="rl" marker-end="url(#ae)"/><line x1="467" y1="110" x2="568" y2="110" class="rl" marker-end="url(#ae)"/><text x="242" y="69" text-anchor="middle" class="cap">scale up</text><text x="517" y="99" text-anchor="middle" class="cap">scale down</text></svg></div>
+<p class="cap-p"><em>Figure: Rapid elasticity: scale up and scale down</em></p>
+<h3>5. Measured service</h3>
+<p>Resource usage is monitored, measured and reported by the provider. Customers can track consumption and are often charged according to use.<br><strong>Example:</strong> if you use 100 GB of cloud storage, the provider measures it and calculates charges by its pricing model.<br><strong>Remember:</strong> it works somewhat like an electricity meter.</p>
+<div class="fig"><svg viewBox="0 0 760 224" style="height:224px" role="img" aria-label="Measured service"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="20" y="58" width="176" height="84" rx="8" class="yx"/><text x="108.0" y="96.0" text-anchor="middle" class="">Usage</text><text x="108.0" y="114.0" text-anchor="middle" class="">100 GB storage</text><line x1="198" y1="100" x2="290" y2="100" class="ln" marker-end="url(#ae)"/><text x="244" y="89" text-anchor="middle" class="cap">used</text><rect x="292" y="58" width="176" height="84" rx="8" class="bx"/><text x="380.0" y="87.0" text-anchor="middle" class="">Provider meters</text><text x="380.0" y="105.0" text-anchor="middle" class="">monitors, measures,</text><text x="380.0" y="123.0" text-anchor="middle" class="">reports</text><line x1="470" y1="100" x2="562" y2="100" class="ln" marker-end="url(#ae)"/><text x="516" y="89" text-anchor="middle" class="cap">measured</text><rect x="564" y="58" width="176" height="84" rx="8" class="yx"/><text x="652.0" y="87.0" text-anchor="middle" class="">Bill</text><text x="652.0" y="105.0" text-anchor="middle" class="">charged by</text><text x="652.0" y="123.0" text-anchor="middle" class="">pricing model</text><text x="380" y="191" text-anchor="middle" class="cap">Works like an electricity meter</text></svg></div>
+<p class="cap-p"><em>Figure: Measured service</em></p>
+<div class="fig"><svg viewBox="0 0 760 320" style="height:320px" role="img" aria-label="Five NIST characteristics"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><ellipse cx="380" cy="155" rx="80" ry="38" class="rx"/><text x="380" y="151" text-anchor="middle" class="cap">CLOUD</text><text x="380" y="169" text-anchor="middle" class="cap">COMPUTING</text><rect x="30" y="20" width="170" height="56" rx="8" class="yx"/><text x="115.0" y="44.0" text-anchor="middle" class="">1. On-Demand</text><text x="115.0" y="62.0" text-anchor="middle" class="">Self-Service</text><line x1="380" y1="120.8" x2="115.0" y2="76" class="ln" marker-end="url(#ae)"/><rect x="300" y="12" width="170" height="56" rx="8" class="yx"/><text x="385.0" y="36.0" text-anchor="middle" class="">2. Broad</text><text x="385.0" y="54.0" text-anchor="middle" class="">Network Access</text><line x1="380" y1="120.8" x2="385.0" y2="68" class="ln" marker-end="url(#ae)"/><rect x="570" y="20" width="170" height="56" rx="8" class="yx"/><text x="655.0" y="44.0" text-anchor="middle" class="">3. Resource</text><text x="655.0" y="62.0" text-anchor="middle" class="">Pooling</text><line x1="380" y1="120.8" x2="655.0" y2="76" class="ln" marker-end="url(#ae)"/><rect x="100" y="244" width="170" height="56" rx="8" class="yx"/><text x="185.0" y="268.0" text-anchor="middle" class="">4. Rapid</text><text x="185.0" y="286.0" text-anchor="middle" class="">Elasticity</text><line x1="380" y1="189.2" x2="185.0" y2="244" class="ln" marker-end="url(#ae)"/><rect x="500" y="244" width="170" height="56" rx="8" class="yx"/><text x="585.0" y="268.0" text-anchor="middle" class="">5. Measured</text><text x="585.0" y="286.0" text-anchor="middle" class="">Service</text><line x1="380" y1="189.2" x2="585.0" y2="244" class="ln" marker-end="url(#ae)"/></svg></div>
+<p class="cap-p"><em>Figure: Five essential characteristics of cloud computing (NIST)</em></p>
+<h2>7.3 Additional common characteristics</h2>
+<p>Some sources list more than five. They are useful extras, but when a question asks for the five essential characteristics, <strong>NIST’s five are the standard answer.</strong></p>
+<div class="tw"><table><thead><tr><th>Additional characteristic</th><th>Simple meaning</th></tr></thead><tbody><tr><td>Multi-tenancy</td><td>Multiple customers use shared infrastructure with logical separation</td></tr><tr><td>Virtualization</td><td>Creates virtual computing resources from physical hardware</td></tr><tr><td>Automation</td><td>Performs resource management tasks automatically</td></tr><tr><td>Reliability</td><td>Helps provide consistent services</td></tr><tr><td>Security</td><td>Protects data, applications and infrastructure</td></tr><tr><td>Flexibility</td><td>Users choose resources according to their needs</td></tr></tbody></table></div>
+<h2>7.4 Characteristics vs Benefits</h2>
+<p>Do not confuse these two terms.</p>
+<div class="tw"><table><thead><tr><th>Characteristics</th><th>Benefits</th></tr></thead><tbody><tr><td>Describe how cloud computing works</td><td>Describe what advantages it provides</td></tr><tr><td>Resource pooling</td><td>Better resource utilization</td></tr><tr><td>Rapid elasticity</td><td>Easy scalability</td></tr><tr><td>Measured service</td><td>Usage-based cost management</td></tr><tr><td>Broad network access</td><td>Accessibility</td></tr><tr><td>On-demand self-service</td><td>Faster resource provisioning</td></tr></tbody></table></div>
+<div class="fig"><svg viewBox="0 0 760 288" style="height:288px" role="img" aria-label="Characteristics versus benefits"><defs><marker id="ae" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker><marker id="as" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker></defs><rect x="40" y="6" width="300" height="34" rx="8" class="rx"/><text x="190.0" y="28.0" text-anchor="middle" class="">CHARACTERISTIC (how it works)</text><rect x="420" y="6" width="300" height="34" rx="8" class="yx"/><text x="570.0" y="28.0" text-anchor="middle" class="">BENEFIT (what you gain)</text><rect x="40" y="50" width="300" height="36" rx="8" class="bx"/><text x="190.0" y="73.0" text-anchor="middle" class="">On-demand self-service</text><rect x="420" y="50" width="300" height="36" rx="8" class="bx"/><text x="570.0" y="73.0" text-anchor="middle" class="">Faster provisioning</text><line x1="342" y1="68" x2="418" y2="68" class="ln" marker-end="url(#ae)"/><rect x="40" y="96" width="300" height="36" rx="8" class="bx"/><text x="190.0" y="119.0" text-anchor="middle" class="">Broad network access</text><rect x="420" y="96" width="300" height="36" rx="8" class="bx"/><text x="570.0" y="119.0" text-anchor="middle" class="">Accessibility</text><line x1="342" y1="114" x2="418" y2="114" class="ln" marker-end="url(#ae)"/><rect x="40" y="142" width="300" height="36" rx="8" class="bx"/><text x="190.0" y="165.0" text-anchor="middle" class="">Resource pooling</text><rect x="420" y="142" width="300" height="36" rx="8" class="bx"/><text x="570.0" y="165.0" text-anchor="middle" class="">Better utilization</text><line x1="342" y1="160" x2="418" y2="160" class="ln" marker-end="url(#ae)"/><rect x="40" y="188" width="300" height="36" rx="8" class="bx"/><text x="190.0" y="211.0" text-anchor="middle" class="">Rapid elasticity</text><rect x="420" y="188" width="300" height="36" rx="8" class="bx"/><text x="570.0" y="211.0" text-anchor="middle" class="">Easy scalability</text><line x1="342" y1="206" x2="418" y2="206" class="ln" marker-end="url(#ae)"/><rect x="40" y="234" width="300" height="36" rx="8" class="bx"/><text x="190.0" y="257.0" text-anchor="middle" class="">Measured service</text><rect x="420" y="234" width="300" height="36" rx="8" class="bx"/><text x="570.0" y="257.0" text-anchor="middle" class="">Usage-based cost</text><line x1="342" y1="252" x2="418" y2="252" class="ln" marker-end="url(#ae)"/></svg></div>
+<p class="cap-p"><em>Figure: Characteristics vs benefits</em></p>
+<h2>7.5 Exam-ready answers</h2>
+<h3>1-mark question</h3>
+<p><strong>Q. Name any two characteristics of Cloud Computing.</strong></p>
+<ol><li>On-Demand Self-Service.</li><li>Resource Pooling.</li></ol>
+<h3>5-mark question</h3>
+<p><strong>Q. Explain the five essential characteristics of Cloud Computing.</strong><br>According to NIST, cloud computing has five essential characteristics:</p>
+<ol><li><strong>On-Demand Self-Service:</strong> users obtain resources whenever required without contacting the provider.</li><li><strong>Broad Network Access:</strong> services are accessed through devices such as laptops, mobiles and tablets.</li><li><strong>Resource Pooling:</strong> resources are shared among multiple customers according to their requirements.</li><li><strong>Rapid Elasticity:</strong> resources are quickly increased or decreased according to demand.</li><li><strong>Measured Service:</strong> resource usage is monitored and measured for transparency and billing.</li></ol>
+<p>These characteristics make cloud computing flexible, accessible and efficient.</p>
+<p><strong>15-mark preparation:</strong> understand the five characteristics with definitions, examples and a diagram. A separate lengthy 15-mark answer is not needed unless your teacher emphasizes it.</p>
+<h2>YouTube videos (Hindi / Hinglish, top 3)</h2>
+<ol><li><strong>Easy Engineering Classes: Characteristics of Cloud Computing.</strong> Best for MCA exams. On-demand service, resource pooling, elasticity and measured service. <a href="https://www.youtube.com/watch?v=jIgL8oD0rhU" target="_blank" rel="noopener">Watch video</a></li><li><strong>CS &amp; IT Engineering Gyan: Characteristics of Cloud Computing.</strong> Easy explanation with simple examples. <a href="https://www.youtube.com/watch?v=pb6Fq-lVYWc" target="_blank" rel="noopener">Watch video</a></li><li><strong>Ankit Sir Ki Class: Five NIST Characteristics.</strong> Focused on the five essential NIST characteristics. <a href="https://www.youtube.com/watch?v=_SH5i80NZcc" target="_blank" rel="noopener">Watch video</a></li></ol>
+<h2>Sources</h2>
+<ul><li><a href="https://www.geeksforgeeks.org/cloud-computing/characteristics-of-cloud-computing/" target="_blank" rel="noopener">GeeksforGeeks: Characteristics of Cloud Computing</a></li><li><a href="https://www.tutorialspoint.com/cloud_computing/cloud_computing_characteristics.htm" target="_blank" rel="noopener">TutorialsPoint: Cloud Computing Characteristics</a></li><li><a href="https://csrc.nist.gov/pubs/sp/800/145/final" target="_blank" rel="noopener">NIST: The NIST Definition of Cloud Computing (SP 800-145)</a></li></ul>
+</main>
+</body>
+</html>
