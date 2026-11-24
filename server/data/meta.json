@@ -385,12 +385,12 @@
      {
       "id": "t7",
       "title": "Topic 9. Cloud Strategy",
-      "priority": "black"
+      "priority": "red"
      },
      {
       "id": "t8",
       "title": "Topic 10. Cloud Design and Implementation Using SOA",
-      "priority": "yellow"
+      "priority": "red"
      },
      {
       "id": "t9",
@@ -408,9 +408,40 @@
     "key": "unit-3",
     "n": 3,
     "title": "Cloud Solutions",
-    "file": null,
-    "missing": true,
-    "topics": []
+    "file": "unit-3.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "t1",
+      "title": "1. Cloud Ecosystem",
+      "priority": "red"
+     },
+     {
+      "id": "t2",
+      "title": "2. Cloud Business Process Management",
+      "priority": "red"
+     },
+     {
+      "id": "t3",
+      "title": "3. Cloud Service Management",
+      "priority": "yellow"
+     },
+     {
+      "id": "t4",
+      "title": "4. Cloud Stack",
+      "priority": "black"
+     },
+     {
+      "id": "t5",
+      "title": "5. Computing on Demand (COD)",
+      "priority": "yellow"
+     },
+     {
+      "id": "t6",
+      "title": "6. Cloud Sourcing",
+      "priority": "black"
+     }
+    ]
    },
    {
     "key": "unit-4",
@@ -438,6 +469,56 @@
       "id": "t4",
       "title": "Topic 4. Information Security",
       "priority": "red"
+     },
+     {
+      "id": "t5",
+      "title": "Topic 5. Virtual Desktop Infrastructure (VDI)",
+      "priority": "black"
+     },
+     {
+      "id": "t6",
+      "title": "Topic 6. Storage Cloud",
+      "priority": "yellow"
+     },
+     {
+      "id": "t7",
+      "title": "Topic 7. Resiliency",
+      "priority": "red"
+     },
+     {
+      "id": "t8",
+      "title": "Topic 8. Provisioning",
+      "priority": "black"
+     },
+     {
+      "id": "t9",
+      "title": "Topic 9. Asset Management",
+      "priority": "black"
+     },
+     {
+      "id": "t10",
+      "title": "Topic 10. Cloud Governance",
+      "priority": "red"
+     },
+     {
+      "id": "t11",
+      "title": "Topic 11. High Availability and Disaster Recovery",
+      "priority": "black"
+     },
+     {
+      "id": "t12",
+      "title": "Topic 12. Charging Models",
+      "priority": "yellow"
+     },
+     {
+      "id": "t13",
+      "title": "Topic 13. Usage Reporting, Billing and Metering",
+      "priority": "yellow"
+     },
+     {
+      "id": "unit-revision",
+      "title": "Unit IV — Final Revision Checklist",
+      "priority": "black"
      }
     ]
    },

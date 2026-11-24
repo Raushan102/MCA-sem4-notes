@@ -186,6 +186,9 @@ main a:hover{color:var(--red)}
 .fig svg .ln{stroke:var(--ink);stroke-width:2;fill:none}
 .fig svg .rl{stroke:var(--red);stroke-width:2.5;fill:none}
 .fig svg .dl{stroke:var(--red);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+
+/* diagram text: narrower sans font so labels fit inside their boxes */
+.fig svg text,.diagram svg text,figure svg text,svg.s text{font-family:Inter,'Segoe UI',Arial,sans-serif!important}
 </style>
 </head>
 <body>
@@ -195,7 +198,7 @@ main a:hover{color:var(--red)}
 <div class="note"><p><strong>BACKGROUND TINT OF EACH TOPIC</strong></p><p><span class="sw" style="background:rgba(179,38,30,.16);border-color:#b3261e"></span>Light red = RED topic. <span class="sw" style="background:rgba(255,214,0,.4);border-color:#e0b800"></span>Light yellow = YELLOW topic. <span class="sw" style="background:rgba(0,0,0,.12);border-color:#333"></span>Light grey = BLACK topic.</p></div>
 <div class="note"><p><strong>COLOUR GUIDE</strong></p><p><span class="r">RED</span>Directly asked in previous papers: study thoroughly. <span class="y">YELLOW</span>Related to previous questions: understand properly. <span class="b">BLACK</span>Not directly asked in the papers checked: read once, but do not skip.</p></div>
 <h2>Contents</h2>
-<div class="tw wide"><table><thead><tr><th>Topic</th><th>Name</th><th>Priority</th></tr></thead><tbody><tr><td>1</td><td><a href="#t1">Cloud Characteristics</a></td><td><span class="y">YELLOW</span></td></tr><tr><td>4</td><td><a href="#t2">Security in a Public Cloud</a></td><td><span class="y">YELLOW</span></td></tr><tr><td>5</td><td><a href="#t3">Public Versus Private Clouds</a></td><td><span class="r">RED</span></td></tr><tr><td>6</td><td><a href="#t4">Cloud Infrastructure Self-Service</a></td><td><span class="b">BLACK</span></td></tr><tr><td>7</td><td><a href="#t5">Gamut of Cloud Solutions</a></td><td><span class="b">BLACK</span></td></tr><tr><td>8</td><td><a href="#t6">Principal Technologies</a></td><td><span class="b">BLACK</span></td></tr><tr><td>9</td><td><a href="#t7">Cloud Strategy</a></td><td><span class="b">BLACK</span></td></tr><tr><td>10</td><td><a href="#t8">Cloud Design and Implementation Using SOA</a></td><td><span class="y">YELLOW</span></td></tr><tr><td>11</td><td><a href="#t9">Conceptual Cloud Model</a></td><td><span class="b">BLACK</span></td></tr><tr><td>12</td><td><a href="#t10">Cloud Service Defined</a></td><td><span class="b">BLACK</span></td></tr></tbody></table></div>
+<div class="tw wide"><table><thead><tr><th>Topic</th><th>Name</th><th>Priority</th></tr></thead><tbody><tr><td>1</td><td><a href="#t1">Cloud Characteristics</a></td><td><span class="y">YELLOW</span></td></tr><tr><td>4</td><td><a href="#t2">Security in a Public Cloud</a></td><td><span class="y">YELLOW</span></td></tr><tr><td>5</td><td><a href="#t3">Public Versus Private Clouds</a></td><td><span class="r">RED</span></td></tr><tr><td>6</td><td><a href="#t4">Cloud Infrastructure Self-Service</a></td><td><span class="b">BLACK</span></td></tr><tr><td>7</td><td><a href="#t5">Gamut of Cloud Solutions</a></td><td><span class="b">BLACK</span></td></tr><tr><td>8</td><td><a href="#t6">Principal Technologies</a></td><td><span class="b">BLACK</span></td></tr><tr><td>9</td><td><a href="#t7">Cloud Strategy</a></td><td><span class="r">RED</span></td></tr><tr><td>10</td><td><a href="#t8">Cloud Design and Implementation Using SOA</a></td><td><span class="r">RED</span></td></tr><tr><td>11</td><td><a href="#t9">Conceptual Cloud Model</a></td><td><span class="b">BLACK</span></td></tr><tr><td>12</td><td><a href="#t10">Cloud Service Defined</a></td><td><span class="b">BLACK</span></td></tr></tbody></table></div>
 <section class="tp ty">
 <h1 id="t1">Topic 1. Cloud Characteristics</h1>
 <p><span class="y">YELLOW</span><strong>YELLOW priority</strong>: moderate detail, important fundamentals</p>
@@ -408,10 +411,10 @@ main a:hover{color:var(--red)}
 <h2>Sources</h2>
 <ul><li>GeeksforGeeks: virtualization and its role in cloud computing.</li><li><a href="https://www.tutorialspoint.com/cloud_computing/index.htm" target="_blank" rel="noopener">TutorialsPoint: Cloud Computing</a>, Cloud Computing Technologies page (Virtualization, SOA, Grid Computing, Utility Computing).</li><li><a href="https://www.w3schools.in/cloud-computing" target="_blank" rel="noopener">W3Schools.in: Cloud Computing</a> (virtualization, SOA, infrastructure tutorials, no page titled Principal Technologies).</li></ul>
 </section>
-<section class="tp tb">
+<section class="tp tr">
 <h1 id="t7">Topic 9. Cloud Strategy</h1>
-<p><span class="b">BLACK</span><strong>BLACK priority</strong>: low priority, one-time reading</p>
-<div class="note"><p><strong>PREVIOUS-YEAR QUESTION CHECK</strong></p><p>The supplied collection has no direct question on <em>Cloud Strategy</em>. Cover the basic meaning and important points.</p></div>
+<p><span class="r">RED</span><strong>RED priority</strong>: study thoroughly</p>
+<div class="note"><p><strong>PRIORITY NOTE</strong></p><p>Marked <strong>RED</strong> for exam preparation. The supplied question collection has no separate direct question on <em>Cloud Strategy</em>, so cover the meaning, the main points and the diagram carefully.</p></div>
 <h2>9.1 What is a Cloud Strategy?</h2>
 <p>A <strong>Cloud Strategy</strong> is a plan made by an organisation to decide how it will use cloud computing to achieve its business and IT goals. Before moving applications, data or servers to the cloud, it decides:</p>
 <ul><li>Why does it need cloud computing?</li><li>Which applications should move to the cloud?</li><li>Which cloud model should it choose?</li><li>How much will it cost?</li><li>How will it protect its data?</li><li>How will it manage and monitor cloud services?</li></ul>
@@ -434,10 +437,10 @@ main a:hover{color:var(--red)}
 <h2>Sources</h2>
 <ul><li><a href="https://www.geeksforgeeks.org/devops/aws-cloud-adoption-framework-and-migration-strategies/" target="_blank" rel="noopener">GeeksforGeeks: AWS Cloud Adoption Framework and Migration Strategies</a></li><li>Gartner and Infosys cloud strategy and adoption guidance (consistent with the steps above).</li></ul>
 </section>
-<section class="tp ty">
+<section class="tp tr">
 <h1 id="t8">Topic 10. Cloud Design and Implementation Using SOA</h1>
-<p><span class="y">YELLOW</span><strong>YELLOW priority</strong>: related 15-mark question</p>
-<div class="note"><p><strong>PREVIOUS-YEAR QUESTION STATUS</strong></p><p>The compiled collection includes this 15-mark question: <em>Explain Cloud Design and Implementation using SOA.</em> It is a related question, not confirmed as a direct question from the primary 2022–24 MCA Semester IV paper. Listed under Unit II-B: Cloud as a Service.</p></div>
+<p><span class="r">RED</span><strong>RED priority</strong>: 15-mark question, study thoroughly</p>
+<div class="note"><p><strong>PREVIOUS-YEAR QUESTION STATUS</strong></p><p>Marked <strong>RED</strong> for exam preparation. The compiled collection includes this 15-mark question: <em>Explain Cloud Design and Implementation using SOA.</em> It is a related question, not confirmed as a direct question from the primary 2022–24 MCA Semester IV paper. Listed under Unit II-B: Cloud as a Service.</p></div>
 <h2>10.1 Introduction to SOA</h2>
 <p>SOA stands for <strong>Service-Oriented Architecture</strong>. It is a software architectural approach in which an application is divided into independent, reusable services. Each service performs a specific business function and communicates with other services through well-defined interfaces, commonly APIs.</p>
 <p>An online shopping application can have:</p>

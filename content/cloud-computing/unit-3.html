@@ -1,0 +1,1060 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Cloud Computing Unit III Notes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@400;600;700&display=swap">
+<style>
+:root {
+  --desk: #dfe4ec;
+  --paper: #ffffff;
+  --rule: #d6e3f5;
+  --margin: #e4868a;
+  --ink: #1d3a8c;
+  --red: #b3261e;
+  --green: #1b6b3a;
+  --hl: rgba(255, 214, 0, 0.45);
+  --edge: rgba(29, 58, 140, 0.35);
+  --shadow: rgba(20, 30, 60, 0.2);
+  --hand: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --display: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --mono: "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace;
+  --vs-bg: #1e1e1e;
+  --vs-fg: #d4d4d4;
+  color-scheme: light;
+}
+html { background: var(--desk); }
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: 16px;
+  line-height: 32px;
+  padding-block: 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 28px 64px 76px;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 22px 48px, var(--desk) 8px, transparent 9px),
+    linear-gradient(to bottom, transparent 31px, var(--rule) 31px, var(--rule) 32px);
+  background-size: 44px 128px, 100% 32px;
+  background-repeat: repeat-y, repeat;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px var(--shadow), 0 14px 34px -14px var(--shadow);
+  overflow-wrap: break-word;
+}
+.sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 56px;
+  width: 4px;
+  border-left: 1px solid var(--margin);
+  border-right: 1px solid var(--margin);
+}
+@media (max-width: 520px) {
+  body { font-size: 15px; }
+  .sheet { padding: 64px 12px 64px 50px; }
+  .sheet::before { left: 34px; }
+}
+h1, h2, h3 { margin: 0; font-weight: 700; text-wrap: balance; }
+h1 {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  line-height: 64px;
+  color: var(--red);
+  text-decoration: underline wavy var(--red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 7px;
+  scroll-margin-top: 16px;
+}
+.sheet > h1:first-child { font-size: clamp(1.7rem, 5.2vw, 2.4rem); }
+h2 { font-family: var(--display); font-size: 1.3rem; line-height: 32px; color: var(--red); }
+h3 { font-family: var(--display); font-size: 1.15rem; line-height: 32px; color: var(--green); }
+p { margin: 0 0 32px; }
+hr {
+  height: 32px;
+  margin: 0;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--edge) 0 10px, transparent 10px 18px) center / 100% 2px no-repeat;
+}
+ul, ol { margin: 0 0 32px; }
+ul { list-style: none; padding-left: 34px; }
+ul li { position: relative; }
+ul li::before { content: "\2022"; position: absolute; left: -22px; color: var(--red); }
+ol { padding-left: 46px; }
+ol li::marker { color: var(--red); font-family: var(--display); font-weight: 700; }
+li > p { margin: 0; }
+strong {
+  font-weight: 600;
+  padding: 0 2px;
+  background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  line-height: 0;
+  color: #9cdcfe;
+  background: var(--vs-bg);
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+.tw { margin: 0 0 32px; overflow-x: auto; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+.tw.wide table { min-width: 640px; }
+th, td {
+  padding: 0 14px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 32px;
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge);
+}
+th {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--red);
+  background: var(--hl);
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge);
+}
+th:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+td:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; border-radius: 2px; }
+.note { margin: 0 0 32px; padding: 0 0 0 16px; border-left: 3px solid var(--red); }
+.note p { margin: 0; }
+.r,.y,.b{font-size:.72em;font-weight:700;padding:1px 7px;border-radius:3px;letter-spacing:.5px;margin-right:6px}
+.r{background:var(--red);color:#fff}.y{background:#ffd600;color:#4a3b00}.b{background:#222;color:#fff}
+h1 .r, h1 .y, h1 .b { display: inline-block; text-decoration: none; line-height: 1.5; vertical-align: middle; margin: 0 0 0 10px; }
+main a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px;overflow-wrap:anywhere}
+main a:hover{color:var(--red)}
+.fig{margin:0 0 32px}.fig svg{display:block;width:100%;max-width:760px;margin:0 auto}
+.fig p { margin: 0; }
+.fig svg text{font-family:var(--hand);font-size:14px;fill:var(--ink)}
+.fig svg .cap{font-size:13px;fill:var(--red);font-weight:600}
+.fig svg .w{fill:#fff;font-weight:600}
+.fig svg .bx{fill:#fff;stroke:var(--ink);stroke-width:2}
+.fig svg .rx{fill:#fff;stroke:var(--red);stroke-width:2}
+.fig svg .kx{fill:var(--vs-bg);stroke:var(--vs-bg)}
+.fig svg .yx{fill:rgba(255,214,0,.45);stroke:var(--ink);stroke-width:2}
+.fig svg .ln{stroke:var(--ink);stroke-width:2;fill:none}
+.fig svg .rl{stroke:var(--red);stroke-width:2.5;fill:none}
+.fig svg .dl{stroke:var(--red);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+
+/* Topic background tints: a very light wash over the whole topic */
+.tp { margin: 0 -14px 32px; padding: 0 14px; border-left: 5px solid; border-radius: 4px; }
+.tp.tr { background: rgba(179, 38, 30, .07); border-color: #b3261e; }
+.tp.ty { background: rgba(255, 214, 0, .2); border-color: #e0b800; }
+.tp.tb { background: rgba(0, 0, 0, .06); border-color: #333; }
+.swatch { display: inline-block; width: 44px; height: 20px; border-left: 5px solid; border-radius: 3px; vertical-align: middle; margin-right: 8px; }
+.swatch.tr { background: rgba(179, 38, 30, .07); border-color: #b3261e; }
+.swatch.ty { background: rgba(255, 214, 0, .2); border-color: #e0b800; }
+.swatch.tb { background: rgba(0, 0, 0, .06); border-color: #333; }
+
+.video-help { margin: 0 0 32px; padding: 12px 16px; border: 1px solid #b8c9e5; border-left: 4px solid #1d3a8c; border-radius: 8px; background: rgba(232, 240, 252, .72); }
+.video-help p { margin: 0; }
+.video-help ol { margin: 0; }
+.reading-sources { margin: 0 0 32px; padding: 12px 16px; border: 1px solid #c8d6e8; border-radius: 7px; background: rgba(255,255,255,.78); font-size: .95em; }
+.reading-sources p { margin: 0; }
+.reading-sources ul { margin: 0; padding-left: 24px; }
+.reading-sources ul li::before { left: -18px; }
+</style>
+<main class="sheet">
+<h1>CLOUD COMPUTING</h1>
+<h2>Unit III: Cloud Solutions</h2>
+<div class="note"><p><strong>THE CENTRAL IDEA</strong></p><p>Unit III shows how cloud services are organised and delivered. It covers who takes part in the cloud (the ecosystem), how business work runs on the cloud (BPM), how cloud services are managed, how the layers of a cloud are stacked, how computing power is taken only when needed, and how an organisation sources IT from outside providers.</p></div>
+<div class="note"><p><strong>COLOUR GUIDE</strong></p><p><span class="r">RED</span> <strong>Important</strong>: directly asked in previous papers. Study properly. <span class="y">YELLOW</span> <strong>Related</strong>: related questions appeared. Study the basics. <span class="b">BLACK</span> <strong>Low priority</strong>: not directly asked. Read once.</p></div>
+<div class="note"><p><strong>BACKGROUND TINT</strong></p><p>The whole background of every topic carries its priority colour, so you can see the priority at a glance while scrolling.</p><p><span class="swatch tr"></span>light red = RED topic</p><p><span class="swatch ty"></span>light yellow = YELLOW topic</p><p><span class="swatch tb"></span>light grey = BLACK topic</p></div>
+<h2>Contents: Official Unit III Syllabus</h2>
+<div class="tw wide"><table><thead><tr><th>No.</th><th>Topic</th><th>Priority</th><th>Depth needed</th></tr></thead><tbody>
+<tr><td>1</td><td><a href="#t1">Cloud Ecosystem</a></td><td><span class="r">RED</span></td><td>Detailed: 1, 5 and 15 marks</td></tr>
+<tr><td>2</td><td><a href="#t2">Cloud Business Process Management</a></td><td><span class="r">RED</span></td><td>Detailed: 1 and 15 marks</td></tr>
+<tr><td>3</td><td><a href="#t3">Cloud Service Management</a></td><td><span class="y">YELLOW</span></td><td>Concepts and the 5-mark answer</td></tr>
+<tr><td>4</td><td><a href="#t4">Cloud Stack</a></td><td><span class="b">BLACK</span></td><td>One-time concise reading</td></tr>
+<tr><td>5</td><td><a href="#t5">Computing on Demand (COD)</a></td><td><span class="y">YELLOW</span></td><td>Concepts and the 5-mark answer</td></tr>
+<tr><td>6</td><td><a href="#t6">Cloud Sourcing</a></td><td><span class="b">BLACK</span></td><td>One-time reading</td></tr>
+</tbody></table></div>
+
+<!-- ======================= TOPIC 1 ======================= -->
+<section class="tp tr">
+<h1 id="t1">1. Cloud Ecosystem <span class="r">RED</span></h1>
+<div class="note"><p><strong>WHY STUDY THIS TOPIC</strong></p><p>It has direct previous-year relevance. A 15-mark question and a 1-mark question on it are confirmed in the primary Ranchi University MCA Semester IV paper (2022–24), and more questions are in the compiled question collection.</p><p><strong>HOW MUCH DEPTH:</strong> detailed preparation. Be ready for 1-mark, 5-mark and 15-mark answers.</p></div>
+
+<h2>1.1 What is a Cloud Ecosystem?</h2>
+<p>A <strong>Cloud Ecosystem</strong> is a collection of different participants, technologies, services and infrastructure that work together to provide and use cloud computing services.</p>
+<p>In simple words, cloud computing does not work through one company or one technology alone. Different organisations and components work together to deliver cloud services to users.</p>
+<p><strong>Example:</strong> when you store a file in Google Drive:</p>
+<ul>
+<li>Google provides the cloud storage service.</li>
+<li>You act as the cloud consumer.</li>
+<li>Internet connectivity helps you access the service.</li>
+<li>Data centres and servers store your files.</li>
+<li>Security mechanisms protect your account and data.</li>
+<li>Other service partners may support billing, auditing or management.</li>
+</ul>
+<p>All these participants and components together form a cloud ecosystem.</p>
+
+<h2>1.2 Main components: the five actors</h2>
+<p>The cloud ecosystem includes five major participants. These five actors are defined in the NIST Cloud Computing Reference Architecture.</p>
+<ol>
+<li>Cloud Consumer</li>
+<li>Cloud Service Provider</li>
+<li>Cloud Broker</li>
+<li>Cloud Auditor</li>
+<li>Cloud Carrier</li>
+</ol>
+<div class="fig"><svg viewBox="0 0 760 384" role="img" aria-label="The five actors of the cloud ecosystem: consumer, broker, provider, auditor and carrier"><defs><marker id="arf11" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7z" fill="#b3261e"/></marker></defs><rect class="yx" x="16" y="32" width="168" height="112" rx="8"/><text class="cap" x="100.0" y="71" text-anchor="middle">CLOUD CONSUMER</text><text x="100.0" y="93" text-anchor="middle">uses services</text><text x="100.0" y="115" text-anchor="middle">student / company</text><rect class="rx" x="240" y="32" width="280" height="232" rx="8"/><text class="cap" x="380" y="56" text-anchor="middle">CLOUD SERVICE PROVIDER</text><rect class="bx" x="250" y="72" width="80" height="56" rx="8"/><text x="290.0" y="94" text-anchor="middle">IaaS</text><text x="290.0" y="116" text-anchor="middle">infra</text><rect class="bx" x="340" y="72" width="80" height="56" rx="8"/><text x="380.0" y="94" text-anchor="middle">PaaS</text><text x="380.0" y="116" text-anchor="middle">platform</text><rect class="bx" x="430" y="72" width="80" height="56" rx="8"/><text x="470.0" y="94" text-anchor="middle">SaaS</text><text x="470.0" y="116" text-anchor="middle">software</text><rect class="kx" x="250" y="144" width="260" height="64" rx="8"/><text class="w" x="380.0" y="170" text-anchor="middle">Servers • Storage</text><text class="w" x="380.0" y="192" text-anchor="middle">Networks • Data Centres</text><text class="cap" x="380" y="240" text-anchor="middle">physical resources</text><rect class="bx" x="576" y="32" width="168" height="112" rx="8"/><text class="cap" x="660.0" y="71" text-anchor="middle">CLOUD AUDITOR</text><text x="660.0" y="93" text-anchor="middle">independent</text><text x="660.0" y="115" text-anchor="middle">assessment</text><rect class="bx" x="16" y="176" width="168" height="96" rx="8"/><text class="cap" x="100.0" y="218" text-anchor="middle">CLOUD BROKER</text><text x="100.0" y="240" text-anchor="middle">intermediary</text><rect class="yx" x="16" y="312" width="728" height="64" rx="8"/><text class="cap" x="380.0" y="338" text-anchor="middle">CLOUD CARRIER</text><text x="380.0" y="360" text-anchor="middle">network connectivity and data transport (ISP / telecom)</text><path class="rl" d="M184 88 L238 88" marker-end="url(#arf11)" marker-start="url(#arf11)"/><text class="cap" x="211" y="78" text-anchor="middle">use</text><path class="rl" d="M100 146 L100 174" marker-end="url(#arf11)"/><path class="rl" d="M184 224 L238 224" marker-end="url(#arf11)"/><text class="cap" x="211" y="214" text-anchor="middle">via</text><path class="dl" d="M576 88 L522 88" marker-end="url(#arf11)"/><text class="cap" x="549" y="78" text-anchor="middle">audit</text><path class="rl" d="M100 312 L100 274" marker-end="url(#arf11)" marker-start="url(#arf11)"/><path class="rl" d="M380 312 L380 266" marker-end="url(#arf11)" marker-start="url(#arf11)"/><path class="rl" d="M576 200 L610 200" marker-end="url(#arf11)"/><text x="620" y="205" text-anchor="start">service use</text><path class="dl" d="M576 232 L610 232" marker-end="url(#arf11)"/><text x="620" y="237" text-anchor="start">audit check</text></svg><p><em>Figure 1.1: The five actors of the cloud ecosystem (simplified from the NIST reference architecture).</em></p></div>
+<div class="note"><p><strong>REMEMBER:</strong> this is the diagram to practise for your 15-mark answer. It is a simplified study diagram. It does not show every communication path.</p></div>
+
+<h2>1.3 The five actors in detail</h2>
+<h3>A. Cloud Consumer</h3>
+<p>A <strong>Cloud Consumer</strong> is a person or organisation that uses cloud services provided by a Cloud Service Provider.</p>
+<p><strong>Example:</strong> a student using Google Drive to store notes, or a company using AWS to host its website.</p>
+<p>Main responsibilities:</p>
+<ul>
+<li>Select suitable cloud services.</li>
+<li>Use cloud resources.</li>
+<li>Manage user accounts and access.</li>
+<li>Pay for services according to the agreement.</li>
+<li>Follow the provider's usage and security policies.</li>
+</ul>
+<h3>B. Cloud Service Provider (CSP)</h3>
+<p>A <strong>Cloud Service Provider</strong> is an organisation that makes cloud services available to consumers over a network.</p>
+<p><strong>Examples:</strong> Amazon Web Services (AWS), Microsoft Azure, Google Cloud.</p>
+<p>A CSP provides three major service models: <strong>IaaS</strong> (Infrastructure as a Service), <strong>PaaS</strong> (Platform as a Service) and <strong>SaaS</strong> (Software as a Service).</p>
+<p>Main responsibilities:</p>
+<ul>
+<li>Provide cloud infrastructure.</li>
+<li>Manage servers, storage and networking.</li>
+<li>Provide cloud applications and platforms.</li>
+<li>Maintain service availability.</li>
+<li>Implement security controls.</li>
+<li>Monitor and manage cloud resources.</li>
+</ul>
+<h3>C. Cloud Broker</h3>
+<p>A <strong>Cloud Broker</strong> acts as an intermediary between cloud consumers and cloud service providers. It helps consumers select, combine and manage cloud services from different providers.</p>
+<p><strong>Example:</strong> a company wants to use AWS for computing and Microsoft Azure for another service. A cloud broker can help coordinate and manage these services.</p>
+<p>Three important functions of a Cloud Broker:</p>
+<ol>
+<li><strong>Service Intermediation:</strong> adds extra value to an existing cloud service, such as identity management or security monitoring.</li>
+<li><strong>Service Aggregation:</strong> combines multiple cloud services into one integrated solution.</li>
+<li><strong>Service Arbitrage:</strong> selects services dynamically from different providers based on price, performance or requirements.</li>
+</ol>
+<div class="fig"><svg viewBox="0 0 760 288" role="img" aria-label="A cloud broker sits between a consumer and several providers and offers three services"><defs><marker id="arf12" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7z" fill="#b3261e"/></marker></defs><rect class="yx" x="16" y="96" width="152" height="96" rx="8"/><text class="cap" x="92.0" y="138" text-anchor="middle">CLOUD CONSUMER</text><text x="92.0" y="160" text-anchor="middle">company</text><rect class="rx" x="232" y="32" width="284" height="224" rx="8"/><text class="cap" x="374" y="56" text-anchor="middle">CLOUD BROKER</text><rect class="yx" x="248" y="72" width="252" height="52" rx="8"/><text x="374.0" y="92" text-anchor="middle">Service Intermediation</text><text x="374.0" y="114" text-anchor="middle">adds identity / monitoring</text><rect class="yx" x="248" y="136" width="252" height="52" rx="8"/><text x="374.0" y="156" text-anchor="middle">Service Aggregation</text><text x="374.0" y="178" text-anchor="middle">combines services into one</text><rect class="yx" x="248" y="200" width="252" height="52" rx="8"/><text x="374.0" y="220" text-anchor="middle">Service Arbitrage</text><text x="374.0" y="242" text-anchor="middle">picks by price / performance</text><rect class="bx" x="600" y="48" width="144" height="48" rx="8"/><text x="672.0" y="77" text-anchor="middle">AWS</text><rect class="bx" x="600" y="120" width="144" height="48" rx="8"/><text x="672.0" y="149" text-anchor="middle">Azure</text><rect class="bx" x="600" y="192" width="144" height="48" rx="8"/><text x="672.0" y="221" text-anchor="middle">Google Cloud</text><path class="rl" d="M168 144 L230 144" marker-end="url(#arf12)"/><path class="rl" d="M516 72 L598 72" marker-end="url(#arf12)"/><path class="rl" d="M516 144 L598 144" marker-end="url(#arf12)"/><path class="rl" d="M516 216 L598 216" marker-end="url(#arf12)"/></svg><p><em>Figure 1.2: What a cloud broker does between a consumer and several providers.</em></p></div>
+<h3>D. Cloud Auditor</h3>
+<p>A <strong>Cloud Auditor</strong> is an independent person or organisation that examines cloud services and operations. Its purpose is to check whether cloud services follow required security, privacy and performance standards.</p>
+<p>Main responsibilities:</p>
+<ul>
+<li>Conduct security audits.</li>
+<li>Check privacy protection.</li>
+<li>Evaluate service performance.</li>
+<li>Check compliance with standards and agreements.</li>
+</ul>
+<p><strong>Example:</strong> an independent auditor examines whether a cloud provider follows the required security controls.</p>
+<h3>E. Cloud Carrier</h3>
+<p>A <strong>Cloud Carrier</strong> provides the network connectivity and transport through which cloud services are delivered from the provider to the consumer. In simple words, it provides the communication path between the cloud provider and the user.</p>
+<p><strong>Example:</strong> an internet service provider or telecom operator that connects your computer to AWS or Google Cloud.</p>
+<p>Main responsibilities:</p>
+<ul>
+<li>Provide network connectivity.</li>
+<li>Transfer data between consumers and providers.</li>
+<li>Maintain network availability.</li>
+<li>Support reliable communication.</li>
+</ul>
+
+<h2>1.4 How does the Cloud Ecosystem work?</h2>
+<p>Consider a company that wants to host its website using AWS.</p>
+<ol>
+<li>The company acts as the Cloud Consumer.</li>
+<li>AWS acts as the Cloud Service Provider.</li>
+<li>The company may use a Cloud Broker to compare and manage cloud services.</li>
+<li>A Cloud Auditor may independently check security and compliance.</li>
+<li>A Cloud Carrier provides the network connection between the company and AWS.</li>
+<li>AWS uses servers, storage, networking and data centres to deliver the requested services.</li>
+</ol>
+<div class="fig"><svg viewBox="0 0 760 320" role="img" aria-label="How the actors work together when a company hosts a website on AWS"><defs><marker id="arf13" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7z" fill="#b3261e"/></marker></defs><rect class="bx" x="208" y="16" width="328" height="48" rx="8"/><text x="372.0" y="45" text-anchor="middle">BROKER (optional): compare + manage</text><rect class="yx" x="16" y="112" width="136" height="96" rx="8"/><text class="cap" x="84.0" y="154" text-anchor="middle">1 COMPANY</text><text x="84.0" y="176" text-anchor="middle">consumer</text><rect class="bx" x="208" y="112" width="136" height="96" rx="8"/><text class="cap" x="276.0" y="143" text-anchor="middle">2 NETWORK</text><text x="276.0" y="165" text-anchor="middle">carrier</text><text x="276.0" y="187" text-anchor="middle">ISP / telecom</text><rect class="rx" x="400" y="112" width="136" height="96" rx="8"/><text class="cap" x="468.0" y="154" text-anchor="middle">3 AWS</text><text x="468.0" y="176" text-anchor="middle">provider</text><rect class="kx" x="592" y="112" width="152" height="96" rx="8"/><text class="w" x="668.0" y="143" text-anchor="middle">4 Data centre</text><text class="w" x="668.0" y="165" text-anchor="middle">servers, storage</text><text class="w" x="668.0" y="187" text-anchor="middle">networks</text><path class="rl" d="M152 160 L206 160" marker-end="url(#arf13)"/><path class="rl" d="M344 160 L398 160" marker-end="url(#arf13)"/><path class="rl" d="M536 160 L590 160" marker-end="url(#arf13)"/><path class="dl" d="M208 40 L84 40 L84 110" marker-end="url(#arf13)"/><path class="dl" d="M468 64 L468 110" marker-end="url(#arf13)"/><rect class="bx" x="368" y="240" width="200" height="64" rx="8"/><text class="cap" x="468.0" y="266" text-anchor="middle">CLOUD AUDITOR</text><text x="468.0" y="288" text-anchor="middle">independent check</text><path class="dl" d="M468 240 L468 210" marker-end="url(#arf13)"/></svg><p><em>Figure 1.3: A company hosts its website on AWS. Every actor has a part to play.</em></p></div>
+<p>Thus, all these actors work together to provide cloud computing services.</p>
+
+<h2>1.5 Difference between the five actors</h2>
+<div class="tw wide"><table><thead><tr><th>Actor</th><th>Main responsibility</th><th>Example</th></tr></thead><tbody>
+<tr><td>Cloud Consumer</td><td>Uses cloud services</td><td>Company using AWS</td></tr>
+<tr><td>Cloud Provider</td><td>Provides cloud services</td><td>AWS, Azure</td></tr>
+<tr><td>Cloud Broker</td><td>Manages / intermediates services</td><td>Multi-cloud service manager</td></tr>
+<tr><td>Cloud Auditor</td><td>Independently checks services</td><td>Security auditor</td></tr>
+<tr><td>Cloud Carrier</td><td>Provides network connectivity</td><td>Internet or telecom provider</td></tr>
+</tbody></table></div>
+
+<h2>1.6 Other technical components</h2>
+<p>Apart from the five actors, the ecosystem also depends on several technical components. These support the ecosystem, while the five actors describe the main roles played by different participants.</p>
+<div class="tw wide"><table><thead><tr><th>Component</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Cloud Infrastructure</td><td>Provides computing resources such as servers and networks.</td></tr>
+<tr><td>Virtualization</td><td>Creates virtual versions of physical resources.</td></tr>
+<tr><td>Cloud Storage</td><td>Stores files, databases and backups.</td></tr>
+<tr><td>Cloud Applications</td><td>Provides software to users over the internet.</td></tr>
+<tr><td>APIs and Web Services</td><td>Allow different applications and services to communicate.</td></tr>
+<tr><td>Security Mechanisms</td><td>Protect data, applications and infrastructure.</td></tr>
+<tr><td>Management Tools</td><td>Monitor resources, usage, performance and billing.</td></tr>
+</tbody></table></div>
+
+<h2>1.7 Role of a Cloud Service Provider in the ecosystem</h2>
+<p>The Cloud Service Provider is one of the most important actors because it delivers cloud services to consumers. Its major functions:</p>
+<ol>
+<li><strong>Infrastructure Management:</strong> manages physical servers, storage and networking.</li>
+<li><strong>Service Delivery:</strong> provides IaaS, PaaS and SaaS.</li>
+<li><strong>Resource Management:</strong> allocates computing resources according to customer requirements.</li>
+<li><strong>Security Management:</strong> protects infrastructure, applications and customer data.</li>
+<li><strong>Service Monitoring:</strong> monitors performance and availability.</li>
+<li><strong>Billing and Metering:</strong> measures resource usage and charges customers.</li>
+<li><strong>Customer Support:</strong> helps customers resolve technical problems.</li>
+</ol>
+
+<h2>1.8 Advantages of a Cloud Ecosystem</h2>
+<ol>
+<li><strong>Resource Sharing:</strong> different users can access shared cloud infrastructure.</li>
+<li><strong>Scalability:</strong> resources can increase or decrease according to demand.</li>
+<li><strong>Cost Efficiency:</strong> organisations can reduce the need to purchase and maintain physical infrastructure.</li>
+<li><strong>Flexibility:</strong> consumers can choose different cloud services.</li>
+<li><strong>Better Collaboration:</strong> different participants can work together to deliver services.</li>
+<li><strong>Security and Auditing:</strong> auditors and providers help assess and improve security.</li>
+<li><strong>Easy Access:</strong> cloud services can be accessed through network connections.</li>
+</ol>
+
+<h2>1.9 Important terms</h2>
+<div class="tw wide"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Cloud Ecosystem</td><td>Participants, technologies, services and infrastructure working together to provide and use cloud services.</td></tr>
+<tr><td>Cloud stakeholder</td><td>An actor in the ecosystem: consumer, provider, broker, auditor or carrier.</td></tr>
+<tr><td>CSP</td><td>Cloud Service Provider, such as AWS, Azure or Google Cloud.</td></tr>
+<tr><td>Service Intermediation</td><td>A broker adds value to an existing service.</td></tr>
+<tr><td>Service Aggregation</td><td>A broker combines several services into one.</td></tr>
+<tr><td>Service Arbitrage</td><td>A broker picks services from different providers by price or performance.</td></tr>
+</tbody></table></div>
+
+<h2>1.10 Exam preparation</h2>
+<h3>Previous-year questions</h3>
+<div class="tw wide"><table><thead><tr><th>Marks</th><th>Question</th><th>Source</th></tr></thead><tbody>
+<tr><td>15</td><td>Define SOA in Cloud Computing. What do you mean by Cloud Ecosystem?</td><td>Primary MCA Sem IV paper (2022–24)</td></tr>
+<tr><td>15</td><td>Who are Cloud Service Providers? Explain the main components of the Cloud Ecosystem.</td><td>Compiled question collection</td></tr>
+<tr><td>5</td><td>Explain the components of a Cloud Ecosystem. (YELLOW)</td><td>Compiled question collection</td></tr>
+<tr><td>1</td><td>Name three Cloud stakeholders.</td><td>Primary MCA Sem IV paper</td></tr>
+<tr><td>1</td><td>What is Cloud Ecosystem?</td><td>Compiled question collection</td></tr>
+<tr><td>1</td><td>Who is a Cloud Service Provider?</td><td>Compiled question collection</td></tr>
+</tbody></table></div>
+<h3>1-mark answers</h3>
+<ul>
+<li><strong>What is Cloud Ecosystem?</strong> A collection of participants, technologies, services and infrastructure that work together to provide and use cloud computing services.</li>
+<li><strong>Who is a Cloud Service Provider?</strong> An organisation that makes cloud services available to consumers over a network, for example AWS, Microsoft Azure or Google Cloud.</li>
+<li><strong>Name three Cloud stakeholders.</strong> Any three of the five actors: Cloud Consumer, Cloud Provider, Cloud Broker, Cloud Auditor, Cloud Carrier.</li>
+</ul>
+<h3>5-mark preparation (YELLOW)</h3>
+<p>Prepare a shorter version: the definition, the five actors with one line each, and the supporting technical components.</p>
+<h3>15-mark preparation (RED)</h3>
+<p><strong>Question 1:</strong> Define SOA in Cloud Computing. What do you mean by Cloud Ecosystem? Prepare the definition of SOA as well as the Cloud Ecosystem, its actors, diagram and example. SOA was studied in Unit II, so revise that answer and connect it to this topic.</p>
+<p><strong>Question 2:</strong> Who are Cloud Service Providers? Explain the main components of the Cloud Ecosystem. Prepare:</p>
+<ul>
+<li>Definition of Cloud Service Provider.</li>
+<li>Functions of a CSP.</li>
+<li>Five actors of the ecosystem.</li>
+<li>Technical components.</li>
+<li>Diagram and example.</li>
+</ul>
+<h3>Conclusion to write</h3>
+<p>A Cloud Ecosystem consists of different participants, services, technologies and infrastructure that work together to deliver cloud computing services. Its five major actors are Cloud Consumer, Cloud Service Provider, Cloud Broker, Cloud Auditor and Cloud Carrier. Together, they support the delivery, management, security and use of cloud services.</p>
+
+<h2>1.11 Quick revision</h2>
+<ul>
+<li>Cloud Ecosystem = participants + technologies + services + infrastructure working together.</li>
+<li>Five actors: Consumer, Provider, Broker, Auditor, Carrier.</li>
+<li>Broker functions: intermediation, aggregation, arbitrage.</li>
+<li>Provider models: IaaS, PaaS, SaaS.</li>
+<li>Auditor = independent check. Carrier = network path.</li>
+</ul>
+
+<h2>1.12 Videos (Hindi preferred)</h2>
+<div class="video-help"><ol>
+<li><a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+cloud+ecosystem+Hindi" rel="noopener" target="_blank">Cloud Ecosystem Explained in Hindi, 5 Minutes Engineering</a>. Hindi, beginner and exam-focused. This is a YouTube search link.</li>
+<li><a href="https://www.youtube.com/results?search_query=NIST+cloud+actors+consumer+provider+broker+auditor+carrier+Hindi" rel="noopener" target="_blank">NIST cloud actors: consumer, provider, broker, auditor, carrier</a>. Hindi, diagram-based. This is a YouTube search link.</li>
+<li><a href="https://www.youtube.com/results?search_query=EasyExamNotes+cloud+ecosystem+Hindi" rel="noopener" target="_blank">Cloud Ecosystem in Hindi, EasyExamNotes</a>. Hindi, exam-focused. This is a YouTube search link.</li>
+</ol></div>
+<h2>1.13 Sources</h2>
+<div class="reading-sources"><ul>
+<li><a href="https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication500-292.pdf" rel="noopener" target="_blank">NIST SP 500-292: Cloud Computing Reference Architecture</a> (defines the five actors)</li>
+<li><a href="https://www.geeksforgeeks.org/cloud-computing/architecture-of-cloud-computing/" rel="noopener" target="_blank">GeeksforGeeks: Architecture of Cloud Computing</a></li>
+</ul></div>
+</section>
+
+<!-- ======================= TOPIC 2 ======================= -->
+<section class="tp tr">
+<h1 id="t2">2. Cloud Business Process Management <span class="r">RED</span></h1>
+<div class="note"><p><strong>WHY STUDY THIS TOPIC</strong></p><p>It appeared as a 15-mark question in the primary Ranchi University MCA Semester IV paper (2022–24, ECMCA-401C).</p><p><strong>HOW MUCH DEPTH:</strong> detailed preparation. Learn the 15-mark answer well, and be ready for the two 1-mark questions from the compiled collection.</p></div>
+
+<h2>2.1 First understand: what is a business process?</h2>
+<p>A <strong>business process</strong> is a sequence of related tasks or activities performed by an organisation to achieve a specific goal.</p>
+<p><strong>Example:</strong> when a customer purchases a product online, the business follows a process:</p>
+<ol>
+<li>Customer places an order.</li>
+<li>Payment is checked.</li>
+<li>Product availability is checked.</li>
+<li>Product is packed.</li>
+<li>Product is shipped.</li>
+<li>Customer receives a delivery notification.</li>
+</ol>
+<p>All these connected activities form an order-processing business process.</p>
+<p>Other examples of business processes: employee recruitment, customer registration, bank loan approval, hospital appointment booking, invoice generation and payment.</p>
+
+<h2>2.2 What is BPM?</h2>
+<p><strong>BPM</strong> stands for <strong>Business Process Management</strong>. It is a systematic approach used to design, execute, monitor, analyse and improve business processes. In simple words, BPM helps an organisation manage its work in an organised and efficient way.</p>
+<p><strong>Example:</strong> a bank loan approval process.</p>
+<ul>
+<li>A customer submits a loan application.</li>
+<li>The bank verifies the documents.</li>
+<li>The credit department checks the customer's eligibility.</li>
+<li>The manager approves or rejects the loan.</li>
+<li>The customer receives the final decision.</li>
+</ul>
+<p>BPM helps organise and manage these steps so that the work is completed properly and efficiently.</p>
+<h3>Main activities of BPM</h3>
+<ol>
+<li><strong>Process Design:</strong> plan how the business process should work.</li>
+<li><strong>Process Execution:</strong> perform the planned activities.</li>
+<li><strong>Process Monitoring:</strong> track the progress of activities.</li>
+<li><strong>Process Analysis:</strong> identify delays, errors and bottlenecks.</li>
+<li><strong>Process Improvement:</strong> make changes to improve performance.</li>
+</ol>
+<div class="fig"><svg viewBox="0 0 760 224" role="img" aria-label="The five BPM activities repeat in a loop"><defs><marker id="arf21" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7z" fill="#b3261e"/></marker></defs><rect class="rx" x="16" y="48" width="120" height="64" rx="8"/><text class="cap" x="76.0" y="74" text-anchor="middle">1 Design</text><text x="76.0" y="96" text-anchor="middle">plan steps</text><rect class="rx" x="170" y="48" width="120" height="64" rx="8"/><text class="cap" x="230.0" y="74" text-anchor="middle">2 Execute</text><text x="230.0" y="96" text-anchor="middle">do the work</text><rect class="rx" x="324" y="48" width="120" height="64" rx="8"/><text class="cap" x="384.0" y="74" text-anchor="middle">3 Monitor</text><text x="384.0" y="96" text-anchor="middle">track steps</text><rect class="rx" x="478" y="48" width="120" height="64" rx="8"/><text class="cap" x="538.0" y="74" text-anchor="middle">4 Analyse</text><text x="538.0" y="96" text-anchor="middle">find delays</text><rect class="rx" x="632" y="48" width="120" height="64" rx="8"/><text class="cap" x="692.0" y="74" text-anchor="middle">5 Improve</text><text x="692.0" y="96" text-anchor="middle">make changes</text><path class="rl" d="M136 80 L168 80" marker-end="url(#arf21)"/><path class="rl" d="M290 80 L322 80" marker-end="url(#arf21)"/><path class="rl" d="M444 80 L476 80" marker-end="url(#arf21)"/><path class="rl" d="M598 80 L630 80" marker-end="url(#arf21)"/><path class="dl" d="M692 114 L692 160 L76 160 L76 116" marker-end="url(#arf21)"/><text class="cap" x="384" y="190" text-anchor="middle">repeat: continuous improvement</text></svg><p><em>Figure 2.1: The five main activities of BPM. Improvement feeds back into design.</em></p></div>
+
+<h2>2.3 What is Cloud BPM?</h2>
+<p><strong>Cloud BPM</strong> (Cloud Business Process Management) is the use of cloud-based software and services to design, execute, monitor and improve business processes.</p>
+<p>In traditional BPM, an organisation may need to install and maintain BPM software on its own servers. In Cloud BPM, the BPM software is hosted on cloud infrastructure and accessed through the internet or a network.</p>
+<p><strong>Example:</strong> a company uses a cloud-based workflow system to manage employee leave applications.</p>
+<ul>
+<li>Employee submits a leave request.</li>
+<li>The system sends it to the manager.</li>
+<li>The manager approves or rejects it.</li>
+<li>The system updates the leave record.</li>
+<li>The employee receives a notification.</li>
+</ul>
+<p>The company does not necessarily need to maintain its own BPM servers.</p>
+<div class="fig"><svg viewBox="0 0 760 256" role="img" aria-label="Traditional BPM on own servers compared with Cloud BPM hosted on provider infrastructure"><defs><marker id="arf22" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7z" fill="#b3261e"/></marker></defs><rect class="yx" x="16" y="16" width="344" height="48" rx="8"/><text class="cap" x="188.0" y="45" text-anchor="middle">TRADITIONAL BPM</text><rect class="bx" x="16" y="96" width="344" height="48" rx="8"/><text x="188.0" y="125" text-anchor="middle">BPM software installed locally</text><rect class="kx" x="16" y="176" width="344" height="48" rx="8"/><text class="w" x="188.0" y="205" text-anchor="middle">Own servers, own upkeep</text><path class="rl" d="M188 146 L188 174" marker-end="url(#arf22)"/><text class="cap" x="188" y="248" text-anchor="middle">organisation manages most infrastructure</text><rect class="yx" x="400" y="16" width="344" height="48" rx="8"/><text class="cap" x="572.0" y="45" text-anchor="middle">CLOUD BPM</text><rect class="bx" x="400" y="96" width="344" height="48" rx="8"/><text x="572.0" y="125" text-anchor="middle">BPM software hosted in cloud</text><rect class="kx" x="400" y="176" width="344" height="48" rx="8"/><text class="w" x="572.0" y="205" text-anchor="middle">Provider-managed cloud infra</text><path class="rl" d="M572 146 L572 174" marker-end="url(#arf22)"/><text class="cap" x="572" y="248" text-anchor="middle">accessed over internet / network</text></svg><p><em>Figure 2.2: Traditional BPM and Cloud BPM. The software is the same idea; where it runs is different.</em></p></div>
+
+<h2>2.4 Difference between Traditional BPM and Cloud BPM</h2>
+<div class="tw wide"><table><thead><tr><th>Traditional BPM</th><th>Cloud BPM</th></tr></thead><tbody>
+<tr><td>Software is generally installed on local infrastructure.</td><td>Software is hosted on cloud infrastructure.</td></tr>
+<tr><td>Organisation manages much of the infrastructure.</td><td>Cloud provider manages the underlying cloud infrastructure.</td></tr>
+<tr><td>Higher initial infrastructure investment may be required.</td><td>Often lower initial investment.</td></tr>
+<tr><td>Access may depend on the organisation's network setup.</td><td>Can be accessed remotely through an internet connection, subject to permissions.</td></tr>
+<tr><td>Scaling may require additional hardware and configuration.</td><td>Resources can generally be scaled more easily.</td></tr>
+<tr><td>Organisation handles software and infrastructure maintenance responsibilities.</td><td>Provider may handle platform maintenance, depending on the service model.</td></tr>
+</tbody></table></div>
+
+<h2>2.5 Main components of Cloud BPM</h2>
+<ol>
+<li><strong>Process Modelling and Design:</strong> creates a visual representation of a business process and defines the order of tasks and decision points. Example: designing a loan approval workflow.</li>
+<li><strong>Workflow Engine:</strong> executes the designed workflow, assigns tasks to the appropriate people or departments, and moves the process from one step to another.</li>
+<li><strong>Process Integration:</strong> connects the BPM system with other applications. Example: connecting an order system with a payment gateway and inventory database.</li>
+<li><strong>Process Monitoring:</strong> tracks the progress of business processes and shows pending, completed and delayed tasks.</li>
+<li><strong>Process Analytics:</strong> analyses process performance and helps identify bottlenecks and inefficiencies.</li>
+<li><strong>Security and User Management:</strong> controls who can access or perform particular tasks. Supports authentication, permissions and access control.</li>
+</ol>
+
+<h2>2.6 How does Cloud BPM work?</h2>
+<p>Example: online order processing in an e-commerce company.</p>
+<ol>
+<li><strong>Order received:</strong> the customer places an order through the website.</li>
+<li><strong>Payment verification:</strong> the BPM workflow sends the payment request for verification.</li>
+<li><strong>Inventory checking:</strong> the system checks whether the product is available.</li>
+<li><strong>Packing and shipping:</strong> the workflow assigns tasks to the warehouse and delivery team.</li>
+<li><strong>Customer notification:</strong> the customer receives an order and delivery update.</li>
+<li><strong>Monitoring and improvement:</strong> the company checks processing time, delays and errors.</li>
+</ol>
+<div class="fig"><svg viewBox="0 0 760 288" role="img" aria-label="Online order processing as a six step Cloud BPM workflow"><defs><marker id="arf23" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7z" fill="#b3261e"/></marker></defs><rect class="rx" x="16" y="32" width="208" height="64" rx="8"/><text class="cap" x="120.0" y="58" text-anchor="middle">1 Order received</text><text x="120.0" y="80" text-anchor="middle">customer orders online</text><rect class="rx" x="280" y="32" width="208" height="64" rx="8"/><text class="cap" x="384.0" y="58" text-anchor="middle">2 Payment check</text><text x="384.0" y="80" text-anchor="middle">payment is verified</text><rect class="rx" x="544" y="32" width="208" height="64" rx="8"/><text class="cap" x="648.0" y="58" text-anchor="middle">3 Inventory check</text><text x="648.0" y="80" text-anchor="middle">is product available?</text><path class="rl" d="M224 64 L278 64" marker-end="url(#arf23)"/><path class="rl" d="M488 64 L542 64" marker-end="url(#arf23)"/><path class="rl" d="M648 98 L648 128 L120 128 L120 158" marker-end="url(#arf23)"/><rect class="rx" x="16" y="160" width="208" height="64" rx="8"/><text class="cap" x="120.0" y="186" text-anchor="middle">4 Pack + ship</text><text x="120.0" y="208" text-anchor="middle">warehouse, delivery</text><rect class="rx" x="280" y="160" width="208" height="64" rx="8"/><text class="cap" x="384.0" y="186" text-anchor="middle">5 Notify customer</text><text x="384.0" y="208" text-anchor="middle">delivery update</text><rect class="rx" x="544" y="160" width="208" height="64" rx="8"/><text class="cap" x="648.0" y="186" text-anchor="middle">6 Monitor</text><text x="648.0" y="208" text-anchor="middle">time, delays, errors</text><path class="rl" d="M224 192 L278 192" marker-end="url(#arf23)"/><path class="rl" d="M488 192 L542 192" marker-end="url(#arf23)"/><text class="cap" x="380" y="256" text-anchor="middle">Cloud BPM software coordinates all six steps</text></svg><p><em>Figure 2.3: Cloud BPM workflow for an online order. The software coordinates all six steps.</em></p></div>
+<p>The cloud BPM software coordinates these activities and helps the organisation track the entire process.</p>
+
+<h2>2.7 Why is Cloud BPM software needed?</h2>
+<div class="note"><p><strong>IMPORTANT:</strong> this is the most important part of the 15-mark question.</p></div>
+<ol>
+<li><strong>Reduced infrastructure cost:</strong> an organisation may not need to purchase and maintain its own servers for BPM software. This can reduce initial infrastructure investment.</li>
+<li><strong>Accessibility:</strong> employees and managers can access the BPM system from different locations through an authorised network connection.</li>
+<li><strong>Scalability:</strong> when the organisation grows or the number of business processes increases, cloud resources can generally be scaled according to demand.</li>
+<li><strong>Better collaboration:</strong> employees, managers and different departments can work together on the same business process.</li>
+<li><strong>Process automation:</strong> repeated manual tasks, such as sending approval requests and notifications, can be automated.</li>
+<li><strong>Real-time monitoring:</strong> managers can track process progress, pending tasks, delays and performance.</li>
+<li><strong>Easy integration:</strong> Cloud BPM can connect with other business applications, such as databases, payment systems, CRM and ERP software.</li>
+<li><strong>Faster deployment:</strong> cloud-based BPM environments can be made available without first building and maintaining all the supporting IT infrastructure. IBM describes its BPM-on-cloud offering as a PaaS environment for developing, testing, running and monitoring processes.</li>
+<li><strong>Improved productivity:</strong> automation reduces repetitive work and allows employees to focus on more important activities.</li>
+<li><strong>Continuous improvement:</strong> by analysing process performance, organisations can identify bottlenecks and improve their workflows.</li>
+</ol>
+
+<h2>2.8 Advantages and challenges of Cloud BPM</h2>
+<div class="tw wide"><table><thead><tr><th>Advantages</th><th>Challenges</th></tr></thead><tbody>
+<tr><td>Lower initial infrastructure cost</td><td>Dependence on network connectivity</td></tr>
+<tr><td>Access from different locations</td><td>Data privacy and security concerns</td></tr>
+<tr><td>Easier scalability</td><td>Dependence on the cloud provider</td></tr>
+<tr><td>Automation of repetitive tasks</td><td>Integration with older systems can be difficult</td></tr>
+<tr><td>Better process monitoring</td><td>Migration and employee training may take time</td></tr>
+<tr><td>Easier collaboration</td><td>Service availability and vendor dependency must be considered</td></tr>
+</tbody></table></div>
+<div class="note"><p><strong>REMEMBER:</strong> Cloud BPM does not automatically guarantee security or uninterrupted service. Organisations still need suitable access controls, data protection, backups and service agreements.</p></div>
+
+<h2>2.9 Important terms</h2>
+<div class="tw wide"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>BPM</td><td>Business Process Management</td></tr>
+<tr><td>Cloud BPM</td><td>Cloud-based Business Process Management</td></tr>
+<tr><td>BPMS</td><td>Business Process Management Software</td></tr>
+<tr><td>Workflow</td><td>Ordered sequence of tasks</td></tr>
+<tr><td>Process automation</td><td>Using software to perform tasks automatically</td></tr>
+<tr><td>KPI</td><td>Key Performance Indicator; a measure of performance</td></tr>
+<tr><td>Bottleneck</td><td>A step that slows down the overall process</td></tr>
+<tr><td>Process optimisation</td><td>Improving a process to make it more efficient</td></tr>
+</tbody></table></div>
+
+<h2>2.10 Exam preparation</h2>
+<h3>Previous-year questions</h3>
+<div class="tw wide"><table><thead><tr><th>Marks</th><th>Question</th><th>Source</th></tr></thead><tbody>
+<tr><td>15</td><td>What is Business Process Management (BPM) in Cloud Computing? Why is Cloud BPM software needed?</td><td>Primary MCA Sem IV paper, 2022–24, ECMCA-401C</td></tr>
+<tr><td>1</td><td>What is Business Process Management (BPM)?</td><td>Compiled question collection</td></tr>
+<tr><td>1</td><td>What is Cloud BPM?</td><td>Compiled question collection</td></tr>
+</tbody></table></div>
+<p>No separate direct 5-mark Cloud BPM question is listed in the supplied collection.</p>
+<h3>1-mark answers</h3>
+<ul>
+<li><strong>What is BPM?</strong> Business Process Management is a systematic approach used to design, execute, monitor, analyse and improve business processes.</li>
+<li><strong>What is Cloud BPM?</strong> Cloud BPM is the use of cloud-based software and services to design, execute, monitor and improve business processes.</li>
+</ul>
+<h3>15-mark answer (RED): prepare this thoroughly</h3>
+<p><strong>Question:</strong> What is Business Process Management (BPM) in Cloud Computing? Why is Cloud BPM software needed?</p>
+<p><strong>Introduction.</strong> A business process is a sequence of related activities performed by an organisation to achieve a particular business goal. Examples include order processing, employee recruitment, loan approval and customer registration.</p>
+<p><strong>Business Process Management (BPM).</strong> BPM is a systematic approach used to design, execute, monitor, analyse and improve business processes. It helps organisations improve efficiency, reduce errors and manage their activities in an organised manner.</p>
+<p><strong>Cloud Business Process Management.</strong> Cloud BPM is the use of cloud-based software and services to design, execute, monitor and improve business processes. The software is hosted on cloud infrastructure and accessed through the internet or a network. It reduces the need for an organisation to build and maintain all the supporting infrastructure itself.</p>
+<p><strong>Main activities of BPM.</strong></p>
+<ol>
+<li>Process Design: planning the steps of a business process.</li>
+<li>Process Execution: performing the planned activities.</li>
+<li>Process Monitoring: tracking the progress of activities.</li>
+<li>Process Analysis: identifying errors, delays and bottlenecks.</li>
+<li>Process Improvement: modifying processes to improve efficiency.</li>
+</ol>
+<p><strong>Why is Cloud BPM software needed?</strong></p>
+<ol>
+<li>Reduced Cost: reduces the need for purchasing and maintaining local infrastructure.</li>
+<li>Accessibility: allows authorised users to access business processes from different locations.</li>
+<li>Scalability: resources can be increased or decreased according to business requirements.</li>
+<li>Automation: automates repetitive tasks and reduces manual work.</li>
+<li>Collaboration: helps employees and departments work together.</li>
+<li>Monitoring: allows managers to monitor process performance.</li>
+<li>Integration: connects business processes with other applications and databases.</li>
+<li>Faster Deployment: cloud-based software can be deployed without building all the supporting infrastructure.</li>
+<li>Productivity: reduces repetitive work and improves employee productivity.</li>
+<li>Process Improvement: helps organisations identify problems and continuously improve their processes.</li>
+</ol>
+<p><strong>Example.</strong> Consider an online shopping company. When a customer places an order, the Cloud BPM system coordinates these activities: receives the customer order, verifies payment, checks product availability, assigns packing and shipping tasks, sends notifications to the customer, and monitors the order until delivery. Thus, Cloud BPM helps the company manage its complete order-processing workflow.</p>
+<p><strong>Conclusion.</strong> Cloud Business Process Management helps organisations manage and automate their business activities using cloud-based software. It provides better accessibility, scalability, collaboration, monitoring and process efficiency. Therefore, Cloud BPM is useful for organisations that want to manage their business processes effectively.</p>
+
+<h2>2.11 Quick revision</h2>
+<ol>
+<li><strong>Business Process:</strong> a sequence of activities performed to achieve a business goal.</li>
+<li><strong>BPM:</strong> designing, executing, monitoring and improving business processes.</li>
+<li><strong>Cloud BPM:</strong> managing business processes using cloud-based software.</li>
+<li><strong>BPMS:</strong> Business Process Management Software.</li>
+<li><strong>Main purpose:</strong> automate workflows, reduce manual work and improve business efficiency.</li>
+</ol>
+
+<h2>2.12 Videos (Hindi preferred)</h2>
+<div class="video-help"><ol>
+<li><a href="https://www.youtube.com/results?search_query=Cloud+BPM+Hindi+Jayesh+Umre+EasyExamNotes" rel="noopener" target="_blank">Cloud BPM in Hindi, Jayesh Umre (EasyExamNotes)</a>. Hindi, exam-focused. This is a YouTube search link.</li>
+<li><a href="https://www.youtube.com/results?search_query=business+process+management+BPM+explained+Hindi" rel="noopener" target="_blank">Business Process Management explained in Hindi</a>. Hindi, beginner. This is a YouTube search link.</li>
+<li><a href="https://www.youtube.com/results?search_query=BPM+in+cloud+computing+Hindi+MCA+BCA" rel="noopener" target="_blank">BPM in cloud computing, Hindi semester lecture</a>. Hindi, exam-focused. This is a YouTube search link.</li>
+</ol></div>
+<h2>2.13 Sources</h2>
+<div class="reading-sources"><ul>
+<li><a href="https://www.includehelp.com/cloud-computing/business-process-management-and-cloud-computing.aspx" rel="noopener" target="_blank">IncludeHelp: Business Process Management and Cloud Computing</a></li>
+<li><a href="https://www.zoho.com/creator/bpm/top-reasons-why-you-need-cloud-bpm-software.html" rel="noopener" target="_blank">Zoho: Top reasons why you need cloud BPM software</a></li>
+<li><a href="https://www.jotform.com/blog/cloud-bpm/" rel="noopener" target="_blank">Jotform: Cloud BPM</a></li>
+<li><a href="https://www.tutorialspoint.com/cloud_computing/pdf/cloud_computing_quick_guide.pdf" rel="noopener" target="_blank">TutorialsPoint: Cloud Computing Quick Guide</a> (general cloud background)</li>
+</ul></div>
+</section>
+
+<!-- ======================= TOPIC 3 ======================= -->
+<section class="tp ty">
+<h1 id="t3">3. Cloud Service Management <span class="y">YELLOW</span></h1>
+<div class="note"><p><strong>WHY STUDY THIS TOPIC</strong></p><p>The questions below are listed in the compiled question collection. They are not confirmed as questions from the primary 2022–24 MCA Semester IV paper, so treat this as a YELLOW topic and not a confirmed RED question.</p><p><strong>HOW MUCH DEPTH:</strong> study the concepts and prepare a 5-mark answer.</p></div>
+
+<h2>3.1 What is Cloud Service Management?</h2>
+<p>First understand the two words:</p>
+<ul>
+<li><strong>Cloud Service:</strong> a service delivered through cloud computing, such as virtual machines, cloud storage, databases or online software.</li>
+<li><strong>Management:</strong> controlling, monitoring and maintaining something so that it works properly.</li>
+</ul>
+<p><strong>Cloud Service Management (CSM)</strong> refers to all the functions needed to manage and operate cloud services that are provided to cloud consumers.</p>
+<p>In simple words: Cloud Service Management means managing cloud services throughout their operation so that customers receive the services they require with the expected quality.</p>
+<p><strong>Example:</strong> a company uses AWS to host its website. Someone must manage customer accounts, service contracts, resource provisioning, performance monitoring, usage measurement, billing and service availability. These activities come under Cloud Service Management.</p>
+<p>The NIST Cloud Computing Reference Architecture describes three major perspectives of Cloud Service Management: Business Support, Provisioning and Configuration, and Portability and Interoperability.</p>
+
+<h2>3.2 Three major components of Cloud Service Management</h2>
+<div class="note"><p><strong>IMPORTANT:</strong> this is the most important concept in this topic.</p></div>
+<div class="fig"><svg viewBox="0 0 760 320" role="img" aria-label="Cloud service management has three components: business support, provisioning and configuration, portability and interoperability"><defs><marker id="arf31" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7z" fill="#b3261e"/></marker></defs><rect class="yx" x="232" y="16" width="296" height="48" rx="8"/><text class="cap" x="380.0" y="45" text-anchor="middle">CLOUD SERVICE MANAGEMENT</text><path class="ln" d="M380 64 L380 96"/><path class="ln" d="M132 96 L628 96"/><path class="rl" d="M132 96 L132 126" marker-end="url(#arf31)"/><path class="rl" d="M380 96 L380 126" marker-end="url(#arf31)"/><path class="rl" d="M628 96 L628 126" marker-end="url(#arf31)"/><rect class="bx" x="16" y="128" width="232" height="160" rx="8"/><text class="cap" x="132.0" y="158" text-anchor="middle">1 BUSINESS SUPPORT</text><text x="132.0" y="180" text-anchor="middle">Customer management</text><text x="132.0" y="202" text-anchor="middle">Contract management</text><text x="132.0" y="224" text-anchor="middle">Inventory</text><text x="132.0" y="246" text-anchor="middle">Accounting and billing</text><text x="132.0" y="268" text-anchor="middle">Reporting and auditing</text><rect class="bx" x="264" y="128" width="232" height="160" rx="8"/><text class="cap" x="380.0" y="158" text-anchor="middle">2 PROVISIONING / CONFIG</text><text x="380.0" y="180" text-anchor="middle">Rapid provisioning</text><text x="380.0" y="202" text-anchor="middle">Resource changes</text><text x="380.0" y="224" text-anchor="middle">Monitoring</text><text x="380.0" y="246" text-anchor="middle">Metering</text><text x="380.0" y="268" text-anchor="middle">SLA management</text><rect class="bx" x="512" y="128" width="232" height="160" rx="8"/><text class="cap" x="628.0" y="158" text-anchor="middle">3 PORTABILITY / INTEROP</text><text x="628.0" y="180" text-anchor="middle">Data portability</text><text x="628.0" y="202" text-anchor="middle">Bulk data transfer</text><text x="628.0" y="224" text-anchor="middle">Service interoperability</text><text x="628.0" y="246" text-anchor="middle">VM migration</text><text x="628.0" y="268" text-anchor="middle">Application migration</text></svg><p><em>Figure 3.1: The three components of Cloud Service Management (simplified from the NIST reference architecture).</em></p></div>
+<h3>A. Business Support</h3>
+<p>Business-related activities required to manage customers and support cloud service operations.</p>
+<ol>
+<li><strong>Customer Management:</strong> manages customer accounts and profiles, handles customer relationships and resolves customer problems and queries. Example: creating and managing an AWS customer account.</li>
+<li><strong>Contract Management:</strong> manages agreements between cloud providers and customers, including contract creation, negotiation and termination. Example: managing a customer's cloud service agreement.</li>
+<li><strong>Inventory Management:</strong> maintains information about available cloud services and manages the service catalogue. Example: a list of available virtual machines, databases and storage services.</li>
+<li><strong>Accounting and Billing:</strong> records customer usage, calculates service charges, generates invoices and manages payments. Example: calculating monthly charges based on virtual machine usage.</li>
+<li><strong>Reporting and Auditing:</strong> generates reports about service usage and customer activities, and helps examine service operations and maintain records.</li>
+</ol>
+<h3>B. Provisioning and Configuration</h3>
+<p>Manages the creation, configuration and operation of cloud services and resources.</p>
+<ol>
+<li><strong>Rapid Provisioning:</strong> quickly provides cloud resources according to customer requirements. Example: creating a virtual machine when a customer requests one.</li>
+<li><strong>Resource Change:</strong> allows resources to be modified when requirements change. Example: increasing a virtual machine's memory or CPU capacity.</li>
+<li><strong>Monitoring and Reporting:</strong> tracks the condition and performance of cloud services. Example: monitoring CPU usage and service availability.</li>
+<li><strong>Metering:</strong> measures how much of a cloud service a customer uses. Example: storage consumption in GB or virtual machine running time.</li>
+<li><strong>SLA Management:</strong> monitors whether the cloud provider meets the service commitments agreed with the customer. Example: checking whether the service meets its agreed availability target.</li>
+</ol>
+<h3>C. Portability and Interoperability</h3>
+<p>These functions help customers move data, applications and services between different cloud environments and work with different systems.</p>
+<ol>
+<li><strong>Data Portability:</strong> move data from one cloud environment to another. Example: moving files from one cloud storage provider to another.</li>
+<li><strong>Copy Data To-From:</strong> copy data between cloud systems or between a cloud and another environment.</li>
+<li><strong>Bulk Data Transfer:</strong> transfer large amounts of data efficiently.</li>
+<li><strong>Service Interoperability:</strong> different cloud services and systems communicate and work together. Example: connecting a cloud application to a cloud database.</li>
+<li><strong>Unified Management Interface:</strong> a common interface for managing different cloud services.</li>
+<li><strong>System Portability:</strong> move systems or workloads between environments.</li>
+<li><strong>VM Image Migration:</strong> move virtual machine images between supported environments.</li>
+<li><strong>Application/Service Migration:</strong> transfer applications or services to another cloud environment.</li>
+</ol>
+<p>These functions are particularly useful when an organisation wants flexibility and does not want to become unnecessarily dependent on one cloud provider.</p>
+
+<h2>3.3 How Cloud Service Management works</h2>
+<p>Example: a company wants to create a virtual machine on a cloud platform.</p>
+<ol>
+<li><strong>Customer request:</strong> the company requests a virtual machine with specific CPU, memory and storage.</li>
+<li><strong>Business support:</strong> the provider manages the customer account, service agreement and billing details.</li>
+<li><strong>Provisioning and configuration:</strong> the provider creates and configures the virtual machine.</li>
+<li><strong>Monitoring and SLA management:</strong> the provider monitors the service and checks whether it meets the agreed service levels.</li>
+<li><strong>Usage measurement and billing:</strong> the provider measures resource usage and calculates the charges.</li>
+<li><strong>Portability:</strong> if required and technically supported, the customer can move data or workloads to another environment.</li>
+</ol>
+<div class="fig"><svg viewBox="0 0 760 288" role="img" aria-label="A company requests a virtual machine and passes through six management steps"><defs><marker id="arf32" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7z" fill="#b3261e"/></marker></defs><rect class="rx" x="16" y="32" width="208" height="64" rx="8"/><text class="cap" x="120.0" y="58" text-anchor="middle">1 Request</text><text x="120.0" y="80" text-anchor="middle">VM: CPU, RAM, storage</text><rect class="rx" x="280" y="32" width="208" height="64" rx="8"/><text class="cap" x="384.0" y="58" text-anchor="middle">2 Business support</text><text x="384.0" y="80" text-anchor="middle">account + billing</text><rect class="rx" x="544" y="32" width="208" height="64" rx="8"/><text class="cap" x="648.0" y="58" text-anchor="middle">3 Provision + set up</text><text x="648.0" y="80" text-anchor="middle">create the VM</text><path class="rl" d="M224 64 L278 64" marker-end="url(#arf32)"/><path class="rl" d="M488 64 L542 64" marker-end="url(#arf32)"/><path class="rl" d="M648 98 L648 128 L120 128 L120 158" marker-end="url(#arf32)"/><rect class="rx" x="16" y="160" width="208" height="64" rx="8"/><text class="cap" x="120.0" y="186" text-anchor="middle">4 Monitor + SLA</text><text x="120.0" y="208" text-anchor="middle">check service levels</text><rect class="rx" x="280" y="160" width="208" height="64" rx="8"/><text class="cap" x="384.0" y="186" text-anchor="middle">5 Meter + bill</text><text x="384.0" y="208" text-anchor="middle">measure use, charge</text><rect class="rx" x="544" y="160" width="208" height="64" rx="8"/><text class="cap" x="648.0" y="186" text-anchor="middle">6 Portability</text><text x="648.0" y="208" text-anchor="middle">move data if needed</text><path class="rl" d="M224 192 L278 192" marker-end="url(#arf32)"/><path class="rl" d="M488 192 L542 192" marker-end="url(#arf32)"/><text class="cap" x="380" y="256" text-anchor="middle">Management covers the service from request to operation</text></svg><p><em>Figure 3.2: Cloud Service Management from the first request to ongoing operation.</em></p></div>
+<p>This shows how Cloud Service Management supports a cloud service from the customer's request through its ongoing operation.</p>
+
+<h2>3.4 Cloud Service Management vs Resource Management</h2>
+<p>These two terms are related, but they are not exactly the same.</p>
+<div class="tw wide"><table><thead><tr><th>Cloud Service Management</th><th>Resource Management</th></tr></thead><tbody>
+<tr><td>Focuses on managing services delivered to customers.</td><td>Focuses on managing the underlying IT resources.</td></tr>
+<tr><td>Handles service contracts, provisioning, billing and SLAs.</td><td>Handles physical servers, storage, networks and virtual resources.</td></tr>
+<tr><td>Concerned with service delivery and quality.</td><td>Concerned with resource availability and utilisation.</td></tr>
+<tr><td>Example: managing a customer's virtual machine service.</td><td>Example: managing the physical server hosting that virtual machine.</td></tr>
+</tbody></table></div>
+<div class="fig"><svg viewBox="0 0 760 192" role="img" aria-label="Service management sits above resource management"><defs><marker id="arf33" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7z" fill="#b3261e"/></marker></defs><rect class="yx" x="100" y="16" width="560" height="64" rx="8"/><text class="cap" x="380.0" y="42" text-anchor="middle">SERVICE MANAGEMENT</text><text x="380.0" y="64" text-anchor="middle">contracts, provisioning, billing, SLAs</text><rect class="kx" x="100" y="112" width="560" height="64" rx="8"/><text class="w" x="380.0" y="138" text-anchor="middle">RESOURCE MANAGEMENT</text><text class="w" x="380.0" y="160" text-anchor="middle">servers, storage, networks, virtual resources</text><path class="rl" d="M380 82 L380 110" marker-end="url(#arf33)"/><text class="cap" x="396" y="101" text-anchor="start">runs on</text></svg><p><em>Figure 3.3: Service management handles what the customer receives. Resource management handles the infrastructure behind it.</em></p></div>
+<div class="note"><p><strong>EASY WAY TO REMEMBER:</strong> Service Management = managing what the customer receives. Resource Management = managing the infrastructure used to provide it. The ITU cloud computing management reference also distinguishes the service management layer from the resource management layer.</p></div>
+
+<h2>3.5 Important functions: quick revision table</h2>
+<div class="tw wide"><table><thead><tr><th>Function</th><th>What it does</th></tr></thead><tbody>
+<tr><td>Customer management</td><td>Manages customer accounts</td></tr>
+<tr><td>Contract management</td><td>Manages service agreements</td></tr>
+<tr><td>Inventory management</td><td>Maintains service catalogues</td></tr>
+<tr><td>Accounting and billing</td><td>Calculates service charges</td></tr>
+<tr><td>Rapid provisioning</td><td>Provides resources quickly</td></tr>
+<tr><td>Monitoring</td><td>Checks service performance</td></tr>
+<tr><td>Metering</td><td>Measures service usage</td></tr>
+<tr><td>SLA management</td><td>Checks service commitments</td></tr>
+<tr><td>Data portability</td><td>Moves data between environments</td></tr>
+<tr><td>Interoperability</td><td>Allows different systems to work together</td></tr>
+</tbody></table></div>
+
+<h2>3.6 Exam preparation</h2>
+<h3>Previous-year questions (compiled collection)</h3>
+<div class="tw wide"><table><thead><tr><th>Marks</th><th>Question</th></tr></thead><tbody>
+<tr><td>1</td><td>What is Cloud Service Management?</td></tr>
+<tr><td>5</td><td>Explain Cloud Service Management.</td></tr>
+<tr><td>15</td><td>Explain Cloud Service Management and its major functions.</td></tr>
+</tbody></table></div>
+<h3>1-mark answer</h3>
+<p>Cloud Service Management is the collection of functions used to manage and operate cloud services delivered to cloud consumers.</p>
+<h3>5-mark answer</h3>
+<p>Cloud Service Management refers to all the functions required to manage and operate cloud services provided to cloud consumers. It ensures proper service delivery, monitoring, configuration and quality.</p>
+<p>According to the NIST Cloud Computing Reference Architecture, Cloud Service Management can be divided into three major components:</p>
+<ol>
+<li><strong>Business Support:</strong> manages customer-related and business activities. Its functions include customer management, contract management, inventory management, accounting, billing, reporting and auditing.</li>
+<li><strong>Provisioning and Configuration:</strong> manages the creation and configuration of cloud services. Its functions include rapid provisioning, resource changes, monitoring, reporting, metering and SLA management.</li>
+<li><strong>Portability and Interoperability:</strong> supports the movement of data, applications and services between different environments. Its functions include data portability, bulk data transfer, service interoperability, unified management interfaces, virtual machine migration and application migration.</li>
+</ol>
+<p><strong>Conclusion:</strong> Cloud Service Management helps cloud providers deliver, monitor and maintain cloud services efficiently. It improves customer satisfaction, service quality and flexibility.</p>
+<h3>15-mark preparation</h3>
+<p>Use the 5-mark answer as the base, then add: the definition with the two words explained, each function with its example, Figure 3.1, the virtual machine example (Figure 3.2) and the difference from Resource Management.</p>
+
+<h2>3.7 Quick revision</h2>
+<ul>
+<li><strong>Business Support:</strong> customers, contracts and billing.</li>
+<li><strong>Provisioning and Configuration:</strong> resources, monitoring and SLA.</li>
+<li><strong>Portability and Interoperability:</strong> moving data and applications between environments.</li>
+</ul>
+
+<h2>3.8 Videos (Hindi preferred)</h2>
+<div class="video-help"><ol>
+<li><a href="https://www.youtube.com/watch?v=IJe2L946cYE" rel="noopener" target="_blank">Cloud Service Management in Short for Exam, Jayesh Umre (EasyExamNotes)</a>. Hindi, exam-focused.</li>
+<li><a href="https://www.youtube.com/results?search_query=cloud+service+management+NIST+business+support+provisioning+portability+Hindi" rel="noopener" target="_blank">Cloud service management: business support, provisioning, portability</a>. Hindi, diagram-based. This is a YouTube search link.</li>
+<li><a href="https://www.youtube.com/results?search_query=cloud+service+management+Hindi+lecture" rel="noopener" target="_blank">Cloud service management, Hindi lecture</a>. Hindi, beginner. This is a YouTube search link.</li>
+</ol></div>
+<h2>3.9 Sources</h2>
+<div class="reading-sources"><ul>
+<li><a href="https://www.cs.cmu.edu/~garth/15719/papers/nist_cloud_computing_reference.pdf" rel="noopener" target="_blank">NIST Cloud Computing Reference Architecture</a> (gives the three components and their functions)</li>
+<li><a href="https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication500-292.pdf" rel="noopener" target="_blank">NIST SP 500-292</a></li>
+</ul></div>
+</section>
+
+<!-- ======================= TOPIC 4 ======================= -->
+<section class="tp tb">
+<h1 id="t4">4. Cloud Stack <span class="b">BLACK</span></h1>
+<div class="note"><p><strong>WHY STUDY THIS TOPIC</strong></p><p>It is in the official Unit III syllabus, but no direct or related question was identified in the papers reviewed. The compiled question collection lists "Explain Cloud Stack and its different layers" (15 marks) and "What is Cloud Stack?" (1 mark). These are not confirmed questions from the primary 2022–24 paper.</p><p><strong>HOW MUCH DEPTH:</strong> one-time concise reading. Know the basic concepts so you do not skip the syllabus.</p></div>
+
+<h2>4.1 What is Cloud Stack?</h2>
+<p>A <strong>Cloud Stack</strong> is a collection of technology layers and components that work together to provide cloud computing services.</p>
+<p>In simple words, a cloud stack describes how cloud services are organised, from the physical hardware at the bottom to the applications used by customers at the top.</p>
+<p><strong>Example:</strong> when you use Google Drive:</p>
+<ul>
+<li>Physical servers store your files.</li>
+<li>Virtualisation helps share computing resources.</li>
+<li>Cloud infrastructure provides storage and networking.</li>
+<li>The platform supports the application.</li>
+<li>Google Drive provides the software interface you use.</li>
+</ul>
+<p>These layers work together as a cloud stack.</p>
+
+<h2>4.2 Layers of the Cloud Stack</h2>
+<div class="fig"><svg viewBox="0 0 760 352" role="img" aria-label="The cloud stack: physical resources at the bottom, virtualisation, IaaS, PaaS and SaaS above"><defs><marker id="arf41" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7z" fill="#b3261e"/></marker></defs><rect class="yx" x="160" y="16" width="440" height="56" rx="8"/><text class="cap" x="380.0" y="38" text-anchor="middle">APPLICATION LAYER · SaaS</text><text x="380.0" y="60" text-anchor="middle">Gmail, Drive, Salesforce</text><rect class="bx" x="160" y="80" width="440" height="56" rx="8"/><text class="cap" x="380.0" y="102" text-anchor="middle">PLATFORM LAYER · PaaS</text><text x="380.0" y="124" text-anchor="middle">runtime, databases, dev tools</text><rect class="bx" x="160" y="144" width="440" height="56" rx="8"/><text class="cap" x="380.0" y="166" text-anchor="middle">INFRASTRUCTURE LAYER · IaaS</text><text x="380.0" y="188" text-anchor="middle">virtual machines, storage, networks</text><rect class="rx" x="160" y="208" width="440" height="56" rx="8"/><text class="cap" x="380.0" y="230" text-anchor="middle">VIRTUALISATION LAYER</text><text x="380.0" y="252" text-anchor="middle">hypervisors, VMs, abstraction</text><rect class="kx" x="160" y="272" width="440" height="56" rx="8"/><text class="w" x="380.0" y="294" text-anchor="middle">PHYSICAL RESOURCE LAYER</text><text class="w" x="380.0" y="316" text-anchor="middle">servers, storage, network, data centres</text><text class="cap" x="88" y="44" text-anchor="middle">closest to user</text><path class="rl" d="M88 300 L88 60" marker-end="url(#arf41)"/><text class="cap" x="88" y="326" text-anchor="middle">hardware</text><path class="ln" d="M612 20 L612 196"/><text class="cap" x="624" y="96" text-anchor="start">Service</text><text class="cap" x="624" y="114" text-anchor="start">Layer</text><path class="ln" d="M612 212 L612 260"/><text class="cap" x="624" y="222" text-anchor="start">Resource</text><text class="cap" x="624" y="240" text-anchor="start">abstraction +</text><text class="cap" x="624" y="258" text-anchor="start">control layer</text><path class="ln" d="M612 276 L612 324"/><text class="cap" x="624" y="296" text-anchor="start">Physical</text><text class="cap" x="624" y="314" text-anchor="start">resource layer</text></svg><p><em>Figure 4.1: The layers of a simplified cloud stack. The NIST view groups them into three layers (right).</em></p></div>
+<div class="note"><p><strong>NOTE:</strong> this is a simplified teaching diagram. Actual cloud-provider architectures can combine or separate layers differently. The NIST reference architecture describes a provider stack using three main layers: Service Layer, Resource Abstraction and Control Layer, and Physical Resource Layer. The service layer contains SaaS, PaaS and IaaS.</p></div>
+<h3>1. Physical Resource Layer</h3>
+<p>The bottom layer. It contains the actual physical resources required to run cloud services: physical servers, storage devices, network equipment, data centres, and power and cooling facilities.</p>
+<h3>2. Virtualisation Layer</h3>
+<p>Creates virtual versions of physical resources: virtual machines, virtual storage, virtual networks and hypervisors. It helps multiple customers share physical resources while maintaining logical separation.</p>
+<h3>3. Infrastructure Layer (IaaS)</h3>
+<p><strong>IaaS</strong> stands for Infrastructure as a Service. It provides computing infrastructure through cloud services: virtual servers, cloud storage, virtual networks and computing resources. Example: Amazon EC2.</p>
+<h3>4. Platform Layer (PaaS)</h3>
+<p><strong>PaaS</strong> stands for Platform as a Service. It provides a platform where developers can build, test and deploy applications without managing all the underlying infrastructure: application runtime environments, development tools, managed databases and middleware.</p>
+<h3>5. Application Layer (SaaS)</h3>
+<p><strong>SaaS</strong> stands for Software as a Service. It provides ready-to-use software applications over a network. Examples: Gmail, Google Drive, Microsoft 365, Salesforce.</p>
+
+<h2>4.3 How do the layers work together?</h2>
+<p>Example: a developer wants to deploy a website.</p>
+<ol>
+<li>The physical layer provides servers, storage and networking.</li>
+<li>The virtualisation layer creates virtual machines.</li>
+<li>The infrastructure layer provides computing resources.</li>
+<li>The platform layer provides the runtime and development environment.</li>
+<li>The application layer delivers the website to users.</li>
+</ol>
+<p>This is how different layers cooperate to deliver a cloud application.</p>
+
+<h2>4.4 Difference between IaaS, PaaS and SaaS</h2>
+<div class="tw wide"><table><thead><tr><th>Model</th><th>What it provides</th><th>Example</th></tr></thead><tbody>
+<tr><td>IaaS</td><td>Computing infrastructure</td><td>Amazon EC2</td></tr>
+<tr><td>PaaS</td><td>Application development platform</td><td>Google App Engine</td></tr>
+<tr><td>SaaS</td><td>Ready-to-use software</td><td>Gmail</td></tr>
+</tbody></table></div>
+<div class="note"><p><strong>REMEMBER:</strong> IaaS provides infrastructure, PaaS provides a platform, and SaaS provides software.</p></div>
+
+<h2>4.5 Why is Cloud Stack important?</h2>
+<ul>
+<li><strong>Organisation:</strong> divides cloud technology into manageable layers.</li>
+<li><strong>Resource utilisation:</strong> helps share and use physical resources efficiently.</li>
+<li><strong>Scalability:</strong> makes it easier to expand cloud resources.</li>
+<li><strong>Flexibility:</strong> different layers can be managed or updated independently.</li>
+<li><strong>Service delivery:</strong> helps providers deliver different types of cloud services.</li>
+</ul>
+
+<h2>4.6 Important terms</h2>
+<div class="tw wide"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Cloud Stack</td><td>Collection of cloud technology layers working together</td></tr>
+<tr><td>Hypervisor</td><td>Software that creates virtual machines from physical resources</td></tr>
+<tr><td>IaaS / PaaS / SaaS</td><td>Infrastructure, Platform and Software as a Service</td></tr>
+<tr><td>Middleware</td><td>Software that connects applications and services in a platform</td></tr>
+</tbody></table></div>
+
+<h2>4.7 Exam preparation</h2>
+<h3>1-mark answer</h3>
+<p>A Cloud Stack is a collection of technology layers that work together to provide cloud computing services.</p>
+<h3>Short answer: What is Cloud Stack? Explain its layers.</h3>
+<p>Cloud Stack is a collection of technology layers that work together to provide cloud computing services. Its main layers are:</p>
+<ol>
+<li><strong>Physical Resource Layer:</strong> contains physical servers, storage devices, networks and data centres.</li>
+<li><strong>Virtualisation Layer:</strong> creates virtual machines, virtual storage and virtual networks.</li>
+<li><strong>Infrastructure Layer (IaaS):</strong> provides virtual computing resources, storage and networking.</li>
+<li><strong>Platform Layer (PaaS):</strong> provides tools and environments for application development and deployment.</li>
+<li><strong>Application Layer (SaaS):</strong> provides ready-to-use applications over a network.</li>
+</ol>
+<p>Thus, the cloud stack organises the technologies required to deliver cloud computing services.</p>
+<h3>15-mark preparation</h3>
+<p>Extend the short answer with Figure 4.1, the website example, the IaaS / PaaS / SaaS table and the reasons the stack is important.</p>
+
+<h2>4.8 Quick revision</h2>
+<ul>
+<li>Cloud Stack = collection of cloud technology layers.</li>
+<li>Bottom layer = physical resources.</li>
+<li>Virtualisation = creates virtual resources.</li>
+<li>IaaS = infrastructure. PaaS = platform. SaaS = software.</li>
+</ul>
+
+<h2>4.9 Videos (Hindi preferred)</h2>
+<div class="video-help"><ol>
+<li><a href="https://www.youtube.com/watch?v=yrFHgguQQJ0" rel="noopener" target="_blank">Layered Cloud Architecture Design, Edu Desire (AKTU Cloud Computing)</a>. Hindi, diagram-based. It covers cloud architecture layers and the NIST reference architecture, so it is broader than just the Cloud Stack topic.</li>
+<li><a href="https://www.youtube.com/results?search_query=cloud+stack+layers+IaaS+PaaS+SaaS+Hindi" rel="noopener" target="_blank">Cloud stack layers: IaaS, PaaS, SaaS</a>. Hindi, beginner. This is a YouTube search link.</li>
+<li><a href="https://www.youtube.com/results?search_query=NIST+cloud+reference+architecture+layers+Hindi" rel="noopener" target="_blank">NIST cloud reference architecture layers</a>. Hindi, exam-focused. This is a YouTube search link.</li>
+</ol></div>
+<h2>4.10 Sources</h2>
+<div class="reading-sources"><ul>
+<li><a href="https://www.govinfo.gov/content/pkg/GOVPUB-C13-3686051c2c3b0a436ccb87625036ef41/pdf/GOVPUB-C13-3686051c2c3b0a436ccb87636ef41.pdf" rel="noopener" target="_blank">NIST Cloud Computing Reference Architecture (govinfo.gov)</a></li>
+<li><a href="https://www.geeksforgeeks.org/cloud-computing/architecture-of-cloud-computing/" rel="noopener" target="_blank">GeeksforGeeks: Architecture of Cloud Computing</a></li>
+<li><a href="https://www.geeksforgeeks.org/cloud-computing/infrastructure-as-a-service-iaas/" rel="noopener" target="_blank">GeeksforGeeks: IaaS, Infrastructure as a Service</a></li>
+<li><a href="https://www.tutorialspoint.com/cloud_computing/pdf/cloud_computing_quick_guide.pdf" rel="noopener" target="_blank">TutorialsPoint: Cloud Computing Quick Guide</a></li>
+</ul></div>
+</section>
+
+<!-- ======================= TOPIC 5 ======================= -->
+<section class="tp ty">
+<h1 id="t5">5. Computing on Demand (COD) <span class="y">YELLOW</span></h1>
+<div class="note"><p><strong>WHY STUDY THIS TOPIC</strong></p><p>The questions below are in the compiled question collection. They are not confirmed as questions from the primary 2022–24 Ranchi University MCA Semester IV paper.</p><p><strong>HOW MUCH DEPTH:</strong> understand the concept properly and prepare the 5-mark answer. Also understand the broader 15-mark question, because it combines COD with Cloud Sourcing (Topic 6).</p></div>
+
+<h2>5.1 What is Computing on Demand?</h2>
+<p><strong>Computing on Demand (COD)</strong> means getting computing resources whenever they are needed, instead of buying and maintaining all the resources permanently.</p>
+<p>These resources can include:</p>
+<ul>
+<li><strong>Computing power:</strong> CPU and RAM.</li>
+<li><strong>Storage:</strong> space to store files and databases.</li>
+<li><strong>Networking:</strong> network bandwidth and connectivity.</li>
+<li><strong>Software:</strong> applications and development platforms.</li>
+</ul>
+<p>The user requests resources when required, uses them, and can release them when they are no longer needed. Depending on the service, charges may be based on actual usage or a subscription plan.</p>
+<p><strong>Simple example:</strong> you run an online shopping website.</p>
+<ul>
+<li>On normal days, 2 servers are enough.</li>
+<li>During a festival sale, thousands of customers visit your website.</li>
+<li>You temporarily increase the number of servers to handle the traffic.</li>
+<li>After the sale, you reduce the servers again.</li>
+</ul>
+<p>This is an example of on-demand computing.</p>
+<div class="fig"><svg viewBox="0 0 760 288" role="img" aria-label="Servers rise for a festival sale and fall again afterwards, compared with fixed hardware"><defs><marker id="arf52" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7z" fill="#b3261e"/></marker></defs><path class="ln" d="M80 24 L80 200 L720 200"/><path class="yx" d="M80 200 L80 160 L260 160 L260 40 L500 40 L500 160 L700 160 L700 200 Z"/><path class="dl" d="M80 40 L700 40"/><text class="cap" x="390" y="30" text-anchor="middle">fixed hardware bought for the peak</text><text class="cap" x="30" y="120" text-anchor="middle">servers</text><text x="70" y="205" text-anchor="end">0</text><text x="70" y="165" text-anchor="end">2</text><text x="70" y="45" text-anchor="end">8</text><text x="170" y="224" text-anchor="middle">normal days</text><text x="380" y="224" text-anchor="middle">festival sale</text><text x="600" y="224" text-anchor="middle">after sale</text><text class="cap" x="380" y="256" text-anchor="middle">Example numbers: 2 servers normally, 8 during the sale</text></svg><p><em>Figure 5.2: On-demand capacity follows traffic. The server counts are example numbers.</em></p></div>
+
+<h2>5.2 How does Computing on Demand work?</h2>
+<ol>
+<li><strong>User requests resources.</strong> Example: request a virtual machine with 4 CPUs and 8 GB RAM.</li>
+<li><strong>Resources are provisioned.</strong> The cloud provider allocates the requested resources.</li>
+<li><strong>User uses the resources.</strong> Runs applications, processes data or stores files.</li>
+<li><strong>Usage is monitored.</strong> The provider measures resource consumption.</li>
+<li><strong>Resources are scaled or released.</strong> Resources are increased, reduced or released. Billing is calculated according to the applicable pricing model.</li>
+</ol>
+<div class="fig"><svg viewBox="0 0 760 160" role="img" aria-label="Computing on demand works in five steps from request to release"><defs><marker id="arf51" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7z" fill="#b3261e"/></marker></defs><rect class="rx" x="16" y="32" width="120" height="72" rx="8"/><text class="cap" x="76.0" y="62" text-anchor="middle">1 Request</text><text x="76.0" y="84" text-anchor="middle">ask for a VM</text><rect class="rx" x="170" y="32" width="120" height="72" rx="8"/><text class="cap" x="230.0" y="51" text-anchor="middle">2 Provision</text><text x="230.0" y="73" text-anchor="middle">resources</text><text x="230.0" y="95" text-anchor="middle">allocated</text><rect class="rx" x="324" y="32" width="120" height="72" rx="8"/><text class="cap" x="384.0" y="62" text-anchor="middle">3 Use</text><text x="384.0" y="84" text-anchor="middle">run workloads</text><rect class="rx" x="478" y="32" width="120" height="72" rx="8"/><text class="cap" x="538.0" y="62" text-anchor="middle">4 Monitor</text><text x="538.0" y="84" text-anchor="middle">usage metered</text><rect class="rx" x="632" y="32" width="120" height="72" rx="8"/><text class="cap" x="692.0" y="51" text-anchor="middle">5 Scale</text><text x="692.0" y="73" text-anchor="middle">or release</text><text x="692.0" y="95" text-anchor="middle">then bill</text><path class="rl" d="M136 68 L168 68" marker-end="url(#arf51)"/><path class="rl" d="M290 68 L322 68" marker-end="url(#arf51)"/><path class="rl" d="M444 68 L476 68" marker-end="url(#arf51)"/><path class="rl" d="M598 68 L630 68" marker-end="url(#arf51)"/><text class="cap" x="380" y="136" text-anchor="middle">Example: request a VM with 4 CPUs and 8 GB RAM</text></svg><p><em>Figure 5.1: How Computing on Demand works.</em></p></div>
+
+<h2>5.3 Main components of Computing on Demand</h2>
+<div class="tw wide"><table><thead><tr><th>Component</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Compute resources</td><td>CPU, RAM and virtual machines</td></tr>
+<tr><td>Storage resources</td><td>Cloud storage and databases</td></tr>
+<tr><td>Network resources</td><td>Connectivity and bandwidth</td></tr>
+<tr><td>Provisioning</td><td>Allocating resources when requested</td></tr>
+<tr><td>Monitoring</td><td>Tracking resource usage and performance</td></tr>
+<tr><td>Metering and billing</td><td>Measuring usage and calculating charges</td></tr>
+</tbody></table></div>
+
+<h2>5.4 Benefits of Computing on Demand</h2>
+<ol>
+<li><strong>Cost efficiency:</strong> no need to purchase expensive hardware upfront.</li>
+<li><strong>Scalability:</strong> resources can be increased or decreased as needed.</li>
+<li><strong>Flexibility:</strong> users can select the resources they require.</li>
+<li><strong>Faster deployment:</strong> resources can be made available quickly.</li>
+<li><strong>Better resource utilisation:</strong> resources can be released when no longer required.</li>
+<li><strong>Reduced maintenance:</strong> the cloud provider manages much of the underlying infrastructure.</li>
+</ol>
+
+<h2>5.5 Challenges of Computing on Demand</h2>
+<ul>
+<li><strong>Unexpected costs:</strong> high usage can increase the bill.</li>
+<li><strong>Internet dependency:</strong> access generally requires network connectivity.</li>
+<li><strong>Security concerns:</strong> data and applications are hosted on provider infrastructure.</li>
+<li><strong>Vendor lock-in:</strong> moving workloads between providers may be difficult.</li>
+<li><strong>Availability risks:</strong> provider outages can interrupt services.</li>
+</ul>
+
+<h2>5.6 Computing on Demand vs traditional computing</h2>
+<div class="tw wide"><table><thead><tr><th>Traditional computing</th><th>Computing on Demand</th></tr></thead><tbody>
+<tr><td>Buy hardware in advance</td><td>Request resources when needed</td></tr>
+<tr><td>Large initial investment</td><td>Lower upfront investment</td></tr>
+<tr><td>Capacity may remain unused</td><td>Resources can be adjusted</td></tr>
+<tr><td>Scaling may take time</td><td>Resources can often be provisioned quickly</td></tr>
+<tr><td>Organisation maintains its hardware</td><td>Provider manages much of the infrastructure</td></tr>
+</tbody></table></div>
+
+<h2>5.7 COD and On-Demand Self-Service: are they the same?</h2>
+<p>They are related, but not exactly the same.</p>
+<ul>
+<li><strong>Computing on Demand:</strong> the broader idea of obtaining computing resources according to current requirements.</li>
+<li><strong>On-Demand Self-Service:</strong> a cloud characteristic in which a consumer can independently request and provision resources, usually through a portal or API, without requiring direct human interaction with the provider.</li>
+</ul>
+<div class="note"><p><strong>EXAMPLE:</strong> creating a virtual machine through the AWS console is an example of on-demand self-service.</p></div>
+
+<h2>5.8 Important terms</h2>
+<div class="tw wide"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>COD</td><td>Getting computing resources whenever they are needed</td></tr>
+<tr><td>Provisioning</td><td>Allocating resources when requested</td></tr>
+<tr><td>Scalability</td><td>Increasing or decreasing resources as demand changes</td></tr>
+<tr><td>Metering</td><td>Measuring how much of a resource is used</td></tr>
+<tr><td>Vendor lock-in</td><td>Difficulty moving workloads away from one provider</td></tr>
+</tbody></table></div>
+
+<h2>5.9 Exam preparation</h2>
+<h3>Previous-year questions (compiled collection)</h3>
+<div class="tw wide"><table><thead><tr><th>Marks</th><th>Question</th><th>Priority</th></tr></thead><tbody>
+<tr><td>1</td><td>What is Computing on Demand (COD)?</td><td>Syllabus question</td></tr>
+<tr><td>5</td><td>Explain Computing on Demand.</td><td><span class="y">YELLOW</span></td></tr>
+<tr><td>15</td><td>Explain Computing on Demand and Cloud Sourcing.</td><td><span class="y">YELLOW</span></td></tr>
+</tbody></table></div>
+<h3>1-mark answer</h3>
+<p>Computing on Demand is a model in which computing resources such as processing power, storage and software are made available to users whenever required, according to their needs.</p>
+<h3>5-mark answer</h3>
+<p>Computing on Demand (COD) is a model that allows users to access computing resources whenever required without purchasing and maintaining all the hardware themselves.</p>
+<p>Its main features are:</p>
+<ol>
+<li><strong>Resource availability:</strong> CPU, memory, storage and software can be requested when needed.</li>
+<li><strong>Scalability:</strong> resources can be increased or decreased according to demand.</li>
+<li><strong>Cost efficiency:</strong> reduces the need for large upfront hardware investments.</li>
+<li><strong>Flexibility:</strong> users can choose resources according to their requirements.</li>
+<li><strong>Resource management:</strong> resources can be monitored, measured and released when no longer needed.</li>
+</ol>
+<p>For example, an e-commerce company can increase its cloud servers during a festival sale and reduce them after the sale. Thus, Computing on Demand provides flexible and efficient access to computing resources.</p>
+<h3>15-mark preparation (combined question)</h3>
+<p><strong>Explain Computing on Demand and Cloud Sourcing.</strong> For the COD half, prepare the definition, working, components, benefits and challenges above. The Cloud Sourcing half is in Topic 6.</p>
+
+<h2>5.10 Quick revision</h2>
+<ul>
+<li>COD = take computing resources when needed, release them when not needed.</li>
+<li>Five steps: request, provision, use, monitor, scale or release.</li>
+<li>Main benefits: cost efficiency, scalability, flexibility, faster deployment.</li>
+<li>COD is the broad idea. On-demand self-service is the cloud characteristic of provisioning by yourself through a portal or API.</li>
+</ul>
+
+<h2>5.11 Videos (Hindi preferred)</h2>
+<div class="video-help"><ol>
+<li><a href="https://www.youtube.com/results?search_query=M+Prashant+what+is+cloud+computing+Hindi" rel="noopener" target="_blank">What is Cloud Computing? M Prashant</a>. Hindi, beginner. It covers how the cloud works and scalability. This is a YouTube search link.</li>
+<li><a href="https://www.youtube.com/results?search_query=Computer+Teacher+cloud+computing+explained+Hindi" rel="noopener" target="_blank">Cloud Computing Explained, Computer Teacher</a>. Hindi / Urdu, beginner. It covers on-demand availability. This is a YouTube search link.</li>
+<li><a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+cloud+computing+Hindi" rel="noopener" target="_blank">Complete Cloud Computing course, 5 Minutes Engineering</a>. Hindi, semester preparation. This is a YouTube search link.</li>
+</ol>
+<p>No dedicated Hindi video on the exact heading "Computing on Demand" was verified. These cover the underlying concepts.</p></div>
+<h2>5.12 Sources</h2>
+<div class="reading-sources"><ul>
+<li><a href="https://csrc.nist.gov/pubs/sp/800/145/final" rel="noopener" target="_blank">NIST SP 800-145: The NIST Definition of Cloud Computing</a> (on-demand self-service)</li>
+<li><a href="https://www.tutorialspoint.com/cloud_computing/cloud_computing_characteristics.htm" rel="noopener" target="_blank">TutorialsPoint: Characteristics of Cloud Computing</a></li>
+</ul></div>
+</section>
+
+<!-- ======================= TOPIC 6 ======================= -->
+<section class="tp tb">
+<h1 id="t6">6. Cloud Sourcing <span class="b">BLACK</span></h1>
+<div class="note"><p><strong>WHY STUDY THIS TOPIC</strong></p><p>It is the final topic of Unit III. The questions below are in the compiled question collection. They are not confirmed as questions from the primary 2022–24 MCA Semester IV paper.</p><p><strong>HOW MUCH DEPTH:</strong> one-time reading. Learn the 1-mark and 5-mark answers. The 15-mark question combines it with Computing on Demand (Topic 5).</p></div>
+
+<h2>6.1 What is Cloud Sourcing?</h2>
+<p><strong>Cloud Sourcing</strong> is the process of obtaining IT resources and services, such as software, storage, computing power and infrastructure, from an external cloud service provider instead of owning and managing everything internally.</p>
+<p>In simple words, rather than building your own data centre and buying all the hardware, you use services provided by companies like AWS, Microsoft Azure or Google Cloud.</p>
+<p><strong>Example:</strong> you want to launch an online shopping website. Instead of buying physical servers, building a data centre, purchasing storage devices and maintaining networking equipment, you can use AWS to rent computing resources, store data and host your website. This is an example of Cloud Sourcing.</p>
+<div class="fig"><svg viewBox="0 0 760 288" role="img" aria-label="In-house IT with its own hardware compared with sourcing the same services from a cloud provider"><defs><marker id="arf62" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7z" fill="#b3261e"/></marker></defs><rect class="yx" x="16" y="16" width="304" height="40" rx="8"/><text class="cap" x="168.0" y="41" text-anchor="middle">IN-HOUSE IT</text><rect class="bx" x="16" y="72" width="304" height="40" rx="8"/><text x="168.0" y="97" text-anchor="middle">physical servers</text><rect class="bx" x="16" y="120" width="304" height="40" rx="8"/><text x="168.0" y="145" text-anchor="middle">data centre</text><rect class="bx" x="16" y="168" width="304" height="40" rx="8"/><text x="168.0" y="193" text-anchor="middle">storage devices</text><rect class="bx" x="16" y="216" width="304" height="40" rx="8"/><text x="168.0" y="241" text-anchor="middle">networking equipment</text><rect class="yx" x="440" y="16" width="304" height="40" rx="8"/><text class="cap" x="592.0" y="41" text-anchor="middle">CLOUD SOURCING</text><rect class="rx" x="440" y="72" width="304" height="184" rx="8"/><text class="cap" x="592.0" y="114" text-anchor="middle">rent from a provider</text><text x="592.0" y="136" text-anchor="middle">AWS / Azure / Google</text><text x="592.0" y="158" text-anchor="middle">compute power</text><text x="592.0" y="180" text-anchor="middle">storage</text><text x="592.0" y="202" text-anchor="middle">hosting</text><text x="592.0" y="224" text-anchor="middle">software</text><path class="rl" d="M322 164 L438 164" marker-end="url(#arf62)"/><text class="cap" x="380" y="148" text-anchor="middle">switch to</text></svg><p><em>Figure 6.2: Instead of owning every item on the left, the organisation sources services from a provider.</em></p></div>
+
+<h2>6.2 How does Cloud Sourcing work?</h2>
+<ol>
+<li><strong>Customer / Organisation</strong> needs computing resources or software.</li>
+<li><strong>Selects a Cloud Service Provider.</strong> Example: AWS, Azure or Google Cloud.</li>
+<li><strong>Obtains Cloud Services:</strong> IaaS, PaaS or SaaS.</li>
+<li><strong>Uses and manages the services:</strong> monitors performance, cost and security.</li>
+</ol>
+<div class="fig"><svg viewBox="0 0 760 160" role="img" aria-label="Cloud sourcing: an organisation selects a provider, obtains services and then uses and manages them"><defs><marker id="arf61" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7z" fill="#b3261e"/></marker></defs><rect class="rx" x="16" y="32" width="150" height="72" rx="8"/><text class="cap" x="91.0" y="62" text-anchor="middle">1 Organisation</text><text x="91.0" y="84" text-anchor="middle">needs resources</text><rect class="rx" x="212" y="32" width="150" height="72" rx="8"/><text class="cap" x="287.0" y="62" text-anchor="middle">2 Select provider</text><text x="287.0" y="84" text-anchor="middle">AWS/Azure/Google</text><rect class="rx" x="408" y="32" width="150" height="72" rx="8"/><text class="cap" x="483.0" y="62" text-anchor="middle">3 Obtain services</text><text x="483.0" y="84" text-anchor="middle">IaaS, PaaS, SaaS</text><rect class="rx" x="604" y="32" width="150" height="72" rx="8"/><text class="cap" x="679.0" y="62" text-anchor="middle">4 Use + manage</text><text x="679.0" y="84" text-anchor="middle">cost, security</text><path class="rl" d="M166 68 L210 68" marker-end="url(#arf61)"/><path class="rl" d="M362 68 L406 68" marker-end="url(#arf61)"/><path class="rl" d="M558 68 L602 68" marker-end="url(#arf61)"/><text class="cap" x="380" y="136" text-anchor="middle">Example: rent AWS instead of building a data centre</text></svg><p><em>Figure 6.1: How Cloud Sourcing works.</em></p></div>
+
+<h2>6.3 Types of Cloud Sourcing</h2>
+<div class="tw wide"><table><thead><tr><th>Type</th><th>Meaning</th><th>Example</th></tr></thead><tbody>
+<tr><td>IaaS sourcing</td><td>Obtain infrastructure from a provider</td><td>AWS EC2</td></tr>
+<tr><td>PaaS sourcing</td><td>Obtain a development platform</td><td>Google App Engine</td></tr>
+<tr><td>SaaS sourcing</td><td>Use ready-made software</td><td>Google Workspace</td></tr>
+</tbody></table></div>
+
+<h2>6.4 Benefits of Cloud Sourcing</h2>
+<ol>
+<li><strong>Reduced cost:</strong> less investment in physical hardware.</li>
+<li><strong>Scalability:</strong> resources can be increased or decreased.</li>
+<li><strong>Flexibility:</strong> organisations can select suitable services.</li>
+<li><strong>Faster deployment:</strong> services can be accessed quickly.</li>
+<li><strong>Less maintenance:</strong> providers manage much of the underlying infrastructure.</li>
+<li><strong>Access to technology:</strong> organisations can use modern cloud services without building everything themselves.</li>
+</ol>
+
+<h2>6.5 Challenges of Cloud Sourcing</h2>
+<ul>
+<li><strong>Data security:</strong> sensitive information is stored with an external provider.</li>
+<li><strong>Vendor lock-in:</strong> switching providers can be difficult.</li>
+<li><strong>Internet dependency:</strong> services generally require network connectivity.</li>
+<li><strong>Service availability:</strong> provider outages can affect business operations.</li>
+<li><strong>Compliance:</strong> organisations must ensure that data handling follows applicable laws and regulations.</li>
+</ul>
+
+<h2>6.6 Cloud Sourcing vs Computing on Demand</h2>
+<div class="tw wide"><table><thead><tr><th>Cloud Sourcing</th><th>Computing on Demand</th></tr></thead><tbody>
+<tr><td>Focuses on obtaining IT services from external cloud providers.</td><td>Focuses on accessing computing resources whenever required.</td></tr>
+<tr><td>Concerned with where and from whom services are obtained.</td><td>Concerned with when and how much computing capacity is needed.</td></tr>
+<tr><td>Example: using AWS for hosting.</td><td>Example: increasing AWS servers during high traffic.</td></tr>
+</tbody></table></div>
+
+<h2>6.7 Important terms</h2>
+<div class="tw wide"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Cloud Sourcing</td><td>Obtaining IT resources and services from an external cloud provider</td></tr>
+<tr><td>IaaS / PaaS / SaaS sourcing</td><td>Sourcing infrastructure, a platform or ready-made software</td></tr>
+<tr><td>Vendor lock-in</td><td>Difficulty switching away from one provider</td></tr>
+<tr><td>Compliance</td><td>Following the laws and rules that apply to data handling</td></tr>
+</tbody></table></div>
+
+<h2>6.8 Exam preparation</h2>
+<h3>Previous-year questions (compiled collection)</h3>
+<div class="tw wide"><table><thead><tr><th>Marks</th><th>Question</th></tr></thead><tbody>
+<tr><td>1</td><td>What is Cloud Sourcing?</td></tr>
+<tr><td>5</td><td>Write a short note on Cloud Sourcing.</td></tr>
+<tr><td>15</td><td>Explain Computing on Demand and Cloud Sourcing.</td></tr>
+</tbody></table></div>
+<h3>1-mark answer</h3>
+<p>Cloud Sourcing is the process of obtaining IT resources and services from external cloud service providers over a network instead of maintaining them internally.</p>
+<h3>5-mark answer</h3>
+<p>Cloud Sourcing refers to obtaining computing resources and IT services from external cloud service providers instead of purchasing and maintaining all the infrastructure internally.</p>
+<p>Organisations can obtain services such as IaaS, PaaS and SaaS from providers like AWS, Microsoft Azure and Google Cloud.</p>
+<p>Its main benefits include reduced infrastructure cost, scalability, flexibility, faster deployment and reduced maintenance.</p>
+<p>However, it also involves challenges such as data security, vendor lock-in, internet dependency and service availability.</p>
+<p>Thus, Cloud Sourcing helps organisations access computing services without building and managing all the infrastructure themselves.</p>
+<h3>15-mark preparation (combined question)</h3>
+<p>Write Computing on Demand first (Topic 5: definition, working, components, benefits, challenges), then Cloud Sourcing (this topic: definition, working, types, benefits, challenges), and finish with the Cloud Sourcing vs Computing on Demand table.</p>
+
+<h2>6.9 Quick revision</h2>
+<ul>
+<li>Cloud Sourcing = getting IT from an external cloud provider instead of owning it.</li>
+<li>Types: IaaS, PaaS and SaaS sourcing.</li>
+<li>Benefits: lower cost, scalability, flexibility, faster deployment, less maintenance.</li>
+<li>Challenges: data security, vendor lock-in, internet dependency, availability, compliance.</li>
+<li>Cloud Sourcing = where and from whom. Computing on Demand = when and how much.</li>
+</ul>
+
+<h2>6.10 Videos (Hindi preferred)</h2>
+<div class="video-help"><ol>
+<li><a href="https://www.youtube.com/results?search_query=cloud+sourcing+explained+Hindi" rel="noopener" target="_blank">Cloud Sourcing explained in Hindi</a>. Hindi, beginner. This is a YouTube search link.</li>
+<li><a href="https://www.youtube.com/results?search_query=IaaS+PaaS+SaaS+explained+Hindi+cloud+computing" rel="noopener" target="_blank">IaaS, PaaS and SaaS explained in Hindi</a>. Hindi, diagram-based. This is a YouTube search link.</li>
+<li><a href="https://www.youtube.com/results?search_query=computing+on+demand+and+cloud+sourcing+Hindi" rel="noopener" target="_blank">Computing on Demand and Cloud Sourcing</a>. Hindi, exam-focused. This is a YouTube search link.</li>
+</ol></div>
+<h2>6.11 Sources</h2>
+<div class="reading-sources"><ul>
+<li><a href="https://www.geeksforgeeks.org/cloud-computing/infrastructure-as-a-service-iaas/" rel="noopener" target="_blank">GeeksforGeeks: IaaS, Infrastructure as a Service</a></li>
+<li><a href="https://www.tutorialspoint.com/cloud_computing/pdf/cloud_computing_quick_guide.pdf" rel="noopener" target="_blank">TutorialsPoint: Cloud Computing Quick Guide</a></li>
+<li><a href="https://csrc.nist.gov/pubs/sp/800/145/final" rel="noopener" target="_blank">NIST SP 800-145: The NIST Definition of Cloud Computing</a></li>
+</ul></div>
+</section>
+
+<div class="note"><p><strong>UNIT III STUDY CHECK</strong></p><p>Study the RED topics first (Cloud Ecosystem, then Cloud BPM), then the YELLOW topics (Cloud Service Management, Computing on Demand), and read the BLACK topics (Cloud Stack, Cloud Sourcing) once. Before moving to Unit IV, make sure you can name the five cloud actors, explain BPM and why Cloud BPM software is needed, and list the three components of Cloud Service Management.</p></div>
+</main>
+
+</body></html>

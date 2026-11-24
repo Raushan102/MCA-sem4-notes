@@ -7,7 +7,7 @@ function topics(h){const out=[];let m;
  while((m=a.exec(h)))out.push({id:m[1],title:txt(m[3]),priority:P[m[2]]});
  if(out.length)return out;
  const b=/<section class="tp (t\w)"[^>]*>\s*(?:<hr\/?>)?\s*<h1([^>]*)>([\s\S]*?)<\/h1>/g;                                  // older notebook notes
- while((m=b.exec(h)))out.push({id:(/id="([^"]+)"/.exec(m[2])||[])[1],title:txt(m[3]),priority:P[m[1]]||'black'});
+ while((m=b.exec(h)))out.push({id:(/id="([^"]+)"/.exec(m[2])||[])[1],title:txt(m[3]).replace(/\s+(RED|YELLOW|BLACK|MIXED)$/i,''),priority:P[m[1]]||'black'});
  const c=/<a class="index-card (\w+)-card" href="#([^"]+)">([\s\S]*?)<\/a>/g;                                                       // notes whose topic list is their own index cards
  while((m=c.exec(h))){const t=/<strong>([\s\S]*?)<\/strong>/.exec(m[3]);if(t&&h.includes('id="'+m[2]+'"'))out.push({id:m[2],title:txt(t[1]).replace(/^(Topic\s*)?\d+\s*[.:—-]\s*/i,''),priority:P[{red:'tr',yellow:'ty',black:'tb',mixed:'tm'}[m[1]]]||'black'})}
  return out}
