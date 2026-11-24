@@ -616,5 +616,170 @@
     "file": "important-questions.html"
    }
   ]
+ },
+ {
+  "slug": "erp",
+  "name": "ERP",
+  "code": "ECMCA402B",
+  "emoji": "🏭",
+  "units": [
+   {
+    "key": "unit-1",
+    "n": 1,
+    "title": "Introduction to ERP",
+    "file": "unit-1.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "topic1-start",
+      "title": "Evolution of ERP",
+      "priority": "yellow"
+     },
+     {
+      "id": "topic2-start",
+      "title": "What is ERP?",
+      "priority": "yellow"
+     },
+     {
+      "id": "topic3-start",
+      "title": "Reasons for the Growth of the ERP Market",
+      "priority": "yellow"
+     },
+     {
+      "id": "topic4-start",
+      "title": "Advantages of ERP",
+      "priority": "yellow"
+     },
+     {
+      "id": "topic5-start",
+      "title": "Reasons for ERP Failure",
+      "priority": "yellow"
+     }
+    ]
+   },
+   {
+    "key": "unit-2",
+    "n": 2,
+    "title": "Enterprise: An Overview",
+    "file": "unit-2.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "u2t1",
+      "title": "Integrated Management Information",
+      "priority": "red"
+     },
+     {
+      "id": "u2t2",
+      "title": "Business Modeling",
+      "priority": "red"
+     },
+     {
+      "id": "u2t3",
+      "title": "Integrated Data Model",
+      "priority": "mixed"
+     }
+    ]
+   },
+   {
+    "key": "unit-3",
+    "n": 3,
+    "title": "ERP and Related Technologies",
+    "file": "unit-3.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "u3t1",
+      "title": "Business Process Reengineering (BPR)",
+      "priority": "red"
+     },
+     {
+      "id": "u3t2",
+      "title": "Management Information System (MIS)",
+      "priority": "red"
+     },
+     {
+      "id": "u3t3",
+      "title": "Decision Support System (DSS)",
+      "priority": "red"
+     },
+     {
+      "id": "u3t4",
+      "title": "Executive Information System (EIS)",
+      "priority": "yellow"
+     },
+     {
+      "id": "u3t5",
+      "title": "Online Analytical Processing (OLAP)",
+      "priority": "red"
+     },
+     {
+      "id": "u3t6",
+      "title": "Supply Chain Management (SCM)",
+      "priority": "yellow"
+     }
+    ]
+   },
+   {
+    "key": "unit-4",
+    "n": 4,
+    "title": "A Manufacturing Perspective",
+    "file": "unit-4.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "u4t1",
+      "title": "ERP in Manufacturing",
+      "priority": "yellow"
+     },
+     {
+      "id": "u4t2",
+      "title": "CAD / CAM",
+      "priority": "yellow"
+     },
+     {
+      "id": "u4t3",
+      "title": "Material Requirement Planning (MRP)",
+      "priority": "red"
+     },
+     {
+      "id": "u4t4",
+      "title": "Bill of Materials (BOM)",
+      "priority": "red"
+     }
+    ]
+   },
+   {
+    "key": "unit-5",
+    "n": 5,
+    "title": "Product Data Management",
+    "file": null,
+    "missing": true,
+    "topics": []
+   },
+   {
+    "key": "unit-6",
+    "n": 6,
+    "title": "Benefits of ERP and ERP Market",
+    "file": null,
+    "missing": true,
+    "topics": []
+   },
+   {
+    "key": "unit-7",
+    "n": 7,
+    "title": "Vendors, Consultants and Users",
+    "file": null,
+    "missing": true,
+    "topics": []
+   }
+  ],
+  "extras": [
+   {
+    "key": "syllabus-priority",
+    "title": "Syllabus, Priority and Predicted Questions",
+    "file": "syllabus-priority.html"
+   }
+  ]
  }
 ]

@@ -1,0 +1,401 @@
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>ERP (ECMCA402B) — Syllabus, Priority and Predicted Questions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+html { color-scheme: light; }
+
+:root {
+  --desk: #dfe4ec;
+  --paper: #ffffff;
+  --rule: #d6e3f5;
+  --margin: #e4868a;
+  --ink: #1d3a8c;
+  --red: #b3261e;
+  --green: #1b6b3a;
+  --hl: rgba(255, 214, 0, 0.45);
+  --edge: rgba(29, 58, 140, 0.35);
+  --shadow: rgba(20, 30, 60, 0.2);
+  --hand: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --display: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --mono: "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace;
+  --vs-bg: #1e1e1e;
+  --vs-fg: #d4d4d4;
+  color-scheme: light;
+}
+html { background: var(--desk); }
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: 16px;
+  line-height: 36px;
+  padding-block: 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 28px 64px 76px;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 22px 48px, var(--desk) 8px, transparent 9px),
+    linear-gradient(to bottom, transparent 35px, var(--rule) 35px, var(--rule) 36px);
+  background-size: 44px 144px, 100% 36px;
+  background-repeat: repeat-y, repeat;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px var(--shadow), 0 14px 34px -14px var(--shadow);
+  overflow-wrap: break-word;
+}
+.sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 56px;
+  width: 4px;
+  border-left: 1px solid var(--margin);
+  border-right: 1px solid var(--margin);
+}
+@media (max-width: 520px) {
+  body { font-size: 15px; }
+  .sheet { padding: 64px 12px 64px 50px; }
+  .sheet::before { left: 34px; }
+}
+h1, h2, h3 { margin: 0; font-weight: 700; text-wrap: balance; }
+h1 {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  line-height: 64px;
+  color: var(--red);
+  text-decoration: underline wavy var(--red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 7px;
+  scroll-margin-top: 16px;
+}
+.sheet > h1:first-child { font-size: clamp(1.7rem, 5.2vw, 2.4rem); }
+h2 { font-family: var(--display); font-size: 1.3rem; line-height: 36px; color: var(--red); }
+h3 { font-family: var(--display); font-size: 1.15rem; line-height: 36px; color: var(--green); }
+p { margin: 0 0 36px; }
+hr {
+  height: 36px;
+  margin: 0;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--edge) 0 10px, transparent 10px 18px) center / 100% 2px no-repeat;
+}
+ul, ol { margin: 0 0 36px; }
+ul { list-style: none; padding-left: 34px; }
+ul li { position: relative; }
+ul li::before { content: "\2022"; position: absolute; left: -22px; color: var(--red); }
+ol { padding-left: 46px; }
+ol li::marker { color: var(--red); font-family: var(--display); font-weight: 700; }
+li > p { margin: 0; }
+strong {
+  font-weight: 600;
+  padding: 0 2px;
+  background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  line-height: 0;
+  color: #9cdcfe;
+  background: var(--vs-bg);
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+pre {
+  margin: 0 0 32px;
+  padding: 16px 20px;
+  background: var(--vs-bg);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), 0 6px 14px -8px rgba(0, 0, 0, 0.5);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 400;
+  font-variant-ligatures: contextual;
+  line-height: 32px;
+  color: var(--vs-fg);
+  overflow-x: auto;
+  tab-size: 4;
+  white-space: pre;
+}
+pre code { font: inherit; line-height: inherit; color: inherit; background: none; padding: 0; border-radius: 0; }
+.tw { margin: 0 0 32px; overflow-x: auto; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+.tw.wide table { min-width: 640px; }
+th, td {
+  padding: 0 14px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 36px;
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge);
+}
+th {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--red);
+  background: var(--hl);
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge);
+}
+th:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+td:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; border-radius: 2px; }
+.note { margin: 0 0 32px; padding: 0 0 0 16px; border-left: 3px solid var(--red); }
+.note p { margin: 0; }
+h1 code, h2 code, h3 code { background: var(--vs-bg); }
+th code, td code { font-size: 0.85em; }
+main a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px;overflow-wrap:anywhere}
+main a:hover{color:var(--red)}
+.exam-box{padding:16px 20px;border:1px solid var(--edge);border-radius:6px;background:rgba(255,255,255,.78);margin-bottom:32px}
+
+/* Quick navigation index */
+.quick-index{margin:24px 0 40px;padding:20px 22px;border:2px solid #9fb4d5;border-radius:12px;background:linear-gradient(135deg,rgba(232,240,252,.96),rgba(255,255,255,.96));box-shadow:0 5px 16px rgba(20,30,60,.08)}
+.quick-index h2{margin:0 0 12px}
+.index-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.index-card{display:block;padding:14px 15px;border:1px solid #c5d3e7;border-left:6px solid #555;border-radius:9px;background:#fff;color:var(--ink);text-decoration:none;line-height:1.65;box-shadow:0 2px 7px rgba(20,30,60,.06);transition:transform .15s ease,box-shadow .15s ease}
+.index-card:hover{transform:translateY(-2px);box-shadow:0 5px 13px rgba(20,30,60,.12);color:var(--red)}
+.index-card.red-card{border-left-color:#b3261e;background:#fff4f2}
+.index-card.yellow-card{border-left-color:#d6ad00;background:#fffbea}
+.index-card.black-card{border-left-color:#333;background:#f4f4f4}
+.index-card strong{display:block;margin-bottom:4px;background:none}
+.index-card .index-priority{display:inline-block;margin-top:7px;padding:1px 8px;border-radius:4px;font-size:.78em;font-weight:700;line-height:1.6}
+.index-card .index-priority.red{background:#b3261e;color:white}
+.index-card .index-priority.yellow{background:#ffe27a;color:#4a3b00}
+.index-card .index-priority.black{background:#333;color:white}
+@media(max-width:520px){.quick-index{padding:15px}.index-grid{grid-template-columns:1fr}}
+
+/* Mathematical expressions: yellow notebook-paper panel with blue handwritten-style ink. */
+.formula {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 16px auto 24px;
+  padding: 12px 20px;
+  border: 1px solid #eadb91;
+  border-left: 4px solid #e5c64b;
+  border-radius: 7px;
+  background: #fff4b8;
+  color: #164b91;
+  font-family: var(--hand, "Comic Sans MS", "Segoe Print", cursive);
+  font-size: 1.13rem;
+  font-weight: 700;
+  line-height: 1.95;
+  letter-spacing: .015em;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(70,55,10,.10);
+  overflow-wrap: anywhere;
+}
+.formula p { margin: 0 0 6px; }
+.formula p:last-child { margin-bottom: 0; }
+.formula strong, .formula sub, .formula sup { color: #164b91; }
+.formula strong { background: transparent; padding: 0; }
+@media(max-width:520px) {
+  .formula { font-size: 1rem; padding: 9px 12px; line-height: 1.8; }
+}
+
+/* ===== Final polish: Unit VI (matching Unit V model) ===== */
+html{scroll-behavior:smooth}
+section[id]{scroll-margin-top:16px}
+figure{margin:0}img{max-width:100%;height:auto}
+h4{margin:0;font-family:var(--display);font-size:1.05rem;line-height:36px;color:var(--ink)}
+.small{font-size:.9em}
+
+/* hero */
+.hero{position:relative;margin:-24px -8px 32px 0;padding:28px 26px 22px;border-radius:14px;color:#fff;overflow:hidden;
+  background:radial-gradient(circle at 92% 12%,rgba(255,214,0,.35),transparent 42%),linear-gradient(135deg,#1d3a8c 0%,#2b4fb8 55%,#b3261e 140%);
+  box-shadow:0 8px 22px -8px rgba(20,30,60,.55)}
+.hero::after{content:"VI";position:absolute;right:14px;bottom:-34px;font:800 9rem/1 var(--display);color:rgba(255,255,255,.12);pointer-events:none}
+.hero .eyebrow{font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;opacity:.85;line-height:24px}
+.hero h1{color:#fff;text-decoration:none;font-size:clamp(1.6rem,5vw,2.3rem);line-height:1.25;margin:6px 0 4px}
+.hero .sub{margin:0 0 14px;font-size:1.05rem;line-height:28px;color:#ffe27a;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.chip{display:inline-block;padding:2px 12px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);font-size:.8rem;line-height:26px;font-weight:600}
+.chip.hot{background:#ffd600;color:#463900;border-color:#ffd600}
+
+/* cards */
+.panel{margin:0 0 32px;padding:16px 20px 6px;border:1px solid #c8d6e8;border-radius:12px;background:rgba(255,255,255,.92);box-shadow:0 3px 10px rgba(20,30,60,.07)}
+.panel h2{margin:0 0 6px;font-size:1.15rem}
+.panel p,.panel ul{margin-bottom:14px}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:0 0 14px}
+.legend div{padding:8px 12px;border-radius:8px;border-left:6px solid;line-height:1.5;font-size:.9em}
+.legend .lr{background:rgba(179,38,30,.1);border-color:#b3261e}
+.legend .ly{background:rgba(255,214,0,.28);border-color:#d2a900}
+.legend .lb{background:rgba(35,39,48,.1);border-color:#333}
+.legend b{display:inline-block;margin-right:6px;padding:0 8px;border-radius:4px;font-size:.78em;line-height:1.7;color:#fff;background:#b3261e}
+.legend .ly b{background:#ffd600;color:#463900}.legend .lb b{background:#222}
+.focus li{line-height:1.6;margin-bottom:4px}
+
+/* index */
+.quick-index{margin:0 0 40px}
+.index-card{position:relative;padding-left:62px}
+.index-card .num{position:absolute;left:12px;top:12px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:700 1.05rem/1 var(--display);color:#fff;background:#555}
+.index-card.red-card .num{background:#b3261e}.index-card.yellow-card .num{background:#e0b800;color:#3d3100}.index-card.black-card .num{background:#222}
+
+/* topic sections */
+.topic-section.tp{position:relative;margin:52px -14px 60px;padding:20px 24px 6px;border:1px solid rgba(29,58,140,.18);border-left:9px solid;border-radius:14px;box-shadow:0 6px 20px rgba(20,30,60,.09)}
+.topic-section.tp::before{display:none}
+.tp.tr{background:linear-gradient(135deg,rgba(179,38,30,.16),rgba(179,38,30,.07));border-color:#b3261e}
+.tp.ty{background:linear-gradient(135deg,rgba(255,214,0,.34),rgba(255,214,0,.13));border-color:#d2a900}
+.tp.tb{background:linear-gradient(135deg,rgba(35,39,48,.15),rgba(35,39,48,.06));border-color:#333}
+.topic-title{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;margin:0 0 6px;padding-bottom:8px;border-bottom:2px dashed currentColor;line-height:1.35;font-size:1.5rem}
+.tnum{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:800 1.7rem/1 var(--display);color:#fff;background:var(--red);box-shadow:0 0 0 4px rgba(255,255,255,.75),0 3px 8px rgba(0,0,0,.25)}
+.tp.ty .tnum{background:#e0b800;color:#3d3100}.tp.tb .tnum{background:#222}
+.tlabel{display:block;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:#455;line-height:1.2}
+.tprio{margin-left:auto;padding:2px 12px;border-radius:6px;font-size:.5em;letter-spacing:.8px;line-height:1.9;white-space:nowrap;background:#b3261e;color:#fff}
+.tp.ty .tprio{background:#ffd600;color:#463900}.tp.tb .tprio{background:#222}
+.evidence{margin:0 0 28px;padding:8px 14px;border-radius:8px;background:rgba(255,255,255,.7);font-size:.9em;line-height:1.6;border:1px dashed var(--edge)}
+.tp h3{margin-top:8px;color:var(--green);border-left:4px solid currentColor;padding-left:10px}
+.tp .exam-box h3{border:0;padding:0;margin-top:0}
+.exam-box{break-inside:avoid;border-left:5px solid var(--green);background:rgba(255,255,255,.9);box-shadow:0 2px 8px rgba(20,30,60,.08)}
+.exam-box h3::before{content:"★ ";color:#e0b800}
+.tw{background:rgba(255,255,255,.8);border-radius:6px}
+.floral-divider{text-align:center;color:var(--red);letter-spacing:6px;line-height:36px;margin:0 0 6px}
+.tp.ty .floral-divider{color:#9a7900}.tp.tb .floral-divider{color:#444}
+.back-top{margin:0 0 30px;font-size:.9em;text-align:right}
+.unit-end{margin:40px 0 0;padding:16px;text-align:center;border-radius:12px;background:linear-gradient(135deg,#e8f0fc,#fff4b8);border:1px solid #c8d6e8;line-height:1.7}
+@media(max-width:520px){.hero{margin-right:0;padding:20px 16px}.hero::after{font-size:6rem}.topic-section.tp{margin:40px -8px 48px;padding:14px 12px 4px}.tnum{width:42px;height:42px;font-size:1.3rem}.topic-title{font-size:1.2rem}.tprio{margin-left:0}}
+@media print{html,body{background:#fff}body{padding:0}.sheet{box-shadow:none;max-width:none}.topic-section{break-before:page}.back-top{display:none}pre,.exam-box,.hero{break-inside:avoid}.hero,.tp,.tnum,.tprio{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<style>
+body{background:#f3eee5;color:#28364a;font-family:Georgia,'Times New Roman',serif;line-height:1.62}
+main{max-width:980px;margin:28px auto;padding:34px 42px;background:#fffdf8;border:1px solid #e8dfd1;box-shadow:0 8px 30px #55452b12}
+h1,h2,h3{color:#26364b;line-height:1.25}h1{text-align:center;font-size:2rem;margin:12px 0}
+.subtitle{text-align:center;color:#687486;margin-bottom:24px}
+.rule{border:0;border-top:1px solid #e6d9c8;margin:26px 0}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0 24px;padding:14px;border:1px solid #e4d8c8;border-radius:12px}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px}
+.red .dot{background:#c94b45}.yellow .dot{background:#d6a62c}.black .dot{background:#343434}
+.index{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:20px 0}
+.index a{display:block;padding:13px 15px;border:1px solid #e9e0d3;border-radius:10px;background:#fff;color:inherit;text-decoration:none}
+.index a.red{border-left:4px solid #c94b45}.index a.yellow{border-left:4px solid #d6a62c}
+.priority{display:inline-block;margin:8px 0 14px;padding:5px 10px;border-radius:7px;font-size:.78rem;font-weight:bold}
+.priority.red{background:#fbe7e5;color:#a8322c;border-left:4px solid #c94b45}
+.priority.yellow{background:#fff4d6;color:#8b6500;border-left:4px solid #d6a62c}
+.unit{padding:20px 0;border-bottom:1px dashed #d9cdbd;scroll-margin-top:20px}
+.q{padding:12px 15px;margin:10px 0;border-radius:9px;background:#fff;border:1px solid #eee4d8}
+.q.red{border-left:4px solid #c94b45}.q.yellow{border-left:4px solid #d6a62c}
+.tag{font-size:.76rem;font-weight:bold}.tag.red{color:#a8322c}.tag.yellow{color:#8b6500}
+li{margin:5px 0}.note{padding:14px 16px;background:#f8f4ed;border-radius:9px;border-left:3px solid #c9b99f;margin:16px 0}
+.small{font-size:.9rem;color:#687486}
+@media(max-width:650px){main{margin:0;padding:22px 18px}h1{font-size:1.6rem}}
+</style>
+</head><body><main>
+<div class="subtitle">RANCHI UNIVERSITY · MCA CBCS · SEMESTER IV</div>
+<h1>Enterprise Resource Planning (ERP)</h1>
+<div class="subtitle">Paper Code: ECMCA402B · GE-III · 5 Credits · 60 Theory Lectures + 15 Tutorial Hours</div>
+<div class="note"><b>Examination pattern:</b> End-Semester: 70 marks, 3 hours. Group A is compulsory: five 1-mark questions and one 5-mark question. Group B: six 15-mark questions, answer any four. Mid-Semester: 20 written marks: five 1-mark questions and five 5-mark questions (answer any three), plus attendance and assignment components.</div>
+<h2>Priority Colour Legend</h2><div class="legend"><span class="red"><i class="dot"></i><b>RED:</b> Supported by Ranchi PYQ or repeated external ERP-paper evidence</span><span class="yellow"><i class="dot"></i><b>YELLOW:</b> Predicted from syllabus and recurring exam patterns</span><span class="black"><i class="dot"></i><b>BLACK:</b> No specific question evidence identified / lower priority</span></div>
+<h2>Quick Index</h2><nav class="index">
+<a class="red" href="#unit1"><b>Unit I – Introduction to ERP</b><div class="small">Direct / repeated external-paper evidence: ERP definition, advantages and failure</div></a>
+<a class="yellow" href="#unit2"><b>Unit II – Enterprise: An Overview</b><div class="small">Related external-paper evidence: integrated information and business modelling</div></a>
+<a class="red" href="#unit3"><b>Unit III – ERP and Related Technologies</b><div class="small">Direct Ranchi 2022–24 evidence: BRP, DSS and MIS</div></a>
+<a class="red" href="#unit4"><b>Unit IV – A Manufacturing Perspective</b><div class="small">Direct Ranchi 2022–24 evidence: DRP compared with MRP</div></a>
+<a class="red" href="#unit5"><b>Unit V – Product Data Management</b><div class="small">Direct Ranchi 2022–24 evidence: PDM benefits and Plant Maintenance</div></a>
+<a class="red" href="#unit6"><b>Unit VI – Benefits of ERP and ERP Market</b><div class="small">Direct Ranchi 2022–24 evidence: BAAN</div></a>
+<a class="red" href="#unit7"><b>Unit VII – Vendors, Consultants and Users</b><div class="small">Direct Ranchi 2022–24 evidence: ERP implementation life cycle</div></a>
+</nav><hr class="rule"/>
+<section class="unit" id="unit1"><h2>Unit I – Introduction to ERP</h2><div class="priority red">Direct / repeated external-paper evidence: ERP definition, advantages and failure</div><h3>Official syllabus topics</h3><ul>
+<li>Evolution of ERP</li>
+<li>What is ERP</li>
+<li>Reasons for the growth of the ERP market</li>
+<li>Advantages of ERP</li>
+<li>Reasons of Failure</li>
+</ul><h3>Question priority</h3>
+<div class="q red"><div class="tag red">RED · 1–5 marks · recurring external ERP-paper question</div>Define ERP and explain how it differs from legacy or siloed systems.</div>
+<div class="q red"><div class="tag red">RED · 5–15 marks · recurring external ERP-paper question</div>Explain the advantages and benefits of ERP.</div>
+<div class="q yellow"><div class="tag yellow">YELLOW · 10–15 marks · predicted</div>Explain the evolution of ERP and reasons for the growth of the ERP market.</div>
+<div class="q yellow"><div class="tag yellow">YELLOW · 10–15 marks · predicted</div>Discuss the major reasons for ERP implementation failure.</div>
+</section>
+<section class="unit" id="unit2"><h2>Unit II – Enterprise: An Overview</h2><div class="priority yellow">Related external-paper evidence: integrated information and business modelling</div><h3>Official syllabus topics</h3><ul>
+<li>Integrated Management Information</li>
+<li>Business Modeling</li>
+<li>Integrated Data Model</li>
+</ul><h3>Question priority</h3>
+<div class="q red"><div class="tag red">RED · 10–15 marks · external ERP-paper evidence</div>Explain business modelling and the integrated data model with a suitable example.</div>
+<div class="q red"><div class="tag red">RED · 5–10 marks · external ERP-paper evidence</div>What is integrated management information? Explain its need and importance.</div>
+<div class="q yellow"><div class="tag yellow">YELLOW · 10–15 marks · predicted</div>Explain how an integrated data model supports information sharing across departments.</div>
+</section>
+<section class="unit" id="unit3"><h2>Unit III – ERP and Related Technologies</h2><div class="priority red">Direct Ranchi 2022–24 evidence: BRP, DSS and MIS</div><h3>Official syllabus topics</h3><ul>
+<li>BRP (Business Process Reengineering) [syllabus spelling; commonly written BPR]</li>
+<li>MIS (Management Information System)</li>
+<li>DSS (Decision Support System)</li>
+<li>EIS (Executive Information System)</li>
+<li>OLAP</li>
+<li>Supply Chain Management</li>
+</ul><h3>Question priority</h3>
+<div class="q red"><div class="tag red">RED · 15 marks · Ranchi 2022–24</div>What is BRP? When does it become necessary? What are its different phases?</div>
+<div class="q red"><div class="tag red">RED · 15 marks · Ranchi 2022–24</div>Discuss DSS and its key components and features.</div>
+<div class="q red"><div class="tag red">RED · 15 marks · Ranchi 2022–24</div>“MIS plays a vital role in modern organizations.” Discuss MIS and its functions in detail.</div>
+<div class="q red"><div class="tag red">RED · 5–8 marks · external ERP-paper evidence</div>Differentiate between OLTP and OLAP.</div>
+<div class="q yellow"><div class="tag yellow">YELLOW · 10–15 marks · predicted</div>Explain EIS and compare MIS, DSS and EIS.</div>
+<div class="q yellow"><div class="tag yellow">YELLOW · 10–15 marks · predicted</div>Explain the role of SCM in ERP and its relationship with business processes.</div>
+</section>
+<section class="unit" id="unit4"><h2>Unit IV – A Manufacturing Perspective</h2><div class="priority red">Direct Ranchi 2022–24 evidence: DRP compared with MRP</div><h3>Official syllabus topics</h3><ul>
+<li>ERP</li>
+<li>CAD/CAM</li>
+<li>MRP (Material Requirement Planning)</li>
+<li>Bill of Material</li>
+<li>Closed Loop MRP</li>
+<li>MRP-II</li>
+<li>DRP (Distributed Requirement Planning)</li>
+</ul><h3>Question priority</h3>
+<div class="q red"><div class="tag red">RED · 15 marks · Ranchi 2022–24</div>What is DRP? Compare and contrast it with MRP.</div>
+<div class="q red"><div class="tag red">RED · 5–10 marks · external ERP-paper evidence</div>Explain Bill of Material (BOM) and its role in material planning.</div>
+<div class="q yellow"><div class="tag yellow">YELLOW · 10–15 marks · predicted</div>Explain the evolution from MRP to Closed Loop MRP and MRP-II.</div>
+<div class="q yellow"><div class="tag yellow">YELLOW · 10–15 marks · predicted</div>Explain the role of CAD/CAM and ERP in a manufacturing organization.</div>
+</section>
+<section class="unit" id="unit5"><h2>Unit V – Product Data Management</h2><div class="priority red">Direct Ranchi 2022–24 evidence: PDM benefits and Plant Maintenance</div><h3>Official syllabus topics</h3><ul>
+<li>Product Data Management</li>
+<li>Data Management</li>
+<li>Benefits of PDM</li>
+<li>ERP Units: Finance</li>
+<li>Plant Maintenance</li>
+<li>Quality Management</li>
+<li>Material Management</li>
+</ul><h3>Question priority</h3>
+<div class="q red"><div class="tag red">RED · 7.5 marks each · Ranchi 2022–24</div>Write short notes on benefits of PDM and Plant Maintenance.</div>
+<div class="q red"><div class="tag red">RED · 10–15 marks · external ERP-paper evidence</div>Explain the major functions of Finance, Quality Management and Material Management modules.</div>
+<div class="q yellow"><div class="tag yellow">YELLOW · 10–15 marks · predicted</div>What is Product Data Management? Explain its benefits and relationship with ERP.</div>
+<div class="q yellow"><div class="tag yellow">YELLOW · 10–15 marks · predicted</div>Describe the major functional units/modules of an ERP system.</div>
+</section>
+<section class="unit" id="unit6"><h2>Unit VI – Benefits of ERP and ERP Market</h2><div class="priority red">Direct Ranchi 2022–24 evidence: BAAN</div><h3>Official syllabus topics</h3><ul>
+<li>SAP</li>
+<li>BAAN</li>
+<li>Oracle Corporation</li>
+<li>PeopleSoft</li>
+</ul><h3>Question priority</h3>
+<div class="q red"><div class="tag red">RED · 7.5 marks · Ranchi 2022–24</div>Write a short note on BAAN.</div>
+<div class="q yellow"><div class="tag yellow">YELLOW · 10–15 marks · predicted</div>Discuss the benefits of ERP and explain its impact on organizational performance.</div>
+<div class="q yellow"><div class="tag yellow">YELLOW · 10–15 marks · predicted</div>Compare major ERP vendors: SAP, BAAN, Oracle and PeopleSoft.</div>
+</section>
+<section class="unit" id="unit7"><h2>Unit VII – Vendors, Consultants and Users</h2><div class="priority red">Direct Ranchi 2022–24 evidence: ERP implementation life cycle</div><h3>Official syllabus topics</h3><ul>
+<li>In-house Implementation – pros and cons</li>
+<li>Vendors</li>
+<li>Consultants</li>
+<li>End-users</li>
+<li>ERP Implementation Life Cycle</li>
+<li>ERP Case Studies</li>
+</ul><h3>Question priority</h3>
+<div class="q red"><div class="tag red">RED · 15 marks · Ranchi 2022–24</div>What do you understand by ERP implementation life cycle? With a neat diagram, discuss its different phases.</div>
+<div class="q red"><div class="tag red">RED · 5–10 marks · external ERP-paper evidence</div>Explain the roles of vendors, consultants and end users in ERP implementation.</div>
+<div class="q yellow"><div class="tag yellow">YELLOW · 10–15 marks · predicted</div>Discuss the advantages and disadvantages of in-house ERP implementation.</div>
+<div class="q yellow"><div class="tag yellow">YELLOW · 10–15 marks · predicted</div>Explain planning, selection, BPR, configuration, data migration, testing, training, go-live and post-implementation stages.</div>
+</section>
+<h2>How to prepare for the paper</h2><ul><li><b>1 mark:</b> definitions, full forms, key terms, components and basic distinctions.</li><li><b>5 marks:</b> short explanations, comparisons, benefits, roles and short notes.</li><li><b>15 marks:</b> explain concepts in depth, show phases or steps, draw a neat diagram where useful, and add examples.</li></ul>
+<div class="note"><b>Important:</b> RED questions are supported by actual question-paper evidence; YELLOW questions are predictions, not confirmed PYQs. The supplied Ranchi 2022–24 paper specifically asks about ERP advantages, BRP, DSS, ERP implementation life cycle, DRP vs MRP, MIS, PDM benefits, Plant Maintenance and BAAN.</div>
+<h2>Sources and evidence</h2><p class="small">Official syllabus: Ranchi University MCA CBCS Curriculum, Semester IV, ECMCA402B, pages 43–44. Supplied question-paper collection: ERP paper ECMCA-402B, 2022–24, pages 11–14.</p>
+<p class="small">External pattern references (other universities, not Ranchi PYQs): Anna University ERP paper (2016); BIT Mesra MCA ERP paper (2018); University of Mumbai ERP paper (2018); other ERP papers. These support recurring themes such as ERP vs legacy systems, OLTP vs OLAP, BPR, business modelling, ERP selection, data warehousing and implementation roles.</p>
+<hr class="rule"/><p class="subtitle">End of ERP syllabus and question-priority plan</p></main></body></html>

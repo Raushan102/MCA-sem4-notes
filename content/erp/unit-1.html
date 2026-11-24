@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>ERP — Unit I: Introduction to ERP (Complete Notes)</title>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+
+html{scroll-behavior:smooth;background:#dfe4ec;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#dfe4ec;padding-block:24px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+[id]{scroll-margin-top:14px}
+.page{margin:0 auto 40px}
+.unit-foot{max-width:880px;margin:0 auto 40px;padding:18px 22px;text-align:center;border-radius:12px;background:linear-gradient(135deg,#e8f0fc,#fff4b8);border:1px solid #c8d6e8;color:#1d3a8c;font:600 15px/1.7 "Source Code Pro","Fira Code",Consolas,monospace}
+.unit-foot a{color:#1d3a8c;text-decoration-color:#b3261e;text-underline-offset:3px}
+.unit-foot p{margin:4px 0}
+.jump{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:50;padding:8px 14px;border-radius:999px;background:#1d3a8c;color:#fff;text-decoration:none;font:700 13px/1 "Source Code Pro",Consolas,monospace;box-shadow:0 4px 14px rgba(20,30,60,.3)}
+.jump:hover{background:#b3261e}
+@media(max-width:760px){.page table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}}
+@media print{.jump{display:none}.page{margin:0}body{background:#fff;padding:0}}
+.fam-f5a9d9{
+  --desk: #dfe4ec;
+  --paper: #ffffff;
+  --rule: #d6e3f5;
+  --margin: #e4868a;
+  --ink: #1d3a8c;
+  --red: #b3261e;
+  --green: #1b6b3a;
+  --hl: rgba(255, 214, 0, 0.45);
+  --edge: rgba(29, 58, 140, 0.35);
+  --shadow: rgba(20, 30, 60, 0.2);
+  --hand: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --display: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --mono: "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace;
+  --vs-bg: #1e1e1e;
+  --vs-fg: #d4d4d4;
+  color-scheme: light;
+}
+.fam-f5a9d9{color: var(--ink);font-family: var(--hand);font-size: 16px;line-height: 36px}
+.fam-f5a9d9{
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 28px 64px 76px;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 22px 48px, var(--desk) 8px, transparent 9px),
+    linear-gradient(to bottom, transparent 35px, var(--rule) 35px, var(--rule) 36px);
+  background-size: 44px 144px, 100% 36px;
+  background-repeat: repeat-y, repeat;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px var(--shadow), 0 14px 34px -14px var(--shadow);
+  overflow-wrap: break-word;
+}
+.fam-f5a9d9::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 56px;
+  width: 4px;
+  border-left: 1px solid var(--margin);
+  border-right: 1px solid var(--margin);
+}
+@media (max-width: 520px){.fam-f5a9d9{font-size: 15px}.fam-f5a9d9{ padding: 64px 12px 64px 50px; }.fam-f5a9d9::before{ left: 34px; }}
+.fam-f5a9d9 h1,.fam-f5a9d9 h2,.fam-f5a9d9 h3{ margin: 0; font-weight: 700; text-wrap: balance; }
+.fam-f5a9d9 h1{
+  font-family: var(--display);
+  font-size: 1.6rem;
+  line-height: 64px;
+  color: var(--red);
+  text-decoration: underline wavy var(--red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 7px;
+  scroll-margin-top: 16px;
+}
+.fam-f5a9d9 > h1:first-child{ font-size: clamp(1.7rem, 5.2vw, 2.4rem); }
+.fam-f5a9d9 h2{ font-family: var(--display); font-size: 1.3rem; line-height: 36px; color: var(--red); }
+.fam-f5a9d9 h3{ font-family: var(--display); font-size: 1.15rem; line-height: 36px; color: var(--green); }
+.fam-f5a9d9 p{ margin: 0 0 36px; }
+.fam-f5a9d9 hr{
+  height: 36px;
+  margin: 0;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--edge) 0 10px, transparent 10px 18px) center / 100% 2px no-repeat;
+}
+.fam-f5a9d9 ul,.fam-f5a9d9 ol{ margin: 0 0 36px; }
+.fam-f5a9d9 ul{ list-style: none; padding-left: 34px; }
+.fam-f5a9d9 ul li{ position: relative; }
+.fam-f5a9d9 ul li::before{ content: "•"; position: absolute; left: -22px; color: var(--red); }
+.fam-f5a9d9 ol{ padding-left: 46px; }
+.fam-f5a9d9 ol li::marker{ color: var(--red); font-family: var(--display); font-weight: 700; }
+.fam-f5a9d9 li > p{ margin: 0; }
+.fam-f5a9d9 strong{
+  font-weight: 600;
+  padding: 0 2px;
+  background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.fam-f5a9d9 code{
+  font-family: var(--mono);
+  font-size: 0.9em;
+  line-height: 0;
+  color: #9cdcfe;
+  background: var(--vs-bg);
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+.fam-f5a9d9 pre{
+  margin: 0 0 32px;
+  padding: 16px 20px;
+  background: var(--vs-bg);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), 0 6px 14px -8px rgba(0, 0, 0, 0.5);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 400;
+  font-variant-ligatures: contextual;
+  line-height: 32px;
+  color: var(--vs-fg);
+  overflow-x: auto;
+  tab-size: 4;
+  white-space: pre;
+}
+.fam-f5a9d9 pre code{ font: inherit; line-height: inherit; color: inherit; background: none; padding: 0; border-radius: 0; }
+.fam-f5a9d9 pre .k{ color: #569cd6; }
+.fam-f5a9d9 pre .kc{ color: #c586c0; }
+.fam-f5a9d9 pre .f{ color: #dcdcaa; }
+.fam-f5a9d9 pre .t{ color: #4ec9b0; }
+.fam-f5a9d9 pre .v{ color: #9cdcfe; }
+.fam-f5a9d9 pre .ct{ color: #4fc1ff; }
+.fam-f5a9d9 pre .s{ color: #ce9178; }
+.fam-f5a9d9 pre .n{ color: #b5cea8; }
+.fam-f5a9d9 pre .c{ color: #6a9955; }
+.fam-f5a9d9 .tw{ margin: 0 0 32px; overflow-x: auto; }
+.fam-f5a9d9 table{ width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+.fam-f5a9d9 .tw.wide table{ min-width: 640px; }
+.fam-f5a9d9 th,.fam-f5a9d9 td{
+  padding: 0 14px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 36px;
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge);
+}
+.fam-f5a9d9 th{
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--red);
+  background: var(--hl);
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge);
+}
+.fam-f5a9d9 th:first-child{ box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+.fam-f5a9d9 td:first-child{ box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+.fam-f5a9d9 .toc ul{ columns: 2 280px; column-gap: 32px; padding-left: 0; }
+.fam-f5a9d9 .toc li{ break-inside: avoid; }
+.fam-f5a9d9 .toc li::before{ content: none; }
+.fam-f5a9d9 .toc a{ color: var(--ink); text-decoration: none; background: linear-gradient(var(--edge), var(--edge)) 0 100% / 100% 1px no-repeat; }
+.fam-f5a9d9 .toc a:hover{ color: var(--red); }
+.fam-f5a9d9 a:focus-visible{ outline: 2px solid var(--red); outline-offset: 2px; border-radius: 2px; }
+.fam-f5a9d9 .note{ margin: 0 0 32px; padding: 0 0 0 16px; border-left: 3px solid var(--red); }
+.fam-f5a9d9 .note p{ margin: 0; }
+.fam-f5a9d9 h1 code,.fam-f5a9d9 h2 code,.fam-f5a9d9 h3 code{ background: var(--vs-bg); }
+.fam-f5a9d9 th code,.fam-f5a9d9 td code{ font-size: 0.85em; }
+.fam-f5a9d9 .tp{margin:0 -14px 32px;padding:0 14px;border-left:5px solid;border-radius:4px}
+.fam-f5a9d9 .tp.tr{background:rgba(179,38,30,.085);border-color:#b3261e}
+.fam-f5a9d9 .tp.ty{background:rgba(255,214,0,.24);border-color:#e0b800}
+.fam-f5a9d9 .tp.tb{background:rgba(0,0,0,.075);border-color:#333}
+.fam-f5a9d9 .r,.fam-f5a9d9 .y,.fam-f5a9d9 .b{font-size:.72em;font-weight:700;padding:1px 7px;border-radius:3px;letter-spacing:.5px;margin-right:6px}
+.fam-f5a9d9 .r{background:var(--red);color:#fff}
+.fam-f5a9d9 .y{background:#ffd600;color:#4a3b00}
+.fam-f5a9d9 .b{background:#222;color:#fff}
+.fam-f5a9d9 a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px;overflow-wrap:anywhere}
+.fam-f5a9d9 a:hover{color:var(--red)}
+.fam-f5a9d9 .fig{margin:12px 0 40px}
+.fam-f5a9d9 .fig svg{display:block;width:100%;max-width:760px;margin:0 auto}
+.fam-f5a9d9 .fig svg text{font-family:var(--hand);font-size:14px;fill:var(--ink);dominant-baseline:auto}
+.fam-f5a9d9 .fig svg .cap{font-size:13px;fill:var(--red);font-weight:600}
+.fam-f5a9d9 .fig svg .w{fill:#fff;font-weight:600}
+.fam-f5a9d9 .fig svg .bx{fill:#fff;stroke:var(--ink);stroke-width:2}
+.fam-f5a9d9 .fig svg .rx{fill:#fff;stroke:var(--red);stroke-width:2}
+.fam-f5a9d9 .fig svg .kx{fill:var(--vs-bg);stroke:var(--vs-bg)}
+.fam-f5a9d9 .fig svg .yx{fill:rgba(255,214,0,.45);stroke:var(--ink);stroke-width:2}
+.fam-f5a9d9 .fig svg .ln{stroke:var(--ink);stroke-width:2;fill:none}
+.fam-f5a9d9 .fig svg .rl{stroke:var(--red);stroke-width:2.5;fill:none}
+.fam-f5a9d9 .fig svg .dl{stroke:var(--red);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+.fam-f5a9d9 .video-help{ margin: 18px 0 32px; padding: 14px 16px; border: 1px solid #b8c9e5; border-left: 4px solid #1d3a8c; border-radius: 8px; background: rgba(232, 240, 252, .72); }
+.fam-f5a9d9 .video-help p{ margin-bottom: 12px; }
+.fam-f5a9d9 .video-help .video-frame{ position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; background: #111; margin: 10px 0 8px; }
+.fam-f5a9d9 .video-help iframe{ position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.fam-f5a9d9 .video-help .video-note{ display: block; font-size: .88em; line-height: 1.5; opacity: .9; }
+.fam-f5a9d9 .reading-sources{ margin: 18px 0 22px; padding: 12px 16px; border: 1px solid #c8d6e8; border-radius: 7px; background: rgba(255,255,255,.78); font-size: .92em; line-height: 1.65; }
+.fam-f5a9d9 .reading-sources p{ margin: 0 0 6px; }
+.fam-f5a9d9 .reading-sources ul{ margin: 0; padding-left: 24px; }
+.fam-f5a9d9 .reading-sources ul li::before{ left: -18px; }
+.fam-f5a9d9 .reading-sources .source-note{ font-size: .9em; opacity: .9; margin-top: 6px; }
+.fam-f5a9d9 .video-help{break-inside:avoid;margin:18px 0 32px;padding:14px 16px;border:1px solid #b8c9e5;border-left:4px solid #1d3a8c;border-radius:8px;background:rgba(232,240,252,.72)}
+.fam-f5a9d9 .video-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:8px;background:#111;margin:10px 0 8px}
+.fam-f5a9d9 .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.fam-f5a9d9 .reading-sources{margin:24px 0 30px;padding:12px 16px;border:1px solid #c8d6e8;border-radius:7px;background:rgba(255,255,255,.78);font-size:.92em;line-height:1.65}
+.fam-f5a9d9 .reading-sources p{margin:0 0 6px}
+.fam-f5a9d9 .reading-sources ul{margin:0;padding-left:24px}
+.fam-f5a9d9 .reading-sources ul li::before{left:-18px}
+.fam-f5a9d9 .source-note{font-size:.9em;opacity:.9;margin-top:6px}
+.fam-f5a9d9 .tp{position:relative;margin:58px -14px 64px;padding:22px 22px 8px;border:1px solid rgba(29,58,140,.18);border-left:8px solid;border-radius:12px;box-shadow:0 5px 18px rgba(20,30,60,.07);}
+.fam-f5a9d9 .tp.tr{background:linear-gradient(135deg,rgba(179,38,30,.17),rgba(179,38,30,.075));border-color:#b3261e;}
+.fam-f5a9d9 .tp.ty{background:linear-gradient(135deg,rgba(255,214,0,.34),rgba(255,214,0,.13));border-color:#d2a900;}
+.fam-f5a9d9 .tp.tb{background:linear-gradient(135deg,rgba(35,39,48,.13),rgba(35,39,48,.055));border-color:#333;}
+.fam-f5a9d9 .tp h1{padding-bottom:8px;margin-bottom:12px;}
+.fam-f5a9d9 .tp.tr h1::after,.fam-f5a9d9 .tp.ty h1::after,.fam-f5a9d9 .tp.tb h1::after{display:inline-block;vertical-align:middle;margin-left:12px;padding:2px 10px;border-radius:5px;font-family:var(--display);font-size:.48em;line-height:1.8;letter-spacing:.7px;text-decoration:none;white-space:nowrap;}
+.fam-f5a9d9 .tp.tr h1::after{content:"RED PRIORITY";background:#b3261e;color:#fff;}
+.fam-f5a9d9 .tp.ty h1::after{content:"YELLOW PRIORITY";background:#ffd600;color:#463900;}
+.fam-f5a9d9 .tp.tb h1::after{content:"BLACK PRIORITY";background:#222;color:#fff;}
+.fam-f5a9d9 .tp::before{content:"✿  ───────────────  ✿  ───────────────  ✿";display:block;text-align:center;color:#b3261e;font-family:Georgia,serif;font-size:19px;line-height:36px;letter-spacing:2px;margin:-12px 0 16px;opacity:.9;}
+.fam-f5a9d9 .tp.tr::before{color:#b3261e}
+.fam-f5a9d9 .tp.ty::before{color:#9a7900}
+.fam-f5a9d9 .tp.tb::before{color:#444}
+@media (max-width:520px){.fam-f5a9d9 .tp{padding:16px 13px 4px;margin:44px -7px 50px}.fam-f5a9d9 .tp.tr h1::after,.fam-f5a9d9 .tp.ty h1::after,.fam-f5a9d9 .tp.tb h1::after{margin:6px 0 0 4px;font-size:.42em}.fam-f5a9d9 .tp::before{font-size:14px;letter-spacing:0}}
+.fam-f5a9d9 .exam-box{padding:16px 20px;border:1px solid var(--edge);border-radius:6px;background:rgba(255,255,255,.78);margin-bottom:32px}
+.fam-f5a9d9 .fig figcaption{font-size:.88em;text-align:center;color:var(--red);line-height:32px}
+.fam-f5a9d9 .priority{padding:11px 14px;margin:12px 0 20px;border-left:5px solid;border-radius:4px}
+.fam-f5a9d9 .priority.pr{background:rgba(179,38,30,.08);border-color:#b3261e}
+.fam-f5a9d9 .priority.py{background:rgba(255,214,0,.2);border-color:#d0a900}
+.fam-f5a9d9 .priority.pb{background:rgba(0,0,0,.06);border-color:#333}
+.fam-f5a9d9 .tag{display:inline-block;font:700 12px Arial;padding:2px 8px;border-radius:4px;letter-spacing:.4px}
+.fam-f5a9d9 .tag.red{background:#b3261e;color:white}
+.fam-f5a9d9 .tag.yellow{background:#ffd600;color:#493b00}
+.fam-f5a9d9 .tag.black{background:#222;color:white}
+.fam-f5a9d9 .diagram{border:1px solid var(--edge);border-radius:8px;padding:10px;background:#ffffffc9;margin:8px 0 22px;text-align:center}
+.fam-f5a9d9 .diagram svg{width:100%;max-width:680px;height:auto}
+.fam-f5a9d9 .caption{font-size:.9rem;color:#456}
+.fam-f5a9d9 .resource-panel{margin:18px 0 32px;padding:16px;border:1px solid #c8d6e8;border-radius:9px;background:rgba(255,255,255,.88);box-shadow:0 3px 10px rgba(20,30,60,.07)}
+.fam-f5a9d9 .resource-panel h3{margin:0 0 10px;color:var(--red)}
+.fam-f5a9d9 .resource-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:10px 0 18px}
+.fam-f5a9d9 .resource-card{display:block;padding:12px 14px;border:1px solid #c8d6e8;border-left:4px solid var(--ink);border-radius:7px;background:#f7faff;text-decoration:none!important;color:var(--ink)!important;line-height:1.5;transition:transform .15s ease,box-shadow .15s ease}
+.fam-f5a9d9 .resource-card:hover{transform:translateY(-2px);box-shadow:0 5px 12px rgba(20,30,60,.12);color:var(--red)!important}
+.fam-f5a9d9 .resource-card.video{border-left-color:#b3261e;background:#fff8f7}
+.fam-f5a9d9 .resource-card .resource-kind{display:block;font-size:.72em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#65728a;margin-bottom:4px}
+.fam-f5a9d9 .resource-card strong{display:block;background:none;padding:0;color:inherit}
+.fam-f5a9d9 .resource-card small{display:block;font-size:.86em;line-height:1.45;margin-top:4px;color:#46536b}
+.fam-f5a9d9 .video-help{border-left-width:5px}
+.fam-f5a9d9 .video-help>a,.fam-f5a9d9 .reading-sources a{display:inline-block;margin:4px 4px 4px 0;padding:5px 10px;border:1px solid #b8c9e5;border-radius:6px;background:#f7faff;font-weight:600;text-decoration:none!important}
+.fam-f5a9d9 .video-help>a:hover,.fam-f5a9d9 .reading-sources a:hover{background:#e8f0fc;color:var(--red)}
+.fam-f5a9d9 .reading-sources li{margin:5px 0}
+@media (max-width:520px){.fam-f5a9d9 .resource-panel{padding:12px}.fam-f5a9d9 .resource-grid{grid-template-columns:1fr}}
+.fam-f5a9d9 .quick-index{margin:24px 0 40px;padding:20px 22px;border:2px solid #9fb4d5;border-radius:12px;background:linear-gradient(135deg,rgba(232,240,252,.96),rgba(255,255,255,.96));box-shadow:0 5px 16px rgba(20,30,60,.08)}
+.fam-f5a9d9 .quick-index h2{margin:0 0 12px}
+.fam-f5a9d9 .quick-index .index-intro{margin:0 0 16px;font-size:.94em}
+.fam-f5a9d9 .index-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.fam-f5a9d9 .index-card{display:block;padding:14px 15px;border:1px solid #c5d3e7;border-left:6px solid #555;border-radius:9px;background:#fff;color:var(--ink);text-decoration:none;line-height:1.65;box-shadow:0 2px 7px rgba(20,30,60,.06);transition:transform .15s ease,box-shadow .15s ease}
+.fam-f5a9d9 .index-card:hover{transform:translateY(-2px);box-shadow:0 5px 13px rgba(20,30,60,.12);color:var(--red)}
+.fam-f5a9d9 .index-card.red-card{border-left-color:#b3261e;background:#fff4f2}
+.fam-f5a9d9 .index-card.yellow-card{border-left-color:#d6ad00;background:#fffbea}
+.fam-f5a9d9 .index-card.black-card{border-left-color:#333;background:#f4f4f4}
+.fam-f5a9d9 .index-card strong{display:block;margin-bottom:4px;background:none}
+.fam-f5a9d9 .index-card .index-priority{display:inline-block;margin-top:7px;padding:1px 8px;border-radius:4px;font-size:.78em;font-weight:700;line-height:1.6}
+.fam-f5a9d9 .index-card .index-priority.red{background:#b3261e;color:white}
+.fam-f5a9d9 .index-card .index-priority.yellow{background:#ffe27a;color:#4a3b00}
+.fam-f5a9d9 .index-card .index-priority.black{background:#333;color:white}
+.fam-f5a9d9 .index-card .index-priority.mixed{background:linear-gradient(90deg,#b3261e 0 33%,#ffe27a 33% 66%,#333 66%);color:#fff;text-shadow:0 1px 2px #333}
+@media (max-width:520px){.fam-f5a9d9 .quick-index{padding:15px}.fam-f5a9d9 .index-grid{grid-template-columns:1fr}}
+.fam-f5a9d9 .formula{
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 16px auto 24px;
+  padding: 12px 20px;
+  border: 1px solid #eadb91;
+  border-left: 4px solid #e5c64b;
+  border-radius: 7px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0) 0,
+      rgba(255,255,255,0) 31px,
+      rgba(105,145,190,.18) 32px,
+      rgba(255,255,255,0) 33px
+    ),
+    #fff4b8;
+  color: #164b91;
+  font-family: var(--hand, "Comic Sans MS", "Segoe Print", cursive);
+  font-size: 1.13rem;
+  font-weight: 700;
+  line-height: 1.95;
+  letter-spacing: .015em;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(70,55,10,.10);
+  overflow-wrap: anywhere;
+}
+.fam-f5a9d9 .formula strong,.fam-f5a9d9 .formula sub,.fam-f5a9d9 .formula sup{ color: #164b91; }
+.fam-f5a9d9 .formula strong{ background: transparent; padding: 0; }
+.fam-f5a9d9 .math-inline{
+  display: inline-block;
+  padding: 1px 6px 2px;
+  margin: 1px 2px;
+  border-radius: 4px;
+  background: #fff1a8;
+  color: #164b91;
+  border-bottom: 2px solid #e4c64c;
+  font-family: var(--hand, "Comic Sans MS", "Segoe Print", cursive);
+  font-size: .98em;
+  font-weight: 700;
+  line-height: 1.55;
+  vertical-align: baseline;
+  white-space: normal;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.fam-f5a9d9 .math-inline sub,.fam-f5a9d9 .math-inline sup{ color: #164b91; }
+@media (max-width:520px){.fam-f5a9d9 .formula{ font-size: 1rem; padding: 9px 12px; line-height: 1.8; }}
+.fam-f5a9d9 section[id]{scroll-margin-top:16px}
+.fam-f5a9d9 figure{margin:0}
+.fam-f5a9d9 img{max-width:100%;height:auto}
+.fam-f5a9d9 h4{margin:0;font-family:var(--display);font-size:1.05rem;line-height:36px;color:var(--ink)}
+.fam-f5a9d9 .small{font-size:.9em}
+.fam-f5a9d9 .hero{position:relative;margin:-24px -8px 32px 0;padding:28px 26px 22px;border-radius:14px;color:#fff;overflow:hidden;
+  background:radial-gradient(circle at 92% 12%,rgba(255,214,0,.35),transparent 42%),linear-gradient(135deg,#1d3a8c 0%,#2b4fb8 55%,#b3261e 140%);
+  box-shadow:0 8px 22px -8px rgba(20,30,60,.55)}
+.fam-f5a9d9 .hero::after{content:"I";position:absolute;right:14px;bottom:-34px;font:800 9rem/1 var(--display);color:rgba(255,255,255,.12);pointer-events:none}
+.fam-f5a9d9 .hero .eyebrow{font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;opacity:.85;line-height:24px}
+.fam-f5a9d9 .hero h1{color:#fff;text-decoration:none;font-size:clamp(1.6rem,5vw,2.3rem);line-height:1.25;margin:6px 0 4px}
+.fam-f5a9d9 .hero .sub{margin:0 0 14px;font-size:1.05rem;line-height:28px;color:#ffe27a;font-weight:600}
+.fam-f5a9d9 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.fam-f5a9d9 .chip{display:inline-block;padding:2px 12px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);font-size:.8rem;line-height:26px;font-weight:600}
+.fam-f5a9d9 .chip.hot{background:#ffd600;color:#463900;border-color:#ffd600}
+.fam-f5a9d9 .panel{margin:0 0 32px;padding:16px 20px 6px;border:1px solid #c8d6e8;border-radius:12px;background:rgba(255,255,255,.92);box-shadow:0 3px 10px rgba(20,30,60,.07)}
+.fam-f5a9d9 .panel h2{margin:0 0 6px;font-size:1.15rem}
+.fam-f5a9d9 .panel p,.fam-f5a9d9 .panel ul{margin-bottom:14px}
+.fam-f5a9d9 .legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:0 0 14px}
+.fam-f5a9d9 .legend div{padding:8px 12px;border-radius:8px;border-left:6px solid;line-height:1.5;font-size:.9em}
+.fam-f5a9d9 .legend .lr{background:rgba(179,38,30,.1);border-color:#b3261e}
+.fam-f5a9d9 .legend .ly{background:rgba(255,214,0,.28);border-color:#d2a900}
+.fam-f5a9d9 .legend .lb{background:rgba(35,39,48,.1);border-color:#333}
+.fam-f5a9d9 .legend b{display:inline-block;margin-right:6px;padding:0 8px;border-radius:4px;font-size:.78em;line-height:1.7;color:#fff;background:#b3261e}
+.fam-f5a9d9 .legend .ly b{background:#ffd600;color:#463900}
+.fam-f5a9d9 .legend .lb b{background:#222}
+.fam-f5a9d9 .focus li{line-height:1.6;margin-bottom:4px}
+.fam-f5a9d9 .quick-index{margin:0 0 40px}
+.fam-f5a9d9 .index-card{position:relative;padding-left:62px}
+.fam-f5a9d9 .index-card .num{position:absolute;left:12px;top:12px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:700 1.05rem/1 var(--display);color:#fff;background:#555}
+.fam-f5a9d9 .index-card.red-card .num{background:#b3261e}
+.fam-f5a9d9 .index-card.yellow-card .num{background:#e0b800;color:#3d3100}
+.fam-f5a9d9 .index-card.black-card .num{background:#222}
+.fam-f5a9d9 .index-card .index-priority.red{background:#b3261e;color:#fff}
+.fam-f5a9d9 .index-card .index-priority.yellow{background:#ffe27a;color:#4a3b00}
+.fam-f5a9d9 .index-card .index-priority.black{background:#333;color:#fff}
+.fam-f5a9d9 .topic-section.tp{position:relative;margin:52px -14px 60px;padding:20px 24px 6px;border:1px solid rgba(29,58,140,.18);border-left:9px solid;border-radius:14px;box-shadow:0 6px 20px rgba(20,30,60,.09)}
+.fam-f5a9d9 .topic-section.tp::before{display:none}
+.fam-f5a9d9 .tp.tr{background:linear-gradient(135deg,rgba(179,38,30,.16),rgba(179,38,30,.07));border-color:#b3261e}
+.fam-f5a9d9 .tp.ty{background:linear-gradient(135deg,rgba(255,214,0,.34),rgba(255,214,0,.13));border-color:#d2a900}
+.fam-f5a9d9 .tp.tb{background:linear-gradient(135deg,rgba(35,39,48,.15),rgba(35,39,48,.06));border-color:#333}
+.fam-f5a9d9 .topic-title{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;margin:0 0 6px;padding-bottom:8px;border-bottom:2px dashed currentColor;line-height:1.35;font-size:1.5rem}
+.fam-f5a9d9 .tnum{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:800 1.7rem/1 var(--display);color:#fff;background:var(--red);box-shadow:0 0 0 4px rgba(255,255,255,.75),0 3px 8px rgba(0,0,0,.25)}
+.fam-f5a9d9 .tp.ty .tnum{background:#e0b800;color:#3d3100}
+.fam-f5a9d9 .tp.tb .tnum{background:#222}
+.fam-f5a9d9 .tlabel{display:block;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:#455;line-height:1.2}
+.fam-f5a9d9 .tprio{margin-left:auto;padding:2px 12px;border-radius:6px;font-size:.5em;letter-spacing:.8px;line-height:1.9;white-space:nowrap;background:#b3261e;color:#fff}
+.fam-f5a9d9 .tp.ty .tprio{background:#ffd600;color:#463900}
+.fam-f5a9d9 .tp.tb .tprio{background:#222}
+.fam-f5a9d9 .evidence{margin:0 0 28px;padding:8px 14px;border-radius:8px;background:rgba(255,255,255,.7);font-size:.9em;line-height:1.6;border:1px dashed var(--edge)}
+.fam-f5a9d9 .tp h3{margin-top:8px;color:var(--green);border-left:4px solid currentColor;padding-left:10px}
+.fam-f5a9d9 .tp .exam-box h3{border:0;padding:0;margin-top:0}
+.fam-f5a9d9 .exam-box{break-inside:avoid;border-left:5px solid var(--green);background:rgba(255,255,255,.9);box-shadow:0 2px 8px rgba(20,30,60,.08)}
+.fam-f5a9d9 .exam-box h3::before{content:"★ ";color:#e0b800}
+.fam-f5a9d9 .tw{background:rgba(255,255,255,.8);border-radius:6px}
+.fam-f5a9d9 .floral-divider{text-align:center;color:var(--red);letter-spacing:6px;line-height:36px;margin:0 0 6px}
+.fam-f5a9d9 .tp.ty .floral-divider{color:#9a7900}
+.fam-f5a9d9 .tp.tb .floral-divider{color:#444}
+.fam-f5a9d9 .back-top{margin:0 0 30px;font-size:.9em;text-align:right}
+.fam-f5a9d9 .unit-end{margin:40px 0 0;padding:16px;text-align:center;border-radius:12px;background:linear-gradient(135deg,#e8f0fc,#fff4b8);border:1px solid #c8d6e8;line-height:1.7}
+@media (max-width:520px){.fam-f5a9d9 .hero{margin-right:0;padding:20px 16px}.fam-f5a9d9 .hero::after{font-size:6rem}.fam-f5a9d9 .topic-section.tp{margin:40px -8px 48px;padding:14px 12px 4px}.fam-f5a9d9 .tnum{width:42px;height:42px;font-size:1.3rem}.fam-f5a9d9 .topic-title{font-size:1.2rem}.fam-f5a9d9 .tprio{margin-left:0}}
+@media print{.fam-f5a9d9{box-shadow:none;max-width:none}.fam-f5a9d9 .topic-section{break-before:page}.fam-f5a9d9 .back-top{display:none}.fam-f5a9d9 pre,.fam-f5a9d9 .exam-box,.fam-f5a9d9 .hero{break-inside:avoid}.fam-f5a9d9 .hero,.fam-f5a9d9 .tp,.fam-f5a9d9 .tnum,.fam-f5a9d9 .tprio{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+.fam-f5a9d9 .tp::before{display:none!important}
+.fam-f5a9d9 .tp h2:not(.topic-title){margin-top:10px;font-size:1.2rem;border-left:4px solid var(--red);padding-left:10px}
+.fam-f5a9d9 .tp .resource-panel h3,.fam-f5a9d9 .tp .exam-box h3,.fam-f5a9d9 .tp .video-help h3{border:0;padding:0}
+.fam-f5a9d9 .priority-note{padding:12px 16px;margin:0 0 28px;border-left:5px solid #333;border-radius:4px;background:rgba(0,0,0,.05);line-height:1.7}
+.fam-f5a9d9 .priority-note.red-note{background:rgba(179,38,30,.085);border-color:#b3261e}
+.fam-f5a9d9 .priority-note.yellow-note{background:rgba(255,214,0,.24);border-color:#d2a900}
+.fam-f5a9d9 .topic-section.tp.tm{background:linear-gradient(135deg,rgba(179,38,30,.14),rgba(255,214,0,.22) 55%,rgba(35,39,48,.13));border-color:#d2a900}
+.fam-f5a9d9 .tm .tnum{background:linear-gradient(135deg,#b3261e 0 33%,#e0b800 33% 66%,#222 66%)}
+.fam-f5a9d9 .tm .tprio{background:linear-gradient(90deg,#b3261e 0 33%,#ffd600 33% 66%,#222 66%);color:#fff;text-shadow:0 1px 2px #000}
+.fam-f5a9d9 .index-card.mixed-card{border-left-color:#d2a900;background:linear-gradient(135deg,#fff4f2,#fffbea 55%,#f4f4f4)}
+.fam-f5a9d9 .index-card.mixed-card .num{background:linear-gradient(135deg,#b3261e 0 33%,#e0b800 33% 66%,#222 66%)}
+.fam-f5a9d9 .topic-section section.tp{margin:26px 0;padding:14px 18px 4px;border-left:6px solid;border-radius:10px;box-shadow:none;background:rgba(255,255,255,.82)}
+.fam-f5a9d9 .topic-section section.tp.tr{border-color:#b3261e}
+.fam-f5a9d9 .topic-section section.tp.ty{border-color:#d2a900}
+.fam-f5a9d9 .topic-section section.tp.tb{border-color:#333}
+.fam-f5a9d9 .topic-section section#exam{margin:26px 0;padding:14px 18px 4px;border-left:6px solid #b3261e;border-radius:10px;background:rgba(255,255,255,.82)}
+</style>
+</head>
+<body>
+<div class="page"><section class="fam-f5a9d9" id="top"><span id="unit-top"></span>
+<header class="hero">
+  <div class="eyebrow">ERP · MCA Semester IV</div>
+  <h1>UNIT I — INTRODUCTION TO ERP</h1>
+  <p class="sub">Complete Unit Notes · Topics 1 to 5</p>
+  <p class="chips">
+    <span class="chip">Ranchi University MCA</span>
+    <span class="chip">ECMCA402B</span>
+    <span class="chip">5 topics · 1 notebook</span>
+    <span class="chip hot">EXAM FOCUSED</span>
+  </p>
+</header>
+
+<div class="panel">
+  <h2>✿ Official Unit I syllabus ✿</h2>
+  <p>1. <a href="#topic1-start">Evolution of ERP</a> · 2. <a href="#topic2-start">What is ERP?</a> · 3. <a href="#topic3-start">Reasons for the Growth of the ERP Market</a> · 4. <a href="#topic4-start">Advantages of ERP</a> · 5. <a href="#topic5-start">Reasons for ERP Failure</a></p>
+  <p class="small">All five topics are developed below in syllabus order. Tap a topic in the index to jump to it.</p>
+</div>
+
+<div class="panel">
+  <h2>✿ Exam-priority colour guide ✿</h2>
+  <div class="legend">
+    <div class="lr"><b>RED</b>Direct question verified in the supplied Ranchi University papers.</div>
+    <div class="ly"><b>YELLOW</b>Important / predicted from the syllabus and question pattern; not confirmed as a direct Ranchi PYQ.</div>
+    <div class="lb"><b>BLACK</b>No matching question evidence identified in the material checked.</div>
+  </div>
+  <p class="small">In these notes, YELLOW means prepare it as an important conceptual answer. It does not mean that the questions supplied from the internet are confirmed Ranchi University PYQs.</p>
+</div>
+
+<nav class="quick-index" aria-label="Unit I topic index">
+  <h2>✿ Quick Index — ERP Unit I ✿</h2>
+  <p class="index-intro">The five official Unit I topics — all included in this notebook.</p>
+  <div class="index-grid">
+    <a class="index-card yellow-card" href="#topic1-start"><span class="num">1</span><strong>Evolution of ERP</strong>Development from inventory control and MRP to ERP, ERP II and cloud ERP.<span class="index-priority yellow">YELLOW · IMPORTANT</span></a>
+    <a class="index-card yellow-card" href="#topic2-start"><span class="num">2</span><strong>What is ERP?</strong>Definition, purpose, characteristics, modules, architecture and legacy systems.<span class="index-priority yellow">YELLOW · IMPORTANT</span></a>
+    <a class="index-card yellow-card" href="#topic3-start"><span class="num">3</span><strong>Reasons for the Growth of the ERP Market</strong>Market and business factors behind ERP adoption.<span class="index-priority yellow">YELLOW · IMPORTANT</span></a>
+    <a class="index-card yellow-card" href="#topic4-start"><span class="num">4</span><strong>Advantages of ERP</strong>Benefits of an integrated enterprise system.<span class="index-priority yellow">YELLOW · IMPORTANT</span></a>
+    <a class="index-card yellow-card" href="#topic5-start"><span class="num">5</span><strong>Reasons for ERP Failure</strong>Common causes of unsuccessful ERP projects.<span class="index-priority yellow">YELLOW · IMPORTANT</span></a>
+  </div>
+</nav>
+
+<section id="topic1-start" class="topic-section tp ty">
+  <div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+  <h2 class="topic-title"><span class="tnum">1</span><span><span class="tlabel">Topic 1 of 5</span>Evolution of ERP</span><span class="tprio">YELLOW PRIORITY</span></h2>
+
+  <div class="panel focus">
+    <h2>★ What to prepare from this topic ★</h2>
+    <ul>
+      <li>The step-by-step growth: inventory control → MRP → MRP II → ERP → ERP II / cloud ERP.</li>
+      <li>What each stage added and which limitation of the earlier stage pushed the next one.</li>
+      <li>Approximate time line (decade-wise) and the key technology of each stage.</li>
+      <li>How ERP "contains" earlier systems (MRP and MRP II are parts of the ERP idea).</li>
+      <li>Comparison of MRP, MRP II and ERP.</li>
+    </ul>
+    <p class="small"><strong>Study approach:</strong> Learn the chain in one line first — <em>Inventory control → MRP → MRP II → ERP → ERP II → Cloud / Intelligent ERP</em> — and then attach "focus + limitation" to every link.</p>
+  </div>
+
+  <p class="evidence"><strong>Priority reason:</strong> "Evolution of ERP" is the first official topic of Unit I, so a theory question such as <em>"Explain the evolution of ERP"</em> is a natural prediction. It is marked YELLOW (predicted from the syllabus and the usual ERP question pattern); it is not claimed as a confirmed Ranchi University PYQ.</p>
+
+  <div class="note">
+    <strong>THE CENTRAL IDEA</strong>
+    <p>ERP did not appear suddenly. It grew out of simple stock-control methods, which became material planning (MRP), then planning of all manufacturing resources (MRP II), and finally planning of the <strong>whole enterprise</strong> on one common database (ERP). Every stage fixed a weakness of the earlier stage.</p>
+  </div>
+
+  <h2>1.1 Meaning of "Evolution of ERP"</h2>
+  <div class="priority py">
+    <span class="tag yellow">YELLOW</span>
+    <strong>Evolution of ERP</strong> means the gradual development of business information systems from <strong>departmental inventory control</strong> to <strong>enterprise-wide integrated systems</strong>.
+    <p>At each stage the scope of the system became wider: first only stock, then materials needed for production, then all manufacturing resources, and finally every function of the organization — finance, HR, sales, purchase, production and more.</p>
+  </div>
+  <p class="small"><strong>Note:</strong> Years given below are the commonly cited approximate decades. Different textbooks may shift a date by a few years, so write "approximately / around" in the exam.</p>
+
+  <h2>1.2 Before Computers — Manual and Reorder-Point Control</h2>
+  <p>Before computers were used in business, stock was controlled with paper registers, bin cards and simple rules. The popular technique was <strong>statistical inventory control</strong>: when stock of an item fell to a fixed <strong>re-order point (ROP)</strong>, a fixed quantity (for example, the <strong>Economic Order Quantity — EOQ</strong>) was ordered.</p>
+  <div class="priority pb">
+    <span class="tag">BLACK</span>
+    <strong>Weakness:</strong> ROP / EOQ treats every item <em>independently</em>. It does not know that a bicycle needs a frame, two wheels and a chain at a particular time, so it cannot plan <strong>dependent demand</strong> (parts needed because a final product is planned).
+  </div>
+
+  <h2>1.3 Evolution Time Line</h2>
+  <div class="diagram">
+    <svg viewBox="0 0 760 270" role="img" aria-label="Time line of ERP evolution from 1960s to 2010s">
+      <path d="M30 60 H730 M720 52 L731 60 L720 68" fill="none" stroke="#b3261e" stroke-width="2.5"/>
+      <g text-anchor="middle" font-size="13" fill="#1d3a8c">
+        <rect x="14" y="84" width="140" height="92" rx="9" fill="#ffffff" stroke="#1d3a8c" stroke-width="2"/>
+        <text x="84" y="40" font-weight="700" fill="#b3261e">1960s</text>
+        <text x="84" y="110" font-weight="700">Inventory Control</text>
+        <text x="84" y="132" font-size="11">Reorder point · EOQ</text>
+        <text x="84" y="150" font-size="11">Stock records</text>
+
+        <rect x="162" y="84" width="140" height="92" rx="9" fill="#ffffff" stroke="#1d3a8c" stroke-width="2"/>
+        <text x="232" y="40" font-weight="700" fill="#b3261e">1970s</text>
+        <text x="232" y="110" font-weight="700">MRP</text>
+        <text x="232" y="132" font-size="11">Material Requirement</text>
+        <text x="232" y="150" font-size="11">Planning · BOM</text>
+
+        <rect x="310" y="84" width="140" height="92" rx="9" fill="#ffe27a" stroke="#1d3a8c" stroke-width="2"/>
+        <text x="380" y="40" font-weight="700" fill="#b3261e">1980s</text>
+        <text x="380" y="110" font-weight="700">MRP II</text>
+        <text x="380" y="132" font-size="11">Manufacturing Resource</text>
+        <text x="380" y="150" font-size="11">Planning · capacity · finance</text>
+
+        <rect x="458" y="84" width="140" height="92" rx="9" fill="#ffffff" stroke="#b3261e" stroke-width="2.5"/>
+        <text x="528" y="40" font-weight="700" fill="#b3261e">1990s</text>
+        <text x="528" y="110" font-weight="700">ERP</text>
+        <text x="528" y="132" font-size="11">Whole enterprise ·</text>
+        <text x="528" y="150" font-size="11">common database</text>
+
+        <rect x="606" y="84" width="140" height="92" rx="9" fill="#ffffff" stroke="#1d3a8c" stroke-width="2"/>
+        <text x="676" y="40" font-weight="700" fill="#b3261e">2000s →</text>
+        <text x="676" y="110" font-weight="700">ERP II / Cloud</text>
+        <text x="676" y="132" font-size="11">Web · partners · SaaS</text>
+        <text x="676" y="150" font-size="11">Mobile · analytics · AI</text>
+      </g>
+      <g stroke="#b3261e" stroke-width="2"><path d="M84 60 V84 M232 60 V84 M380 60 V84 M528 60 V84 M676 60 V84"/></g>
+      <text x="380" y="222" text-anchor="middle" font-size="13" fill="#1d3a8c" font-weight="700">Scope keeps widening: stock → materials → manufacturing → enterprise → extended enterprise</text>
+      <text x="380" y="246" text-anchor="middle" font-size="12" fill="#456">Approximate decades — each stage includes and extends the previous one</text>
+    </svg>
+    <p class="caption">Time line of ERP evolution (approximate decades).</p>
+  </div>
+
+  <h2>1.4 Stage-wise Explanation</h2>
+
+  <h3>Stage 1 — Inventory Control Systems (1960s)</h3>
+  <ul>
+    <li>Mainframe computers were first used by large manufacturers to keep <strong>stock records</strong> and to apply re-order-point rules.</li>
+    <li>Focus: <strong>"How much stock do we have and when should we re-order?"</strong></li>
+    <li><strong>Limitation:</strong> handled each item separately; no planning of components for a finished product; no link with production schedule.</li>
+  </ul>
+
+  <h3>Stage 2 — Material Requirement Planning, MRP (1970s)</h3>
+  <ul>
+    <li>Researchers and practitioners (Joseph Orlicky of IBM is the name usually associated with it) showed that component demand should be <strong>calculated</strong> from the plan for the finished product, not forecast item by item.</li>
+    <li>Inputs: <strong>Master Production Schedule (MPS)</strong>, <strong>Bill of Materials (BOM)</strong> and <strong>Inventory records</strong>. Outputs: planned purchase orders and production orders with correct quantities and dates.</li>
+    <li>Focus: <strong>"What materials do we need, how many, and when?"</strong></li>
+    <li><strong>Limitation:</strong> assumed unlimited capacity (machines and labour) and had no feedback if the plan could not actually be executed; it covered materials only.</li>
+  </ul>
+
+  <h3>Stage 3 — Closed-Loop MRP and MRP II (1980s)</h3>
+  <ul>
+    <li><strong>Closed-loop MRP</strong> added <strong>capacity planning</strong> and <strong>shop-floor control</strong> with <strong>feedback</strong> — if the plan is not feasible, it is corrected.</li>
+    <li><strong>MRP II (Manufacturing Resource Planning)</strong> extended this to all manufacturing resources — materials, machines, labour and money — and linked <strong>sales &amp; operations planning, purchasing, costing and finance</strong>. Oliver Wight is widely credited with promoting the name.</li>
+    <li>Focus: <strong>"Can we make it with the resources we have, and what will it cost?"</strong></li>
+    <li><strong>Limitation:</strong> still centred on <strong>manufacturing</strong>; HR, distribution, project work, quality and service functions stayed in separate programs and separate databases.</li>
+  </ul>
+
+  <h3>Stage 4 — Enterprise Resource Planning, ERP (1990s)</h3>
+  <ul>
+    <li>The term <strong>ERP</strong> was coined by the <strong>Gartner Group</strong> around 1990 to describe systems that go beyond MRP II and cover the whole business.</li>
+    <li>ERP integrates <strong>finance, HR, sales &amp; distribution, purchasing, inventory, production, quality, plant maintenance</strong> on a <strong>common database</strong> using <strong>client–server</strong> technology and relational databases.</li>
+    <li>Leading packages of the period: <strong>SAP (R/3), Oracle, BAAN, PeopleSoft, JD Edwards</strong>.</li>
+    <li>Focus: <strong>"One integrated view of the entire enterprise in real time."</strong></li>
+    <li><strong>Limitation:</strong> mostly <em>inward-looking</em> — good inside the organization, weak in connecting with customers, suppliers and partners; costly and heavy to implement.</li>
+  </ul>
+
+  <h3>Stage 5 — ERP II / Extended ERP (2000s)</h3>
+  <ul>
+    <li>Gartner used the term <strong>ERP II</strong> (around 2000) for ERP that opens to the outside world through the <strong>Internet</strong>.</li>
+    <li>Adds or connects <strong>CRM (Customer Relationship Management), SCM (Supply Chain Management), e-business, supplier / customer portals</strong> and collaborative commerce.</li>
+    <li>Focus: <strong>"Collaborate with customers, suppliers and partners, not only run internal operations."</strong></li>
+  </ul>
+
+  <h3>Stage 6 — Cloud, Mobile and Intelligent ERP (2010s onwards)</h3>
+  <ul>
+    <li>ERP is delivered as <strong>cloud / SaaS</strong> (subscription, no big server room), with <strong>mobile access</strong> and <strong>in-memory databases</strong> for fast reports.</li>
+    <li>Modern systems use <strong>analytics, automation, machine learning and IoT data</strong> for forecasting, predictive maintenance and quicker decisions.</li>
+    <li>Benefit: lower start-up cost, faster upgrades, anywhere access, stronger analytics.</li>
+    <li><strong>Challenges:</strong> data security, dependence on the vendor and Internet, integration with existing systems, subscription cost over time.</li>
+  </ul>
+
+  <h2>1.5 Summary Table of the Evolution</h2>
+  <table>
+    <thead><tr><th>Stage</th><th>Period</th><th>Main focus</th><th>What it added</th><th>Limitation that led to the next stage</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Inventory Control</strong></td><td>1960s</td><td>Stock levels</td><td>Computerised stock records, ROP / EOQ rules</td><td>Item-by-item; no dependent-demand planning</td></tr>
+      <tr><td><strong>MRP</strong></td><td>1970s</td><td>Materials</td><td>MPS, BOM, time-phased planned orders</td><td>No capacity check, no feedback, materials only</td></tr>
+      <tr><td><strong>MRP II</strong></td><td>1980s</td><td>Manufacturing resources</td><td>Capacity planning, shop-floor control, costing, finance link</td><td>Limited to manufacturing; separate systems for other functions</td></tr>
+      <tr><td><strong>ERP</strong></td><td>1990s</td><td>Whole enterprise</td><td>Finance, HR, sales, purchase, quality, maintenance on one database</td><td>Weak external collaboration; heavy and costly</td></tr>
+      <tr><td><strong>ERP II</strong></td><td>2000s</td><td>Extended enterprise</td><td>Web, CRM, SCM, partner portals</td><td>Infrastructure cost; slow upgrades</td></tr>
+      <tr><td><strong>Cloud / Intelligent ERP</strong></td><td>2010s →</td><td>Anywhere, data-driven</td><td>SaaS, mobile, analytics, AI / ML, IoT</td><td>Security, vendor dependence, integration issues</td></tr>
+    </tbody>
+  </table>
+
+  <h2>1.6 How the Systems Fit Inside Each Other</h2>
+  <p>Each new system <strong>includes</strong> the earlier one and then widens the scope. MRP is a part of MRP II, and MRP II is a part of ERP.</p>
+  <div class="diagram">
+    <svg viewBox="0 0 650 340" role="img" aria-label="Nested view: inventory control inside MRP inside MRP II inside ERP inside ERP II">
+      <g fill="none" stroke-width="2">
+        <rect x="20" y="14" width="610" height="316" rx="18" stroke="#b3261e" stroke-dasharray="7 5"/>
+        <rect x="66" y="62" width="518" height="254" rx="16" stroke="#b3261e"/>
+        <rect x="112" y="110" width="426" height="192" rx="14" stroke="#1d3a8c"/>
+        <rect x="158" y="158" width="334" height="130" rx="12" stroke="#1d3a8c"/>
+      </g>
+      <rect x="204" y="206" width="242" height="68" rx="10" fill="#ffe27a" stroke="#1d3a8c" stroke-width="2"/>
+      <g text-anchor="middle" fill="#1d3a8c" font-size="13" font-weight="700">
+        <text x="325" y="40">ERP II / Cloud ERP — extended enterprise, partners, Internet</text>
+        <text x="325" y="88">ERP — whole enterprise on one common database</text>
+        <text x="325" y="136">MRP II — all manufacturing resources</text>
+        <text x="325" y="184">MRP — material planning</text>
+        <text x="325" y="236">Inventory Control</text>
+        <text x="325" y="256" font-size="11" font-weight="400">ROP · EOQ · stock records</text>
+      </g>
+    </svg>
+    <p class="caption">Nested view — every outer system contains the inner systems.</p>
+  </div>
+
+  <h2>1.7 Factors That Drove the Evolution</h2>
+  <table>
+    <thead><tr><th>Factor</th><th>How it pushed ERP forward</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Advances in hardware</strong></td><td>Mainframes → minicomputers → PCs and servers made computing cheaper and available to every department.</td></tr>
+      <tr><td><strong>Better software and databases</strong></td><td>Relational databases and client–server architecture allowed one shared database for many modules.</td></tr>
+      <tr><td><strong>Global competition</strong></td><td>Companies needed shorter lead time, lower cost and better customer service, which needed integrated information.</td></tr>
+      <tr><td><strong>Limits of legacy / siloed systems</strong></td><td>Separate departmental programs caused duplicate data, mismatched records and slow reports.</td></tr>
+      <tr><td><strong>Business growth and complexity</strong></td><td>Multi-plant, multi-location and multi-currency operations needed one consistent system.</td></tr>
+      <tr><td><strong>Year-2000 (Y2K) problem</strong></td><td>Many firms replaced old date-limited systems with ERP in the late 1990s.</td></tr>
+      <tr><td><strong>Internet and cloud technology</strong></td><td>Made collaboration with partners, remote access and subscription-based ERP possible.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>1.8 MRP vs MRP II vs ERP</h2>
+  <div class="tw wide">
+  <table>
+    <thead><tr><th>Basis</th><th>MRP</th><th>MRP II</th><th>ERP</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Full form</strong></td><td>Material Requirement Planning</td><td>Manufacturing Resource Planning</td><td>Enterprise Resource Planning</td></tr>
+      <tr><td><strong>Scope</strong></td><td>Materials only</td><td>All manufacturing resources</td><td>Entire enterprise</td></tr>
+      <tr><td><strong>Main question</strong></td><td>What, how many, when to buy / make?</td><td>Can we make it with available resources?</td><td>How do all functions work together?</td></tr>
+      <tr><td><strong>Functions covered</strong></td><td>Inventory, purchasing, production orders</td><td>MRP + capacity, shop floor, costing, finance link</td><td>MRP II + HR, sales &amp; distribution, quality, maintenance, projects</td></tr>
+      <tr><td><strong>Feedback</strong></td><td>None (open loop)</td><td>Closed loop with feedback</td><td>Real-time integrated feedback</td></tr>
+      <tr><td><strong>Database</strong></td><td>Separate material files</td><td>Manufacturing database</td><td>Single common enterprise database</td></tr>
+      <tr><td><strong>Typical period</strong></td><td>1970s</td><td>1980s</td><td>1990s</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>1.9 Simple Example — A Growing Bicycle Company</h2>
+  <ol>
+    <li><strong>Small shop:</strong> uses a stock register and re-orders tyres when only 20 are left (inventory control).</li>
+    <li><strong>Growing factory:</strong> to build 500 bicycles next month, it calculates the exact number of frames, wheels and chains and their order dates from the BOM (MRP).</li>
+    <li><strong>More machines:</strong> checks if the assembly line has enough hours and workers, and links the plan to cost and budget (MRP II).</li>
+    <li><strong>Many departments:</strong> finance, HR payroll, sales, purchase and stores all share one database, so a sale updates stock, billing and accounts together (ERP).</li>
+    <li><strong>Online business:</strong> dealers and suppliers log in through a portal and the company uses cloud ERP with mobile dashboards (ERP II / cloud ERP).</li>
+  </ol>
+
+  <h2>1.10 Previous-Year Question / Question-Pattern Evidence</h2>
+  <div class="priority-note yellow-note">
+    <strong>Evidence status: YELLOW — predicted from the syllabus.</strong>
+    <p>The syllabus priority list marks the following as a predicted 10–15 mark question:</p>
+    <ul>
+      <li>Explain the evolution of ERP and the reasons for the growth of the ERP market.</li>
+    </ul>
+    <p>The evolution part is answered from this topic and the "growth of the ERP market" part from Topic 3. This is not a confirmed Ranchi University PYQ.</p>
+  </div>
+
+  <h2>1.11 Important Questions for Examination</h2>
+  <div class="exam-box">
+    <h3>Short / conceptual questions (1–5 marks)</h3>
+    <ol>
+      <li>Who coined the term ERP, and when (approximately)?</li>
+      <li>What is MRP? What is MRP II?</li>
+      <li>What is meant by dependent demand?</li>
+      <li>Write any three limitations of MRP.</li>
+      <li>What is ERP II?</li>
+    </ol>
+    <h3>Long / descriptive questions (10–15 marks)</h3>
+    <ol>
+      <li>Explain the evolution of ERP from inventory control to modern ERP with a neat diagram.</li>
+      <li>Trace the development of ERP through MRP and MRP II and state the limitation that led to each next stage.</li>
+      <li>Differentiate between MRP, MRP II and ERP.</li>
+      <li>Explain the factors that led to the evolution of ERP systems.</li>
+      <li>Explain ERP II and cloud ERP as the later stages of ERP evolution.</li>
+    </ol>
+  </div>
+
+  <h2>1.12 How to Write the 10–15 Mark Answer</h2>
+  <ol>
+    <li>Write the one-line chain: Inventory Control → MRP → MRP II → ERP → ERP II / Cloud ERP.</li>
+    <li>Draw the time-line diagram (section 1.3).</li>
+    <li>For each stage write: <strong>period, focus, what it added, limitation</strong> (2–3 lines each).</li>
+    <li>Add the summary table and, if marks allow, the MRP vs MRP II vs ERP comparison.</li>
+    <li>Mention the driving factors — hardware, databases, competition, Y2K, Internet.</li>
+    <li>Conclude: ERP is the result of continuous widening from stock control to the integrated, collaborative enterprise.</li>
+  </ol>
+  <p class="source-note">These notes are a student-friendly synthesis of standard ERP textbook content. Dates and names are the commonly cited ones; please confirm them against your prescribed textbook before the examination.</p>
+
+  <h2>1.13 Quick Self-Check</h2>
+  <div class="exam-box">
+    <ol>
+      <li><strong>Which stage first calculated component needs from the finished-product plan?</strong><br>MRP.</li>
+      <li><strong>What did MRP II add to MRP?</strong><br>Capacity planning, shop-floor control, feedback, costing and finance link.</li>
+      <li><strong>Which group coined the term ERP?</strong><br>The Gartner Group (around 1990).</li>
+      <li><strong>Name any four ERP packages of the 1990s.</strong><br>SAP R/3, Oracle, BAAN, PeopleSoft (also JD Edwards).</li>
+      <li><strong>What distinguishes ERP II from ERP?</strong><br>Opening up to customers, suppliers and partners through the Internet (CRM, SCM, portals).</li>
+    </ol>
+  </div>
+
+  <p class="back-top"><a href="#top">↑ Back to index</a></p>
+</section>
+
+<section id="topic2-start" class="topic-section tp ty">
+  <div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+  <h2 class="topic-title"><span class="tnum">2</span><span><span class="tlabel">Topic 2 of 5</span>What is ERP?</span><span class="tprio">YELLOW PRIORITY</span></h2>
+
+  <div class="panel focus">
+  <h2>★ What to prepare from this topic ★</h2>
+  <ul>
+    <li>Meaning, definition and purpose of ERP.</li>
+    <li>How ERP integrates departments through a common database.</li>
+    <li>Major characteristics and functional modules of ERP.</li>
+    <li>Basic ERP architecture and flow of information.</li>
+    <li>ERP versus traditional / legacy or siloed systems.</li>
+  </ul>
+  <p class="small"><strong>Study approach:</strong> Understand the meaning first, then learn the characteristics, modules, diagram and comparison. These points cover the conceptual question pattern supplied for this subject.</p>
+</div>
+
+  <p class="evidence"><strong>Priority reason:</strong> The question pattern supplied for this ERP study includes defining ERP, distinguishing ERP from legacy / siloed systems, and explaining ERP integration and modules. These are strong preparation areas. The supplied question list is not itself proof that each question appeared in a Ranchi University examination.</p>
+
+  <div class="note">
+    <strong>THE CENTRAL IDEA</strong>
+    <p>ERP brings the important business functions of an organization into an integrated information system. Instead of each department keeping disconnected records, departments can work with connected processes and shared business information.</p>
+  </div>
+
+  <h2>2.1 Meaning and Full Form of ERP</h2>
+  <div class="priority py">
+    <span class="tag yellow">YELLOW</span>
+    <strong>ERP</strong> stands for <strong>Enterprise Resource Planning</strong>.
+    <p>It is an integrated software system used by an organization to manage and coordinate its major business functions—such as finance, human resources, purchasing, inventory, production and sales—through connected applications and shared information.</p>
+  </div>
+
+  <table>
+    <thead><tr><th>Word</th><th>Meaning in simple language</th><th>Business example</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Enterprise</strong></td><td>The whole organization or business.</td><td>A manufacturing company with finance, HR, sales and production departments.</td></tr>
+      <tr><td><strong>Resource</strong></td><td>Anything the organization uses to run its work.</td><td>Money, employees, raw materials, machines, stock and information.</td></tr>
+      <tr><td><strong>Planning</strong></td><td>Organizing and using resources according to business requirements.</td><td>Planning how much material, labour and money are needed for an order.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2.2 Formal Definition for Examination</h2>
+  <div class="priority py">
+    <span class="tag yellow">IMPORTANT DEFINITION</span>
+    <p><strong>Enterprise Resource Planning (ERP)</strong> is an integrated, real-time, cross-functional information system that supports the major internal business processes of an organization by connecting different functional departments and enabling the flow and sharing of information.</p>
+  </div>
+  <p><strong>In simple words:</strong> ERP is one connected business system through which different departments can work with the same updated organizational information.</p>
+
+  <h2>2.3 Why Does an Organization Need ERP?</h2>
+  <p>Consider a company that sells and manufactures laptops. It has separate departments for sales, inventory, production and finance.</p>
+  <p>When these departments use unrelated software, the same information may have to be entered repeatedly. A sales employee may not know the latest stock position, and the finance team may receive order details late.</p>
+
+  <div class="diagram">
+    <svg viewBox="0 0 700 300" role="img" aria-label="Separate departmental systems before ERP">
+      <text x="350" y="24" text-anchor="middle" font-weight="700">BEFORE ERP — DISCONNECTED SYSTEMS</text>
+      <rect x="20" y="48" width="150" height="70" rx="9" class="bx"/>
+      <rect x="190" y="48" width="150" height="70" rx="9" class="bx"/>
+      <rect x="360" y="48" width="150" height="70" rx="9" class="bx"/>
+      <rect x="530" y="48" width="150" height="70" rx="9" class="bx"/>
+      <text x="95" y="78" text-anchor="middle">Sales</text><text x="95" y="100" text-anchor="middle" font-size="11">Sales software</text>
+      <text x="265" y="78" text-anchor="middle">Inventory</text><text x="265" y="100" text-anchor="middle" font-size="11">Stock software</text>
+      <text x="435" y="78" text-anchor="middle">Production</text><text x="435" y="100" text-anchor="middle" font-size="11">Production software</text>
+      <text x="605" y="78" text-anchor="middle">Finance</text><text x="605" y="100" text-anchor="middle" font-size="11">Accounting software</text>
+      <path d="M95 118 V155 M265 118 V155 M435 118 V155 M605 118 V155" class="dl"/>
+      <text x="350" y="183" text-anchor="middle" class="cap">Separate records · manual communication · possible duplication and delay</text>
+      <rect x="75" y="210" width="550" height="60" rx="10" class="rx"/>
+      <text x="350" y="237" text-anchor="middle">Information is not automatically shared</text>
+      <text x="350" y="258" text-anchor="middle" font-size="11">Departments may work with different versions of business data.</text>
+    </svg>
+    <p class="caption">Conceptual illustration of siloed departmental applications.</p>
+  </div>
+
+  <p>ERP addresses this problem by connecting the departments through a common system.</p>
+
+  <div class="diagram">
+    <svg viewBox="0 0 700 330" role="img" aria-label="Integrated ERP system connecting departments">
+      <text x="350" y="24" text-anchor="middle" font-weight="700">AFTER ERP — INTEGRATED SYSTEM</text>
+      <rect x="205" y="48" width="290" height="74" rx="12" class="rx"/>
+      <text x="350" y="78" text-anchor="middle" font-weight="700">ERP SYSTEM</text>
+      <text x="350" y="101" text-anchor="middle" font-size="12">Connected business processes</text>
+      <path d="M350 122 V153 M95 153 H605 M95 153 V184 M265 153 V184 M435 153 V184 M605 153 V184" class="ln"/>
+      <rect x="20" y="184" width="150" height="65" rx="8" class="bx"/>
+      <rect x="190" y="184" width="150" height="65" rx="8" class="bx"/>
+      <rect x="360" y="184" width="150" height="65" rx="8" class="bx"/>
+      <rect x="530" y="184" width="150" height="65" rx="8" class="bx"/>
+      <text x="95" y="211" text-anchor="middle">Sales</text><text x="95" y="232" text-anchor="middle" font-size="11">Orders</text>
+      <text x="265" y="211" text-anchor="middle">Inventory</text><text x="265" y="232" text-anchor="middle" font-size="11">Stock</text>
+      <text x="435" y="211" text-anchor="middle">Production</text><text x="435" y="232" text-anchor="middle" font-size="11">Manufacturing</text>
+      <text x="605" y="211" text-anchor="middle">Finance</text><text x="605" y="232" text-anchor="middle" font-size="11">Accounts</text>
+      <rect x="125" y="274" width="450" height="42" rx="8" class="yx"/>
+      <text x="350" y="300" text-anchor="middle">Shared / integrated business data</text>
+    </svg>
+    <p class="caption">Conceptual ERP integration: departments exchange information through connected modules.</p>
+  </div>
+
+  <h2>2.4 How ERP Works — A Simple Business Example</h2>
+  <p>Suppose a customer places an order for 100 laptops. The order triggers connected activities in different departments.</p>
+  <ol>
+    <li><strong>Sales:</strong> Records the customer's order in the ERP system.</li>
+    <li><strong>Inventory:</strong> Checks the available laptop stock.</li>
+    <li><strong>Production / Procurement:</strong> If stock is insufficient, the organization can plan production or purchase the required materials.</li>
+    <li><strong>Finance:</strong> Uses order and delivery information for billing and accounting.</li>
+    <li><strong>Management:</strong> Can review updated order, stock and financial information through reports.</li>
+  </ol>
+  <div class="note">
+    <strong>IMPORTANT POINT</strong>
+    <p>The data is entered once where appropriate and then made available to other authorized functions through integrated processes. ERP does not mean every employee can see every record; access is controlled by roles and permissions.</p>
+  </div>
+
+  <h2>2.5 Major Characteristics of ERP</h2>
+  <table>
+    <thead><tr><th>Characteristic</th><th>Explanation</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1. Integration</strong></td><td>Connects different business functions and processes.</td><td>A sales order can update inventory and provide information to finance.</td></tr>
+      <tr><td><strong>2. Common database</strong></td><td>Uses a shared or logically integrated data repository for business information.</td><td>Sales and inventory use the same product and order records.</td></tr>
+      <tr><td><strong>3. Real-time information</strong></td><td>Updates can become available to other connected processes without waiting for separate periodic data entry.</td><td>After a goods issue is posted, stock information is updated.</td></tr>
+      <tr><td><strong>4. Modular structure</strong></td><td>ERP is organized into modules for different business functions.</td><td>Finance, HR, inventory and sales modules.</td></tr>
+      <tr><td><strong>5. Process automation</strong></td><td>Automates repeatable steps and workflows.</td><td>Purchase requisition approval or payroll calculation.</td></tr>
+      <tr><td><strong>6. Standardized processes</strong></td><td>Encourages consistent procedures across the organization.</td><td>Different branches follow the same purchase approval workflow.</td></tr>
+      <tr><td><strong>7. Reporting and analysis</strong></td><td>Combines information from business functions for reports and decisions.</td><td>A manager reviews sales, stock and cost reports together.</td></tr>
+      <tr><td><strong>8. Security and access control</strong></td><td>Controls access according to user roles and responsibilities.</td><td>An HR user can access employee records while a sales user accesses order data.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2.6 Functional Modules of ERP</h2>
+  <p>An ERP package is generally divided into modules. Each module supports a particular functional area, but the modules are connected to the overall ERP system.</p>
+  <table>
+    <thead><tr><th>Module</th><th>Work performed</th><th>Typical information</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Finance and Accounting</strong></td><td>Manages financial transactions and accounts.</td><td>General ledger, accounts payable, receivable, budgets.</td></tr>
+      <tr><td><strong>Human Resources (HR)</strong></td><td>Manages employee-related activities.</td><td>Employee records, attendance, payroll, recruitment.</td></tr>
+      <tr><td><strong>Sales and Distribution</strong></td><td>Manages customer orders and delivery activities.</td><td>Customer orders, pricing, invoices, dispatch.</td></tr>
+      <tr><td><strong>Production / Manufacturing</strong></td><td>Plans and monitors manufacturing.</td><td>Production schedules, bills of materials, work orders.</td></tr>
+      <tr><td><strong>Inventory / Materials Management</strong></td><td>Controls materials and stock movement.</td><td>Stock levels, goods receipt, goods issue, reorder data.</td></tr>
+      <tr><td><strong>Supply Chain Management (SCM)</strong></td><td>Coordinates sourcing, suppliers, logistics and movement of goods.</td><td>Procurement, supplier, transportation and delivery information.</td></tr>
+    </tbody>
+  </table>
+  <p class="small"><strong>Note:</strong> Module names and boundaries vary between ERP products. CRM and SCM may be included as modules or connected applications, depending on the ERP package.</p>
+
+  <h2>2.7 Basic ERP Architecture</h2>
+  <p>At a conceptual level, an ERP system can be understood through three major layers. The exact technical architecture differs by product, but this model helps explain how users, business processing and data work together.</p>
+  <div class="diagram">
+    <svg viewBox="0 0 650 330" role="img" aria-label="Three-layer ERP architecture">
+      <rect x="100" y="24" width="450" height="70" rx="10" class="bx"/>
+      <text x="325" y="52" text-anchor="middle" font-weight="700">Presentation Layer</text>
+      <text x="325" y="76" text-anchor="middle" font-size="12">Screens · Web interface · Dashboards</text>
+      <path d="M325 94 V126 M317 117 L325 127 L333 117" class="rl"/>
+      <rect x="100" y="130" width="450" height="78" rx="10" class="yx"/>
+      <text x="325" y="160" text-anchor="middle" font-weight="700">Application / Business Logic Layer</text>
+      <text x="325" y="184" text-anchor="middle" font-size="12">Rules · Workflows · Validation · ERP modules</text>
+      <path d="M325 208 V240 M317 231 L325 241 L333 231" class="rl"/>
+      <rect x="100" y="244" width="450" height="70" rx="10" class="rx"/>
+      <text x="325" y="272" text-anchor="middle" font-weight="700">Database Layer</text>
+      <text x="325" y="296" text-anchor="middle" font-size="12">Shared / integrated business data</text>
+    </svg>
+    <p class="caption">Simplified three-layer view of ERP architecture.</p>
+  </div>
+  <ol>
+    <li><strong>Presentation layer:</strong> The interface through which employees enter information and view reports.</li>
+    <li><strong>Application layer:</strong> Processes business rules, validations and workflows, such as order approval or stock updates.</li>
+    <li><strong>Database layer:</strong> Stores and manages business data used by the connected modules.</li>
+  </ol>
+  <p><strong>Example:</strong> A sales employee enters an order using the presentation layer. The application layer validates the order and coordinates the workflow. The database layer stores the order and related information.</p>
+
+  <h2>2.8 ERP vs Traditional / Legacy / Siloed Systems</h2>
+  <p>A <strong>legacy system</strong> is an older information system that an organization continues to use. A <strong>siloed system</strong> is an application or database that works separately from other departments' systems. A legacy system can be integrated, but many older departmental systems are isolated.</p>
+  <table>
+    <thead><tr><th>Basis</th><th>Traditional / siloed systems</th><th>Integrated ERP</th></tr></thead>
+    <tbody>
+      <tr><td><strong>System structure</strong></td><td>Separate applications for separate departments.</td><td>Connected modules within an integrated system.</td></tr>
+      <tr><td><strong>Data storage</strong></td><td>May use separate departmental databases.</td><td>Uses a common or integrated data repository.</td></tr>
+      <tr><td><strong>Data sharing</strong></td><td>May require manual transfer or custom interfaces.</td><td>Information flows through connected processes.</td></tr>
+      <tr><td><strong>Data duplication</strong></td><td>Greater risk of duplicate entry and inconsistent records.</td><td>Reduces unnecessary duplication through shared records.</td></tr>
+      <tr><td><strong>Reporting</strong></td><td>Reports may be limited to one department.</td><td>Can combine information from multiple functions.</td></tr>
+      <tr><td><strong>Coordination</strong></td><td>Departments may coordinate through email, files or manual updates.</td><td>Connected workflows support cross-department coordination.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="priority-note yellow-note">
+    <strong>Exam point:</strong> Do not write that every legacy system is necessarily disconnected or bad. The important distinction is between isolated departmental applications and an integrated ERP environment.
+  </div>
+
+  <h2>2.9 Advantages and Limitations — Brief Overview</h2>
+  <p>The official syllabus has a separate topic on advantages of ERP, so the benefits are only introduced here.</p>
+  <ul>
+    <li><strong>Benefits:</strong> Better coordination, reduced duplicate data entry, improved visibility, more consistent information and faster reporting.</li>
+    <li><strong>Limitations:</strong> High implementation cost, complexity, training requirements, change resistance and dependence on data quality.</li>
+  </ul>
+
+  <h2>2.10 Previous-Year Question / Question-Pattern Evidence</h2>
+  <div class="priority-note yellow-note">
+    <strong>Evidence status: YELLOW — important conceptual preparation.</strong>
+    <p>The question pattern provided for this ERP course specifically includes:</p>
+    <ul>
+      <li>Define ERP and explain how it differs from legacy or siloed systems.</li>
+      <li>Explain the architecture and functional modules of an ERP system.</li>
+    </ul>
+    <p>These are the user's supplied question-pattern prompts. They are treated as likely / important questions, not as confirmed Ranchi University PYQs. No verbatim Ranchi PYQ wording is claimed in this section.</p>
+  </div>
+
+  <h2>2.11 Important Questions for Examination</h2>
+  <div class="exam-box">
+    <h3>Short / conceptual questions (1–5 marks)</h3>
+    <ol>
+      <li>Define ERP.</li>
+      <li>What is meant by an integrated ERP system?</li>
+      <li>What is a common database in ERP?</li>
+      <li>Differentiate between ERP and legacy / siloed systems.</li>
+      <li>Write any five characteristics of ERP.</li>
+    </ol>
+    <h3>Long / descriptive questions (10–15 marks)</h3>
+    <ol>
+      <li>Define ERP and explain its major characteristics.</li>
+      <li>Explain the architecture of an ERP system with a neat diagram.</li>
+      <li>Describe the major functional modules of ERP.</li>
+      <li>Explain how ERP integrates the different departments of an organization with a suitable example.</li>
+      <li>Differentiate between traditional / siloed information systems and an integrated ERP system.</li>
+    </ol>
+  </div>
+
+  <h2>2.12 How to Write the 10–15 Mark Answer</h2>
+  <ol>
+    <li>Start with the full form and definition of ERP.</li>
+    <li>Explain the meaning of Enterprise, Resource and Planning.</li>
+    <li>Draw the ERP integration diagram.</li>
+    <li>Explain the major characteristics.</li>
+    <li>Describe the functional modules with examples.</li>
+    <li>Explain the three-layer architecture if the question asks for architecture.</li>
+    <li>End with a short conclusion about integrated information and coordination.</li>
+  </ol>
+
+  <h2>2.13 Video Lessons — Preferred YouTube Channels</h2>
+  <div class="video-help">
+    <p><strong>1. Enterprise Resource Planning (ERP) — Unit 1 · Vinay Mishra</strong> <span class="r">VERIFIED VIDEO</span></p>
+    <p>Useful as a broader Unit 1 revision lesson. The video description confirms coverage of ERP-related topics such as SCM, BPR, OLAP, data warehousing, data mining and ERP advantages. It is not exclusively a definition-only lesson.</p>
+    <div class="video-frame">
+      <iframe src="https://www.youtube-nocookie.com/embed/LU0qP8jXIr4" title="Enterprise Resource Planning Unit 1 - Vinay Mishra" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <a href="https://www.youtube.com/watch?v=LU0qP8jXIr4" target="_blank" rel="noopener">▶ Open verified ERP Unit 1 video on YouTube</a>
+  </div>
+  <div class="video-help">
+    <p><strong>2. Gate Smashers — ERP topic search</strong></p>
+    <p>No individual Gate Smashers video specifically matching this exact topic could be verified in the search. This link opens a channel/topic search rather than claiming a particular video is verified.</p>
+    <a href="https://www.youtube.com/results?search_query=Gate+Smashers+What+is+ERP+Enterprise+Resource+Planning" target="_blank" rel="noopener">Search Gate Smashers ERP lessons</a>
+  </div>
+  <div class="video-help">
+    <p><strong>3. 5 Minutes Engineering — ERP topic search</strong></p>
+    <a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+Enterprise+Resource+Planning+ERP" target="_blank" rel="noopener">Search 5 Minutes Engineering ERP lessons</a>
+  </div>
+  <div class="video-help">
+    <p><strong>4. Education 4u — ERP topic search</strong></p>
+    <a href="https://www.youtube.com/results?search_query=Education+4u+Enterprise+Resource+Planning+ERP" target="_blank" rel="noopener">Search Education 4u ERP lessons</a>
+  </div>
+  <div class="video-help">
+    <p><strong>5. Er Sahil ka Gyan — ERP topic search</strong></p>
+    <a href="https://www.youtube.com/results?search_query=Er+Sahil+ka+Gyan+Enterprise+Resource+Planning+ERP" target="_blank" rel="noopener">Search Er Sahil ka Gyan ERP lessons</a>
+  </div>
+  <p class="small"><strong>Video verification note:</strong> Only the Vinay Mishra video above was verified as an individual relevant video. The remaining links are clearly labelled YouTube searches, not verified video recommendations.</p>
+
+  <h2>2.14 Website References Used</h2>
+  <div class="resource-panel">
+    <h3>✿ Read from the approved websites ✿</h3>
+    <div class="resource-grid">
+      <a class="resource-card" href="https://www.geeksforgeeks.org/software-engineering/introduction-to-erp/" target="_blank" rel="noopener">
+        <span class="resource-kind">GeeksforGeeks</span>
+        <strong>Introduction to ERP</strong>
+        <small>Definition, features, ERP modules, working, benefits and ERP versus CRM.</small>
+      </a>
+      <a class="resource-card" href="https://www.geeksforgeeks.org/software-engineering/erp-components/" target="_blank" rel="noopener">
+        <span class="resource-kind">GeeksforGeeks</span>
+        <strong>ERP Components</strong>
+        <small>Functional components and the role of different modules.</small>
+      </a>
+      <a class="resource-card" href="https://www.tutorialspoint.com/management_information_system/enterprise_resource_planning.htm" target="_blank" rel="noopener">
+        <span class="resource-kind">TutorialsPoint</span>
+        <strong>MIS — Enterprise Resource Planning</strong>
+        <small>ERP definition, real-time cross-functional integration, features and scope.</small>
+      </a>
+      <a class="resource-card" href="https://www.tutorialspoint.com/management_concepts/enterprise_resource_planning.htm" target="_blank" rel="noopener">
+        <span class="resource-kind">TutorialsPoint</span>
+        <strong>Enterprise Resource Planning</strong>
+        <small>Purpose of ERP, departmental integration and advantages / disadvantages.</small>
+      </a>
+    </div>
+    <p class="source-note">The notes above are a student-friendly synthesis of these references, reorganized for the official Unit I topic. They are not copied verbatim. W3Schools did not provide a directly relevant ERP lesson in the search, so no unrelated W3Schools link has been added.</p>
+  </div>
+
+  <h2>2.15 Quick Self-Check</h2>
+  <div class="exam-box">
+    <ol>
+      <li><strong>What does ERP stand for?</strong><br>Enterprise Resource Planning.</li>
+      <li><strong>What is the central purpose of ERP?</strong><br>To integrate and coordinate the major business functions of an organization.</li>
+      <li><strong>What is a common database?</strong><br>A shared or logically integrated data repository used by connected ERP modules.</li>
+      <li><strong>Name any four ERP modules.</strong><br>Finance, HR, Sales and Distribution, and Inventory.</li>
+      <li><strong>What are the three conceptual ERP architecture layers?</strong><br>Presentation, Application / Business Logic, and Database.</li>
+    </ol>
+  </div>
+
+  <p class="back-top"><a href="#top">↑ Back to index</a></p>
+</section>
+
+<section id="topic3-start" class="topic-section tp ty">
+  <div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+  <h2 class="topic-title"><span class="tnum">3</span><span><span class="tlabel">Topic 3 of 5</span>Reasons for the Growth of the ERP Market</span><span class="tprio">YELLOW PRIORITY</span></h2>
+
+  <div class="panel focus">
+  <h2>★ What to prepare from this topic ★</h2>
+  <ul>
+    <li>Business reasons: integration, efficiency, growth and customer satisfaction.</li>
+    <li>Operational benefits: reduced lead time and cycle time, improved delivery and resource use.</li>
+    <li>IT reasons: limitations of legacy systems and advances in technology.</li>
+    <li>Better information, planning, flexibility and decision-making.</li>
+    <li>How ERP supports suppliers, customers and business expansion.</li>
+  </ul>
+  <p class="small"><strong>Study approach:</strong> Learn the main reasons under business, operational and technological headings. Explain each reason with one practical example.</p>
+</div>
+  <div class="priority-note yellow-note"><strong>Priority reason:</strong> This is an official syllabus heading. The following points are organized from the approved study references and the topic-specific lesson identified below. No exact Ranchi University PYQ is claimed unless its wording is confirmed in the supplied examination papers.</div>
+
+  <h2>3.1 Introduction</h2>
+  <p>The ERP market grew because organizations needed a better way to manage their expanding and interconnected business activities. Separate applications and outdated systems often made it difficult to share accurate information, coordinate departments, respond quickly to customers and control costs.</p>
+  <div class="note"><strong>CORE IDEA</strong><p>Organizations adopted ERP to integrate business processes, improve operational performance, obtain reliable information for decisions, modernize old systems and support business growth.</p></div>
+
+  <h2>3.2 Major Reasons for the Growth of ERP</h2>
+  <div class="priority py"><span class="tag yellow">IMPORTANT</span>
+    <h3>1. Improved business performance</h3>
+    <p>ERP connects activities such as purchasing, inventory, production, sales and finance. Better coordination reduces unnecessary work and helps the organization complete business processes more efficiently.</p>
+    <p><strong>Example:</strong> When a sales order is entered, inventory information can be checked without separately calling the store department.</p>
+  </div>
+  <div class="priority py"><span class="tag yellow">IMPORTANT</span>
+    <h3>2. Reduction in lead time and cycle time</h3>
+    <p><strong>Lead time</strong> is the total time between starting a request or order and completing it. <strong>Cycle time</strong> is the time required to complete a particular process or activity. ERP can reduce delays by connecting departments and automating information flow.</p>
+    <p><strong>Example:</strong> A purchase request can move to approval and purchasing without repeatedly entering the same details.</p>
+  </div>
+  <div class="priority py"><span class="tag yellow">IMPORTANT</span>
+    <h3>3. Better customer service and satisfaction</h3>
+    <p>ERP makes relevant information about orders, stock, delivery and customer accounts easier to access. Employees can respond to customer questions more accurately and help avoid unnecessary delays.</p>
+    <p><strong>Example:</strong> A customer asks when an item will be delivered. Staff can check order and inventory status from connected information.</p>
+  </div>
+  <div class="priority py"><span class="tag yellow">IMPORTANT</span>
+    <h3>4. Support for business growth and expansion</h3>
+    <p>As a business adds new products, customers, branches or locations, its processes become more complex. ERP provides an integrated system that can help coordinate these activities across the organization.</p>
+    <p><strong>Example:</strong> A company opening a new branch can use common processes and shared reporting rather than maintaining completely separate records.</p>
+  </div>
+  <div class="priority py"><span class="tag yellow">IMPORTANT</span>
+    <h3>5. Elimination of limitations in legacy systems</h3>
+    <p>Legacy systems are older applications that may be difficult to maintain, modify or connect with modern software. ERP adoption helps organizations replace disconnected or outdated applications with an integrated platform.</p>
+    <p><strong>Example:</strong> If finance and inventory use incompatible software, employees may need to enter the same transaction twice. Integrated ERP reduces this duplication.</p>
+  </div>
+  <div class="priority py"><span class="tag yellow">IMPORTANT</span>
+    <h3>6. Better information accuracy and availability</h3>
+    <p>When connected departments use shared business data, duplicate records and inconsistent information can be reduced. Managers can access more up-to-date information for monitoring and planning.</p>
+    <p><strong>Example:</strong> Sales and inventory teams can refer to the same stock information instead of maintaining different spreadsheets.</p>
+  </div>
+  <div class="priority py"><span class="tag yellow">IMPORTANT</span>
+    <h3>7. Improved planning and decision-making</h3>
+    <p>ERP brings information from different functions together. Managers can analyze sales, costs, inventory and production information to make better-informed decisions.</p>
+    <p><strong>Example:</strong> A manager can compare sales demand with available stock and production capacity before planning the next production cycle.</p>
+  </div>
+  <div class="priority py"><span class="tag yellow">IMPORTANT</span>
+    <h3>8. Better utilization of resources</h3>
+    <p>ERP helps organizations plan and monitor the use of materials, employees, machines, money and time. Better visibility can reduce waste and improve coordination.</p>
+    <p><strong>Example:</strong> Production planning can use inventory information to avoid ordering materials that are already available in the warehouse.</p>
+  </div>
+  <div class="priority py"><span class="tag yellow">IMPORTANT</span>
+    <h3>9. Flexibility and ability to respond to change</h3>
+    <p>Organizations face changing customer requirements, competition, products and business processes. Integrated information and coordinated workflows make it easier to understand the impact of changes and respond across departments.</p>
+    <p><strong>Example:</strong> When demand for a product increases, sales, inventory and production teams can coordinate their response using connected information.</p>
+  </div>
+  <div class="priority py"><span class="tag yellow">IMPORTANT</span>
+    <h3>10. Advances in information technology</h3>
+    <p>Developments such as client-server computing, relational databases, web-based applications, cloud computing and mobile access have made integrated enterprise systems more practical and accessible to organizations.</p>
+    <p><strong>Example:</strong> Cloud-based ERP can allow authorized employees in different locations to access the same system through the internet.</p>
+  </div>
+  <div class="priority py"><span class="tag yellow">IMPORTANT</span>
+    <h3>11. Better coordination with suppliers and business partners</h3>
+    <p>ERP can improve the flow of information between purchasing, inventory, production and supplier-related activities. This supports more coordinated ordering and supply planning.</p>
+    <p><strong>Example:</strong> Purchasing staff can use stock and production requirements to plan when raw materials should be ordered.</p>
+  </div>
+  <div class="priority py"><span class="tag yellow">IMPORTANT</span>
+    <h3>12. Competitive advantage</h3>
+    <p>Organizations use ERP to improve speed, coordination, service and the quality of management information. These improvements can help a business compete more effectively.</p>
+    <p><strong>Example:</strong> A business that can process orders accurately and respond quickly may provide a better customer experience than a competitor using disconnected manual processes.</p>
+  </div>
+
+  <h2>3.3 Tangible and Intangible Reasons</h2>
+  <p>Reasons supporting ERP adoption can also be grouped into tangible and intangible benefits. Tangible benefits are easier to measure in numbers, while intangible benefits are valuable but harder to measure directly.</p>
+  <table>
+    <thead><tr><th>Type</th><th>Meaning</th><th>Examples</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Tangible</strong></td><td>Benefits that can usually be measured using time, cost, quantity or financial figures.</td><td>Reduced lead time, lower operating cost, fewer repeated entries, improved inventory control, faster order processing.</td></tr>
+      <tr><td><strong>Intangible</strong></td><td>Benefits that are difficult to measure directly but improve organizational capability.</td><td>Customer satisfaction, better flexibility, improved decision-making, stronger coordination and information quality.</td></tr>
+    </tbody>
+  </table>
+  <div class="diagram">
+    <svg viewBox="0 0 760 300" role="img" aria-label="Reasons for ERP adoption grouped into tangible and intangible benefits">
+      <text x="380" y="28" text-anchor="middle" font-weight="700">WHY ORGANIZATIONS ADOPT ERP</text>
+      <rect x="250" y="48" width="260" height="54" rx="10" class="rx"/>
+      <text x="380" y="81" text-anchor="middle" font-weight="700">ERP ADOPTION</text>
+      <path d="M380 102 V137 M185 137 H575 M185 137 V164 M575 137 V164" class="ln"/>
+      <rect x="35" y="166" width="300" height="104" rx="10" class="yx"/>
+      <rect x="425" y="166" width="300" height="104" rx="10" class="bx"/>
+      <text x="185" y="194" text-anchor="middle" font-weight="700">TANGIBLE BENEFITS</text>
+      <text x="185" y="221" text-anchor="middle">Less time · lower cost</text>
+      <text x="185" y="246" text-anchor="middle">Faster processing · better control</text>
+      <text x="575" y="194" text-anchor="middle" font-weight="700">INTANGIBLE BENEFITS</text>
+      <text x="575" y="221" text-anchor="middle">Customer satisfaction · flexibility</text>
+      <text x="575" y="246" text-anchor="middle">Better decisions · coordination</text>
+    </svg>
+    <p class="caption">The two groups describe different kinds of value that encourage organizations to invest in ERP.</p>
+  </div>
+
+  <h2>3.4 Diagram — Overall Drivers of ERP Market Growth</h2>
+  <div class="diagram">
+    <svg viewBox="0 0 760 390" role="img" aria-label="Three categories of ERP market growth drivers lead to ERP adoption and business performance">
+      <text x="380" y="28" text-anchor="middle" font-weight="700">MAJOR DRIVERS BEHIND ERP MARKET GROWTH</text>
+      <rect x="18" y="58" width="224" height="112" rx="10" class="bx"/>
+      <rect x="268" y="58" width="224" height="112" rx="10" class="yx"/>
+      <rect x="518" y="58" width="224" height="112" rx="10" class="rx"/>
+      <text x="130" y="88" text-anchor="middle" font-weight="700">BUSINESS DRIVERS</text>
+      <text x="130" y="116" text-anchor="middle">Growth · competition</text><text x="130" y="140" text-anchor="middle">Customer satisfaction</text>
+      <text x="380" y="88" text-anchor="middle" font-weight="700">OPERATIONAL DRIVERS</text>
+      <text x="380" y="116" text-anchor="middle">Time · cost · resources</text><text x="380" y="140" text-anchor="middle">Planning · coordination</text>
+      <text x="630" y="88" text-anchor="middle" font-weight="700">TECHNOLOGY DRIVERS</text>
+      <text x="630" y="116" text-anchor="middle">Legacy replacement</text><text x="630" y="140" text-anchor="middle">Modern IT · cloud access</text>
+      <path d="M130 170 V205 H380 V228 M380 170 V228 M630 170 V205 H380" class="ln"/>
+      <rect x="225" y="230" width="310" height="62" rx="12" class="rx"/>
+      <text x="380" y="267" text-anchor="middle" font-weight="700">INCREASING ERP ADOPTION</text>
+      <path d="M380 292 V324" class="rl"/>
+      <rect x="105" y="326" width="550" height="48" rx="10" class="yx"/>
+      <text x="380" y="356" text-anchor="middle" font-weight="700">Integrated processes · better information · stronger performance</text>
+    </svg>
+    <p class="caption">Business needs, operational improvement and technology changes collectively increase demand for ERP solutions.</p>
+  </div>
+
+  <h2>3.5 Practical Example</h2>
+  <div class="note">
+    <strong>EXAMPLE: A GROWING MANUFACTURING COMPANY</strong>
+    <p>A manufacturer initially manages sales, inventory, purchasing and accounts through separate spreadsheets and applications. As orders increase, staff face duplicate entries, delayed stock updates and difficulty preparing reports.</p>
+    <ol>
+      <li>The company needs to process orders faster and reduce delays.</li>
+      <li>It wants accurate stock information and better production planning.</li>
+      <li>It needs managers to see current sales, cost and inventory information.</li>
+      <li>It plans to open another branch and needs common processes.</li>
+      <li>It replaces disconnected applications with an ERP system.</li>
+    </ol>
+    <p><strong>Result:</strong> ERP can connect the departments and support coordinated work. The actual improvement depends on correct implementation, reliable data and employee adoption.</p>
+  </div>
+
+  <h2>3.6 Short Summary for Revision</h2>
+  <table>
+    <thead><tr><th>Reason</th><th>What ERP helps achieve</th></tr></thead>
+    <tbody>
+      <tr><td>Business performance</td><td>Integrated and coordinated processes.</td></tr>
+      <tr><td>Lead time and cycle time</td><td>Faster processing and fewer delays.</td></tr>
+      <tr><td>Customer satisfaction</td><td>More accurate order and service information.</td></tr>
+      <tr><td>Business expansion</td><td>Coordination across products, branches and locations.</td></tr>
+      <tr><td>Legacy limitations</td><td>Replacement of disconnected or outdated systems.</td></tr>
+      <tr><td>Information quality</td><td>More consistent and accessible business data.</td></tr>
+      <tr><td>Decision-making</td><td>Better planning and analysis.</td></tr>
+      <tr><td>Technology progress</td><td>Modern, web-based and cloud-enabled access.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3.7 Previous-Year Question / Question-Pattern Evidence</h2>
+  <div class="priority-note yellow-note">
+    <strong>Evidence status: YELLOW — prepare as an important syllabus answer.</strong>
+    <p>The official syllabus explicitly includes “Reasons for the growth of the ERP market.” I have not labelled any online question or video as a confirmed Ranchi University PYQ. Use the questions below as practice prompts unless the exact wording is verified in the supplied university papers.</p>
+  </div>
+
+  <h2>3.8 Important Questions for Examination</h2>
+  <div class="exam-box">
+    <h3>Short / conceptual questions (1–5 marks)</h3>
+    <ol>
+      <li>Write any four reasons for the growth of the ERP market.</li>
+      <li>What is meant by lead time and cycle time?</li>
+      <li>How does ERP help in improving customer satisfaction?</li>
+      <li>What are legacy systems?</li>
+      <li>Differentiate between tangible and intangible benefits of ERP.</li>
+    </ol>
+    <h3>Long / descriptive questions (10–15 marks)</h3>
+    <ol>
+      <li>Explain the major reasons for the growth of the ERP market.</li>
+      <li>Discuss the business and technological factors responsible for the growth of ERP.</li>
+      <li>Explain the tangible and intangible benefits that encourage organizations to adopt ERP.</li>
+      <li>How does ERP support business growth, operational efficiency and decision-making?</li>
+    </ol>
+  </div>
+
+  <h2>3.9 How to Write the 10–15 Mark Answer</h2>
+  <ol>
+    <li>Begin with a short introduction explaining why organizations need integrated systems.</li>
+    <li>Explain the business reasons: growth, competition and customer satisfaction.</li>
+    <li>Explain operational reasons: lead time, cycle time, resource utilization and planning.</li>
+    <li>Explain IT reasons: limitations of legacy systems and modern technology.</li>
+    <li>Draw the diagram showing business, operational and technology drivers.</li>
+    <li>Give one practical example and finish with a short conclusion.</li>
+  </ol>
+
+  <h2>3.10 Video Lessons — Preferred YouTube Channels</h2>
+  <div class="video-help">
+    <p><strong>Topic-specific lesson — Why ERP is Growing? · Techmoodly</strong> <span class="r">VERIFIED VIDEO</span></p>
+    <p>This video directly covers reasons for ERP growth, including lead-time reduction, cycle-time reduction, customer satisfaction, flexibility, planning, information accuracy and better resource utilization. It is not from the preferred channel list, but it is the closest verified match for this exact topic.</p>
+    <div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/ohB5HpkTI4E" title="Why ERP is Growing - Techmoodly" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>
+    <a href="https://www.youtube.com/watch?v=ohB5HpkTI4E" target="_blank" rel="noopener">▶ Open verified topic-specific video on YouTube</a>
+  </div>
+  <div class="video-help">
+    <p><strong>Gate Smashers — ERP growth topic search</strong></p>
+    <p>No individual video matching this exact topic was verified. This is a YouTube search link, not a confirmed video recommendation.</p>
+    <a href="https://www.youtube.com/results?search_query=Gate+Smashers+reasons+for+growth+of+ERP+market" target="_blank" rel="noopener">Search Gate Smashers</a>
+  </div>
+  <div class="video-help">
+    <p><strong>5 Minutes Engineering — ERP growth topic search</strong></p>
+    <a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+reasons+for+growth+of+ERP" target="_blank" rel="noopener">Search 5 Minutes Engineering</a>
+  </div>
+  <div class="video-help">
+    <p><strong>Vinay Mishra — ERP growth topic search</strong></p>
+    <a href="https://www.youtube.com/results?search_query=Vinay+Mishra+reasons+for+growth+of+ERP+market" target="_blank" rel="noopener">Search Vinay Mishra</a>
+  </div>
+  <div class="video-help">
+    <p><strong>Education 4u — ERP growth topic search</strong></p>
+    <a href="https://www.youtube.com/results?search_query=Education+4u+reasons+for+growth+of+ERP" target="_blank" rel="noopener">Search Education 4u</a>
+  </div>
+  <div class="video-help">
+    <p><strong>Er Sahil ka Gyan — ERP growth topic search</strong></p>
+    <a href="https://www.youtube.com/results?search_query=Er+Sahil+ka+Gyan+reasons+for+growth+of+ERP" target="_blank" rel="noopener">Search Er Sahil ka Gyan</a>
+  </div>
+  <p class="small"><strong>Video verification note:</strong> Only the Techmoodly video is verified as an exact topic match. Preferred-channel links are searches because an exact matching individual video could not be verified.</p>
+
+  <h2>3.11 Website References Used</h2>
+  <div class="resource-panel">
+    <h3>✿ Approved website references ✿</h3>
+    <div class="resource-grid">
+      <a class="resource-card" href="https://www.tutorialspoint.com/management_information_system/enterprise_resource_planning.htm" target="_blank" rel="noopener"><span class="resource-kind">TutorialsPoint</span><strong>MIS — Enterprise Resource Planning</strong><small>ERP integration, automated data updates, flexibility, planning, decision-making and competitive advantage.</small></a>
+      <a class="resource-card" href="https://www.tutorialspoint.com/management_concepts/management_concepts_quick_guide.htm" target="_blank" rel="noopener"><span class="resource-kind">TutorialsPoint</span><strong>Management Concepts — ERP section</strong><small>Business and IT driving forces, customer satisfaction, business development and legacy-system limitations.</small></a>
+      <a class="resource-card" href="https://www.geeksforgeeks.org/software-engineering/introduction-to-erp/" target="_blank" rel="noopener"><span class="resource-kind">GeeksforGeeks</span><strong>Introduction to ERP</strong><small>ERP history, web-based systems, cloud ERP, mobile ERP and modern technology context.</small></a>
+    </div>
+    <p class="source-note">The core explanation is based on the ERP and driving-force material in TutorialsPoint. GeeksforGeeks is used for supporting technology and adoption context. W3Schools did not provide a directly relevant ERP-market-growth lesson in the search, so no unrelated page is included.</p>
+  </div>
+
+  <h2>3.12 Quick Self-Check</h2>
+  <div class="exam-box">
+    <ol>
+      <li><strong>Name three operational reasons for ERP growth.</strong><br>Reduced lead time, reduced cycle time and better resource utilization.</li>
+      <li><strong>Why do organizations replace legacy systems?</strong><br>Older systems may be difficult to maintain, modify or integrate with other applications.</li>
+      <li><strong>How does ERP support business expansion?</strong><br>It helps coordinate processes and information across new products, departments and locations.</li>
+      <li><strong>What is one intangible benefit of ERP?</strong><br>Customer satisfaction, flexibility or better decision-making.</li>
+      <li><strong>Give one technology factor behind ERP growth.</strong><br>Advances in databases, client-server systems, web applications or cloud computing.</li>
+    </ol>
+  </div>
+  <p class="back-top"><a href="#top">↑ Back to top</a></p>
+  <div class="unit-end"><strong>Topic 3 complete</strong><br>Next topic: Advantages of ERP.</div>
+</section>
+
+<section id="topic4-start" class="topic-section tp ty">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">4</span><span><span class="tlabel">Topic 4 of 5</span>Advantages of ERP</span><span class="tprio">YELLOW PRIORITY</span></h2>
+
+  <div class="panel focus">
+<h2>★ What to prepare ★</h2>
+<ul>
+<li>Reduction of lead time and cycle time.</li>
+<li>On-time shipment and improved customer satisfaction.</li>
+<li>Improved resource utilization and supplier performance.</li>
+<li>Increased flexibility and reduced quality costs.</li>
+<li>Improved information accuracy and decision-making capability.</li>
+<li>Integration, automation, reporting and cost control.</li>
+</ul>
+<p class="small"><strong>Important distinction:</strong> ERP creates the capability for these benefits; the results are not automatic. They depend on implementation quality, accurate data, suitable processes and employee adoption.</p>
+</div>
+<div class="priority-note yellow-note"><strong>Priority reason:</strong> “Advantages of ERP” is explicitly listed in the Unit I syllabus. The main advantage names below follow the TutorialsPoint ERP lesson, with explanations supported by GeeksforGeeks. This is not a claim that every heading is a confirmed direct PYQ.</div>
+
+<h2>4.1 Introduction</h2>
+<p>Enterprise Resource Planning (ERP) integrates important business functions such as finance, sales, purchasing, inventory, production and human resources. Because departments can work with connected processes and shared information, an organization can improve coordination, control and decision-making.</p>
+<div class="note"><strong>CORE IDEA</strong><p>The main advantage of ERP is that it connects business processes and information in one integrated system. This can reduce delays and duplication, improve visibility and help the organization use its resources more effectively.</p></div>
+
+<h2>4.2 Major Advantages of ERP</h2>
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>1. Reduction of Lead Time</h3>
+<p><strong>Lead time</strong> is the total time between placing or initiating an order/request and completing or delivering it. ERP connects activities such as order processing, stock checking, purchasing and production planning. This can reduce waiting and communication delays.</p>
+<p><strong>Example:</strong> When a customer order is entered, the sales team can check stock information directly instead of waiting for a separate inventory report.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>2. Reduction of Cycle Time</h3>
+<p><strong>Cycle time</strong> is the time required to complete a particular process or activity. ERP can streamline workflows and reduce repeated data entry, manual hand-offs and unnecessary approvals.</p>
+<p><strong>Example:</strong> A purchase request can move through a defined approval workflow, reducing the time spent sending forms between departments.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>3. On-Time Shipment</h3>
+<p>ERP connects order details with inventory, production and distribution information. This helps an organization plan material availability and delivery activities more effectively, increasing the possibility of shipping products on the promised date.</p>
+<p><strong>Example:</strong> The dispatch team can use order and stock status to plan which customer orders are ready to ship.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>4. Improved Resource Utilization</h3>
+<p>ERP helps managers monitor and plan the use of resources such as materials, machines, employees, money and time. Better visibility can reduce idle resources, unnecessary purchases and waste.</p>
+<p><strong>Example:</strong> Production planning can check available raw materials before creating a new purchase order.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>5. Better Customer Satisfaction</h3>
+<p>ERP can provide employees with updated information about customer orders, product availability, delivery and accounts. This supports more accurate responses and better service.</p>
+<p><strong>Example:</strong> Customer support can check order progress and provide a more reliable delivery update.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>6. Improved Supplier Performance</h3>
+<p>ERP connects purchasing, inventory and production requirements. This helps an organization plan purchases, track supplier-related transactions and evaluate whether materials arrive as required.</p>
+<p><strong>Example:</strong> Purchase records can help the company review supplier delivery dates and identify repeated delays.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>7. Increased Flexibility</h3>
+<p>Integrated information and standardized workflows help an organization respond to changes in demand, products, processes and business conditions. Modular ERP systems may also allow organizations to add functions as needs grow.</p>
+<p><strong>Example:</strong> When demand increases, managers can review sales, inventory and production information together before adjusting the production plan.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>8. Reduced Quality Costs</h3>
+<p>ERP can support quality management by connecting production records, inspection results, materials and supplier information. This helps organizations identify defects and trace where quality problems may have occurred. It can reduce costs related to rework, scrap and avoidable defects when quality processes are properly managed.</p>
+<p><strong>Example:</strong> If a batch fails inspection, the organization can trace its production and material records to investigate the cause.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>9. Improved Information Accuracy</h3>
+<p>When departments use shared data, the same transaction does not need to be entered into multiple disconnected systems. This reduces duplicate records and conflicting information. Accuracy still depends on correct data entry and proper controls.</p>
+<p><strong>Example:</strong> A stock update recorded in the inventory module can be reflected in information used by sales and purchasing teams.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>10. Better Decision-Making Capability</h3>
+<p>ERP brings information from different departments together and provides reports, dashboards and analysis. Managers can use this information to plan operations, monitor performance and make informed decisions.</p>
+<p><strong>Example:</strong> A manager can compare sales, expenses and inventory levels before deciding whether to increase production.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>11. Better Integration and Coordination</h3>
+<p>ERP links business functions and supports the flow of information between them. This reduces departmental information silos and helps employees coordinate work.</p>
+<p><strong>Example:</strong> A sales order can trigger inventory checking and provide information needed by production and finance.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>12. Reduced Duplication and Manual Work</h3>
+<p>ERP automates repetitive workflows and allows multiple departments to use shared records. This can reduce repeated data entry, paperwork and errors caused by maintaining separate records.</p>
+<p><strong>Example:</strong> Employee details maintained in the HR module can be used by payroll instead of entering the same details again.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>13. Improved Reporting and Transparency</h3>
+<p>ERP can produce reports from connected operational and financial data. Managers can get a clearer view of organizational activities, compare performance and identify issues more quickly.</p>
+<p><strong>Example:</strong> A finance manager can review sales and expense information from a common reporting system.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>14. Better Cost Control</h3>
+<p>By streamlining processes, reducing repeated work and improving resource planning, ERP can help an organization control operating costs. The actual savings depend on the quality of implementation and how the system is used.</p>
+<p><strong>Example:</strong> Improved stock visibility can help prevent unnecessary over-ordering and excess inventory.</p></div>
+
+<h2>4.3 Summary Table — Advantages at a Glance</h2>
+<table><thead><tr><th>Advantage</th><th>Meaning in simple words</th></tr></thead><tbody>
+<tr><td>Reduction of lead time</td><td>Complete orders and requests faster.</td></tr>
+<tr><td>Reduction of cycle time</td><td>Complete individual processes in less time.</td></tr>
+<tr><td>On-time shipment</td><td>Improve planning for promised deliveries.</td></tr>
+<tr><td>Resource utilization</td><td>Use materials, people and machines effectively.</td></tr>
+<tr><td>Customer satisfaction</td><td>Provide better and more reliable service.</td></tr>
+<tr><td>Supplier performance</td><td>Coordinate purchasing and monitor suppliers.</td></tr>
+<tr><td>Flexibility</td><td>Respond to business changes more easily.</td></tr>
+<tr><td>Reduced quality costs</td><td>Help identify defects and avoid rework.</td></tr>
+<tr><td>Information accuracy</td><td>Reduce duplicate and conflicting records.</td></tr>
+<tr><td>Decision-making</td><td>Use connected information for better decisions.</td></tr>
+</tbody></table>
+
+<h2>4.4 Diagram — How ERP Creates Advantages</h2>
+<div class="diagram">
+<svg viewBox="0 0 760 390" role="img" aria-label="ERP shared data and integrated processes lead to operational, customer and management advantages">
+<text x="380" y="28" text-anchor="middle" font-weight="700">HOW ERP CREATES BUSINESS ADVANTAGES</text>
+<rect x="235" y="50" width="290" height="62" rx="11" class="rx"/>
+<text x="380" y="87" text-anchor="middle" font-weight="700">INTEGRATED ERP SYSTEM</text>
+<path d="M380 112 V145 M125 145 H635 M125 145 V177 M380 145 V177 M635 145 V177" class="ln"/>
+<rect x="20" y="180" width="210" height="94" rx="10" class="bx"/>
+<rect x="275" y="180" width="210" height="94" rx="10" class="yx"/>
+<rect x="530" y="180" width="210" height="94" rx="10" class="rx"/>
+<text x="125" y="210" text-anchor="middle" font-weight="700">OPERATIONS</text><text x="125" y="237" text-anchor="middle">Less delay · less duplication</text><text x="125" y="258" text-anchor="middle">Better resource use</text>
+<text x="380" y="210" text-anchor="middle" font-weight="700">CUSTOMERS</text><text x="380" y="237" text-anchor="middle">Better order visibility</text><text x="380" y="258" text-anchor="middle">Improved service</text>
+<text x="635" y="210" text-anchor="middle" font-weight="700">MANAGEMENT</text><text x="635" y="237" text-anchor="middle">Accurate reports</text><text x="635" y="258" text-anchor="middle">Better decisions</text>
+<path d="M125 274 V310 H635 V274 M380 274 V310" class="ln"/>
+<rect x="165" y="316" width="430" height="52" rx="10" class="yx"/>
+<text x="380" y="348" text-anchor="middle" font-weight="700">Improved overall organizational performance</text>
+</svg>
+<p class="caption">ERP's shared information and connected workflows can create operational, customer-service and managerial benefits.</p>
+</div>
+
+<h2>4.5 Practical Example</h2>
+<div class="note"><strong>EXAMPLE: AN ONLINE ELECTRONICS STORE</strong>
+<p>An online store receives a customer's order for a laptop.</p>
+<ol>
+<li><strong>Sales:</strong> The order is recorded in ERP.</li>
+<li><strong>Inventory:</strong> The system checks available stock.</li>
+<li><strong>Finance:</strong> Payment and invoice information is recorded.</li>
+<li><strong>Warehouse:</strong> Staff receive the information needed to prepare dispatch.</li>
+<li><strong>Customer service:</strong> Staff can check order status and answer customer questions.</li>
+</ol>
+<p><strong>Advantages shown:</strong> less repeated entry, better coordination, more accurate information, improved order visibility and support for on-time shipment.</p>
+</div>
+
+<h2>4.6 Tangible and Intangible Advantages</h2>
+<table><thead><tr><th>Type</th><th>Meaning</th><th>Examples</th></tr></thead><tbody>
+<tr><td><strong>Tangible</strong></td><td>Benefits that can be measured using time, cost or quantity.</td><td>Reduced processing time, lower inventory cost, fewer data-entry errors, improved productivity.</td></tr>
+<tr><td><strong>Intangible</strong></td><td>Benefits that are valuable but harder to measure directly.</td><td>Customer satisfaction, better communication, flexibility, improved decision-making.</td></tr>
+</tbody></table>
+
+<h2>4.7 Important Note — ERP Advantages Are Not Automatic</h2>
+<div class="priority-note yellow-note">
+<p>ERP software does not guarantee that every organization will immediately reduce costs or improve service. Benefits depend on:</p>
+<ul><li>Accurate and consistent data.</li><li>Suitable business processes and configuration.</li><li>Employee training and user acceptance.</li><li>Management support and proper implementation.</li><li>Ongoing maintenance and system improvement.</li></ul>
+<p>This distinction is useful in exams: describe advantages as benefits ERP <em>can provide</em>, not guaranteed results.</p>
+</div>
+
+<h2>4.8 Previous-Year Question / Question-Pattern Evidence</h2>
+<div class="priority-note yellow-note"><strong>Evidence status: YELLOW — important syllabus topic.</strong>
+<p>“Advantages of ERP” appears explicitly in the Unit I syllabus. I am not labelling the practice prompts below as confirmed Ranchi University PYQs without exact matching wording in the supplied papers.</p></div>
+
+<h2>4.9 Important Questions for Examination</h2>
+<div class="exam-box">
+<h3>Short / conceptual questions (1–5 marks)</h3>
+<ol>
+<li>Write any five advantages of ERP.</li>
+<li>What is the difference between lead time and cycle time?</li>
+<li>How does ERP improve resource utilization?</li>
+<li>How does ERP improve information accuracy?</li>
+<li>What is meant by on-time shipment?</li>
+</ol>
+<h3>Long / descriptive questions (10–15 marks)</h3>
+<ol>
+<li>Explain the major advantages of ERP in detail.</li>
+<li>Discuss how ERP improves operational efficiency and customer satisfaction.</li>
+<li>Explain the role of ERP in reducing lead time and cycle time.</li>
+<li>Describe how ERP improves resource utilization, supplier performance and decision-making.</li>
+</ol>
+</div>
+
+<h2>4.10 How to Write the 10–15 Mark Answer</h2>
+<ol>
+<li>Start with the meaning of ERP and explain integration briefly.</li>
+<li>Explain the syllabus-linked advantages: lead time, cycle time, on-time shipment, resource utilization, customer satisfaction, supplier performance, flexibility, quality costs, information accuracy and decision-making.</li>
+<li>Draw the diagram showing how ERP creates operational, customer and management benefits.</li>
+<li>Give one practical example, such as an online order or manufacturing company.</li>
+<li>Conclude that ERP can improve performance when correctly implemented and used.</li>
+</ol>
+
+<h2>4.11 Video Lessons — Preferred YouTube Channels</h2>
+<div class="video-help">
+<p><strong>Topic-specific video — ERP Advantages · Search result</strong></p>
+<p>I could not verify a specific individual video from the preferred channels that exactly matches this topic. Use these channel-specific searches rather than relying on an unverified video link.</p>
+</div>
+<div class="video-help"><p><strong>Gate Smashers</strong></p><a href="https://www.youtube.com/results?search_query=Gate+Smashers+advantages+of+ERP" target="_blank" rel="noopener">Search Gate Smashers — Advantages of ERP</a></div>
+<div class="video-help"><p><strong>5 Minutes Engineering</strong></p><a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+advantages+of+ERP" target="_blank" rel="noopener">Search 5 Minutes Engineering — Advantages of ERP</a></div>
+<div class="video-help"><p><strong>Vinay Mishra</strong></p><a href="https://www.youtube.com/results?search_query=Vinay+Mishra+advantages+of+ERP" target="_blank" rel="noopener">Search Vinay Mishra — Advantages of ERP</a></div>
+<div class="video-help"><p><strong>Education 4u</strong></p><a href="https://www.youtube.com/results?search_query=Education+4u+advantages+of+ERP" target="_blank" rel="noopener">Search Education 4u — Advantages of ERP</a></div>
+<div class="video-help"><p><strong>Er Sahil ka Gyan</strong></p><a href="https://www.youtube.com/results?search_query=Er+Sahil+ka+Gyan+advantages+of+ERP" target="_blank" rel="noopener">Search Er Sahil ka Gyan — Advantages of ERP</a></div>
+
+<h2>4.12 Website References Used</h2>
+<div class="resource-panel"><h3>✿ Approved website references ✿</h3>
+<div class="resource-grid">
+<a class="resource-card" href="https://www.tutorialspoint.com/management_information_system/enterprise_resource_planning.htm" target="_blank" rel="noopener"><span class="resource-kind">TutorialsPoint</span><strong>MIS — Enterprise Resource Planning</strong><small>Explicit advantage list: lead time, cycle time, customer satisfaction, flexibility, quality, information accuracy, decisions, shipment, resources and suppliers.</small></a>
+<a class="resource-card" href="https://www.geeksforgeeks.org/software-engineering/introduction-to-erp/" target="_blank" rel="noopener"><span class="resource-kind">GeeksforGeeks</span><strong>Introduction to ERP</strong><small>Integration, efficiency, reduced redundancy, timely data, IT cost, compliance and customer service.</small></a>
+<a class="resource-card" href="https://www.sap.com/india/resources/what-is-erp" target="_blank" rel="noopener"><span class="resource-kind">SAP</span><strong>What is ERP? — Six key benefits</strong><small>Productivity, insights, reporting, risk control, simpler IT and agility.</small></a>
+</div>
+<p class="source-note">The syllabus-linked list and terminology are primarily aligned with TutorialsPoint. GeeksforGeeks and SAP are supporting references for explaining how integration, automation, shared data and reporting produce these advantages. W3Schools did not provide a directly relevant ERP advantages lesson in the search, so no unrelated page is included.</p>
+</div>
+
+<h2>4.13 Quick Self-Check</h2>
+<div class="exam-box"><ol>
+<li><strong>What is lead time?</strong><br>Total time from initiating an order/request to its completion or delivery.</li>
+<li><strong>How does ERP reduce cycle time?</strong><br>By streamlining workflows and reducing manual hand-offs and repeated data entry.</li>
+<li><strong>How can ERP improve supplier performance?</strong><br>By connecting purchasing, stock and production requirements and helping monitor supplier transactions.</li>
+<li><strong>Name two intangible advantages.</strong><br>Customer satisfaction and improved decision-making.</li>
+<li><strong>Does ERP guarantee cost reduction?</strong><br>No. Benefits depend on implementation, processes, data quality and user adoption.</li>
+</ol></div>
+<p class="back-top"><a href="#top">↑ Back to top</a></p>
+<div class="unit-end"><strong>Topic 4 complete</strong><br>Next topic: Reasons for ERP Failure.</div>
+</section>
+
+<section id="topic5-start" class="topic-section tp ty">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">5</span><span><span class="tlabel">Topic 5 of 5</span>Reasons for ERP Failure</span><span class="tprio">YELLOW PRIORITY</span></h2>
+
+  <div class="panel focus">
+<h2>★ What to prepare ★</h2>
+<ul>
+<li>Lack of top management support and commitment.</li>
+<li>Poor planning, project management and unrealistic schedules.</li>
+<li>Insufficient user involvement, training and resistance to change.</li>
+<li>Inaccurate data and data migration problems.</li>
+<li>Excessive customization and poor software selection.</li>
+<li>Inadequate testing, communication, resources and vendor support.</li>
+<li>Failure to redesign business processes and monitor the system after go-live.</li>
+</ul>
+<p class="small"><strong>Core understanding:</strong> ERP failure is usually not caused by software alone. Organizational readiness, people, processes, data, planning and technology all matter.</p>
+</div>
+<div class="priority-note yellow-note"><strong>Priority reason:</strong> “Reasons for Failure” is explicitly listed in the Unit I syllabus. The explanations combine the ERP risks discussed by GeeksforGeeks, the implementation risk listed by TutorialsPoint, and research findings on ERP implementation failure factors. Research findings are supporting context, not university exam questions.</div>
+
+<h2>5.1 Introduction</h2>
+<p>ERP implementation is a complex process because it affects many departments, employees, business processes and information systems. An ERP project may fail when the organization cannot implement the system properly, employees do not adopt it, or the final system does not meet the expected business requirements.</p>
+<div class="note"><strong>CORE IDEA</strong><p>ERP failure can happen because of poor management, weak planning, lack of user support, insufficient training, inaccurate data, excessive customization, poor testing or inadequate technical support.</p></div>
+
+<h2>5.2 What Does ERP Failure Mean?</h2>
+<p>ERP failure does not always mean that the software completely stops working. A project may also be considered unsuccessful when it:</p>
+<ul>
+<li>Exceeds the approved budget by a large amount.</li>
+<li>Takes much longer than the planned implementation time.</li>
+<li>Does not provide the required business functions.</li>
+<li>Creates serious disruption to normal business operations.</li>
+<li>Is not accepted or properly used by employees.</li>
+<li>Fails to deliver the expected benefits or is eventually abandoned.</li>
+</ul>
+<p class="small">Different studies use different definitions of “failure”. Therefore, avoid memorizing a single failure percentage unless a specific source and definition are given.</p>
+
+<h2>5.3 Major Reasons for ERP Failure</h2>
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>1. Lack of Top Management Support</h3>
+<p>ERP implementation requires decisions, funding, coordination and organizational changes. If senior management does not actively support the project, departments may not cooperate and important issues may remain unresolved.</p>
+<p><strong>Example:</strong> Department managers refuse to provide staff for ERP testing because senior management has not made the project a priority.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>2. Poor Planning and Project Management</h3>
+<p>An ERP project needs a clear plan, defined responsibilities, milestones, risk management and regular monitoring. Poor project management can cause delays, confusion, budget overruns and incomplete implementation.</p>
+<p><strong>Example:</strong> The company starts installing ERP without deciding which departments and processes will be included in the first phase.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>3. Unrealistic Time and Cost Estimates</h3>
+<p>ERP implementation may require software configuration, data migration, integration, testing and employee training. If the organization sets an unrealistic deadline or budget, teams may skip important activities to meet the target.</p>
+<p><strong>Example:</strong> Management insists on launching the entire ERP system in a few weeks even though data migration and user testing are incomplete.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>4. Lack of User Involvement</h3>
+<p>Employees who actually use ERP understand many day-to-day business requirements. If they are not involved in requirement gathering, design and testing, the system may not match their real work needs.</p>
+<p><strong>Example:</strong> The warehouse team is not consulted, so the inventory module does not support its actual stock-handling process.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>5. Resistance to Change</h3>
+<p>ERP often changes existing workflows and responsibilities. Employees may resist the new system because they are comfortable with old methods, fear losing control or do not understand the benefits of the change.</p>
+<p><strong>Example:</strong> Employees continue maintaining separate spreadsheets instead of entering transactions into ERP.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>6. Inadequate Training and Education</h3>
+<p>ERP contains multiple modules and workflows. Without sufficient training, employees may enter incorrect data, avoid using the system or make operational mistakes.</p>
+<p><strong>Example:</strong> A purchase employee does not know how to create a purchase order and enters the transaction incorrectly.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>7. Inaccurate Data and Data Migration Problems</h3>
+<p>Data migration means transferring data from old systems into the new ERP system. If old records are incomplete, duplicated, inconsistent or incorrectly mapped, the new system may produce unreliable results.</p>
+<p><strong>Example:</strong> The old inventory system contains incorrect product codes. These codes are transferred without cleaning, causing stock reports to become inaccurate.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>8. Excessive Customization</h3>
+<p>Customization means modifying standard ERP software to match an organization's special requirements. Too much customization increases cost and complexity, makes upgrades harder and can create maintenance problems.</p>
+<p><strong>Example:</strong> The company modifies many standard ERP functions to copy every detail of its old system instead of reviewing whether the old process should change.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>9. Wrong ERP Package or Vendor Selection</h3>
+<p>If the selected ERP product does not match the organization's size, industry, business processes or technical requirements, the organization may face expensive modifications and functionality gaps. Weak vendor support can make these problems harder to resolve.</p>
+<p><strong>Example:</strong> A manufacturing company selects a system that lacks important production-planning functions.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>10. Failure to Redesign Business Processes</h3>
+<p>Business Process Reengineering (BPR) means examining and redesigning business processes to improve performance. If an organization simply copies inefficient old processes into the ERP system, it may automate existing problems instead of improving the business.</p>
+<p><strong>Example:</strong> A company keeps unnecessary approval steps in its new ERP workflow, so purchase requests remain slow.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>11. Poor Communication and Coordination</h3>
+<p>ERP affects many departments. If information is not communicated properly between management, users, consultants and technical teams, requirements may be misunderstood and decisions may conflict.</p>
+<p><strong>Example:</strong> Finance and sales teams follow different definitions for order status, leading to inconsistent reports.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>12. Inadequate Testing</h3>
+<p>Testing checks whether ERP functions correctly and supports real business scenarios. If testing is incomplete, errors may appear after go-live and disrupt normal operations.</p>
+<p><strong>Example:</strong> The company tests normal sales orders but does not test returns, cancellations or peak-volume transactions.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>13. Insufficient Resources and Skills</h3>
+<p>ERP implementation needs suitable project members, business analysts, technical experts, time and budget. If the team lacks the required skills or members are not available, implementation quality may suffer.</p>
+<p><strong>Example:</strong> The organization assigns ERP implementation as an extra duty to already busy employees who cannot give enough time to the project.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>14. Poor Integration with Existing Systems</h3>
+<p>ERP may need to exchange information with older applications, external platforms, machines or third-party services. Weak integration can create duplicate data, broken workflows and inconsistent information.</p>
+<p><strong>Example:</strong> The ERP system does not correctly exchange order information with the organization's online store.</p></div>
+
+<div class="priority py"><span class="tag yellow">IMPORTANT</span><h3>15. Inadequate Post-Implementation Support</h3>
+<p>ERP work does not end at go-live. The organization needs monitoring, issue resolution, maintenance, user support and continuous improvement. Without these activities, problems may continue and employees may lose confidence in the system.</p>
+<p><strong>Example:</strong> After launch, employees report errors but there is no support team to resolve them quickly.</p></div>
+
+<h2>5.4 ERP Failure Factors by Category</h2>
+<table><thead><tr><th>Category</th><th>Common failure factors</th></tr></thead><tbody>
+<tr><td><strong>Management</strong></td><td>Lack of leadership support, poor project governance, unrealistic expectations.</td></tr>
+<tr><td><strong>People</strong></td><td>User resistance, poor involvement, insufficient training, lack of skills.</td></tr>
+<tr><td><strong>Planning</strong></td><td>Unclear scope, poor project plan, unrealistic timeline and budget.</td></tr>
+<tr><td><strong>Process</strong></td><td>Failure to redesign business processes, poor requirements definition.</td></tr>
+<tr><td><strong>Data</strong></td><td>Incorrect legacy data, poor data cleansing and migration problems.</td></tr>
+<tr><td><strong>Technology</strong></td><td>Wrong ERP selection, excessive customization, weak integration and testing.</td></tr>
+<tr><td><strong>Support</strong></td><td>Poor vendor assistance, weak communication and inadequate post-go-live support.</td></tr>
+</tbody></table>
+
+<h2>5.5 Diagram — Main Causes of ERP Failure</h2>
+<div class="diagram">
+<svg viewBox="0 0 760 440" role="img" aria-label="ERP implementation failure causes grouped into management, people, planning, process, data, and technology">
+<text x="380" y="28" text-anchor="middle" font-weight="700">CAUSES THAT CAN LEAD TO ERP IMPLEMENTATION FAILURE</text>
+<rect x="242" y="52" width="276" height="58" rx="10" class="rx"/>
+<text x="380" y="87" text-anchor="middle" font-weight="700">ERP PROJECT FAILURE</text>
+<path d="M380 110 V139 M128 139 H632 M128 139 V165 M380 139 V165 M632 139 V165" class="ln"/>
+<rect x="18" y="168" width="220" height="104" rx="10" class="bx"/>
+<rect x="270" y="168" width="220" height="104" rx="10" class="yx"/>
+<rect x="522" y="168" width="220" height="104" rx="10" class="rx"/>
+<text x="128" y="197" text-anchor="middle" font-weight="700">MANAGEMENT</text><text x="128" y="224" text-anchor="middle">Weak leadership</text><text x="128" y="247" text-anchor="middle">Poor project control</text>
+<text x="380" y="197" text-anchor="middle" font-weight="700">PEOPLE</text><text x="380" y="224" text-anchor="middle">Resistance · low involvement</text><text x="380" y="247" text-anchor="middle">Insufficient training</text>
+<text x="632" y="197" text-anchor="middle" font-weight="700">PLANNING</text><text x="632" y="224" text-anchor="middle">Unclear scope</text><text x="632" y="247" text-anchor="middle">Unrealistic schedule</text>
+<path d="M128 272 V300 M380 272 V300 M632 272 V300 M128 300 H632 M380 300 V324" class="ln"/>
+<rect x="18" y="328" width="220" height="88" rx="10" class="rx"/>
+<rect x="270" y="328" width="220" height="88" rx="10" class="bx"/>
+<rect x="522" y="328" width="220" height="88" rx="10" class="yx"/>
+<text x="128" y="357" text-anchor="middle" font-weight="700">PROCESS</text><text x="128" y="383" text-anchor="middle">Poor process redesign</text>
+<text x="380" y="357" text-anchor="middle" font-weight="700">DATA</text><text x="380" y="383" text-anchor="middle">Poor data quality</text>
+<text x="632" y="357" text-anchor="middle" font-weight="700">TECHNOLOGY</text><text x="632" y="383" text-anchor="middle">Wrong fit · weak integration</text>
+</svg>
+<p class="caption">ERP failure usually results from a combination of management, people, planning, process, data and technology problems.</p>
+</div>
+
+<h2>5.6 Failure Can Occur at Different Stages</h2>
+<table><thead><tr><th>Stage</th><th>Examples of failure factors</th></tr></thead><tbody>
+<tr><td><strong>Before implementation</strong></td><td>Poor requirement definition, weak management support, wrong ERP selection, unrealistic budget.</td></tr>
+<tr><td><strong>During implementation</strong></td><td>Insufficient resources, poor training, resistance to change, data migration problems, excessive customization, inadequate testing.</td></tr>
+<tr><td><strong>After go-live</strong></td><td>Insufficient user support, unresolved system issues, poor monitoring, weak maintenance and failure to review expected benefits.</td></tr>
+</tbody></table>
+
+<h2>5.7 Practical Example</h2>
+<div class="note"><strong>EXAMPLE: A MANUFACTURING COMPANY'S FAILED ERP PROJECT</strong>
+<p>A manufacturing company decides to implement ERP to connect purchasing, inventory, production, sales and finance.</p>
+<ol>
+<li>Management selects a very short implementation deadline.</li>
+<li>Warehouse and production employees are not involved in requirement gathering.</li>
+<li>Old stock records contain duplicate product codes, but the data is migrated without cleaning.</li>
+<li>Employees receive very little training and continue using spreadsheets.</li>
+<li>The company skips realistic testing to meet the launch date.</li>
+<li>After go-live, orders and stock reports do not match, causing operational delays.</li>
+</ol>
+<p><strong>Why did it fail?</strong> The project had poor planning, weak user involvement, inaccurate data, insufficient training and inadequate testing. The example shows how several small failures can combine into a major ERP problem.</p>
+</div>
+
+<h2>5.8 How to Reduce the Risk of ERP Failure</h2>
+<table><thead><tr><th>Risk / cause</th><th>Preventive action</th></tr></thead><tbody>
+<tr><td>Lack of management support</td><td>Assign an executive sponsor and keep leadership involved.</td></tr>
+<tr><td>Poor planning</td><td>Define scope, milestones, responsibilities and risks clearly.</td></tr>
+<tr><td>User resistance</td><td>Involve employees early and communicate the reason for change.</td></tr>
+<tr><td>Insufficient training</td><td>Provide role-based training and practical exercises.</td></tr>
+<tr><td>Bad data migration</td><td>Clean, validate and test data before migration.</td></tr>
+<tr><td>Excessive customization</td><td>Prefer standard ERP functionality where it meets business needs.</td></tr>
+<tr><td>Inadequate testing</td><td>Test end-to-end workflows with real users before go-live.</td></tr>
+<tr><td>Poor post-launch support</td><td>Monitor performance and provide a support team after go-live.</td></tr>
+</tbody></table>
+
+<h2>5.9 Previous-Year Question / Question-Pattern Evidence</h2>
+<div class="priority-note yellow-note"><strong>Evidence status: YELLOW — important syllabus topic.</strong>
+<p>“Reasons for Failure” is explicitly included in the supplied Unit I syllabus. The practice questions below are based on the syllabus and the cited study material. They are not claimed as exact Ranchi University PYQs unless independently matched to a question in the supplied papers.</p></div>
+
+<h2>5.10 Important Questions for Examination</h2>
+<div class="exam-box">
+<h3>Short / conceptual questions (1–5 marks)</h3>
+<ol>
+<li>Write any five reasons for ERP implementation failure.</li>
+<li>Why is top management support important in ERP implementation?</li>
+<li>What is user resistance to change?</li>
+<li>What is data migration? How can poor data migration affect ERP?</li>
+<li>Why can excessive customization become a problem?</li>
+<li>What is the role of training in ERP implementation?</li>
+</ol>
+<h3>Long / descriptive questions (10–15 marks)</h3>
+<ol>
+<li>Explain the major reasons for the failure of ERP implementation.</li>
+<li>Discuss the management, technical and human factors responsible for ERP failure.</li>
+<li>Explain how poor planning, lack of training and resistance to change can lead to ERP failure.</li>
+<li>Describe the major causes of ERP failure and suggest measures to reduce them.</li>
+</ol>
+</div>
+
+<h2>5.11 How to Write the 10–15 Mark Answer</h2>
+<ol>
+<li>Start with a definition of ERP failure and explain that failure may mean missing budget, schedule or expected benefits—not only software breakdown.</li>
+<li>Explain the major causes under management, people, planning, process, data and technology.</li>
+<li>Draw the diagram showing the six categories of failure factors.</li>
+<li>Give one practical example of a failed implementation.</li>
+<li>Finish with preventive measures such as management support, realistic planning, user training, data validation and proper testing.</li>
+</ol>
+
+<h2>5.12 Video Lessons — Preferred YouTube Channels</h2>
+<div class="video-help">
+<p><strong>Topic-specific lesson — Reasons for ERP System Failure and Solutions</strong> <span class="r">VERIFIED VIDEO</span></p>
+<p>This video directly addresses ERP implementation failure and possible solutions. It is not from the preferred channel list, but it is a verified topic-specific lesson.</p>
+<div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/eXlZhfS51mY" title="Reasons for ERP System Failure and Solutions" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>
+<a href="https://www.youtube.com/watch?v=eXlZhfS51mY" target="_blank" rel="noopener">▶ Open verified video on YouTube</a>
+</div>
+<div class="video-help"><p><strong>Gate Smashers</strong></p><a href="https://www.youtube.com/results?search_query=Gate+Smashers+ERP+implementation+failure" target="_blank" rel="noopener">Search Gate Smashers — ERP Failure</a></div>
+<div class="video-help"><p><strong>5 Minutes Engineering</strong></p><a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+ERP+implementation+failure" target="_blank" rel="noopener">Search 5 Minutes Engineering — ERP Failure</a></div>
+<div class="video-help"><p><strong>Vinay Mishra</strong></p><a href="https://www.youtube.com/results?search_query=Vinay+Mishra+ERP+failure+reasons" target="_blank" rel="noopener">Search Vinay Mishra — ERP Failure</a></div>
+<div class="video-help"><p><strong>Education 4u</strong></p><a href="https://www.youtube.com/results?search_query=Education+4u+ERP+implementation+failure" target="_blank" rel="noopener">Search Education 4u — ERP Failure</a></div>
+<div class="video-help"><p><strong>Er Sahil ka Gyan</strong></p><a href="https://www.youtube.com/results?search_query=Er+Sahil+ka+Gyan+ERP+failure" target="_blank" rel="noopener">Search Er Sahil ka Gyan — ERP Failure</a></div>
+<p class="small"><strong>Verification note:</strong> Only the Ahmed Elsaka video is verified as an individual topic-specific video. The preferred-channel links are search pages, not individually verified video recommendations.</p>
+
+<h2>5.13 Website and Research References Used</h2>
+<div class="resource-panel"><h3>✿ Approved website references and supporting research ✿</h3>
+<div class="resource-grid">
+<a class="resource-card" href="https://www.geeksforgeeks.org/software-engineering/unique-risks-of-erp-projects/" target="_blank" rel="noopener"><span class="resource-kind">GeeksforGeeks</span><strong>Unique Risks of ERP Projects</strong><small>Organizational factors, employee skills, management, system design, user training and technology integration risks.</small></a>
+<a class="resource-card" href="https://www.tutorialspoint.com/management_information_system/enterprise_resource_planning.htm" target="_blank" rel="noopener"><span class="resource-kind">TutorialsPoint</span><strong>MIS — Enterprise Resource Planning</strong><small>Lists implementation failure, implementation expense and time, integration difficulty and change-related risks as ERP disadvantages.</small></a>
+<a class="resource-card" href="https://norma.ncirl.ie/4007/" target="_blank" rel="noopener"><span class="resource-kind">Research study</span><strong>Critical Failure Factors in Indian Manufacturing ERP Implementation</strong><small>Identifies top management commitment, process reengineering, training, user resistance, testing, customization and communication as important factors.</small></a>
+<a class="resource-card" href="https://doi.org/10.1108/14637151311319923" target="_blank" rel="noopener"><span class="resource-kind">Research paper</span><strong>ERP Failure Factors in Indian Retail</strong><small>Highlights inadequate resources, poor user involvement, resistance to change, management commitment, project management and scheduling.</small></a>
+</div>
+<p class="source-note">GeeksforGeeks and TutorialsPoint are the approved learning references used for the core explanation. The two research references provide additional evidence about failure factors in Indian manufacturing and retail contexts. W3Schools did not provide a directly relevant ERP implementation failure lesson in the search, so no unrelated page is included.</p>
+</div>
+
+<h2>5.14 Quick Self-Check</h2>
+<div class="exam-box"><ol>
+<li><strong>Does ERP failure always mean the software stops working?</strong><br>No. A project may fail by missing its schedule, budget, user adoption or expected business benefits.</li>
+<li><strong>Name three people-related failure factors.</strong><br>User resistance, lack of user involvement and inadequate training.</li>
+<li><strong>Why is poor data migration dangerous?</strong><br>It can transfer inaccurate or duplicate records into the new ERP system, producing unreliable information.</li>
+<li><strong>Why can heavy customization be risky?</strong><br>It can increase cost and complexity and make upgrades and maintenance difficult.</li>
+<li><strong>Name two ways to reduce ERP failure risk.</strong><br>Realistic project planning and active user training/involvement. Other valid answers include data validation, testing and management support.</li>
+</ol></div>
+
+<div class="panel focus">
+<h2>✿ Unit I — Completion Checklist ✿</h2>
+<ul>
+<li>Topic 1 — Evolution of ERP</li>
+<li>Topic 2 — What is ERP?</li>
+<li>Topic 3 — Reasons for the Growth of the ERP Market</li>
+<li>Topic 4 — Advantages of ERP</li>
+<li><strong>Topic 5 — Reasons for ERP Failure</strong></li>
+</ul>
+<p><strong>Unit I topic notes are now complete.</strong> Revise the definitions, main lists, examples and diagrams, then practice writing the long answers without looking at the notes.</p>
+</div>
+
+<p class="back-top"><a href="#top">↑ Back to top</a></p>
+<div class="unit-end"><strong>ERP Unit I — Complete</strong><br>All five syllabus topics have now been covered.</div>
+</section>
+
+<div class="unit-end">
+  <strong>✿ ERP Unit I — Complete ✿</strong>
+  <p>Covered: evolution of ERP, what is ERP, reasons for the growth of the ERP market, advantages of ERP and reasons for ERP failure.</p>
+  <p><strong>Next:</strong> Unit II — Enterprise: An Overview.</p>
+  <a href="#top">↑ Back to index</a>
+</div>
+</section></div>
+<a class="jump" href="#unit-top" aria-label="Back to unit index">↑ Index</a>
+</body>
+</html>
