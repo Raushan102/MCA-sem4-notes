@@ -5,7 +5,7 @@ module.exports = [
   ['unit-4','Geometrical Transformation','unit-4.html'],['unit-5','3D Transformation','unit-5.html'],
   ['unit-6','Viewing in 3D','unit-6.html'],['unit-7','Achromatic and Coloured Light','unit-7.html'],['unit-8','Visible-Surface Determination','unit-8.html']]},
  {slug:'cloud-computing',name:'Cloud Computing',code:'',emoji:'☁️',units:[
-  ['unit-1','Introduction','unit-1.html'],['unit-2','Cloud Models and Cloud as a Service','unit-2.html'],['unit-3','Cloud Solutions','unit-3.html'],
+  ['unit-1','Introduction','unit-1.html'],['unit-2','Cloud Models and Cloud as a Service','unit-2.html'],['unit-3','Cloud Solutions',null],
   ['unit-4','Cloud Offerings and Management','unit-4.html'],['unit-5','Cloud Virtualization Technology','unit-5.html'],
   ['unit-6','Cloud and SOA','unit-6.html'],['unit-7','Cloud Infrastructure Benchmarking','unit-7.html']],
   extras:[['question-bank','Previous-Year Question Bank','question-bank.html'],['important-questions','Important Questions and Priority','important-questions.html']]},
