@@ -176,17 +176,28 @@ body{margin:0;background:#dfe4ec;padding-block:24px;padding-left:max(16px,env(sa
 .fam-f5a9d9 a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px;overflow-wrap:anywhere}
 .fam-f5a9d9 a:hover{color:var(--red)}
 .fam-f5a9d9 .fig{margin:12px 0 40px}
-.fam-f5a9d9 .fig svg{display:block;width:100%;max-width:760px;margin:0 auto}
-.fam-f5a9d9 .fig svg text{font-family:var(--hand);font-size:14px;fill:var(--ink);dominant-baseline:auto}
-.fam-f5a9d9 .fig svg .cap{font-size:13px;fill:var(--red);font-weight:600}
-.fam-f5a9d9 .fig svg .w{fill:#fff;font-weight:600}
-.fam-f5a9d9 .fig svg .bx{fill:#fff;stroke:var(--ink);stroke-width:2}
-.fam-f5a9d9 .fig svg .rx{fill:#fff;stroke:var(--red);stroke-width:2}
-.fam-f5a9d9 .fig svg .kx{fill:var(--vs-bg);stroke:var(--vs-bg)}
-.fam-f5a9d9 .fig svg .yx{fill:rgba(255,214,0,.45);stroke:var(--ink);stroke-width:2}
-.fam-f5a9d9 .fig svg .ln{stroke:var(--ink);stroke-width:2;fill:none}
-.fam-f5a9d9 .fig svg .rl{stroke:var(--red);stroke-width:2.5;fill:none}
-.fam-f5a9d9 .fig svg .dl{stroke:var(--red);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+.fam-f5a9d9 .fig svg,
+.fam-f5a9d9 .diagram svg.s{display:block;width:100%;max-width:760px;margin:0 auto}
+.fam-f5a9d9 .fig svg text,
+.fam-f5a9d9 .diagram svg.s text{font-family:var(--hand);font-size:14px;fill:var(--ink);dominant-baseline:auto}
+.fam-f5a9d9 .fig svg .cap,
+.fam-f5a9d9 .diagram svg.s .cap{font-size:13px;fill:var(--red);font-weight:600}
+.fam-f5a9d9 .fig svg .w,
+.fam-f5a9d9 .diagram svg.s .w{fill:#fff;font-weight:600}
+.fam-f5a9d9 .fig svg .bx,
+.fam-f5a9d9 .diagram svg.s .bx{fill:#fff;stroke:var(--ink);stroke-width:2}
+.fam-f5a9d9 .fig svg .rx,
+.fam-f5a9d9 .diagram svg.s .rx{fill:#fff;stroke:var(--red);stroke-width:2}
+.fam-f5a9d9 .fig svg .kx,
+.fam-f5a9d9 .diagram svg.s .kx{fill:var(--vs-bg);stroke:var(--vs-bg)}
+.fam-f5a9d9 .fig svg .yx,
+.fam-f5a9d9 .diagram svg.s .yx{fill:rgba(255,214,0,.45);stroke:var(--ink);stroke-width:2}
+.fam-f5a9d9 .fig svg .ln,
+.fam-f5a9d9 .diagram svg.s .ln{stroke:var(--ink);stroke-width:2;fill:none}
+.fam-f5a9d9 .fig svg .rl,
+.fam-f5a9d9 .diagram svg.s .rl{stroke:var(--red);stroke-width:2.5;fill:none}
+.fam-f5a9d9 .fig svg .dl,
+.fam-f5a9d9 .diagram svg.s .dl{stroke:var(--red);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
 .fam-f5a9d9 .video-help{ margin: 18px 0 32px; padding: 14px 16px; border: 1px solid #b8c9e5; border-left: 4px solid #1d3a8c; border-radius: 8px; background: rgba(232, 240, 252, .72); }
 .fam-f5a9d9 .video-help p{ margin-bottom: 12px; }
 .fam-f5a9d9 .video-help .video-frame{ position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; background: #111; margin: 10px 0 8px; }
@@ -476,40 +487,41 @@ body{margin:0;background:#dfe4ec;padding-block:24px;padding-left:max(16px,env(sa
   <div class="diagram">
     <svg viewBox="0 0 760 270" role="img" aria-label="Time line of ERP evolution from 1960s to 2010s">
       <path d="M30 60 H730 M720 52 L731 60 L720 68" fill="none" stroke="#b3261e" stroke-width="2.5"/>
-      <g text-anchor="middle" font-size="13" fill="#1d3a8c">
+      <g text-anchor="middle" font-size="13" fill="#1d3a8c" font-family="Inter,'Segoe UI',Arial,sans-serif">
         <rect x="14" y="84" width="140" height="92" rx="9" fill="#ffffff" stroke="#1d3a8c" stroke-width="2"/>
         <text x="84" y="40" font-weight="700" fill="#b3261e">1960s</text>
         <text x="84" y="110" font-weight="700">Inventory Control</text>
-        <text x="84" y="132" font-size="11">Reorder point · EOQ</text>
-        <text x="84" y="150" font-size="11">Stock records</text>
+        <text x="84" y="132" font-size="11.5">Reorder point · EOQ</text>
+        <text x="84" y="150" font-size="11.5">Stock records</text>
 
         <rect x="162" y="84" width="140" height="92" rx="9" fill="#ffffff" stroke="#1d3a8c" stroke-width="2"/>
         <text x="232" y="40" font-weight="700" fill="#b3261e">1970s</text>
         <text x="232" y="110" font-weight="700">MRP</text>
-        <text x="232" y="132" font-size="11">Material Requirement</text>
-        <text x="232" y="150" font-size="11">Planning · BOM</text>
+        <text x="232" y="132" font-size="11.5">Material Requirement</text>
+        <text x="232" y="150" font-size="11.5">Planning · BOM</text>
 
         <rect x="310" y="84" width="140" height="92" rx="9" fill="#ffe27a" stroke="#1d3a8c" stroke-width="2"/>
         <text x="380" y="40" font-weight="700" fill="#b3261e">1980s</text>
         <text x="380" y="110" font-weight="700">MRP II</text>
-        <text x="380" y="132" font-size="11">Manufacturing Resource</text>
-        <text x="380" y="150" font-size="11">Planning · capacity · finance</text>
+        <text x="380" y="130" font-size="11.5">Manufacturing Resource</text>
+        <text x="380" y="146" font-size="11.5">Planning · capacity ·</text>
+        <text x="380" y="162" font-size="11.5">finance</text>
 
         <rect x="458" y="84" width="140" height="92" rx="9" fill="#ffffff" stroke="#b3261e" stroke-width="2.5"/>
         <text x="528" y="40" font-weight="700" fill="#b3261e">1990s</text>
         <text x="528" y="110" font-weight="700">ERP</text>
-        <text x="528" y="132" font-size="11">Whole enterprise ·</text>
-        <text x="528" y="150" font-size="11">common database</text>
+        <text x="528" y="132" font-size="11.5">Whole enterprise ·</text>
+        <text x="528" y="150" font-size="11.5">common database</text>
 
         <rect x="606" y="84" width="140" height="92" rx="9" fill="#ffffff" stroke="#1d3a8c" stroke-width="2"/>
         <text x="676" y="40" font-weight="700" fill="#b3261e">2000s →</text>
         <text x="676" y="110" font-weight="700">ERP II / Cloud</text>
-        <text x="676" y="132" font-size="11">Web · partners · SaaS</text>
-        <text x="676" y="150" font-size="11">Mobile · analytics · AI</text>
+        <text x="676" y="132" font-size="11.5">Web · partners · SaaS</text>
+        <text x="676" y="150" font-size="11.5">Mobile · analytics · AI</text>
       </g>
       <g stroke="#b3261e" stroke-width="2"><path d="M84 60 V84 M232 60 V84 M380 60 V84 M528 60 V84 M676 60 V84"/></g>
-      <text x="380" y="222" text-anchor="middle" font-size="13" fill="#1d3a8c" font-weight="700">Scope keeps widening: stock → materials → manufacturing → enterprise → extended enterprise</text>
-      <text x="380" y="246" text-anchor="middle" font-size="12" fill="#456">Approximate decades — each stage includes and extends the previous one</text>
+      <text x="380" y="222" font-family="Inter,'Segoe UI',Arial,sans-serif" text-anchor="middle" font-size="13" fill="#1d3a8c" font-weight="700">Scope keeps widening: stock → materials → manufacturing → enterprise → extended enterprise</text>
+      <text x="380" y="246" font-family="Inter,'Segoe UI',Arial,sans-serif" text-anchor="middle" font-size="12" fill="#456">Approximate decades — each stage includes and extends the previous one</text>
     </svg>
     <p class="caption">Time line of ERP evolution (approximate decades).</p>
   </div>
@@ -744,7 +756,7 @@ body{margin:0;background:#dfe4ec;padding-block:24px;padding-left:max(16px,env(sa
   <p>When these departments use unrelated software, the same information may have to be entered repeatedly. A sales employee may not know the latest stock position, and the finance team may receive order details late.</p>
 
   <div class="diagram">
-    <svg viewBox="0 0 700 300" role="img" aria-label="Separate departmental systems before ERP">
+    <svg class="s" viewBox="0 0 700 300" role="img" aria-label="Separate departmental systems before ERP">
       <text x="350" y="24" text-anchor="middle" font-weight="700">BEFORE ERP — DISCONNECTED SYSTEMS</text>
       <rect x="20" y="48" width="150" height="70" rx="9" class="bx"/>
       <rect x="190" y="48" width="150" height="70" rx="9" class="bx"/>
@@ -766,7 +778,7 @@ body{margin:0;background:#dfe4ec;padding-block:24px;padding-left:max(16px,env(sa
   <p>ERP addresses this problem by connecting the departments through a common system.</p>
 
   <div class="diagram">
-    <svg viewBox="0 0 700 330" role="img" aria-label="Integrated ERP system connecting departments">
+    <svg class="s" viewBox="0 0 700 330" role="img" aria-label="Integrated ERP system connecting departments">
       <text x="350" y="24" text-anchor="middle" font-weight="700">AFTER ERP — INTEGRATED SYSTEM</text>
       <rect x="205" y="48" width="290" height="74" rx="12" class="rx"/>
       <text x="350" y="78" text-anchor="middle" font-weight="700">ERP SYSTEM</text>
@@ -833,7 +845,7 @@ body{margin:0;background:#dfe4ec;padding-block:24px;padding-left:max(16px,env(sa
   <h2>2.7 Basic ERP Architecture</h2>
   <p>At a conceptual level, an ERP system can be understood through three major layers. The exact technical architecture differs by product, but this model helps explain how users, business processing and data work together.</p>
   <div class="diagram">
-    <svg viewBox="0 0 650 330" role="img" aria-label="Three-layer ERP architecture">
+    <svg class="s" viewBox="0 0 650 330" role="img" aria-label="Three-layer ERP architecture">
       <rect x="100" y="24" width="450" height="70" rx="10" class="bx"/>
       <text x="325" y="52" text-anchor="middle" font-weight="700">Presentation Layer</text>
       <text x="325" y="76" text-anchor="middle" font-size="12">Screens · Web interface · Dashboards</text>
@@ -1085,7 +1097,7 @@ body{margin:0;background:#dfe4ec;padding-block:24px;padding-left:max(16px,env(sa
     </tbody>
   </table>
   <div class="diagram">
-    <svg viewBox="0 0 760 300" role="img" aria-label="Reasons for ERP adoption grouped into tangible and intangible benefits">
+    <svg class="s" viewBox="0 0 760 300" role="img" aria-label="Reasons for ERP adoption grouped into tangible and intangible benefits">
       <text x="380" y="28" text-anchor="middle" font-weight="700">WHY ORGANIZATIONS ADOPT ERP</text>
       <rect x="250" y="48" width="260" height="54" rx="10" class="rx"/>
       <text x="380" y="81" text-anchor="middle" font-weight="700">ERP ADOPTION</text>
@@ -1104,7 +1116,7 @@ body{margin:0;background:#dfe4ec;padding-block:24px;padding-left:max(16px,env(sa
 
   <h2>3.4 Diagram — Overall Drivers of ERP Market Growth</h2>
   <div class="diagram">
-    <svg viewBox="0 0 760 390" role="img" aria-label="Three categories of ERP market growth drivers lead to ERP adoption and business performance">
+    <svg class="s" viewBox="0 0 760 390" role="img" aria-label="Three categories of ERP market growth drivers lead to ERP adoption and business performance">
       <text x="380" y="28" text-anchor="middle" font-weight="700">MAJOR DRIVERS BEHIND ERP MARKET GROWTH</text>
       <rect x="18" y="58" width="224" height="112" rx="10" class="bx"/>
       <rect x="268" y="58" width="224" height="112" rx="10" class="yx"/>
@@ -1339,7 +1351,7 @@ body{margin:0;background:#dfe4ec;padding-block:24px;padding-left:max(16px,env(sa
 
 <h2>4.4 Diagram — How ERP Creates Advantages</h2>
 <div class="diagram">
-<svg viewBox="0 0 760 390" role="img" aria-label="ERP shared data and integrated processes lead to operational, customer and management advantages">
+<svg class="s" viewBox="0 0 760 390" role="img" aria-label="ERP shared data and integrated processes lead to operational, customer and management advantages">
 <text x="380" y="28" text-anchor="middle" font-weight="700">HOW ERP CREATES BUSINESS ADVANTAGES</text>
 <rect x="235" y="50" width="290" height="62" rx="11" class="rx"/>
 <text x="380" y="87" text-anchor="middle" font-weight="700">INTEGRATED ERP SYSTEM</text>
@@ -1557,7 +1569,7 @@ body{margin:0;background:#dfe4ec;padding-block:24px;padding-left:max(16px,env(sa
 
 <h2>5.5 Diagram — Main Causes of ERP Failure</h2>
 <div class="diagram">
-<svg viewBox="0 0 760 440" role="img" aria-label="ERP implementation failure causes grouped into management, people, planning, process, data, and technology">
+<svg class="s" viewBox="0 0 760 440" role="img" aria-label="ERP implementation failure causes grouped into management, people, planning, process, data, and technology">
 <text x="380" y="28" text-anchor="middle" font-weight="700">CAUSES THAT CAN LEAD TO ERP IMPLEMENTATION FAILURE</text>
 <rect x="242" y="52" width="276" height="58" rx="10" class="rx"/>
 <text x="380" y="87" text-anchor="middle" font-weight="700">ERP PROJECT FAILURE</text>
