@@ -10,6 +10,22 @@ function topics(h){const out=[];let m;
  while((m=b.exec(h)))out.push({id:(/id="([^"]+)"/.exec(m[2])||[])[1],title:txt(m[3]).replace(/\s+(RED|YELLOW|BLACK|MIXED)$/i,''),priority:P[m[1]]||'black'});
  const c=/<a class="index-card (\w+)-card" href="#([^"]+)">([\s\S]*?)<\/a>/g;                                                       // notes whose topic list is their own index cards
  while((m=c.exec(h))){const t=/<strong>([\s\S]*?)<\/strong>/.exec(m[3]);if(t&&h.includes('id="'+m[2]+'"'))out.push({id:m[2],title:txt(t[1]).replace(/^(Topic\s*)?\d+\s*[.:—-]\s*/i,''),priority:P[{red:'tr',yellow:'ty',black:'tb',mixed:'tm'}[m[1]]]||'black'})}
+ const seen=new Set(out.map(t=>t.id));
+ const d=/<section\b[^>]*>[\s\S]*?<\/section>/g;
+ while((m=d.exec(h))){
+  const id=(/<section\b[^>]*\bid="([^"]+)"/.exec(m[0])||[])[1];
+  if(!id||!/^topic\d+$/.test(id)||seen.has(id))continue;
+  const heading=/<h[1-3]\b[^>]*class="topic-title"[^>]*>([\s\S]*?)<\/h[1-3]>/i.exec(m[0]);
+  if(!heading)continue;
+  const title=txt(heading[1].replace(/<span\b[^>]*class="(?:tnum|tlabel|tprio)"[^>]*>[\s\S]*?<\/span>/gi,'')).replace(/^\d+\s*/,'');
+  if(!title)continue;
+  const opening=/<section\b[^>]*>/.exec(m[0])[0],classes=(/class="([^"]+)"/.exec(opening)||[])[1]||'';
+  const token=classes.split(/\s+/).find(x=>/^(?:red|yellow|black|mixed|tr|ty|tb|tm|redtopic)$/.test(x));
+  const marker=/<(?:div|span)\b[^>]*class="[^"]*\b(?:priority|index-priority)\b[^"]*\b(red|yellow|black|mixed)\b[^"]*"[^>]*>/i.exec(m[0]);
+  const priority=P[token]||({red:'red',yellow:'yellow',black:'black',mixed:'mixed',redtopic:'red'}[token])||(marker&&marker[1])||'black';
+  out.push({id,title,priority});seen.add(id);
+ }
+ out.sort((a,b)=>Number(a.id.replace(/\D/g,''))-Number(b.id.replace(/\D/g,'')));
  return out}
 const read=(s,f)=>fs.readFileSync(path.join(__dirname,'..','content',s,f),'utf8');
 function build(){return subjects.map(s=>({slug:s.slug,name:s.name,code:s.code,emoji:s.emoji,

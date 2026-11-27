@@ -451,6 +451,11 @@
     "missing": false,
     "topics": [
      {
+      "id": "unit-revision",
+      "title": "Unit IV — Final Revision Checklist",
+      "priority": "black"
+     },
+     {
       "id": "t1",
       "title": "Topic 1. Information Storage, Retrieval, Archive and Protection",
       "priority": "yellow"
@@ -514,11 +519,6 @@
       "id": "t13",
       "title": "Topic 13. Usage Reporting, Billing and Metering",
       "priority": "yellow"
-     },
-     {
-      "id": "unit-revision",
-      "title": "Unit IV — Final Revision Checklist",
-      "priority": "black"
      }
     ]
    },
@@ -529,6 +529,11 @@
     "file": "unit-5.html",
     "missing": false,
     "topics": [
+     {
+      "id": "exam",
+      "title": "14. Exam Preparation and Quick Revision",
+      "priority": "yellow"
+     },
      {
       "id": "t1",
       "title": "1. Virtualization Defined",
@@ -593,11 +598,6 @@
       "id": "t13",
       "title": "13. Virtualized Data Center",
       "priority": "red"
-     },
-     {
-      "id": "exam",
-      "title": "14. Exam Preparation and Quick Revision",
-      "priority": "yellow"
      }
     ]
    },
@@ -834,25 +834,113 @@
     "key": "unit-5",
     "n": 5,
     "title": "Product Data Management",
-    "file": null,
-    "missing": true,
-    "topics": []
+    "file": "unit-5.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "topic1",
+      "title": "Product Data Management (PDM)",
+      "priority": "yellow"
+     },
+     {
+      "id": "topic2",
+      "title": "Data Management",
+      "priority": "black"
+     },
+     {
+      "id": "topic3",
+      "title": "Benefits of PDM",
+      "priority": "red"
+     },
+     {
+      "id": "topic4",
+      "title": "ERP Units — Finance",
+      "priority": "black"
+     },
+     {
+      "id": "topic5",
+      "title": "Plant Maintenance",
+      "priority": "red"
+     },
+     {
+      "id": "topic6",
+      "title": "Quality Management",
+      "priority": "black"
+     },
+     {
+      "id": "topic7",
+      "title": "Material Management",
+      "priority": "black"
+     }
+    ]
    },
    {
     "key": "unit-6",
     "n": 6,
     "title": "Benefits of ERP and ERP Market",
-    "file": null,
-    "missing": true,
-    "topics": []
+    "file": "unit-6.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "topic1",
+      "title": "SAP",
+      "priority": "yellow"
+     },
+     {
+      "id": "topic2",
+      "title": "BAAN",
+      "priority": "red"
+     },
+     {
+      "id": "topic3",
+      "title": "Oracle Corporation",
+      "priority": "yellow"
+     },
+     {
+      "id": "topic4",
+      "title": "PeopleSoft",
+      "priority": "yellow"
+     }
+    ]
    },
    {
     "key": "unit-7",
     "n": 7,
-    "title": "Vendors, Consultants and Users",
-    "file": null,
-    "missing": true,
-    "topics": []
+    "title": "Implementation and Case Studies",
+    "file": "unit-7.html",
+    "missing": false,
+    "topics": [
+     {
+      "id": "topic1",
+      "title": "In-house ERP Implementation: Pros and Cons",
+      "priority": "yellow"
+     },
+     {
+      "id": "topic2",
+      "title": "ERP Vendors",
+      "priority": "red"
+     },
+     {
+      "id": "topic3",
+      "title": "ERP Consultants",
+      "priority": "yellow"
+     },
+     {
+      "id": "topic4",
+      "title": "ERP End-users",
+      "priority": "red"
+     },
+     {
+      "id": "topic5",
+      "title": "ERP Implementation Life Cycle",
+      "priority": "red"
+     },
+     {
+      "id": "topic6",
+      "title": "ERP Case Studies",
+      "priority": "yellow"
+     }
+    ]
    }
   ],
   "extras": [

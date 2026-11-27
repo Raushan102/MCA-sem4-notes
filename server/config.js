@@ -11,5 +11,5 @@ module.exports = [
   extras:[['question-bank','Previous-Year Question Bank','question-bank.html'],['important-questions','Important Questions and Priority','important-questions.html']]},
  {slug:'erp',name:'ERP',code:'ECMCA402B',emoji:'🏭',units:[
   ['unit-1','Introduction to ERP','unit-1.html'],['unit-2','Enterprise: An Overview','unit-2.html'],['unit-3','ERP and Related Technologies','unit-3.html'],['unit-4','A Manufacturing Perspective','unit-4.html'],
-  ['unit-5','Product Data Management',null],['unit-6','Benefits of ERP and ERP Market',null],['unit-7','Vendors, Consultants and Users',null]],
+  ['unit-5','Product Data Management','unit-5.html'],['unit-6','Benefits of ERP and ERP Market','unit-6.html'],['unit-7','Implementation and Case Studies','unit-7.html']],
   extras:[['syllabus-priority','Syllabus, Priority and Predicted Questions','syllabus-priority.html']]}];
