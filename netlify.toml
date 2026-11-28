@@ -1,5 +1,5 @@
 [build]
-  command = "npm install && npm run build:static"
+  command = "rm -rf client/node_modules client/package-lock.json && npm install && npm run build:static"
   publish = "client/dist"
 
 [build.environment]

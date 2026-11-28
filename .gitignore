@@ -3,3 +3,5 @@ client/dist
 client/public/notes
 client/public/data
 .env
+client/package-lock.json
+client/node_modules

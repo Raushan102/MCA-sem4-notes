@@ -19,4 +19,4 @@ app.get('/notes/:slug/:key',async(q,r)=>{const{slug,key}=q.params;let html;
  html?r.type('html').send(html):r.status(404).send('Notes not found')});
 const dist=path.join(__dirname,'..','client','dist');app.use(express.static(dist));
 app.get('*',(q,r)=>fs.existsSync(dist)?r.sendFile(path.join(dist,'index.html')):r.status(503).send('Run: npm run build'));
-app.listen(process.env.PORT||3001,()=>console.log('Notes site on http://localhost:'+(process.env.PORT||3001)+(useDb?' (MongoDB)':' (file mode)')));
+app.listen(process.env.PORT||3000,()=>console.log('Notes site on http://localhost:'+(process.env.PORT||3000)+(useDb?' (MongoDB)':' (file mode)')));
