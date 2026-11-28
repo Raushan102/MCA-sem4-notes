@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Computer Graphics — Unit VI: Viewing in 3D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+html { color-scheme: light; }
+
+:root {
+  --desk: #dfe4ec;
+  --paper: #ffffff;
+  --rule: #d6e3f5;
+  --margin: #e4868a;
+  --ink: #1d3a8c;
+  --red: #b3261e;
+  --green: #1b6b3a;
+  --hl: rgba(255, 214, 0, 0.45);
+  --edge: rgba(29, 58, 140, 0.35);
+  --shadow: rgba(20, 30, 60, 0.2);
+  --hand: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --display: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --mono: "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace;
+  --vs-bg: #1e1e1e;
+  --vs-fg: #d4d4d4;
+  color-scheme: light;
+}
+html { background: var(--desk); }
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: 16px;
+  line-height: 36px;
+  padding-block: 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 28px 64px 76px;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 22px 48px, var(--desk) 8px, transparent 9px),
+    linear-gradient(to bottom, transparent 35px, var(--rule) 35px, var(--rule) 36px);
+  background-size: 44px 144px, 100% 36px;
+  background-repeat: repeat-y, repeat;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px var(--shadow), 0 14px 34px -14px var(--shadow);
+  overflow-wrap: break-word;
+}
+.sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 56px;
+  width: 4px;
+  border-left: 1px solid var(--margin);
+  border-right: 1px solid var(--margin);
+}
+@media (max-width: 520px) {
+  body { font-size: 15px; }
+  .sheet { padding: 64px 12px 64px 50px; }
+  .sheet::before { left: 34px; }
+}
+h1, h2, h3 { margin: 0; font-weight: 700; text-wrap: balance; }
+h1 {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  line-height: 64px;
+  color: var(--red);
+  text-decoration: underline wavy var(--red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 7px;
+  scroll-margin-top: 16px;
+}
+.sheet > h1:first-child { font-size: clamp(1.7rem, 5.2vw, 2.4rem); }
+h2 { font-family: var(--display); font-size: 1.3rem; line-height: 36px; color: var(--red); }
+h3 { font-family: var(--display); font-size: 1.15rem; line-height: 36px; color: var(--green); }
+p { margin: 0 0 36px; }
+hr {
+  height: 36px;
+  margin: 0;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--edge) 0 10px, transparent 10px 18px) center / 100% 2px no-repeat;
+}
+ul, ol { margin: 0 0 36px; }
+ul { list-style: none; padding-left: 34px; }
+ul li { position: relative; }
+ul li::before { content: "\2022"; position: absolute; left: -22px; color: var(--red); }
+ol { padding-left: 46px; }
+ol li::marker { color: var(--red); font-family: var(--display); font-weight: 700; }
+li > p { margin: 0; }
+strong {
+  font-weight: 600;
+  padding: 0 2px;
+  background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  line-height: 0;
+  color: #9cdcfe;
+  background: var(--vs-bg);
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+pre {
+  margin: 0 0 32px;
+  padding: 16px 20px;
+  background: var(--vs-bg);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), 0 6px 14px -8px rgba(0, 0, 0, 0.5);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 400;
+  font-variant-ligatures: contextual;
+  line-height: 32px;
+  color: var(--vs-fg);
+  overflow-x: auto;
+  tab-size: 4;
+  white-space: pre;
+}
+pre code { font: inherit; line-height: inherit; color: inherit; background: none; padding: 0; border-radius: 0; }
+.tw { margin: 0 0 32px; overflow-x: auto; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+.tw.wide table { min-width: 640px; }
+th, td {
+  padding: 0 14px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 36px;
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge);
+}
+th {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--red);
+  background: var(--hl);
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge);
+}
+th:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+td:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; border-radius: 2px; }
+.note { margin: 0 0 32px; padding: 0 0 0 16px; border-left: 3px solid var(--red); }
+.note p { margin: 0; }
+h1 code, h2 code, h3 code { background: var(--vs-bg); }
+th code, td code { font-size: 0.85em; }
+main a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px;overflow-wrap:anywhere}
+main a:hover{color:var(--red)}
+.exam-box{padding:16px 20px;border:1px solid var(--edge);border-radius:6px;background:rgba(255,255,255,.78);margin-bottom:32px}
+
+/* Quick navigation index */
+.quick-index{margin:24px 0 40px;padding:20px 22px;border:2px solid #9fb4d5;border-radius:12px;background:linear-gradient(135deg,rgba(232,240,252,.96),rgba(255,255,255,.96));box-shadow:0 5px 16px rgba(20,30,60,.08)}
+.quick-index h2{margin:0 0 12px}
+.index-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.index-card{display:block;padding:14px 15px;border:1px solid #c5d3e7;border-left:6px solid #555;border-radius:9px;background:#fff;color:var(--ink);text-decoration:none;line-height:1.65;box-shadow:0 2px 7px rgba(20,30,60,.06);transition:transform .15s ease,box-shadow .15s ease}
+.index-card:hover{transform:translateY(-2px);box-shadow:0 5px 13px rgba(20,30,60,.12);color:var(--red)}
+.index-card.red-card{border-left-color:#b3261e;background:#fff4f2}
+.index-card.yellow-card{border-left-color:#d6ad00;background:#fffbea}
+.index-card.black-card{border-left-color:#333;background:#f4f4f4}
+.index-card strong{display:block;margin-bottom:4px;background:none}
+.index-card .index-priority{display:inline-block;margin-top:7px;padding:1px 8px;border-radius:4px;font-size:.78em;font-weight:700;line-height:1.6}
+.index-card .index-priority.red{background:#b3261e;color:white}
+.index-card .index-priority.yellow{background:#ffe27a;color:#4a3b00}
+.index-card .index-priority.black{background:#333;color:white}
+@media(max-width:520px){.quick-index{padding:15px}.index-grid{grid-template-columns:1fr}}
+
+/* Mathematical expressions: yellow notebook-paper panel with blue handwritten-style ink. */
+.formula {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 16px auto 24px;
+  padding: 12px 20px;
+  border: 1px solid #eadb91;
+  border-left: 4px solid #e5c64b;
+  border-radius: 7px;
+  background: #fff4b8;
+  color: #164b91;
+  font-family: var(--hand, "Comic Sans MS", "Segoe Print", cursive);
+  font-size: 1.13rem;
+  font-weight: 700;
+  line-height: 1.95;
+  letter-spacing: .015em;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(70,55,10,.10);
+  overflow-wrap: anywhere;
+}
+.formula p { margin: 0 0 6px; }
+.formula p:last-child { margin-bottom: 0; }
+.formula strong, .formula sub, .formula sup { color: #164b91; }
+.formula strong { background: transparent; padding: 0; }
+@media(max-width:520px) {
+  .formula { font-size: 1rem; padding: 9px 12px; line-height: 1.8; }
+}
+
+/* ===== Final polish: Unit VI (matching Unit V model) ===== */
+html{scroll-behavior:smooth}
+section[id]{scroll-margin-top:16px}
+figure{margin:0}img{max-width:100%;height:auto}
+h4{margin:0;font-family:var(--display);font-size:1.05rem;line-height:36px;color:var(--ink)}
+.small{font-size:.9em}
+
+/* hero */
+.hero{position:relative;margin:-24px -8px 32px 0;padding:28px 26px 22px;border-radius:14px;color:#fff;overflow:hidden;
+  background:radial-gradient(circle at 92% 12%,rgba(255,214,0,.35),transparent 42%),linear-gradient(135deg,#1d3a8c 0%,#2b4fb8 55%,#b3261e 140%);
+  box-shadow:0 8px 22px -8px rgba(20,30,60,.55)}
+.hero::after{content:"VI";position:absolute;right:14px;bottom:-34px;font:800 9rem/1 var(--display);color:rgba(255,255,255,.12);pointer-events:none}
+.hero .eyebrow{font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;opacity:.85;line-height:24px}
+.hero h1{color:#fff;text-decoration:none;font-size:clamp(1.6rem,5vw,2.3rem);line-height:1.25;margin:6px 0 4px}
+.hero .sub{margin:0 0 14px;font-size:1.05rem;line-height:28px;color:#ffe27a;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.chip{display:inline-block;padding:2px 12px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);font-size:.8rem;line-height:26px;font-weight:600}
+.chip.hot{background:#ffd600;color:#463900;border-color:#ffd600}
+
+/* cards */
+.panel{margin:0 0 32px;padding:16px 20px 6px;border:1px solid #c8d6e8;border-radius:12px;background:rgba(255,255,255,.92);box-shadow:0 3px 10px rgba(20,30,60,.07)}
+.panel h2{margin:0 0 6px;font-size:1.15rem}
+.panel p,.panel ul{margin-bottom:14px}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:0 0 14px}
+.legend div{padding:8px 12px;border-radius:8px;border-left:6px solid;line-height:1.5;font-size:.9em}
+.legend .lr{background:rgba(179,38,30,.1);border-color:#b3261e}
+.legend .ly{background:rgba(255,214,0,.28);border-color:#d2a900}
+.legend .lb{background:rgba(35,39,48,.1);border-color:#333}
+.legend b{display:inline-block;margin-right:6px;padding:0 8px;border-radius:4px;font-size:.78em;line-height:1.7;color:#fff;background:#b3261e}
+.legend .ly b{background:#ffd600;color:#463900}.legend .lb b{background:#222}
+.focus li{line-height:1.6;margin-bottom:4px}
+
+/* index */
+.quick-index{margin:0 0 40px}
+.index-card{position:relative;padding-left:62px}
+.index-card .num{position:absolute;left:12px;top:12px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:700 1.05rem/1 var(--display);color:#fff;background:#555}
+.index-card.red-card .num{background:#b3261e}.index-card.yellow-card .num{background:#e0b800;color:#3d3100}.index-card.black-card .num{background:#222}
+
+/* topic sections */
+.topic-section.tp{position:relative;margin:52px -14px 60px;padding:20px 24px 6px;border:1px solid rgba(29,58,140,.18);border-left:9px solid;border-radius:14px;box-shadow:0 6px 20px rgba(20,30,60,.09)}
+.topic-section.tp::before{display:none}
+.tp.tr{background:linear-gradient(135deg,rgba(179,38,30,.16),rgba(179,38,30,.07));border-color:#b3261e}
+.tp.ty{background:linear-gradient(135deg,rgba(255,214,0,.34),rgba(255,214,0,.13));border-color:#d2a900}
+.tp.tb{background:linear-gradient(135deg,rgba(35,39,48,.15),rgba(35,39,48,.06));border-color:#333}
+.topic-title{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;margin:0 0 6px;padding-bottom:8px;border-bottom:2px dashed currentColor;line-height:1.35;font-size:1.5rem}
+.tnum{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:800 1.7rem/1 var(--display);color:#fff;background:var(--red);box-shadow:0 0 0 4px rgba(255,255,255,.75),0 3px 8px rgba(0,0,0,.25)}
+.tp.ty .tnum{background:#e0b800;color:#3d3100}.tp.tb .tnum{background:#222}
+.tlabel{display:block;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:#455;line-height:1.2}
+.tprio{margin-left:auto;padding:2px 12px;border-radius:6px;font-size:.5em;letter-spacing:.8px;line-height:1.9;white-space:nowrap;background:#b3261e;color:#fff}
+.tp.ty .tprio{background:#ffd600;color:#463900}.tp.tb .tprio{background:#222}
+.evidence{margin:0 0 28px;padding:8px 14px;border-radius:8px;background:rgba(255,255,255,.7);font-size:.9em;line-height:1.6;border:1px dashed var(--edge)}
+.tp h3{margin-top:8px;color:var(--green);border-left:4px solid currentColor;padding-left:10px}
+.tp .exam-box h3{border:0;padding:0;margin-top:0}
+.exam-box{break-inside:avoid;border-left:5px solid var(--green);background:rgba(255,255,255,.9);box-shadow:0 2px 8px rgba(20,30,60,.08)}
+.exam-box h3::before{content:"★ ";color:#e0b800}
+.tw{background:rgba(255,255,255,.8);border-radius:6px}
+.floral-divider{text-align:center;color:var(--red);letter-spacing:6px;line-height:36px;margin:0 0 6px}
+.tp.ty .floral-divider{color:#9a7900}.tp.tb .floral-divider{color:#444}
+.back-top{margin:0 0 30px;font-size:.9em;text-align:right}
+.unit-end{margin:40px 0 0;padding:16px;text-align:center;border-radius:12px;background:linear-gradient(135deg,#e8f0fc,#fff4b8);border:1px solid #c8d6e8;line-height:1.7}
+@media(max-width:520px){.hero{margin-right:0;padding:20px 16px}.hero::after{font-size:6rem}.topic-section.tp{margin:40px -8px 48px;padding:14px 12px 4px}.tnum{width:42px;height:42px;font-size:1.3rem}.topic-title{font-size:1.2rem}.tprio{margin-left:0}}
+@media print{html,body{background:#fff}body{padding:0}.sheet{box-shadow:none;max-width:none}.topic-section{break-before:page}.back-top{display:none}pre,.exam-box,.hero{break-inside:avoid}.hero,.tp,.tnum,.tprio{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<main class="sheet" id="top">
+<header class="hero">
+<div class="eyebrow">Computer Graphics · MCA Semester IV</div>
+<h1>UNIT VI — VIEWING IN 3D</h1>
+<p class="sub">Projections, arbitrary 3D viewing, planar projection mathematics and coordinate pipelines</p>
+<p class="chips"><span class="chip">Ranchi University CBCS</span><span class="chip">Core Course C10 · CCMCA403</span><span class="chip">6 Topics</span><span class="chip hot">UNIT PRIORITY: HIGH</span></p>
+</header>
+
+<div class="panel">
+<h2>✿ Official Unit VI syllabus ✿</h2>
+<p>Projections · Specifying an Arbitrary 3D View · Examples of 3D Viewing · The Mathematics of Planar Geometric Projections · Implementing Planar Geometric Projection · Coordinate Systems.</p>
+</div>
+
+<div class="panel focus">
+<h2>★ What to prepare for the exam ★</h2>
+<ul>
+<li>Parallel vs. perspective projections (orthographic, oblique, 1-point, 2-point and 3-point perspective).</li>
+<li>Specifying an arbitrary 3D view using VRP, VPN, VUP and viewing axes (u, v, n).</li>
+<li>Mathematics and 4 × 4 homogeneous matrices for planar geometric projections.</li>
+<li>Step-by-step 3D viewing and coordinate transformation pipeline (object → world → viewing → projection → NDC → screen).</li>
+</ul>
+<p class="small"><strong>Evidence:</strong> MCA 2022–24 and older MCA papers (exam plan). Priority colours describe checked question-paper evidence; they do not guarantee future questions.</p>
+</div>
+
+<div class="panel">
+<h2>✿ Exam-priority colour guide ✿</h2>
+<div class="legend">
+<div class="lr"><b>RED</b>Direct question in the supplied MCA papers.</div>
+<div class="ly"><b>YELLOW</b>Unit-level evidence in MCA papers, not a standalone direct question on this sub-heading.</div>
+<div class="lb"><b>BLACK</b>No matching standalone question identified; covered from the official syllabus.</div>
+</div>
+</div>
+
+<nav class="quick-index" aria-label="Unit VI topic index">
+<h2>✿ Quick Index — Unit VI ✿</h2>
+<div class="index-grid">
+<a class="index-card red-card" href="#u6-topic1-projections"><span class="num">1</span><strong>Projections</strong>Converting 3D objects into 2D views via parallel and perspective projection.<span class="index-priority red">RED · direct MCA topic evidence</span></a>
+<a class="index-card black-card" href="#u6-topic2-arbitrary-view"><span class="num">2</span><strong>Specifying an Arbitrary 3D View</strong>Defining the viewer, viewing direction and view-up direction.<span class="index-priority black">BLACK · no matching subtopic PYQ confirmed</span></a>
+<a class="index-card black-card" href="#u6-topic3-examples"><span class="num">3</span><strong>Examples of 3D Viewing</strong>Common ways to view a 3D scene from different directions.<span class="index-priority black">BLACK · no matching subtopic PYQ confirmed</span></a>
+<a class="index-card black-card" href="#u6-topic4-mathematics"><span class="num">4</span><strong>Mathematics of Planar Geometric Projections</strong>Projection equations, geometric derivation and matrix forms.<span class="index-priority black">BLACK · no matching subtopic PYQ confirmed</span></a>
+<a class="index-card black-card" href="#u6-topic5-implementing"><span class="num">5</span><strong>Implementing Planar Geometric Projection</strong>Steps, coordinate calculations, matrix application and examples.<span class="index-priority black">BLACK · no matching subtopic PYQ confirmed</span></a>
+<a class="index-card black-card" href="#u6-topic6-coordinate-systems"><span class="num">6</span><strong>Coordinate Systems</strong>Object, world, viewing, projection, normalized and device coordinates.<span class="index-priority black">BLACK · no matching subtopic PYQ confirmed</span></a>
+</div>
+</nav>
+
+<section id="u6-topic1-projections" class="topic-section tp tr">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">1</span><span><span class="tlabel">Topic 1 of 6</span>Projections</span><span class="tprio">RED PRIORITY</span></h2>
+<p class="evidence"><strong>Why RED?</strong> The MCA 2022–24 paper includes a question on different types of projections. This is direct topic-level PYQ evidence.</p>
+
+<h3>1.1 Meaning of Projection</h3>
+<p><strong>Projection</strong> is the process of representing a three-dimensional (3D) object on a two-dimensional (2D) viewing surface, such as a computer screen or a sheet of paper. It converts the 3D coordinates of an object into 2D coordinates so that the object can be displayed or drawn.</p>
+<p>Since a screen is flat but objects in the real world have width, height and depth, projection provides a way to show 3D objects on a 2D surface. The appearance of the object depends on the type of projection used.</p>
+
+<h3>1.2 Basic Elements of Projection</h3>
+<ul>
+<li><strong>Object:</strong> The 3D model or scene that must be displayed.</li>
+<li><strong>Projection plane:</strong> The flat surface on which the 3D object is projected.</li>
+<li><strong>Projectors:</strong> Imaginary straight lines drawn from points on the object towards the projection plane.</li>
+<li><strong>Centre of projection:</strong> The point from which projectors originate in perspective projection. In parallel projection, the projectors are parallel and meet at an imaginary point at infinity.</li>
+</ul>
+
+<h3>1.3 Types of Projection</h3>
+<p>In computer graphics, projections are broadly classified into two main categories:</p>
+<div class="formula"><strong>Main classification</strong><p>3D Projection</p><p>├── Parallel Projection</p><p>└── Perspective Projection</p></div>
+
+<h3>1.4 Parallel Projection</h3>
+<p><strong>Parallel projection</strong> is a method in which all projectors are parallel to one another. The projected size of an object does not become smaller merely because the object is farther away from the viewer. It is useful in technical and engineering drawings where measurements and proportions need to be represented clearly.</p>
+<p>Parallel projection is commonly divided into the following types:</p>
+<ul>
+<li><strong>Orthographic projection:</strong> The projectors are perpendicular (at 90°) to the projection plane. It is used to obtain front, top and side views of an object.</li>
+<li><strong>Oblique projection:</strong> The projectors meet the projection plane at an angle other than 90°. One face can be shown in its true shape while depth is represented at an angle.</li>
+</ul>
+
+<h3>1.5 Perspective Projection</h3>
+<p><strong>Perspective projection</strong> is a method in which all projectors pass through a single fixed point called the centre of projection. Objects that are farther away from the viewer appear smaller, while nearer objects appear larger. This creates a realistic sense of depth, similar to how humans see objects.</p>
+<p>Perspective projection is commonly classified according to the number of vanishing points:</p>
+<ul>
+<li><strong>One-point perspective:</strong> One set of parallel lines appears to meet at one vanishing point.</li>
+<li><strong>Two-point perspective:</strong> Two sets of parallel lines appear to meet at two vanishing points.</li>
+<li><strong>Three-point perspective:</strong> Three sets of parallel lines appear to meet at three vanishing points.</li>
+</ul>
+
+<h3>1.6 Difference Between Parallel and Perspective Projection</h3>
+<div class="tw">
+<table><thead><tr><th>Parallel Projection</th><th>Perspective Projection</th></tr></thead><tbody>
+<tr><td>Projectors are parallel.</td><td>Projectors meet at a single centre of projection.</td></tr>
+<tr><td>Object size does not reduce with distance.</td><td>Farther objects appear smaller.</td></tr>
+<tr><td>Parallel lines generally remain parallel.</td><td>Parallel lines may appear to meet at vanishing points.</td></tr>
+<tr><td>Useful for engineering and technical drawings.</td><td>Useful for realistic scenes and visual effects.</td></tr>
+</tbody></table>
+</div>
+
+<h3>1.7 Applications of Projection</h3>
+<ul><li>Displaying 3D models on 2D computer screens.</li><li>Creating realistic scenes in animation and games.</li><li>Preparing engineering and architectural drawings.</li><li>Representing depth and spatial relationships in computer graphics.</li></ul>
+
+<div class="exam-box"><h3>Exam answer (5 marks)</h3>
+<p>Projection is the process of converting a three-dimensional object into a two-dimensional representation on a projection plane. It is used to display 3D scenes on flat screens or paper. The two main types are parallel projection and perspective projection. In parallel projection, all projectors are parallel; its important types are orthographic and oblique projection. In perspective projection, all projectors pass through a common centre of projection, and distant objects appear smaller than nearby objects. Parallel projection is mainly used for technical drawings, whereas perspective projection is used to create realistic views.</p></div>
+
+<h3>1.8 Previous-Year Question (PYQ) Evidence</h3>
+<p>The available exam-plan summary indicates that Unit VI has evidence from the MCA 2022–24 paper and an older MCA paper. However, the summary does not show the exact question wording for this specific heading, <strong>Projections</strong>. Therefore, this topic is covered from the official syllabus, but no exact standalone projection question is claimed here.</p>
+
+<h3>1.9 YouTube Videos — Your Preferred Channels</h3>
+<ul>
+<li><a href="https://www.youtube.com/results?search_query=Gate+Smashers+projections+computer+graphics+parallel+perspective" target="_blank" rel="noopener"><strong>Gate Smashers — Projections in Computer Graphics</strong> (YouTube search)</a>.</li>
+<li><a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+projections+computer+graphics" target="_blank" rel="noopener"><strong>5 Minutes Engineering — Projections</strong> (YouTube search)</a>.</li>
+</ul>
+<p class="small">These are topic-specific YouTube search links, not verified links to a particular video.</p>
+
+<h3>1.10 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/projections-in-computer-graphics/" target="_blank" rel="noopener">GeeksforGeeks — Projections in Computer Graphics</a>.</li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/3d_viewing.htm" target="_blank" rel="noopener">TutorialsPoint — 3D Viewing</a>.</li>
+</ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Specifying an Arbitrary 3D View. · <a href="#top">↑ Back to index</a></p>
+</section>
+
+<section id="u6-topic2-arbitrary-view" class="topic-section tp tb">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">2</span><span><span class="tlabel">Topic 2 of 6</span>Specifying an Arbitrary 3D View</span><span class="tprio">BLACK PRIORITY</span></h2>
+<p class="evidence"><strong>Why BLACK?</strong> No direct or clearly related standalone PYQ for this subtopic is confirmed in the available exam evidence.</p>
+
+<h3>2.1 Meaning</h3>
+<p><strong>Specifying an arbitrary 3D view</strong> means defining the position and orientation of a viewer or camera so that a 3D scene can be viewed from any desired direction. Instead of viewing an object only from the front, top or side, we can choose a camera position and viewing direction to see the scene from a suitable angle.</p>
+<p>To create this view, the graphics system needs information about where the viewer is located, which direction the viewer is looking, and which direction should appear as the upward direction on the screen. This information is used to establish a viewing coordinate system.</p>
+
+<h3>2.2 Main Parameters Required</h3>
+<ul>
+<li><strong>View reference point (VRP):</strong> A point that specifies the position or reference location of the viewing coordinate system in the world-coordinate scene.</li>
+<li><strong>View plane normal (VPN):</strong> A vector perpendicular to the viewing plane. It establishes the direction of the viewing plane and helps define the viewing orientation.</li>
+<li><strong>View-up vector (VUP):</strong> A vector that indicates the upward direction for the view. It helps determine how the scene is oriented on the screen and prevents the view from appearing tilted unexpectedly.</li>
+<li><strong>View window:</strong> The region of the viewing plane selected for display. It determines which part of the scene is included in the view.</li>
+</ul>
+
+<h3>2.3 Viewing Coordinate System</h3>
+<p>After the viewing parameters are specified, the system establishes three perpendicular viewing axes, commonly represented as <strong>u, v and n</strong>. These axes describe the horizontal, vertical and viewing directions of the camera.</p>
+<ul>
+<li><strong>u-axis:</strong> The horizontal direction of the viewing coordinate system.</li>
+<li><strong>v-axis:</strong> The vertical or view-up direction.</li>
+<li><strong>n-axis:</strong> The direction perpendicular to the viewing plane, defining the viewing orientation.</li>
+</ul>
+<p>The viewing coordinate system provides a convenient reference frame for transforming objects from world coordinates into view coordinates before projection.</p>
+
+<h3>2.4 Steps to Specify an Arbitrary 3D View</h3>
+<ol>
+<li>Choose the view reference point to establish the viewing reference location.</li>
+<li>Specify the view plane normal to define the orientation of the viewing plane.</li>
+<li>Specify the view-up vector to determine the upward direction on the screen.</li>
+<li>Use these parameters to establish the viewing axes u, v and n.</li>
+<li>Define the view window to select the required portion of the scene.</li>
+<li>Transform the scene into viewing coordinates and then apply the required projection.</li>
+</ol>
+
+<h3>2.5 Why These Parameters Are Important</h3>
+<p>The view reference point determines the reference location, while the view plane normal determines the direction in which the viewing plane is oriented. The view-up vector determines how the scene is rotated within the view. Together, these parameters allow the camera to be placed and oriented flexibly.</p>
+<p>For example, when viewing a building from an elevated corner, the camera position and viewing direction are chosen so that the front, side and top portions can be seen together. The view-up vector ensures that the building appears upright in the final image.</p>
+
+<h3>2.6 Applications</h3>
+<ul>
+<li>Changing camera angles in 3D games and animation.</li>
+<li>Viewing 3D models from different directions in CAD software.</li>
+<li>Choosing suitable camera positions in architectural visualisation.</li>
+<li>Inspecting objects in scientific and engineering simulations.</li>
+</ul>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>Specifying an arbitrary 3D view is the process of defining the position and orientation of a viewer or camera to observe a 3D scene from a desired direction. The main parameters are the view reference point (VRP), view plane normal (VPN), view-up vector (VUP) and view window. These parameters are used to establish the viewing coordinate axes u, v and n. The scene is then transformed from world coordinates into viewing coordinates, after which the required projection is applied. This method allows a 3D object to be viewed from different positions and angles.</p>
+</div>
+
+<h3>2.7 Previous-Year Question (PYQ) Evidence</h3>
+<p>The available exam-plan summary indicates that Unit VI has evidence from the MCA 2022–24 paper and an older MCA paper, but it does not provide the exact wording of a question specifically on <strong>Specifying an Arbitrary 3D View</strong>. Therefore, this topic is explained from the official syllabus; no separate direct PYQ is claimed.</p>
+
+<h3>2.8 YouTube Videos — Your Preferred Channels</h3>
+<ul>
+<li><a href="https://www.youtube.com/results?search_query=Gate+Smashers+specifying+an+arbitrary+3D+view+computer+graphics" target="_blank" rel="noopener"><strong>Gate Smashers — Specifying an Arbitrary 3D View</strong> (YouTube search)</a>.</li>
+<li><a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+arbitrary+3D+view+computer+graphics" target="_blank" rel="noopener"><strong>5 Minutes Engineering — Arbitrary 3D View</strong> (YouTube search)</a>.</li>
+</ul>
+<p class="small">These are topic-specific YouTube search links, not verified links to a particular video.</p>
+
+<h3>2.9 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/3d-viewing-pipeline/" target="_blank" rel="noopener">GeeksforGeeks — 3D Viewing Pipeline</a>.</li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/3d_viewing.htm" target="_blank" rel="noopener">TutorialsPoint — 3D Viewing</a>.</li>
+</ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Examples of 3D Viewing. · <a href="#top">↑ Back to index</a></p>
+</section>
+
+<section id="u6-topic3-examples" class="topic-section tp tb">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">3</span><span><span class="tlabel">Topic 3 of 6</span>Examples of 3D Viewing</span><span class="tprio">BLACK PRIORITY</span></h2>
+<p class="evidence"><strong>Why BLACK?</strong> No direct or clearly related standalone PYQ for this subtopic is confirmed in the available exam evidence.</p>
+
+<h3>3.1 Meaning</h3>
+<p><strong>3D viewing</strong> is the process of selecting a viewpoint and displaying a three-dimensional scene on a two-dimensional screen. The same object can look different when viewed from different positions and directions. By changing the camera position, viewing direction and projection method, we can observe different sides and details of the object.</p>
+<p>For example, a building can be viewed from the front to see its entrance, from above to see its roof, or from a corner to see two sides together. These are different views of the same 3D object.</p>
+
+<h3>3.2 Front View</h3>
+<p>A <strong>front view</strong> is obtained when the viewer looks directly towards the front face of an object. It shows the width and height of the object clearly, but depth is not directly visible in the view.</p>
+<p><strong>Example:</strong> Looking straight at the front wall of a building or the front face of a box.</p>
+
+<h3>3.3 Top View</h3>
+<p>A <strong>top view</strong> is obtained when the viewer looks down at the object from above. It is useful for observing the layout, length and width of an object or scene. The height dimension is not directly represented in this view.</p>
+<p><strong>Example:</strong> Looking down at the roof of a house or the arrangement of furniture in a room.</p>
+
+<h3>3.4 Side View</h3>
+<p>A <strong>side view</strong> is obtained when the viewer looks at an object from its left or right side. It helps show the object's depth and height.</p>
+<p><strong>Example:</strong> Viewing a car from its side to observe its length, height and side profile.</p>
+
+<h3>3.5 Axonometric or Isometric View</h3>
+<p>An <strong>axonometric view</strong> is a type of parallel projection in which more than one face of an object can be seen in the same view. In an <strong>isometric view</strong>, the three principal axes are equally inclined to the projection plane, so the three directions are represented with equal scale.</p>
+<p><strong>Example:</strong> A cube shown with its front, side and top faces visible together in a technical drawing.</p>
+
+<h3>3.6 Perspective View</h3>
+<p>A <strong>perspective view</strong> represents an object in a way that resembles human vision. Objects farther from the viewer appear smaller, and parallel lines may appear to meet at vanishing points. This gives the scene a realistic sense of depth.</p>
+<p><strong>Example:</strong> A road or railway track appears to become narrower as it extends towards the horizon.</p>
+
+<h3>3.7 Comparison of Common Views</h3>
+<div class="tw">
+<table>
+<thead><tr><th>View</th><th>What it shows</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td>Front</td><td>Front face, width and height</td><td>Front of a building</td></tr>
+<tr><td>Top</td><td>Top surface, length and width</td><td>Roof or room layout</td></tr>
+<tr><td>Side</td><td>Side profile, depth and height</td><td>Side of a car</td></tr>
+<tr><td>Isometric</td><td>Several faces together with equal axis scale</td><td>Technical drawing of a cube</td></tr>
+<tr><td>Perspective</td><td>Realistic depth and distance appearance</td><td>Road receding towards the horizon</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>3.8 Importance of Different 3D Views</h3>
+<ul>
+<li>Different views reveal different details of the same object.</li>
+<li>Front, top and side views are useful in technical and engineering drawings.</li>
+<li>Isometric views help understand the overall shape of an object.</li>
+<li>Perspective views are useful for realistic scenes in games, animation and architectural visualisation.</li>
+</ul>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>3D viewing is the process of displaying a three-dimensional object or scene from a selected viewpoint on a two-dimensional screen. Common examples include front view, top view and side view, which show different faces or dimensions of an object. An isometric view displays several faces together using equal scale along the three principal axes. A perspective view creates a realistic appearance in which distant objects look smaller than nearby objects. Different views are selected according to the details that need to be observed or displayed.</p>
+</div>
+
+<h3>3.9 Previous-Year Question (PYQ) Evidence</h3>
+<p>The available exam-plan summary indicates previous-paper evidence for Unit VI overall, but it does not provide an exact question specifically titled <strong>Examples of 3D Viewing</strong>. This topic is therefore explained from the official syllabus, without claiming a separate direct MCA PYQ.</p>
+
+<h3>3.10 YouTube Videos — Your Preferred Channels</h3>
+<ul>
+<li><a href="https://www.youtube.com/results?search_query=Gate+Smashers+3D+viewing+computer+graphics+examples" target="_blank" rel="noopener"><strong>Gate Smashers — Examples of 3D Viewing</strong> (YouTube search)</a>.</li>
+<li><a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+3D+viewing+computer+graphics" target="_blank" rel="noopener"><strong>5 Minutes Engineering — 3D Viewing</strong> (YouTube search)</a>.</li>
+</ul>
+<p class="small">These are topic-specific YouTube search links, not verified links to a particular video.</p>
+
+<h3>3.11 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/3d-viewing-pipeline/" target="_blank" rel="noopener">GeeksforGeeks — 3D Viewing Pipeline</a>.</li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/3d_viewing.htm" target="_blank" rel="noopener">TutorialsPoint — 3D Viewing</a>.</li>
+</ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> The Mathematics of Planar Geometric Projections. · <a href="#top">↑ Back to index</a></p>
+</section>
+
+<section id="u6-topic4-mathematics" class="topic-section tp tb">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">4</span><span><span class="tlabel">Topic 4 of 6</span>The Mathematics of Planar Geometric Projections</span><span class="tprio">BLACK PRIORITY</span></h2>
+<p class="evidence"><strong>Why BLACK?</strong> No direct or clearly related standalone PYQ for this subtopic is confirmed in the available exam evidence.</p>
+
+<h3>4.1 Meaning</h3>
+<p><strong>Planar geometric projection</strong> is the mathematical process of mapping points of a 3D object onto a flat 2D plane. The projected point is found where a projection line (projector) through the original 3D point meets the projection plane.</p>
+<p>The calculation depends on the position of the projection plane and the direction of the projectors. The two main mathematical cases are <strong>parallel projection</strong> and <strong>perspective projection</strong>.</p>
+
+<h3>4.2 Mathematical Elements</h3>
+<ul>
+<li><strong>3D point:</strong> P(x, y, z), a point on the object.</li>
+<li><strong>Projection plane:</strong> The flat plane receiving the image. For the examples below, use the XY-plane, whose equation is z = 0.</li>
+<li><strong>Projector:</strong> A straight line passing through P and its projected point P′.</li>
+<li><strong>Projected point:</strong> P′(x′, y′, z′), the intersection of the projector and the projection plane.</li>
+<li><strong>Centre of projection (COP):</strong> A finite point through which perspective projectors pass.</li>
+<li><strong>Direction of projection:</strong> The common direction of parallel projectors.</li>
+</ul>
+<div class="formula"><strong>Projection plane used in the derivations</strong>
+<p>XY-plane: z = 0</p>
+<p>Therefore, every projected point on this plane has z′ = 0.</p></div>
+
+<h3>4.3 Mathematics of Parallel Projection</h3>
+<p>In parallel projection, all projectors have the same direction. Let the direction vector be D = (l, m, n), where n ≠ 0. A projector through P(x, y, z) can be written using a parameter t:</p>
+<div class="formula"><strong>Line through P in direction D</strong>
+<p>x′ = x + tl</p><p>y′ = y + tm</p><p>z′ = z + tn</p></div>
+<p>Because the projected point lies on the XY-plane, z′ = 0. Thus:</p>
+<div class="formula"><strong>Find the parameter</strong>
+<p>0 = z + tn</p>
+<p>t = −z / n</p></div>
+<p>Substituting this value into the x and y equations gives the general parallel projection onto the XY-plane:</p>
+<div class="formula"><strong>Parallel projection equations</strong>
+<p>x′ = x − (l × z) / n</p>
+<p>y′ = y − (m × z) / n</p>
+<p>z′ = 0</p></div>
+
+<h3>4.4 Orthographic Projection</h3>
+<p><strong>Orthographic projection</strong> is a special type of parallel projection in which the projectors are perpendicular to the projection plane. For projection onto the XY-plane, choose D = (0, 0, −1). This means l = 0, m = 0 and n = −1.</p>
+<div class="formula"><strong>Orthographic projection</strong>
+<p>x′ = x</p><p>y′ = y</p><p>z′ = 0</p></div>
+<p>So, the x- and y-coordinates remain unchanged, while the z-coordinate is removed. This produces a flat view of the object on the XY-plane.</p>
+
+<h3>4.5 Mathematics of Perspective Projection</h3>
+<p>In perspective projection, all projectors pass through one finite centre of projection. For a simple derivation, take the centre of projection as C = (0, 0, −d), the projection plane as z = 0, and an object point as P = (x, y, z).</p>
+<p>The line from C to P is described by:</p>
+<div class="formula"><strong>Projector line</strong>
+<p>Q(t) = C + t(P − C)</p>
+<p>x′ = tx</p><p>y′ = ty</p><p>z′ = −d + t(z + d)</p></div>
+<p>At the projection plane, z′ = 0. Therefore:</p>
+<div class="formula"><strong>Find t</strong>
+<p>0 = −d + t(z + d)</p>
+<p>t = d / (z + d)</p></div>
+<p>Substituting t gives the perspective projection equations:</p>
+<div class="formula"><strong>Perspective projection onto z = 0</strong>
+<p>x′ = (d × x) / (z + d)</p>
+<p>y′ = (d × y) / (z + d)</p>
+<p>z′ = 0</p></div>
+<p>Here, d is the distance from the centre of projection to the projection plane. The denominator makes the projected size depend on the point's depth, producing the perspective effect. These equations use the coordinate convention stated above; other textbooks may choose a different axis direction or projection-plane position.</p>
+
+<h3>4.6 Homogeneous Matrix Representation</h3>
+<p>Projection equations can also be represented using matrices. For the orthographic projection onto the XY-plane, use the following 4 × 4 matrix with a point written as a column vector:</p>
+<div class="formula"><strong>Orthographic projection matrix</strong>
+<p>[ x′ ]   [ 1  0  0  0 ] [ x ]</p>
+<p>[ y′ ] = [ 0  1  0  0 ] [ y ]</p>
+<p>[ z′ ]   [ 0  0  0  0 ] [ z ]</p>
+<p>[ 1  ]   [ 0  0  0  1 ] [ 1 ]</p></div>
+<p>For the perspective setup defined in Section 4.5, the projective matrix produces homogeneous coordinates [dx, dy, 0, z + d]. Divide the first three coordinates by the fourth coordinate (the homogeneous w value) to obtain the ordinary projected coordinates.</p>
+<div class="formula"><strong>Perspective homogeneous form</strong>
+<p>[ X ]   [ d  0  0  0 ] [ x ]</p>
+<p>[ Y ] = [ 0  d  0  0 ] [ y ]</p>
+<p>[ Z ]   [ 0  0  0  0 ] [ z ]</p>
+<p>[ W ]   [ 0  0  1  d ] [ 1 ]</p>
+<p>Then: x′ = X/W,  y′ = Y/W,  z′ = Z/W.</p></div>
+
+<h3>4.7 Worked Example — Orthographic Projection</h3>
+<p><strong>Question:</strong> Project the 3D point P(4, 3, 5) orthographically onto the XY-plane.</p>
+<p><strong>Solution:</strong> For orthographic projection onto the XY-plane, x′ = x, y′ = y and z′ = 0.</p>
+<div class="formula"><strong>Substitute the point</strong>
+<p>x′ = 4</p><p>y′ = 3</p><p>z′ = 0</p>
+<p><strong>Projected point = P′(4, 3, 0)</strong></p></div>
+
+<h3>4.8 Difference Between Parallel and Perspective Projection</h3>
+<div class="tw">
+<table>
+<thead><tr><th>Parallel projection</th><th>Perspective projection</th></tr></thead>
+<tbody>
+<tr><td>Projectors are parallel.</td><td>Projectors meet at a finite centre of projection.</td></tr>
+<tr><td>Projected size does not reduce with depth in the same way.</td><td>Distant objects generally appear smaller.</td></tr>
+<tr><td>Useful for technical and engineering views.</td><td>Useful for realistic visual scenes.</td></tr>
+<tr><td>Includes orthographic and oblique projection.</td><td>Includes one-point, two-point and three-point perspective.</td></tr>
+</tbody></table>
+</div>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>Planar geometric projection is the mathematical mapping of a 3D object onto a 2D plane. It is performed by drawing projectors through points of the object and finding where they intersect the projection plane. In parallel projection, the projectors are parallel and the projected coordinates are obtained using a common direction vector. Orthographic projection is the special case in which the projectors are perpendicular to the plane. In perspective projection, the projectors pass through a finite centre of projection, and the projected coordinates are calculated using ratios involving depth. Both types can be represented mathematically using transformation matrices.</p>
+</div>
+
+<h3>4.9 Previous-Year Question (PYQ) Evidence</h3>
+<p>The available exam-plan evidence identifies Unit VI as an important unit, but it does not confirm an exact standalone MCA previous-year question specifically on “The Mathematics of Planar Geometric Projections.” Therefore, this topic is covered as syllabus material, not labelled as a confirmed PYQ.</p>
+
+<h3>4.10 YouTube Videos — Your Preferred Channels</h3>
+<ul>
+<li><a href="https://www.youtube.com/results?search_query=Gate+Smashers+parallel+and+perspective+projection+computer+graphics" target="_blank" rel="noopener"><strong>Gate Smashers — Parallel and Perspective Projection</strong> (YouTube search)</a>.</li>
+<li><a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+projection+matrix+computer+graphics" target="_blank" rel="noopener"><strong>5 Minutes Engineering — Projection Matrix</strong> (YouTube search)</a>.</li>
+</ul>
+<p class="small">These are topic-specific YouTube search links, not verified links to a particular video.</p>
+
+<h3>4.11 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/projections-in-computer-graphics/" target="_blank" rel="noopener">GeeksforGeeks — Projections in Computer Graphics</a>.</li>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/perspective-projection-and-its-types/" target="_blank" rel="noopener">GeeksforGeeks — Perspective Projection and its Types</a>.</li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/computer_graphics_parallel_projection.htm" target="_blank" rel="noopener">TutorialsPoint — Parallel Projection in Computer Graphics</a>.</li>
+</ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Implementing Planar Geometric Projection. · <a href="#top">↑ Back to index</a></p>
+</section>
+
+<section id="u6-topic5-implementing" class="topic-section tp tb">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">5</span><span><span class="tlabel">Topic 5 of 6</span>Implementing Planar Geometric Projection</span><span class="tprio">BLACK PRIORITY</span></h2>
+<p class="evidence"><strong>Why BLACK?</strong> No direct or clearly related standalone PYQ for this subtopic is confirmed in the available exam evidence.</p>
+
+<h3>5.1 Meaning</h3>
+<p><strong>Implementing planar geometric projection</strong> means applying the mathematical projection rules to the coordinates of a 3D object so that its 2D image can be displayed on a projection plane. In a graphics system, this is carried out through coordinate calculations or matrix operations.</p>
+<p>The same basic process is used for parallel and perspective projection. The main difference is how the projected coordinates are calculated.</p>
+
+<h3>5.2 General Steps of Implementation</h3>
+<ol>
+<li><strong>Define the 3D object:</strong> Store the coordinates of its vertices as (x, y, z).</li>
+<li><strong>Choose the projection type:</strong> Select parallel projection or perspective projection.</li>
+<li><strong>Specify the projection plane:</strong> Define its position and orientation. For a simple example, use the XY-plane, z = 0.</li>
+<li><strong>Specify projection parameters:</strong> For parallel projection, provide the direction vector. For perspective projection, provide the centre of projection.</li>
+<li><strong>Calculate projected coordinates:</strong> Find where each projector intersects the projection plane.</li>
+<li><strong>Apply the projection matrix if used:</strong> Multiply the point's coordinate vector by the appropriate matrix.</li>
+<li><strong>Perform homogeneous division when required:</strong> In perspective projection, divide X, Y and Z by W to obtain ordinary coordinates.</li>
+<li><strong>Display the 2D result:</strong> Use the projected vertices to draw the object's edges or surfaces.</li>
+</ol>
+
+<h3>5.3 Implementing Parallel Projection</h3>
+<p>For projection onto the XY-plane, let the parallel direction vector be D = (l, m, n), where n ≠ 0. For each object point P(x, y, z), calculate:</p>
+<div class="formula"><strong>Parallel projection equations</strong>
+<p>x′ = x − (l × z) / n</p>
+<p>y′ = y − (m × z) / n</p>
+<p>z′ = 0</p></div>
+<p>These equations are applied to every vertex of the object. If the direction is perpendicular to the XY-plane, the projection becomes orthographic: x′ = x, y′ = y and z′ = 0.</p>
+
+<h3>5.4 Implementing Perspective Projection</h3>
+<p>For a simple perspective setup, place the projection plane at z = 0 and the centre of projection at C = (0, 0, −d). For each point P(x, y, z), calculate:</p>
+<div class="formula"><strong>Perspective projection equations</strong>
+<p>x′ = (d × x) / (z + d)</p>
+<p>y′ = (d × y) / (z + d)</p>
+<p>z′ = 0</p></div>
+<p>The value of d and the coordinate convention must remain consistent throughout the calculation. The denominator (z + d) must not be zero. In a matrix-based implementation, the projected point is first represented by homogeneous coordinates (X, Y, Z, W), and then converted:</p>
+<div class="formula"><strong>Homogeneous division</strong>
+<p>x′ = X / W</p>
+<p>y′ = Y / W</p>
+<p>z′ = Z / W</p></div>
+
+<h3>5.5 Worked Example — Parallel Projection</h3>
+<p><strong>Question:</strong> Project P(4, 3, 2) onto the XY-plane using the parallel direction D = (1, 1, −2).</p>
+<p><strong>Step 1:</strong> Identify l = 1, m = 1, n = −2 and z = 2.</p>
+<p><strong>Step 2:</strong> Apply the parallel projection equations.</p>
+<div class="formula"><strong>Calculation</strong>
+<p>x′ = 4 − (1 × 2)/(−2) = 5</p>
+<p>y′ = 3 − (1 × 2)/(−2) = 4</p>
+<p>z′ = 0</p>
+<p><strong>Projected point = P′(5, 4, 0)</strong></p></div>
+
+<h3>5.6 Worked Example — Perspective Projection</h3>
+<p><strong>Question:</strong> Project P(2, 4, 5) onto z = 0 when the centre of projection is C = (0, 0, −5).</p>
+<p>Here, d = 5. Apply the perspective equations:</p>
+<div class="formula"><strong>Calculation</strong>
+<p>x′ = (5 × 2)/(5 + 5) = 10/10 = 1</p>
+<p>y′ = (5 × 4)/(5 + 5) = 20/10 = 2</p>
+<p>z′ = 0</p>
+<p><strong>Projected point = P′(1, 2, 0)</strong></p></div>
+
+<h3>5.7 Simple Implementation Logic</h3>
+<p>The following pseudocode describes the main processing performed for each vertex. It is a general algorithm, not a specific programming-language implementation.</p>
+<pre><code>For each vertex P(x, y, z):
+    If projection is parallel:
+        Calculate x' and y' using the direction vector
+    Otherwise, if projection is perspective:
+        Calculate X, Y, Z and W using the projection matrix
+        If W is not zero, divide X, Y and Z by W
+    Store the projected point (x', y', z')
+Draw the object using the projected vertices</code></pre>
+
+<h3>5.8 Important Implementation Points</h3>
+<ul>
+<li>Use the same coordinate system and projection-plane definition for all points.</li>
+<li>For parallel projection onto z = 0, the direction vector must have n ≠ 0; otherwise, the projector does not meet the plane at a unique point using these equations.</li>
+<li>For perspective projection, check that the homogeneous coordinate W is not zero before dividing.</li>
+<li>Apply the projection to every vertex so that the shape's edges can be reconstructed in the 2D view.</li>
+<li>After projection, the 2D coordinates may need to be mapped to screen or viewport coordinates for display.</li>
+</ul>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>Planar geometric projection is implemented by converting the coordinates of a 3D object's points into coordinates on a 2D projection plane. First, the object and projection plane are defined. Next, the projection type and its parameters are selected. In parallel projection, the common direction vector is used to calculate the intersection of each projector with the plane. In perspective projection, the centre of projection is used and the projected coordinates are obtained by homogeneous division. The resulting 2D points are then used to display the object's edges and surfaces.</p>
+</div>
+
+<h3>5.9 Previous-Year Question (PYQ) Evidence</h3>
+<p>The available exam-plan evidence identifies Unit VI as important, but it does not confirm an exact standalone MCA previous-year question specifically on “Implementing Planar Geometric Projection.” This section is therefore syllabus coverage, not a confirmed PYQ.</p>
+
+<h3>5.10 YouTube Videos — Your Preferred Channels</h3>
+<ul>
+<li><a href="https://www.youtube.com/results?search_query=Gate+Smashers+parallel+projection+perspective+projection+computer+graphics" target="_blank" rel="noopener"><strong>Gate Smashers — Implementing Parallel and Perspective Projection</strong> (YouTube search)</a>.</li>
+<li><a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+3D+projection+computer+graphics" target="_blank" rel="noopener"><strong>5 Minutes Engineering — 3D Projection</strong> (YouTube search)</a>.</li>
+</ul>
+<p class="small">These are topic-specific YouTube search links, not verified links to a particular video.</p>
+
+<h3>5.11 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/projections-in-computer-graphics/" target="_blank" rel="noopener">GeeksforGeeks — Projections in Computer Graphics</a>.</li>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/perspective-projection-and-its-types/" target="_blank" rel="noopener">GeeksforGeeks — Perspective Projection and its Types</a>.</li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/computer_graphics_parallel_projection.htm" target="_blank" rel="noopener">TutorialsPoint — Parallel Projection in Computer Graphics</a>.</li>
+</ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Coordinate Systems. · <a href="#top">↑ Back to index</a></p>
+</section>
+
+<section id="u6-topic6-coordinate-systems" class="topic-section tp tb">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">6</span><span><span class="tlabel">Topic 6 of 6</span>Coordinate Systems</span><span class="tprio">BLACK PRIORITY</span></h2>
+<p class="evidence"><strong>Why BLACK?</strong> No direct or clearly related standalone PYQ for this subtopic is confirmed in the available exam evidence.</p>
+
+<h3>6.1 Meaning of Coordinate Systems</h3>
+<p>A <strong>coordinate system</strong> is a reference framework used to describe the position of points in space. In 3D computer graphics, a point is commonly represented by three coordinates: (x, y, z).</p>
+<p>Different coordinate systems are used at different stages of graphics processing. They help describe an object's own position, place it in a scene, define the camera view, perform projection and finally display the image on a screen.</p>
+
+<h3>6.2 Main Coordinate Systems in 3D Graphics</h3>
+<p><strong>1. Object (Model) Coordinate System</strong></p>
+<p>This is the local coordinate system in which an individual object is created. The object's vertices are defined relative to its own origin. For example, a cube may be modelled around the point (0, 0, 0), before being placed in a larger scene.</p>
+
+<p><strong>2. World Coordinate System</strong></p>
+<p>The world coordinate system is the common reference system for the complete 3D scene. Objects are positioned, rotated and scaled within this shared space. It allows several objects to be arranged in relation to one another.</p>
+
+<p><strong>3. Viewing (Camera) Coordinate System</strong></p>
+<p>This coordinate system is defined with respect to the camera or viewer. The camera position and orientation determine how the world is seen. The scene is transformed from world coordinates into viewing coordinates before projection.</p>
+
+<p><strong>4. Projection Coordinates</strong></p>
+<p>Projection converts the 3D view into a representation suitable for a 2D projection plane. The mathematical operation depends on whether parallel or perspective projection is selected.</p>
+
+<p><strong>5. Normalized Device Coordinates</strong></p>
+<p>After projection and the required homogeneous-coordinate conversion, the visible image can be mapped into a standard normalized viewing region. This gives a device-independent representation before mapping to a particular display.</p>
+
+<p><strong>6. Device (Screen) Coordinate System</strong></p>
+<p>Device coordinates identify positions on the actual output device, such as a monitor. The normalized image is mapped to screen or viewport coordinates, commonly measured in pixels.</p>
+
+<h3>6.3 Coordinate Transformation Pipeline</h3>
+<p>A 3D graphics system converts object coordinates through a sequence of coordinate systems before displaying the final image.</p>
+<div class="formula"><strong>General 3D viewing pipeline</strong>
+<p>Object / Model Coordinates</p>
+<p>        ↓ Model Transformation</p>
+<p>World Coordinates</p>
+<p>        ↓ Viewing (Camera) Transformation</p>
+<p>Viewing Coordinates</p>
+<p>        ↓ Projection Transformation</p>
+<p>Projected / Normalized Device Coordinates</p>
+<p>        ↓ Viewport Transformation</p>
+<p>Device / Screen Coordinates</p></div>
+<p>Each transformation changes the reference frame or representation of the points. The object itself does not need to be physically moved; its coordinates are mathematically converted.</p>
+
+<h3>6.4 Homogeneous Coordinates</h3>
+<p>Homogeneous coordinates are used to represent 3D points in a form that makes translation, rotation, scaling and other transformations convenient to combine using matrices.</p>
+<div class="formula"><strong>3D point in homogeneous form</strong>
+<p>Cartesian point: P = (x, y, z)</p>
+<p>Homogeneous point: P = (x, y, z, 1)</p>
+<p>For a homogeneous point (X, Y, Z, W):</p>
+<p>x = X/W,  y = Y/W,  z = Z/W</p></div>
+<p>For ordinary 3D points, W is commonly 1 before projective transformations. After perspective projection, W may have another value and the coordinates are converted back by dividing by W, provided W is not zero.</p>
+
+<h3>6.5 Example — Moving a Point from Object to World Coordinates</h3>
+<p><strong>Question:</strong> An object's point is P = (2, 1, 3). The object is translated by (5, 2, 1). Find the point in world coordinates, assuming no rotation or scaling.</p>
+<p><strong>Solution:</strong> Add the translation values to the corresponding coordinates.</p>
+<div class="formula"><strong>Calculation</strong>
+<p>xw = 2 + 5 = 7</p>
+<p>yw = 1 + 2 = 3</p>
+<p>zw = 3 + 1 = 4</p>
+<p><strong>World coordinate point = (7, 3, 4)</strong></p></div>
+
+<h3>6.6 Importance of Coordinate Systems</h3>
+<ul>
+<li>They provide a consistent way to represent positions in a 3D scene.</li>
+<li>They allow objects to be modelled independently and then placed in a common world.</li>
+<li>They define the camera's position and orientation for viewing.</li>
+<li>They make projection and conversion to screen coordinates possible.</li>
+<li>They help graphics systems support different output devices and viewport sizes.</li>
+</ul>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>Coordinate systems are reference frameworks used to specify the position of points in 3D space. In computer graphics, object coordinates describe an object's local geometry, world coordinates locate objects in the complete scene, and viewing coordinates describe the scene relative to the camera. Projection coordinates are produced when the 3D view is projected onto a 2D plane. Normalized device coordinates provide a standard representation, which is finally converted into device or screen coordinates for display. Transformations are used to convert points from one coordinate system to another.</p>
+</div>
+
+<h3>6.7 Previous-Year Question (PYQ) Evidence</h3>
+<p>The available exam-plan evidence identifies Unit VI as an important unit, but it does not confirm an exact standalone MCA previous-year question specifically on “Coordinate Systems.” This topic is included to complete the official syllabus and is not labelled as a confirmed PYQ.</p>
+
+<h3>6.8 YouTube Videos — Your Preferred Channels</h3>
+<ul>
+<li><a href="https://www.youtube.com/results?search_query=Gate+Smashers+coordinate+systems+computer+graphics+3D" target="_blank" rel="noopener"><strong>Gate Smashers — Coordinate Systems in 3D Computer Graphics</strong> (YouTube search)</a>.</li>
+<li><a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+3D+viewing+coordinate+systems" target="_blank" rel="noopener"><strong>5 Minutes Engineering — 3D Viewing and Coordinate Systems</strong> (YouTube search)</a>.</li>
+</ul>
+<p class="small">These are topic-specific YouTube search links, not verified links to a particular video.</p>
+
+<h3>6.9 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/3d-viewing-pipeline/" target="_blank" rel="noopener">GeeksforGeeks — 3D Viewing Pipeline</a>.</li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/computer_graphics_3d_viewing.htm" target="_blank" rel="noopener">TutorialsPoint — 3D Viewing in Computer Graphics</a>.</li>
+</ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><a href="#top">↑ Back to index</a></p>
+</section>
+
+<div class="unit-end"><strong>✿ Unit VI complete ✿</strong><br>Computer Graphics · MCA Semester IV · Syllabus Complete</div>
+</main>
+</body>
+</html>

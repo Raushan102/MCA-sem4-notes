@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="light" name="color-scheme"/>
+<title>Computer Graphics — Unit VII: Achromatic and Coloured Light</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&amp;family=Source+Code+Pro:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+html { color-scheme: light; }
+
+:root {
+  --desk: #dfe4ec;
+  --paper: #ffffff;
+  --rule: #d6e3f5;
+  --margin: #e4868a;
+  --ink: #1d3a8c;
+  --red: #b3261e;
+  --green: #1b6b3a;
+  --hl: rgba(255, 214, 0, 0.45);
+  --edge: rgba(29, 58, 140, 0.35);
+  --shadow: rgba(20, 30, 60, 0.2);
+  --hand: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --display: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --mono: "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace;
+  --vs-bg: #1e1e1e;
+  --vs-fg: #d4d4d4;
+  color-scheme: light;
+}
+html { background: var(--desk); }
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: 16px;
+  line-height: 36px;
+  padding-block: 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 28px 64px 76px;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 22px 48px, var(--desk) 8px, transparent 9px),
+    linear-gradient(to bottom, transparent 35px, var(--rule) 35px, var(--rule) 36px);
+  background-size: 44px 144px, 100% 36px;
+  background-repeat: repeat-y, repeat;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px var(--shadow), 0 14px 34px -14px var(--shadow);
+  overflow-wrap: break-word;
+}
+.sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 56px;
+  width: 4px;
+  border-left: 1px solid var(--margin);
+  border-right: 1px solid var(--margin);
+}
+@media (max-width: 520px) {
+  body { font-size: 15px; }
+  .sheet { padding: 64px 12px 64px 50px; }
+  .sheet::before { left: 34px; }
+}
+h1, h2, h3 { margin: 0; font-weight: 700; text-wrap: balance; }
+h1 {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  line-height: 64px;
+  color: var(--red);
+  text-decoration: underline wavy var(--red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 7px;
+  scroll-margin-top: 16px;
+}
+.sheet > h1:first-child { font-size: clamp(1.7rem, 5.2vw, 2.4rem); }
+h2 { font-family: var(--display); font-size: 1.3rem; line-height: 36px; color: var(--red); }
+h3 { font-family: var(--display); font-size: 1.15rem; line-height: 36px; color: var(--green); }
+p { margin: 0 0 36px; }
+hr {
+  height: 36px;
+  margin: 0;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--edge) 0 10px, transparent 10px 18px) center / 100% 2px no-repeat;
+}
+ul, ol { margin: 0 0 36px; }
+ul { list-style: none; padding-left: 34px; }
+ul li { position: relative; }
+ul li::before { content: "\2022"; position: absolute; left: -22px; color: var(--red); }
+ol { padding-left: 46px; }
+ol li::marker { color: var(--red); font-family: var(--display); font-weight: 700; }
+li > p { margin: 0; }
+strong {
+  font-weight: 600;
+  padding: 0 2px;
+  background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  line-height: 0;
+  color: #9cdcfe;
+  background: var(--vs-bg);
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+pre {
+  margin: 0 0 32px;
+  padding: 16px 20px;
+  background: var(--vs-bg);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), 0 6px 14px -8px rgba(0, 0, 0, 0.5);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 400;
+  font-variant-ligatures: contextual;
+  line-height: 32px;
+  color: var(--vs-fg);
+  overflow-x: auto;
+  tab-size: 4;
+  white-space: pre;
+}
+pre code { font: inherit; line-height: inherit; color: inherit; background: none; padding: 0; border-radius: 0; }
+pre .k  { color: #569cd6; }
+pre .kc { color: #c586c0; }
+pre .f  { color: #dcdcaa; }
+pre .t  { color: #4ec9b0; }
+pre .v  { color: #9cdcfe; }
+pre .ct { color: #4fc1ff; }
+pre .s  { color: #ce9178; }
+pre .n  { color: #b5cea8; }
+pre .c  { color: #6a9955; }
+.tw { margin: 0 0 32px; overflow-x: auto; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+.tw.wide table { min-width: 640px; }
+th, td {
+  padding: 0 14px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 36px;
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge);
+}
+th {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--red);
+  background: var(--hl);
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge);
+}
+th:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+td:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+.toc ul { columns: 2 280px; column-gap: 32px; padding-left: 0; }
+.toc li { break-inside: avoid; }
+.toc li::before { content: none; }
+.toc a { color: var(--ink); text-decoration: none; background: linear-gradient(var(--edge), var(--edge)) 0 100% / 100% 1px no-repeat; }
+.toc a:hover { color: var(--red); }
+a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; border-radius: 2px; }
+.note { margin: 0 0 32px; padding: 0 0 0 16px; border-left: 3px solid var(--red); }
+.note p { margin: 0; }
+h1 code, h2 code, h3 code { background: var(--vs-bg); }
+th code, td code { font-size: 0.85em; }
+.tp{margin:0 -14px 32px;padding:0 14px;border-left:5px solid;border-radius:4px}
+.tp.tr{background:rgba(179,38,30,.085);border-color:#b3261e}
+.tp.ty{background:rgba(255,214,0,.24);border-color:#e0b800}
+.tp.tb{background:rgba(0,0,0,.075);border-color:#333}
+.r,.y,.b{font-size:.72em;font-weight:700;padding:1px 7px;border-radius:3px;letter-spacing:.5px;margin-right:6px}
+.r{background:var(--red);color:#fff}.y{background:#ffd600;color:#4a3b00}.b{background:#222;color:#fff}
+main a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px;overflow-wrap:anywhere}
+main a:hover{color:var(--red)}
+.fig{margin:12px 0 40px}.fig svg{display:block;width:100%;max-width:760px;margin:0 auto}
+.fig svg text{font-family:var(--hand);font-size:14px;fill:var(--ink);dominant-baseline:auto}
+.fig svg .cap{font-size:13px;fill:var(--red);font-weight:600}
+.fig svg .w{fill:#fff;font-weight:600}
+.fig svg .bx{fill:#fff;stroke:var(--ink);stroke-width:2}
+.fig svg .rx{fill:#fff;stroke:var(--red);stroke-width:2}
+.fig svg .kx{fill:var(--vs-bg);stroke:var(--vs-bg)}
+.fig svg .yx{fill:rgba(255,214,0,.45);stroke:var(--ink);stroke-width:2}
+.fig svg .ln{stroke:var(--ink);stroke-width:2;fill:none}
+.fig svg .rl{stroke:var(--red);stroke-width:2.5;fill:none}
+.fig svg .dl{stroke:var(--red);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+
+.video-help { margin: 18px 0 32px; padding: 14px 16px; border: 1px solid #b8c9e5; border-left: 4px solid #1d3a8c; border-radius: 8px; background: rgba(232, 240, 252, .72); }
+.video-help p { margin-bottom: 12px; }
+.video-help .video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; background: #111; margin: 10px 0 8px; }
+.video-help iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-help .video-note { display: block; font-size: .88em; line-height: 1.5; opacity: .9; }
+
+
+.reading-sources { margin: 18px 0 22px; padding: 12px 16px; border: 1px solid #c8d6e8; border-radius: 7px; background: rgba(255,255,255,.78); font-size: .92em; line-height: 1.65; }
+.reading-sources p { margin: 0 0 6px; }
+.reading-sources ul { margin: 0; padding-left: 24px; }
+.reading-sources ul li::before { left: -18px; }
+.reading-sources .source-note { font-size: .9em; opacity: .9; margin-top: 6px; }
+
+.video-help{break-inside:avoid;margin:18px 0 32px;padding:14px 16px;border:1px solid #b8c9e5;border-left:4px solid #1d3a8c;border-radius:8px;background:rgba(232,240,252,.72)}.video-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:8px;background:#111;margin:10px 0 8px}.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.reading-sources{margin:24px 0 30px;padding:12px 16px;border:1px solid #c8d6e8;border-radius:7px;background:rgba(255,255,255,.78);font-size:.92em;line-height:1.65}.reading-sources p{margin:0 0 6px}.reading-sources ul{margin:0;padding-left:24px}.reading-sources ul li::before{left:-18px}.source-note{font-size:.9em;opacity:.9;margin-top:6px}
+/* Clear priority treatment across the FULL topic answer area */
+.tp{position:relative;margin:58px -14px 64px;padding:22px 22px 8px;border:1px solid rgba(29,58,140,.18);border-left:8px solid;border-radius:12px;box-shadow:0 5px 18px rgba(20,30,60,.07);}
+.tp.tr{background:linear-gradient(135deg,rgba(179,38,30,.17),rgba(179,38,30,.075));border-color:#b3261e;}
+.tp.ty{background:linear-gradient(135deg,rgba(255,214,0,.34),rgba(255,214,0,.13));border-color:#d2a900;}
+.tp.tb{background:linear-gradient(135deg,rgba(35,39,48,.13),rgba(35,39,48,.055));border-color:#333;}
+.tp h1{padding-bottom:8px;margin-bottom:12px;}
+.tp.tr h1::after,.tp.ty h1::after,.tp.tb h1::after{display:inline-block;vertical-align:middle;margin-left:12px;padding:2px 10px;border-radius:5px;font-family:var(--display);font-size:.48em;line-height:1.8;letter-spacing:.7px;text-decoration:none;white-space:nowrap;}
+.tp.tr h1::after{content:"RED PRIORITY";background:#b3261e;color:#fff;}
+.tp.ty h1::after{content:"YELLOW PRIORITY";background:#ffd600;color:#463900;}
+.tp.tb h1::after{content:"BLACK PRIORITY";background:#222;color:#fff;}
+/* Decorative floral divider gives every new topic a clear visual beginning */
+.tp::before{content:"✿  ───────────────  ✿  ───────────────  ✿";display:block;text-align:center;color:#b3261e;font-family:Georgia,serif;font-size:19px;line-height:36px;letter-spacing:2px;margin:-12px 0 16px;opacity:.9;}
+.tp.tr::before{color:#b3261e}.tp.ty::before{color:#9a7900}.tp.tb::before{color:#444}
+@media(max-width:520px){.tp{padding:16px 13px 4px;margin:44px -7px 50px}.tp.tr h1::after,.tp.ty h1::after,.tp.tb h1::after{margin:6px 0 0 4px;font-size:.42em}.tp::before{font-size:14px;letter-spacing:0}}
+.exam-box{padding:16px 20px;border:1px solid var(--edge);border-radius:6px;background:rgba(255,255,255,.78);margin-bottom:32px}.fig figcaption{font-size:.88em;text-align:center;color:var(--red);line-height:32px}
+
+/* Compatibility styles retained for the original Topic 1 content */
+.priority{padding:11px 14px;margin:12px 0 20px;border-left:5px solid;border-radius:4px}
+.priority.pr{background:rgba(179,38,30,.08);border-color:#b3261e}
+.priority.py{background:rgba(255,214,0,.2);border-color:#d0a900}
+.priority.pb{background:rgba(0,0,0,.06);border-color:#333}
+.tag{display:inline-block;font:700 12px Arial;padding:2px 8px;border-radius:4px;letter-spacing:.4px}
+.tag.red{background:#b3261e;color:white}.tag.yellow{background:#ffd600;color:#493b00}.tag.black{background:#222;color:white}
+.diagram{border:1px solid var(--edge);border-radius:8px;padding:10px;background:#ffffffc9;margin:8px 0 22px;text-align:center}
+.diagram svg{width:100%;max-width:680px;height:auto}
+.caption{font-size:.9rem;color:#456}
+
+/* Topic-adjacent learning resources: clear website and video link cards */
+.resource-panel{margin:18px 0 32px;padding:16px;border:1px solid #c8d6e8;border-radius:9px;background:rgba(255,255,255,.88);box-shadow:0 3px 10px rgba(20,30,60,.07)}
+.resource-panel h3{margin:0 0 10px;color:var(--red)}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:10px 0 18px}
+.resource-card{display:block;padding:12px 14px;border:1px solid #c8d6e8;border-left:4px solid var(--ink);border-radius:7px;background:#f7faff;text-decoration:none!important;color:var(--ink)!important;line-height:1.5;transition:transform .15s ease,box-shadow .15s ease}
+.resource-card:hover{transform:translateY(-2px);box-shadow:0 5px 12px rgba(20,30,60,.12);color:var(--red)!important}
+.resource-card.video{border-left-color:#b3261e;background:#fff8f7}
+.resource-card .resource-kind{display:block;font-size:.72em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#65728a;margin-bottom:4px}
+.resource-card strong{display:block;background:none;padding:0;color:inherit}
+.resource-card small{display:block;font-size:.86em;line-height:1.45;margin-top:4px;color:#46536b}
+.video-help{border-left-width:5px}
+.video-help>a,.reading-sources a{display:inline-block;margin:4px 4px 4px 0;padding:5px 10px;border:1px solid #b8c9e5;border-radius:6px;background:#f7faff;font-weight:600;text-decoration:none!important}
+.video-help>a:hover,.reading-sources a:hover{background:#e8f0fc;color:var(--red)}
+.reading-sources li{margin:5px 0}
+@media(max-width:520px){.resource-panel{padding:12px}.resource-grid{grid-template-columns:1fr}}
+
+
+/* Quick navigation index */
+.quick-index{margin:24px 0 40px;padding:20px 22px;border:2px solid #9fb4d5;border-radius:12px;background:linear-gradient(135deg,rgba(232,240,252,.96),rgba(255,255,255,.96));box-shadow:0 5px 16px rgba(20,30,60,.08)}
+.quick-index h2{margin:0 0 12px}
+.quick-index .index-intro{margin:0 0 16px;font-size:.94em}
+.index-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.index-card{display:block;padding:14px 15px;border:1px solid #c5d3e7;border-left:6px solid #555;border-radius:9px;background:#fff;color:var(--ink);text-decoration:none;line-height:1.65;box-shadow:0 2px 7px rgba(20,30,60,.06);transition:transform .15s ease,box-shadow .15s ease}
+.index-card:hover{transform:translateY(-2px);box-shadow:0 5px 13px rgba(20,30,60,.12);color:var(--red)}
+.index-card.red-card{border-left-color:#b3261e;background:#fff4f2}
+.index-card.yellow-card{border-left-color:#d6ad00;background:#fffbea}
+.index-card.black-card{border-left-color:#333;background:#f4f4f4}
+.index-card strong{display:block;margin-bottom:4px;background:none}
+.index-card .index-priority{display:inline-block;margin-top:7px;padding:1px 8px;border-radius:4px;font-size:.78em;font-weight:700;line-height:1.6}
+.index-card .index-priority.red{background:#b3261e;color:white}
+.index-card .index-priority.yellow{background:#ffe27a;color:#4a3b00}
+.index-card .index-priority.black{background:#333;color:white}
+.index-card .index-priority.mixed{background:linear-gradient(90deg,#b3261e 0 33%,#ffe27a 33% 66%,#333 66%);color:#fff;text-shadow:0 1px 2px #333}
+@media(max-width:520px){.quick-index{padding:15px}.index-grid{grid-template-columns:1fr}}
+
+
+
+/* Mathematical expressions: yellow notebook-paper panel with blue handwritten-style ink. */
+.formula {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 16px auto 24px;
+  padding: 12px 20px;
+  border: 1px solid #eadb91;
+  border-left: 4px solid #e5c64b;
+  border-radius: 7px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0) 0,
+      rgba(255,255,255,0) 31px,
+      rgba(105,145,190,.18) 32px,
+      rgba(255,255,255,0) 33px
+    ),
+    #fff4b8;
+  color: #164b91;
+  font-family: var(--hand, "Comic Sans MS", "Segoe Print", cursive);
+  font-size: 1.13rem;
+  font-weight: 700;
+  line-height: 1.95;
+  letter-spacing: .015em;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(70,55,10,.10);
+  overflow-wrap: anywhere;
+}
+.formula strong, .formula sub, .formula sup { color: #164b91; }
+.formula strong { background: transparent; padding: 0; }
+.math-inline {
+  display: inline-block;
+  padding: 1px 6px 2px;
+  margin: 1px 2px;
+  border-radius: 4px;
+  background: #fff1a8;
+  color: #164b91;
+  border-bottom: 2px solid #e4c64c;
+  font-family: var(--hand, "Comic Sans MS", "Segoe Print", cursive);
+  font-size: .98em;
+  font-weight: 700;
+  line-height: 1.55;
+  vertical-align: baseline;
+  white-space: normal;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.math-inline sub, .math-inline sup { color: #164b91; }
+@media(max-width:520px) {
+  .formula { font-size: 1rem; padding: 9px 12px; line-height: 1.8; }
+}
+
+/* PYQ priority finish — shared with Unit VI */
+.priority-legend{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 24px;padding:14px 16px;border:1px solid #e4d8c8;border-radius:12px;background:#fffdf8}
+.priority-legend span{display:inline-flex;align-items:center;gap:7px;font-size:.88rem}
+.priority-dot{display:inline-block;width:11px;height:11px;border-radius:50%}
+.priority-dot.red{background:#c94b45}.priority-dot.yellow{background:#d6a62c}.priority-dot.black{background:#333}
+.topic-priority{display:inline-block;margin:8px 0 14px;padding:5px 10px;border-radius:7px;font-size:.78rem;font-weight:700;letter-spacing:.04em}
+.topic-priority.red{background:#fbe7e5;color:#a8322c;border-left:4px solid #c94b45}
+.topic-priority.yellow{background:#fff4d6;color:#8b6500;border-left:4px solid #d6a62c}
+.topic-priority.black{background:#ececec;color:#333;border-left:4px solid #333}
+.index-card.red-card{border-left:4px solid #c94b45}.index-card.yellow-card{border-left:4px solid #d6a62c}.index-card.black-card{border-left:4px solid #333}
+.index-priority{display:block;margin-top:7px;font-size:.76rem;font-weight:700}
+.index-priority.red{color:#a8322c}.index-priority.yellow{color:#8b6500}.index-priority.black{color:#333}
+
+
+/* ===== Final polish: Unit VII ===== */
+html{scroll-behavior:smooth}
+section[id]{scroll-margin-top:16px}
+figure{margin:0}img{max-width:100%;height:auto}
+h4{margin:0;font-family:var(--display);font-size:1.05rem;line-height:36px;color:var(--ink)}
+.small{font-size:.9em}
+
+/* hero */
+.hero{position:relative;margin:-24px -8px 32px 0;padding:28px 26px 22px;border-radius:14px;color:#fff;overflow:hidden;
+  background:radial-gradient(circle at 92% 12%,rgba(255,214,0,.35),transparent 42%),linear-gradient(135deg,#1d3a8c 0%,#2b4fb8 55%,#b3261e 140%);
+  box-shadow:0 8px 22px -8px rgba(20,30,60,.55)}
+.hero::after{content:"VII";position:absolute;right:14px;bottom:-34px;font:800 9rem/1 var(--display);color:rgba(255,255,255,.12);pointer-events:none}
+.hero .eyebrow{font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;opacity:.85;line-height:24px}
+.hero h1{color:#fff;text-decoration:none;font-size:clamp(1.6rem,5vw,2.3rem);line-height:1.25;margin:6px 0 4px}
+.hero .sub{margin:0 0 14px;font-size:1.05rem;line-height:28px;color:#ffe27a;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.chip{display:inline-block;padding:2px 12px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);font-size:.8rem;line-height:26px;font-weight:600}
+.chip.hot{background:#ffd600;color:#463900;border-color:#ffd600}
+
+/* cards */
+.panel{margin:0 0 32px;padding:16px 20px 6px;border:1px solid #c8d6e8;border-radius:12px;background:rgba(255,255,255,.92);box-shadow:0 3px 10px rgba(20,30,60,.07)}
+.panel h2{margin:0 0 6px;font-size:1.15rem}
+.panel p,.panel ul{margin-bottom:14px}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:0 0 14px}
+.legend div{padding:8px 12px;border-radius:8px;border-left:6px solid;line-height:1.5;font-size:.9em}
+.legend .lr{background:rgba(179,38,30,.1);border-color:#b3261e}
+.legend .ly{background:rgba(255,214,0,.28);border-color:#d2a900}
+.legend .lb{background:rgba(35,39,48,.1);border-color:#333}
+.legend b{display:inline-block;margin-right:6px;padding:0 8px;border-radius:4px;font-size:.78em;line-height:1.7;color:#fff;background:#b3261e}
+.legend .ly b{background:#ffd600;color:#463900}.legend .lb b{background:#222}
+.focus li{line-height:1.6;margin-bottom:4px}
+
+/* index */
+.quick-index{margin:0 0 40px}
+.index-card{position:relative;padding-left:62px}
+.index-card .num{position:absolute;left:12px;top:12px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:700 1.05rem/1 var(--display);color:#fff;background:#555}
+.index-card.red-card .num{background:#b3261e}.index-card.yellow-card .num{background:#e0b800;color:#3d3100}.index-card.black-card .num{background:#222}
+.index-card .index-priority.red{background:#b3261e;color:#fff}.index-card .index-priority.yellow{background:#ffe27a;color:#4a3b00}.index-card .index-priority.black{background:#333;color:#fff}
+
+/* topic sections */
+.topic-section.tp{position:relative;margin:52px -14px 60px;padding:20px 24px 6px;border:1px solid rgba(29,58,140,.18);border-left:9px solid;border-radius:14px;box-shadow:0 6px 20px rgba(20,30,60,.09)}
+.topic-section.tp::before{display:none}
+.tp.tr{background:linear-gradient(135deg,rgba(179,38,30,.16),rgba(179,38,30,.07));border-color:#b3261e}
+.tp.ty{background:linear-gradient(135deg,rgba(255,214,0,.34),rgba(255,214,0,.13));border-color:#d2a900}
+.tp.tb{background:linear-gradient(135deg,rgba(35,39,48,.15),rgba(35,39,48,.06));border-color:#333}
+.topic-title{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;margin:0 0 6px;padding-bottom:8px;border-bottom:2px dashed currentColor;line-height:1.35;font-size:1.5rem}
+.tnum{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:800 1.7rem/1 var(--display);color:#fff;background:var(--red);box-shadow:0 0 0 4px rgba(255,255,255,.75),0 3px 8px rgba(0,0,0,.25)}
+.tp.ty .tnum{background:#e0b800;color:#3d3100}.tp.tb .tnum{background:#222}
+.tlabel{display:block;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:#455;line-height:1.2}
+.tprio{margin-left:auto;padding:2px 12px;border-radius:6px;font-size:.5em;letter-spacing:.8px;line-height:1.9;white-space:nowrap;background:#b3261e;color:#fff}
+.tp.ty .tprio{background:#ffd600;color:#463900}.tp.tb .tprio{background:#222}
+.evidence{margin:0 0 28px;padding:8px 14px;border-radius:8px;background:rgba(255,255,255,.7);font-size:.9em;line-height:1.6;border:1px dashed var(--edge)}
+.tp h3{margin-top:8px;color:var(--green);border-left:4px solid currentColor;padding-left:10px}
+.tp .exam-box h3{border:0;padding:0;margin-top:0}
+.exam-box{break-inside:avoid;border-left:5px solid var(--green);background:rgba(255,255,255,.9);box-shadow:0 2px 8px rgba(20,30,60,.08)}
+.exam-box h3::before{content:"★ ";color:#e0b800}
+.tw{background:rgba(255,255,255,.8);border-radius:6px}
+.floral-divider{text-align:center;color:var(--red);letter-spacing:6px;line-height:36px;margin:0 0 6px}
+.tp.ty .floral-divider{color:#9a7900}.tp.tb .floral-divider{color:#444}
+.back-top{margin:0 0 30px;font-size:.9em;text-align:right}
+.unit-end{margin:40px 0 0;padding:16px;text-align:center;border-radius:12px;background:linear-gradient(135deg,#e8f0fc,#fff4b8);border:1px solid #c8d6e8;line-height:1.7}
+@media(max-width:520px){.hero{margin-right:0;padding:20px 16px}.hero::after{font-size:6rem}.topic-section.tp{margin:40px -8px 48px;padding:14px 12px 4px}.tnum{width:42px;height:42px;font-size:1.3rem}.topic-title{font-size:1.2rem}.tprio{margin-left:0}}
+@media print{html,body{background:#fff}body{padding:0}.sheet{box-shadow:none;max-width:none}.topic-section{break-before:page}.back-top{display:none}pre,.exam-box,.hero{break-inside:avoid}.hero,.tp,.tnum,.tprio{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+.tp::before{display:none!important}
+.tp .exam-box h3{border:0;padding:0}
+</style>
+</head>
+<body><main class="sheet" id="top">
+<header class="hero">
+<div class="eyebrow">Computer Graphics · MCA Semester IV</div>
+<h1>UNIT VII — ACHROMATIC AND COLOURED LIGHT</h1>
+<p class="sub">Achromatic light, colour models and colour reproduction</p>
+<p class="chips"><span class="chip">Ranchi University CBCS</span><span class="chip">Core Course C10 · CCMCA403</span><span class="chip">5 Topics</span><span class="chip hot">UNIT PRIORITY: HIGH</span></p>
+</header>
+
+<div class="panel">
+<h2>✿ Official Unit VII syllabus ✿</h2>
+<p>Achromatic Light; Chromatic Colour; Colour Models for Raster Graphics; Reproducing Colour; Using Colour in Computer Graphics.</p>
+</div>
+
+<div class="panel focus">
+<h2>★ What to prepare for the exam ★</h2>
+<ul>
+<li>Achromatic versus chromatic colour.</li>
+<li>RGB colour model.</li>
+<li>CMY and CMYK colour models.</li>
+<li>HSV colour model.</li>
+<li>Colour reproduction.</li>
+<li>Applications of colour in computer graphics.</li>
+</ul>
+<p class="small"><strong>Evidence:</strong> MCA 2022–24 and BCA papers (exam plan). Priority colours describe checked question-paper evidence; they do not guarantee future questions.</p>
+</div>
+
+<div class="panel">
+<h2>✿ Exam-priority colour guide ✿</h2>
+<div class="legend">
+<div class="lr"><b>RED</b>Direct question in the supplied MCA papers.</div>
+<div class="ly"><b>YELLOW</b>Related evidence (for example BCA papers), not a direct MCA question.</div>
+<div class="lb"><b>BLACK</b>No matching question confirmed.</div>
+</div>
+</div>
+
+<nav class="quick-index" aria-label="Unit VII topic index">
+<h2>✿ Quick Index — Unit VII ✿</h2>
+<div class="index-grid">
+<a class="index-card black-card" href="#u7-topic1-achromatic"><span class="num">1</span><strong>Achromatic Light</strong>Light without hue; intensity and grayscale representation.<span class="index-priority black">BLACK · no matching subtopic PYQ confirmed</span></a>
+<a class="index-card red-card" href="#u7-topic2-chromatic"><span class="num">2</span><strong>Chromatic Colour</strong>Hue, saturation, intensity, brightness and chromaticity.<span class="index-priority red">RED · direct MCA topic evidence</span></a>
+<a class="index-card red-card" href="#u7-topic3-colour-models"><span class="num">3</span><strong>Colour Models for Raster Graphics</strong>RGB, CMY, CMYK, HSV, HLS and YIQ/YUV models.<span class="index-priority red">RED · direct MCA topic evidence</span></a>
+<a class="index-card black-card" href="#u7-topic4-reproducing-colour"><span class="num">4</span><strong>Reproducing Colour</strong>RGB displays, CMYK printing, colour matching and management.<span class="index-priority black">BLACK · no matching subtopic PYQ confirmed</span></a>
+<a class="index-card black-card" href="#u7-topic5-using-colour"><span class="num">5</span><strong>Using Colour in Computer Graphics</strong>Realism, identification, emphasis, interfaces and data visualization.<span class="index-priority black">BLACK · no matching subtopic PYQ confirmed</span></a>
+</div>
+</nav>
+
+<section id="u7-topic1-achromatic" class="topic-section tp tb">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">1</span><span><span class="tlabel">Topic 1 of 5</span>Achromatic Light</span><span class="tprio">BLACK PRIORITY</span></h2>
+<p class="evidence"><strong>Why BLACK?</strong> The MCA 2022–24 paper (CCMCA403) included the Unit VII topic “Chromatic colour and colour models”. The available exam record does not confirm a separate question specifically on Achromatic Light. Therefore, this is a syllabus topic to prepare, not a confirmed standalone PYQ.</p>
+<h3>1.1 Meaning of Achromatic Light</h3>
+<p><strong>Achromatic light</strong> is light that has no hue (no colour such as red, green or blue). Its appearance is described by its intensity, producing shades from black through grey to white. In computer graphics, an image represented only by these shades is called a <strong>grayscale image</strong>.</p>
+<h3>1.2 Intensity of Achromatic Light</h3>
+<p><strong>Intensity</strong> describes the amount or strength of light. In a grayscale image, the intensity value of each pixel determines how dark or light that pixel appears. A lower value appears darker, while a higher value appears brighter.</p>
+<div class="formula-box">
+<p><strong>8-bit grayscale intensity range</strong></p>
+<p class="formula">0 = Black</p>
+<p class="formula">1–254 = Shades of Grey</p>
+<p class="formula">255 = White</p>
+<p>Since 2⁸ = 256, an 8-bit grayscale pixel can represent 256 different intensity levels.</p>
+</div>
+<h3>1.3 Characteristics of Achromatic Light</h3>
+<ul>
+<li><strong>No hue:</strong> It does not represent a distinct colour.</li>
+<li><strong>Intensity-based:</strong> Its appearance depends on the amount of light.</li>
+<li><strong>Grayscale shades:</strong> It ranges from black to white through intermediate grey levels.</li>
+<li><strong>Single intensity channel:</strong> A grayscale pixel normally stores one intensity value rather than separate red, green and blue values.</li>
+</ul>
+<h3>1.4 Intensity, Luminance and Brightness</h3>
+<ul>
+<li><strong>Intensity:</strong> The amount or strength of light represented at a point.</li>
+<li><strong>Luminance:</strong> A measurable quantity describing light emitted or reflected in a particular direction, weighted according to human visual sensitivity.</li>
+<li><strong>Brightness:</strong> The subjective sensation of how light or dark something appears to a viewer.</li>
+</ul>
+<p>These terms are related, but they are not identical. Intensity and luminance are measurable quantities, whereas brightness describes human perception.</p>
+<h3>1.5 Applications</h3>
+<ul>
+<li>Black-and-white photographs and images.</li>
+<li>Scanned documents and printed text images.</li>
+<li>Medical images such as X-rays.</li>
+<li>Image-processing operations where intensity differences are important.</li>
+</ul>
+<div class="exam-answer">
+<h3>Exam Answer</h3>
+<p>Achromatic light is light that has no hue or colour information. It is represented by different intensity levels, ranging from black through shades of grey to white. In computer graphics, an image containing only these shades is called a grayscale image. Each pixel stores an intensity value that determines its appearance. In an 8-bit grayscale image, the values range from 0 to 255: 0 represents black, 255 represents white and the intermediate values represent different shades of grey. Achromatic representation is used in black-and-white photography, document scanning, medical imaging and image processing.</p>
+</div>
+<h3>1.6 Previous-Year Question Status</h3>
+<div class="note"><strong>PYQ clarification:</strong> The MCA 2022–24 paper (CCMCA403) included the Unit VII topic “Chromatic colour and colour models”. The available exam record does not confirm a separate question specifically on Achromatic Light. Therefore, this is a syllabus topic to prepare, not a confirmed standalone PYQ.</div>
+<h3>1.7 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/electronics-engineering/what-is-grayscale-image/" rel="noopener" target="_blank">GeeksforGeeks — What is Grayscale Image?</a></li>
+<li><a href="https://www.geeksforgeeks.org/electronics-engineering/differentiate-between-grayscale-and-rgb-images/" rel="noopener" target="_blank">GeeksforGeeks — Difference Between Grayscale and RGB Images</a></li>
+</ul>
+<div class="note"><strong>PYQ status:</strong> The available exam-plan evidence does not confirm a separate MCA question specifically on this subtopic. The MCA 2022–24 paper records topic-level evidence for chromatic colour and colour models, which is kept separate from this subtopic.</div><div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Chromatic Colour · <a href="#top">↑ Back to index</a></p>
+</section>
+<section id="u7-topic2-chromatic" class="topic-section tp tr">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">2</span><span><span class="tlabel">Topic 2 of 5</span>Chromatic Colour</span><span class="tprio">RED PRIORITY</span></h2>
+<p class="evidence"><strong>Why RED?</strong> The MCA 2022–24 paper (CCMCA403) records topic-level evidence for “Chromatic colour and colour models”. The available record does not preserve the full original question wording, so this is not presented as a verbatim question.</p>
+<h3>2.1 Meaning of Chromatic Colour</h3>
+<p><strong>Chromatic colour</strong> is colour that has a distinct hue, such as red, green, blue or yellow. It is associated with coloured light and is described using properties such as hue, saturation and intensity or brightness.</p>
+<p>Unlike achromatic light, which contains only shades of black, grey and white, chromatic colour carries colour information.</p>
+<h3>2.2 Main Characteristics of Chromatic Colour</h3>
+<ul>
+<li><strong>Hue:</strong> The attribute that identifies the basic colour, such as red, green, blue or yellow. It is commonly associated with the dominant wavelength of the light.</li>
+<li><strong>Saturation:</strong> The purity or vividness of a colour. A highly saturated colour looks strong and vivid, while a less saturated colour looks dull or washed out because it contains a greater neutral component.</li>
+<li><strong>Intensity / Brightness:</strong> Describes the amount or perceived strength of light. Increasing light intensity generally makes the colour appear brighter.</li>
+</ul>
+<h3>2.3 Hue</h3>
+<p>Hue tells us <strong>which colour</strong> we are seeing. For example, red, orange, yellow, green, blue and violet are different hues. In many digital colour interfaces, hue is represented as an angle around a colour wheel, usually from 0° to 360°.</p>
+<div class="formula-box">
+<p><strong>Illustrative hue positions in a common colour wheel</strong></p>
+<p class="formula">0° — Red</p>
+<p class="formula">60° — Yellow</p>
+<p class="formula">120° — Green</p>
+<p class="formula">180° — Cyan</p>
+<p class="formula">240° — Blue</p>
+<p class="formula">300° — Magenta</p>
+<p class="formula">360° — Red again</p>
+<p>These are conventional positions used in a hue-wheel representation; they are not a direct measurement of wavelength.</p>
+</div>
+<h3>2.4 Saturation</h3>
+<p>Saturation describes how pure or vivid a colour appears.</p>
+<ul>
+<li><strong>High saturation:</strong> The colour appears strong, vivid and pure.</li>
+<li><strong>Low saturation:</strong> The colour appears dull, pale or washed out.</li>
+<li><strong>Zero saturation:</strong> The colour has no chromatic component and appears as a shade of grey.</li>
+</ul>
+<p>For example, bright red is more saturated than a pale, pinkish red.</p>
+<h3>2.5 Intensity and Brightness</h3>
+<p>Intensity is related to the amount of light. Brightness is the human perception of how light or dark the colour appears. A colour can keep the same hue while its brightness changes.</p>
+<p>For example, dark blue and light blue have a similar hue, but differ in their perceived lightness or brightness.</p>
+<h3>2.6 Chromaticity</h3>
+<p><strong>Chromaticity</strong> describes the colour quality independently of its overall brightness. In a common description, hue and saturation together specify the chromatic character of a colour, while intensity or luminance describes its light level. The CIE chromaticity diagram is one method used to represent colour qualities and compare colours.</p>
+<h3>2.7 Difference Between Achromatic and Chromatic Colour</h3>
+<table>
+<thead><tr><th>Achromatic</th><th>Chromatic</th></tr></thead>
+<tbody>
+<tr><td>No hue or colour information</td><td>Has a distinct hue</td></tr>
+<tr><td>Black, grey and white shades</td><td>Red, green, blue, yellow, etc.</td></tr>
+<tr><td>Described mainly by intensity</td><td>Described by hue, saturation and intensity/brightness</td></tr>
+<tr><td>Example: grayscale image</td><td>Example: full-colour photograph</td></tr>
+</tbody>
+</table>
+<div class="exam-answer">
+<h3>Exam Answer</h3>
+<p>Chromatic colour refers to coloured light that has a distinct hue, such as red, green or blue. It is commonly described by three characteristics: hue, saturation and intensity or brightness. Hue identifies the basic colour and is associated with its dominant wavelength. Saturation indicates the purity or vividness of the colour; a highly saturated colour appears vivid, while a low-saturation colour appears dull or washed out. Intensity refers to the amount of light, while brightness is the perceived lightness or darkness. Hue and saturation together describe the chromatic quality of a colour. Chromatic colour is used in computer graphics to represent coloured images and visual information.</p>
+</div>
+<h3>2.8 Previous-Year Question Status</h3>
+<div class="note"><strong>Actual MCA PYQ — Unit VII:</strong> The MCA 2022–24 paper (CCMCA403) included the topic “Chromatic colour and colour models”. The available record does not preserve the complete original question wording, so this is recorded as topic-level PYQ evidence, not a verbatim question.</div>
+<h3>2.9 Sources</h3>
+<ul>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/computer_graphics_color_models.htm" rel="noopener" target="_blank">TutorialsPoint — Color Models in Computer Graphics</a></li>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/cie-chromaticity-diagram-in-computer-graphics/" rel="noopener" target="_blank">GeeksforGeeks — CIE Chromaticity Diagram in Computer Graphics</a></li>
+<li><a href="https://www.geeksforgeeks.org/hsv-color-model-in-computer-graphics/" rel="noopener" target="_blank">GeeksforGeeks — HSV Color Model in Computer Graphics</a></li>
+</ul>
+<div class="note"><strong>PYQ status:</strong> The MCA 2022–24 paper (CCMCA403) records topic-level evidence for “Chromatic colour and colour models”. The available record does not preserve the full original question wording, so this is not presented as a verbatim question.</div><div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Colour Models for Raster Graphics · <a href="#top">↑ Back to index</a></p>
+</section>
+<section id="u7-topic3-colour-models" class="topic-section tp tr">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">3</span><span><span class="tlabel">Topic 3 of 5</span>Colour Models for Raster Graphics</span><span class="tprio">RED PRIORITY</span></h2>
+<p class="evidence"><strong>Why RED?</strong> The MCA 2022–24 paper (CCMCA403) records topic-level evidence for “Chromatic colour and colour models”. The available record does not preserve the full original question wording, so this is not presented as a verbatim question.</p>
+<h3>3.1 Meaning of a Colour Model</h3>
+<p>A <strong>colour model</strong> is a method of representing colours using numerical components. In raster graphics, each pixel is assigned a colour value, and a colour model defines how that value is described. Different models serve different purposes, such as displaying images, printing and selecting colours.</p>
+<h3>3.2 RGB Colour Model</h3>
+<p>RGB stands for <strong>Red, Green and Blue</strong>. It is an <strong>additive colour model</strong> mainly used by monitors, televisions and other devices that produce light. A colour is created by combining different intensities of red, green and blue light.</p>
+<ul>
+<li>Red + Green = Yellow</li><li>Green + Blue = Cyan</li><li>Blue + Red = Magenta</li>
+<li>Full red + green + blue = White</li><li>No light from any channel = Black</li>
+</ul>
+<div class="formula-box">
+<p><strong>RGB pixel representation</strong></p>
+<p class="formula">Colour = (R, G, B)</p><p class="formula">8-bit channel: 0 to 255</p>
+<p>Example: (255, 0, 0) is red; (0, 0, 0) is black; (255, 255, 255) is white.</p>
+</div>
+<p>With 8 bits for each channel, an RGB pixel uses 24 bits and can represent 256 × 256 × 256 = 16,777,216 possible channel combinations.</p>
+<h3>3.3 CMY Colour Model</h3>
+<p>CMY stands for <strong>Cyan, Magenta and Yellow</strong>. It is a <strong>subtractive colour model</strong>, mainly associated with colour printing. It starts with white paper. The inks absorb (subtract) parts of the incident white light, and the remaining reflected light is seen as colour.</p>
+<ul><li>Cyan absorbs red light.</li><li>Magenta absorbs green light.</li><li>Yellow absorbs blue light.</li></ul>
+<div class="formula-box">
+<p><strong>Ideal conversion from normalized RGB to CMY</strong></p>
+<p class="formula">C = 1 − R</p><p class="formula">M = 1 − G</p><p class="formula">Y = 1 − B</p>
+<p>R, G and B are normalized to the range 0 to 1.</p>
+</div>
+<p>In theory, combining cyan, magenta and yellow at maximum amounts produces black. In real printing, the result is often not a deep, neutral black.</p>
+<h3>3.4 CMYK Colour Model</h3>
+<p>CMYK stands for <strong>Cyan, Magenta, Yellow and Key (Black)</strong>. It extends CMY by adding a separate black channel. It is widely used in printing because dedicated black ink produces clearer text and deeper black areas, while reducing the need to combine large amounts of the other inks.</p>
+<h3>3.5 HSV Colour Model</h3>
+<p>HSV stands for <strong>Hue, Saturation and Value</strong>. It represents colour in terms that are easier for people to understand and select than raw RGB channel values. It is commonly illustrated using a hexagonal cone or cylinder-like colour solid.</p>
+<ul>
+<li><strong>Hue (H):</strong> The basic colour, represented as an angle from 0° to 360°.</li>
+<li><strong>Saturation (S):</strong> The purity or vividness. Zero represents a neutral grey; higher values are more vivid.</li>
+<li><strong>Value (V):</strong> The brightness level in this model. Zero represents black; 1 (or 100%) represents the maximum value.</li>
+</ul>
+<p>HSV is useful in colour pickers and image-editing applications where users choose a colour by its appearance.</p>
+<h3>3.6 HLS / HSL Colour Model</h3>
+<p>HLS (also commonly written HSL) stands for <strong>Hue, Lightness and Saturation</strong>. It describes colour using hue, saturation and lightness rather than RGB channel amounts.</p>
+<ul>
+<li><strong>Hue:</strong> Identifies the colour and is represented by an angle.</li>
+<li><strong>Lightness:</strong> Describes how light or dark the colour is. Zero represents black, 1 represents white, and 0.5 is the middle level.</li>
+<li><strong>Saturation:</strong> Describes colour purity. At zero saturation, the colour is a shade of grey.</li>
+</ul>
+<p>HLS is often represented by a double cone and is useful for colour selection and adjustment.</p>
+<h3>3.7 YIQ / YUV Colour Models</h3>
+<p>YIQ and YUV are colour representations that separate a brightness-related component from colour information. They are associated with television and video systems.</p>
+<ul>
+<li><strong>Y:</strong> Represents luminance or a brightness-related signal.</li>
+<li><strong>I and Q:</strong> In YIQ, represent two colour-difference components.</li>
+<li><strong>U and V:</strong> In YUV, represent colour-difference components.</li>
+</ul>
+<p>This separation allows systems to handle brightness and colour information separately. Related representations such as YCbCr are also widely used in digital video and image compression.</p>
+<h3>3.8 Comparison of Important Colour Models</h3>
+<table>
+<thead><tr><th>Colour Model</th><th>Components</th><th>Type / Main Use</th></tr></thead>
+<tbody>
+<tr><td>RGB</td><td>Red, Green, Blue</td><td>Additive; monitors and digital displays</td></tr>
+<tr><td>CMY</td><td>Cyan, Magenta, Yellow</td><td>Subtractive; colour printing</td></tr>
+<tr><td>CMYK</td><td>Cyan, Magenta, Yellow, Black</td><td>Printing with a separate black channel</td></tr>
+<tr><td>HSV</td><td>Hue, Saturation, Value</td><td>Human-friendly colour selection</td></tr>
+<tr><td>HLS / HSL</td><td>Hue, Lightness, Saturation</td><td>Colour selection and adjustment</td></tr>
+<tr><td>YIQ / YUV</td><td>Brightness-related and colour-difference components</td><td>Television and video systems</td></tr>
+</tbody>
+</table>
+<div class="exam-answer">
+<h3>Exam Answer</h3>
+<p>A colour model is a method of representing colours using numerical components. In raster graphics, it specifies how the colour of each pixel is stored or described. Important colour models include RGB, CMY, CMYK, HSV, HLS and YIQ/YUV. RGB is an additive model that combines red, green and blue light and is used in display devices. CMY is a subtractive model used in printing, while CMYK adds a separate black channel. HSV represents colour through hue, saturation and value, and HLS uses hue, lightness and saturation. YIQ and YUV separate brightness-related information from colour information and are associated with television and video systems. Each model is selected according to the application for which colour is being represented or reproduced.</p>
+</div>
+<h3>3.9 Previous-Year Question Status</h3>
+<div class="note"><strong>Actual MCA PYQ — Unit VII:</strong> The MCA 2022–24 paper (CCMCA403) included the topic “Chromatic colour and colour models”. The available record does not preserve the full original wording. This topic prepares the colour-model portion of that PYQ topic; the individual models listed here are not separately confirmed questions.</div>
+<h3>3.10 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/difference-between-rgb-cmyk-hsv-and-yiq-color-models/" rel="noopener" target="_blank">GeeksforGeeks — Difference Between RGB, CMYK, HSV and YIQ Colour Models</a></li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/computer_graphics_color_models.htm" rel="noopener" target="_blank">TutorialsPoint — Colour Models in Computer Graphics</a></li>
+</ul>
+<div class="note"><strong>PYQ status:</strong> The MCA 2022–24 paper (CCMCA403) records topic-level evidence for “Chromatic colour and colour models”. The available record does not preserve the full original question wording, so this is not presented as a verbatim question.</div><div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Reproducing Colour · <a href="#top">↑ Back to index</a></p>
+</section>
+<section id="u7-topic4-reproducing-colour" class="topic-section tp tb">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">4</span><span><span class="tlabel">Topic 4 of 5</span>Reproducing Colour</span><span class="tprio">BLACK PRIORITY</span></h2>
+<p class="evidence"><strong>Why BLACK?</strong> BLACK · no matching subtopic PYQ confirmed</p>
+<h3>4.1 Meaning of Colour Reproduction</h3>
+<p><strong>Colour reproduction</strong> is the process of producing or displaying colours that resemble the colours of an original object, image or scene. In computer graphics, colour must be reproduced by output devices such as monitors, televisions and printers.</p>
+<p>The goal is to make the reproduced colours look as close as possible to the intended colours. Exact matching can be difficult because different devices use different methods and have different colour capabilities.</p>
+<h3>4.2 Additive Colour Reproduction — RGB</h3>
+<p>Display devices such as monitors and televisions generally use the <strong>RGB additive colour model</strong>. They produce colour by emitting red, green and blue light in different intensities.</p>
+<ul>
+<li>Red, green and blue light combine to create other colours.</li>
+<li>When all three are at maximum intensity, the result is white.</li>
+<li>When all three are absent, the result is black.</li>
+</ul>
+<p><strong>Example:</strong> A computer monitor creates a yellow region by combining red and green light.</p>
+<h3>4.3 Subtractive Colour Reproduction — CMY / CMYK</h3>
+<p>Printers generally use the <strong>CMYK colour model</strong>. It is subtractive because coloured inks absorb some parts of the white light falling on the paper and reflect the remaining light.</p>
+<ul>
+<li>Cyan, magenta and yellow inks absorb different portions of light.</li>
+<li>Black ink (K) is added to produce deeper blacks and sharper dark details.</li>
+<li>The final colour depends on the combination and amount of inks applied to the paper.</li>
+</ul>
+<p><strong>Example:</strong> A colour photograph printed on paper is reproduced by placing different amounts of cyan, magenta, yellow and black ink.</p>
+<h3>4.4 Difference Between Display and Printing</h3>
+<table>
+<thead><tr><th>Display Device</th><th>Printer</th></tr></thead>
+<tbody>
+<tr><td>Uses emitted light</td><td>Uses reflected light from paper</td></tr>
+<tr><td>Usually uses RGB</td><td>Usually uses CMYK</td></tr>
+<tr><td>Additive colour mixing</td><td>Subtractive colour mixing</td></tr>
+<tr><td>Full RGB light produces white</td><td>Combination of CMY inks ideally absorbs most light; black ink is added for practical printing</td></tr>
+</tbody>
+</table>
+<h3>4.5 Factors Affecting Colour Reproduction</h3>
+<ul>
+<li><strong>Device characteristics:</strong> Different monitors and printers may reproduce the same numerical colour values differently.</li>
+<li><strong>Colour range (gamut):</strong> Each device can reproduce only a limited range of colours. A colour outside that range cannot be reproduced exactly by that device.</li>
+<li><strong>Lighting conditions:</strong> The light under which a printed image is viewed can change how its colours appear.</li>
+<li><strong>Media and materials:</strong> Paper type, ink and display technology affect the final appearance of colour.</li>
+<li><strong>Calibration:</strong> Adjusting a device to a known reference helps make its colour output more consistent.</li>
+</ul>
+<h3>4.6 Colour Matching and Colour Management</h3>
+<p><strong>Colour matching</strong> is the process of making colours appear consistent across different devices. A colour-management system helps achieve this by describing device colour behaviour and converting colour values when an image moves from one device or colour space to another.</p>
+<p>For example, when an image is transferred from a monitor to a printer, colour management helps convert the display colour values into values that the printer can reproduce more accurately.</p>
+<div class="exam-answer">
+<h3>Exam Answer</h3>
+<p>Colour reproduction is the process of producing colours that resemble the colours of an original object, image or scene. In computer graphics, colour is reproduced mainly through display devices and printers. Monitors and televisions generally use the additive RGB model, in which red, green and blue light are combined to produce different colours. Printers generally use the subtractive CMYK model, in which cyan, magenta, yellow and black inks absorb parts of the incident light and produce the required colour on paper. Colour reproduction may vary because devices have different colour ranges, technologies, inks, papers and viewing conditions. Calibration and colour-management systems help maintain more consistent colour reproduction across devices.</p>
+</div>
+<h3>4.7 Previous-Year Question Status</h3>
+<div class="note"><strong><strong>PYQ status:</strong> The available exam-plan evidence does not confirm a separate MCA question specifically on this subtopic. The MCA 2022–24 paper records topic-level evidence for chromatic colour and colour models, which is kept separate from this subtopic.</strong> The available MCA 2022–24 exam record confirms the broader Unit VII topic “Chromatic colour and colour models”. It does not confirm a separate question specifically on Reproducing Colour. Prepare this topic as part of the official syllabus.</div>
+<h3>4.8 Sources</h3>
+<ul>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/computer_graphics_color_models.htm" rel="noopener" target="_blank">TutorialsPoint — Colour Models in Computer Graphics</a></li>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/difference-between-rgb-cmyk-hsv-and-yiq-color-models/" rel="noopener" target="_blank">GeeksforGeeks — Difference Between RGB, CMYK, HSV and YIQ Colour Models</a></li>
+</ul>
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Using Colour in Computer Graphics · <a href="#top">↑ Back to index</a></p>
+</section>
+<section id="u7-topic5-using-colour" class="topic-section tp tb">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">5</span><span><span class="tlabel">Topic 5 of 5</span>Using Colour in Computer Graphics</span><span class="tprio">BLACK PRIORITY</span></h2>
+<p class="evidence"><strong>Why BLACK?</strong> BLACK · no matching subtopic PYQ confirmed</p>
+<h3>5.1 Introduction</h3>
+<p>Colour is an important part of computer graphics. It makes images more realistic, helps users understand information and improves the appearance of graphical applications. Colour can also be used to distinguish objects, highlight important details and communicate meaning.</p>
+<h3>5.2 Colour for Realism and Appearance</h3>
+<p>Colour helps represent the natural appearance of objects and scenes. For example, graphics applications use different colours and shades to represent the sky, grass, water, buildings and other objects. Appropriate colour selection makes a scene easier to recognize and visually understand.</p>
+<h3>5.3 Colour for Identification and Grouping</h3>
+<p>Different colours can be assigned to different objects or categories so that users can identify and compare them easily.</p>
+<ul>
+<li>In maps, different colours can represent roads, rivers, forests and boundaries.</li>
+<li>In charts, different colours can distinguish data series.</li>
+<li>In diagrams, colours can separate components or stages of a process.</li>
+</ul>
+<h3>5.4 Colour for Highlighting and Emphasis</h3>
+<p>Bright or contrasting colours can draw attention to important information. For example, a warning message may be shown in red, while a selected item may be highlighted using a different background colour.</p>
+<p>Colour should be used carefully: too many bright colours can make a display confusing and reduce readability.</p>
+<h3>5.5 Colour in User Interfaces</h3>
+<p>Graphical user interfaces use colour to communicate the state and function of controls and information.</p>
+<ul>
+<li>Different colours can distinguish buttons, menus and selected items.</li>
+<li>Colour can indicate status, such as success, warning or error.</li>
+<li>Consistent colour schemes help users understand and navigate an application.</li>
+</ul>
+<h3>5.6 Colour in Data Visualization</h3>
+<p>Colour is widely used in charts, graphs and maps to make data easier to interpret.</p>
+<ul>
+<li><strong>Categorical data:</strong> Use distinct colours to identify separate groups.</li>
+<li><strong>Ordered data:</strong> Use a gradual sequence of colours to show low-to-high values.</li>
+<li><strong>Highlighting:</strong> Use a contrasting colour to emphasize an important value or region.</li>
+</ul>
+<h3>5.7 Important Guidelines for Using Colour</h3>
+<ul>
+<li><strong>Maintain contrast:</strong> Text and important objects should be clearly visible against their background.</li>
+<li><strong>Use colours consistently:</strong> The same colour should generally represent the same meaning throughout an application.</li>
+<li><strong>Avoid excessive colours:</strong> Too many colours can make a design difficult to understand.</li>
+<li><strong>Consider accessibility:</strong> Do not communicate important information through colour alone; use labels, shapes or patterns as well.</li>
+<li><strong>Choose suitable combinations:</strong> Colour combinations should remain readable and visually comfortable.</li>
+</ul>
+<div class="exam-answer">
+<h3>Exam Answer</h3>
+<p>Colour is used in computer graphics to improve the appearance, realism and understanding of graphical information. It helps represent natural objects and scenes, distinguish different objects or categories, and highlight important details. In graphical user interfaces, colour indicates the state of controls and helps users navigate applications. In data visualization, different colours are used to represent categories, show variations in values and emphasize important information. Effective use of colour requires sufficient contrast, consistency, limited colour choices and consideration of accessibility. Thus, colour improves communication and makes computer graphics more meaningful and easier to interpret.</p>
+</div>
+<h3>5.8 Previous-Year Question Status</h3>
+<div class="note"><strong><strong>PYQ status:</strong> The available exam-plan evidence does not confirm a separate MCA question specifically on this subtopic. The MCA 2022–24 paper records topic-level evidence for chromatic colour and colour models, which is kept separate from this subtopic.</strong> The available MCA 2022–24 exam record confirms the broader Unit VII topic “Chromatic colour and colour models”. It does not confirm a separate question specifically on Using Colour in Computer Graphics. Prepare this topic as part of the official syllabus.</div>
+<h3>5.9 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/" rel="noopener" target="_blank">GeeksforGeeks — Computer Graphics</a></li>
+<li><a href="https://www.w3schools.com/colors/" rel="noopener" target="_blank">W3Schools — HTML Colors</a></li>
+</ul>
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><a href="#top">↑ Back to index</a></p>
+</section>
+
+<div class="unit-end"><strong>✿ Unit VII complete ✿</strong><br>Next: Unit VIII — Visible-Surface Determination</div>
+</main>
+</body>
+</html>

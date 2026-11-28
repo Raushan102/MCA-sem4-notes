@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Computer Graphics — Unit III: Interaction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+html { color-scheme: light; }
+
+:root {
+  --desk: #dfe4ec;
+  --paper: #ffffff;
+  --rule: #d6e3f5;
+  --margin: #e4868a;
+  --ink: #1d3a8c;
+  --red: #b3261e;
+  --green: #1b6b3a;
+  --hl: rgba(255, 214, 0, 0.45);
+  --edge: rgba(29, 58, 140, 0.35);
+  --shadow: rgba(20, 30, 60, 0.2);
+  --hand: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --display: "Source Code Pro", "Fira Code", Consolas, "Courier New", monospace;
+  --mono: "Fira Code", "Cascadia Code", Consolas, "Courier New", monospace;
+  --vs-bg: #1e1e1e;
+  --vs-fg: #d4d4d4;
+  color-scheme: light;
+}
+html { background: var(--desk); }
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--hand);
+  font-size: 16px;
+  line-height: 36px;
+  padding-block: 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.sheet {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 28px 64px 76px;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 22px 48px, var(--desk) 8px, transparent 9px),
+    linear-gradient(to bottom, transparent 35px, var(--rule) 35px, var(--rule) 36px);
+  background-size: 44px 144px, 100% 36px;
+  background-repeat: repeat-y, repeat;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px var(--shadow), 0 14px 34px -14px var(--shadow);
+  overflow-wrap: break-word;
+}
+.sheet::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 56px;
+  width: 4px;
+  border-left: 1px solid var(--margin);
+  border-right: 1px solid var(--margin);
+}
+@media (max-width: 520px) {
+  body { font-size: 15px; }
+  .sheet { padding: 64px 12px 64px 50px; }
+  .sheet::before { left: 34px; }
+}
+h1, h2, h3 { margin: 0; font-weight: 700; text-wrap: balance; }
+h1 {
+  font-family: var(--display);
+  font-size: 1.6rem;
+  line-height: 64px;
+  color: var(--red);
+  text-decoration: underline wavy var(--red);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 7px;
+  scroll-margin-top: 16px;
+}
+.sheet > h1:first-child { font-size: clamp(1.7rem, 5.2vw, 2.4rem); }
+h2 { font-family: var(--display); font-size: 1.3rem; line-height: 36px; color: var(--red); }
+h3 { font-family: var(--display); font-size: 1.15rem; line-height: 36px; color: var(--green); }
+p { margin: 0 0 36px; }
+hr {
+  height: 36px;
+  margin: 0;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--edge) 0 10px, transparent 10px 18px) center / 100% 2px no-repeat;
+}
+ul, ol { margin: 0 0 36px; }
+ul { list-style: none; padding-left: 34px; }
+ul li { position: relative; }
+ul li::before { content: "\2022"; position: absolute; left: -22px; color: var(--red); }
+ol { padding-left: 46px; }
+ol li::marker { color: var(--red); font-family: var(--display); font-weight: 700; }
+li > p { margin: 0; }
+strong {
+  font-weight: 600;
+  padding: 0 2px;
+  background: linear-gradient(transparent 58%, var(--hl) 58%, var(--hl) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  line-height: 0;
+  color: #9cdcfe;
+  background: var(--vs-bg);
+  padding: 3px 7px;
+  border-radius: 4px;
+}
+pre {
+  margin: 0 0 32px;
+  padding: 16px 20px;
+  background: var(--vs-bg);
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25), 0 6px 14px -8px rgba(0, 0, 0, 0.5);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 400;
+  font-variant-ligatures: contextual;
+  line-height: 32px;
+  color: var(--vs-fg);
+  overflow-x: auto;
+  tab-size: 4;
+  white-space: pre;
+}
+pre code { font: inherit; line-height: inherit; color: inherit; background: none; padding: 0; border-radius: 0; }
+pre .k  { color: #569cd6; }
+pre .kc { color: #c586c0; }
+pre .f  { color: #dcdcaa; }
+pre .t  { color: #4ec9b0; }
+pre .v  { color: #9cdcfe; }
+pre .ct { color: #4fc1ff; }
+pre .s  { color: #ce9178; }
+pre .n  { color: #b5cea8; }
+pre .c  { color: #6a9955; }
+.tw { margin: 0 0 32px; overflow-x: auto; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+.tw.wide table { min-width: 640px; }
+th, td {
+  padding: 0 14px;
+  text-align: left;
+  vertical-align: top;
+  line-height: 36px;
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge);
+}
+th {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--red);
+  background: var(--hl);
+  box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge);
+}
+th:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 0 1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+td:first-child { box-shadow: inset -1px 0 0 var(--edge), inset 0 -1px 0 var(--edge), inset 1px 0 0 var(--edge); }
+.toc ul { columns: 2 280px; column-gap: 32px; padding-left: 0; }
+.toc li { break-inside: avoid; }
+.toc li::before { content: none; }
+.toc a { color: var(--ink); text-decoration: none; background: linear-gradient(var(--edge), var(--edge)) 0 100% / 100% 1px no-repeat; }
+.toc a:hover { color: var(--red); }
+a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; border-radius: 2px; }
+.note { margin: 0 0 32px; padding: 0 0 0 16px; border-left: 3px solid var(--red); }
+.note p { margin: 0; }
+h1 code, h2 code, h3 code { background: var(--vs-bg); }
+th code, td code { font-size: 0.85em; }
+.tp{margin:0 -14px 32px;padding:0 14px;border-left:5px solid;border-radius:4px}
+.tp.tr{background:rgba(179,38,30,.085);border-color:#b3261e}
+.tp.ty{background:rgba(255,214,0,.24);border-color:#e0b800}
+.tp.tb{background:rgba(0,0,0,.075);border-color:#333}
+.r,.y,.b{font-size:.72em;font-weight:700;padding:1px 7px;border-radius:3px;letter-spacing:.5px;margin-right:6px}
+.r{background:var(--red);color:#fff}.y{background:#ffd600;color:#4a3b00}.b{background:#222;color:#fff}
+main a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px;overflow-wrap:anywhere}
+main a:hover{color:var(--red)}
+.fig{margin:12px 0 40px}.fig svg{display:block;width:100%;max-width:760px;margin:0 auto}
+.fig svg text{font-family:var(--hand);font-size:14px;fill:var(--ink);dominant-baseline:auto}
+.fig svg .cap{font-size:13px;fill:var(--red);font-weight:600}
+.fig svg .w{fill:#fff;font-weight:600}
+.fig svg .bx{fill:#fff;stroke:var(--ink);stroke-width:2}
+.fig svg .rx{fill:#fff;stroke:var(--red);stroke-width:2}
+.fig svg .kx{fill:var(--vs-bg);stroke:var(--vs-bg)}
+.fig svg .yx{fill:rgba(255,214,0,.45);stroke:var(--ink);stroke-width:2}
+.fig svg .ln{stroke:var(--ink);stroke-width:2;fill:none}
+.fig svg .rl{stroke:var(--red);stroke-width:2.5;fill:none}
+.fig svg .dl{stroke:var(--red);stroke-width:2.5;fill:none;stroke-dasharray:7 5}
+
+.video-help { margin: 18px 0 32px; padding: 14px 16px; border: 1px solid #b8c9e5; border-left: 4px solid #1d3a8c; border-radius: 8px; background: rgba(232, 240, 252, .72); }
+.video-help p { margin-bottom: 12px; }
+.video-help .video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; background: #111; margin: 10px 0 8px; }
+.video-help iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-help .video-note { display: block; font-size: .88em; line-height: 1.5; opacity: .9; }
+
+
+.reading-sources { margin: 18px 0 22px; padding: 12px 16px; border: 1px solid #c8d6e8; border-radius: 7px; background: rgba(255,255,255,.78); font-size: .92em; line-height: 1.65; }
+.reading-sources p { margin: 0 0 6px; }
+.reading-sources ul { margin: 0; padding-left: 24px; }
+.reading-sources ul li::before { left: -18px; }
+.reading-sources .source-note { font-size: .9em; opacity: .9; margin-top: 6px; }
+
+.video-help{break-inside:avoid;margin:18px 0 32px;padding:14px 16px;border:1px solid #b8c9e5;border-left:4px solid #1d3a8c;border-radius:8px;background:rgba(232,240,252,.72)}.video-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:8px;background:#111;margin:10px 0 8px}.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.reading-sources{margin:24px 0 30px;padding:12px 16px;border:1px solid #c8d6e8;border-radius:7px;background:rgba(255,255,255,.78);font-size:.92em;line-height:1.65}.reading-sources p{margin:0 0 6px}.reading-sources ul{margin:0;padding-left:24px}.reading-sources ul li::before{left:-18px}.source-note{font-size:.9em;opacity:.9;margin-top:6px}
+/* Clear priority treatment across the FULL topic answer area */
+.tp{position:relative;margin:58px -14px 64px;padding:22px 22px 8px;border:1px solid rgba(29,58,140,.18);border-left:8px solid;border-radius:12px;box-shadow:0 5px 18px rgba(20,30,60,.07);}
+.tp.tr{background:linear-gradient(135deg,rgba(179,38,30,.17),rgba(179,38,30,.075));border-color:#b3261e;}
+.tp.ty{background:linear-gradient(135deg,rgba(255,214,0,.34),rgba(255,214,0,.13));border-color:#d2a900;}
+.tp.tb{background:linear-gradient(135deg,rgba(35,39,48,.13),rgba(35,39,48,.055));border-color:#333;}
+.tp h1{padding-bottom:8px;margin-bottom:12px;}
+.tp.tr h1::after,.tp.ty h1::after,.tp.tb h1::after{display:inline-block;vertical-align:middle;margin-left:12px;padding:2px 10px;border-radius:5px;font-family:var(--display);font-size:.48em;line-height:1.8;letter-spacing:.7px;text-decoration:none;white-space:nowrap;}
+.tp.tr h1::after{content:"RED PRIORITY";background:#b3261e;color:#fff;}
+.tp.ty h1::after{content:"YELLOW PRIORITY";background:#ffd600;color:#463900;}
+.tp.tb h1::after{content:"BLACK PRIORITY";background:#222;color:#fff;}
+/* Decorative floral divider gives every new topic a clear visual beginning */
+.tp::before{content:"✿  ───────────────  ✿  ───────────────  ✿";display:block;text-align:center;color:#b3261e;font-family:Georgia,serif;font-size:19px;line-height:36px;letter-spacing:2px;margin:-12px 0 16px;opacity:.9;}
+.tp.tr::before{color:#b3261e}.tp.ty::before{color:#9a7900}.tp.tb::before{color:#444}
+@media(max-width:520px){.tp{padding:16px 13px 4px;margin:44px -7px 50px}.tp.tr h1::after,.tp.ty h1::after,.tp.tb h1::after{margin:6px 0 0 4px;font-size:.42em}.tp::before{font-size:14px;letter-spacing:0}}
+.exam-box{padding:16px 20px;border:1px solid var(--edge);border-radius:6px;background:rgba(255,255,255,.78);margin-bottom:32px}.fig figcaption{font-size:.88em;text-align:center;color:var(--red);line-height:32px}
+
+/* Compatibility styles retained for the original Topic 1 content */
+.priority{padding:11px 14px;margin:12px 0 20px;border-left:5px solid;border-radius:4px}
+.priority.pr{background:rgba(179,38,30,.08);border-color:#b3261e}
+.priority.py{background:rgba(255,214,0,.2);border-color:#d0a900}
+.priority.pb{background:rgba(0,0,0,.06);border-color:#333}
+.tag{display:inline-block;font:700 12px Arial;padding:2px 8px;border-radius:4px;letter-spacing:.4px}
+.tag.red{background:#b3261e;color:white}.tag.yellow{background:#ffd600;color:#493b00}.tag.black{background:#222;color:white}
+.diagram{border:1px solid var(--edge);border-radius:8px;padding:10px;background:#ffffffc9;margin:8px 0 22px;text-align:center}
+.diagram svg{width:100%;max-width:680px;height:auto}
+.caption{font-size:.9rem;color:#456}
+
+/* Topic-adjacent learning resources: clear website and video link cards */
+.resource-panel{margin:18px 0 32px;padding:16px;border:1px solid #c8d6e8;border-radius:9px;background:rgba(255,255,255,.88);box-shadow:0 3px 10px rgba(20,30,60,.07)}
+.resource-panel h3{margin:0 0 10px;color:var(--red)}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:10px 0 18px}
+.resource-card{display:block;padding:12px 14px;border:1px solid #c8d6e8;border-left:4px solid var(--ink);border-radius:7px;background:#f7faff;text-decoration:none!important;color:var(--ink)!important;line-height:1.5;transition:transform .15s ease,box-shadow .15s ease}
+.resource-card:hover{transform:translateY(-2px);box-shadow:0 5px 12px rgba(20,30,60,.12);color:var(--red)!important}
+.resource-card.video{border-left-color:#b3261e;background:#fff8f7}
+.resource-card .resource-kind{display:block;font-size:.72em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#65728a;margin-bottom:4px}
+.resource-card strong{display:block;background:none;padding:0;color:inherit}
+.resource-card small{display:block;font-size:.86em;line-height:1.45;margin-top:4px;color:#46536b}
+.video-help{border-left-width:5px}
+.video-help>a,.reading-sources a{display:inline-block;margin:4px 4px 4px 0;padding:5px 10px;border:1px solid #b8c9e5;border-radius:6px;background:#f7faff;font-weight:600;text-decoration:none!important}
+.video-help>a:hover,.reading-sources a:hover{background:#e8f0fc;color:var(--red)}
+.reading-sources li{margin:5px 0}
+@media(max-width:520px){.resource-panel{padding:12px}.resource-grid{grid-template-columns:1fr}}
+
+
+/* Quick navigation index */
+.quick-index{margin:24px 0 40px;padding:20px 22px;border:2px solid #9fb4d5;border-radius:12px;background:linear-gradient(135deg,rgba(232,240,252,.96),rgba(255,255,255,.96));box-shadow:0 5px 16px rgba(20,30,60,.08)}
+.quick-index h2{margin:0 0 12px}
+.quick-index .index-intro{margin:0 0 16px;font-size:.94em}
+.index-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.index-card{display:block;padding:14px 15px;border:1px solid #c5d3e7;border-left:6px solid #555;border-radius:9px;background:#fff;color:var(--ink);text-decoration:none;line-height:1.65;box-shadow:0 2px 7px rgba(20,30,60,.06);transition:transform .15s ease,box-shadow .15s ease}
+.index-card:hover{transform:translateY(-2px);box-shadow:0 5px 13px rgba(20,30,60,.12);color:var(--red)}
+.index-card.red-card{border-left-color:#b3261e;background:#fff4f2}
+.index-card.yellow-card{border-left-color:#d6ad00;background:#fffbea}
+.index-card.black-card{border-left-color:#333;background:#f4f4f4}
+.index-card strong{display:block;margin-bottom:4px;background:none}
+.index-card .index-priority{display:inline-block;margin-top:7px;padding:1px 8px;border-radius:4px;font-size:.78em;font-weight:700;line-height:1.6}
+.index-card .index-priority.red{background:#b3261e;color:white}
+.index-card .index-priority.yellow{background:#ffe27a;color:#4a3b00}
+.index-card .index-priority.black{background:#333;color:white}
+.index-card .index-priority.mixed{background:linear-gradient(90deg,#b3261e 0 33%,#ffe27a 33% 66%,#333 66%);color:#fff;text-shadow:0 1px 2px #333}
+@media(max-width:520px){.quick-index{padding:15px}.index-grid{grid-template-columns:1fr}}
+
+
+
+/* Mathematical expressions: yellow notebook-paper panel with blue handwritten-style ink. */
+.formula {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 16px auto 24px;
+  padding: 12px 20px;
+  border: 1px solid #eadb91;
+  border-left: 4px solid #e5c64b;
+  border-radius: 7px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0) 0,
+      rgba(255,255,255,0) 31px,
+      rgba(105,145,190,.18) 32px,
+      rgba(255,255,255,0) 33px
+    ),
+    #fff4b8;
+  color: #164b91;
+  font-family: var(--hand, "Comic Sans MS", "Segoe Print", cursive);
+  font-size: 1.13rem;
+  font-weight: 700;
+  line-height: 1.95;
+  letter-spacing: .015em;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(70,55,10,.10);
+  overflow-wrap: anywhere;
+}
+.formula strong, .formula sub, .formula sup { color: #164b91; }
+.formula strong { background: transparent; padding: 0; }
+.math-inline {
+  display: inline-block;
+  padding: 1px 6px 2px;
+  margin: 1px 2px;
+  border-radius: 4px;
+  background: #fff1a8;
+  color: #164b91;
+  border-bottom: 2px solid #e4c64c;
+  font-family: var(--hand, "Comic Sans MS", "Segoe Print", cursive);
+  font-size: .98em;
+  font-weight: 700;
+  line-height: 1.55;
+  vertical-align: baseline;
+  white-space: normal;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.math-inline sub, .math-inline sup { color: #164b91; }
+@media(max-width:520px) {
+  .formula { font-size: 1rem; padding: 9px 12px; line-height: 1.8; }
+}
+
+/* ===== Final polish: Unit III ===== */
+html{scroll-behavior:smooth}
+section[id]{scroll-margin-top:16px}
+figure{margin:0}img{max-width:100%;height:auto}
+h4{margin:0;font-family:var(--display);font-size:1.05rem;line-height:36px;color:var(--ink)}
+.small{font-size:.9em}
+
+/* hero */
+.hero{position:relative;margin:-24px -8px 32px 0;padding:28px 26px 22px;border-radius:14px;color:#fff;overflow:hidden;
+  background:radial-gradient(circle at 92% 12%,rgba(255,214,0,.35),transparent 42%),linear-gradient(135deg,#1d3a8c 0%,#2b4fb8 55%,#b3261e 140%);
+  box-shadow:0 8px 22px -8px rgba(20,30,60,.55)}
+.hero::after{content:"III";position:absolute;right:14px;bottom:-34px;font:800 9rem/1 var(--display);color:rgba(255,255,255,.12);pointer-events:none}
+.hero .eyebrow{font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;opacity:.85;line-height:24px}
+.hero h1{color:#fff;text-decoration:none;font-size:clamp(1.6rem,5vw,2.3rem);line-height:1.25;margin:6px 0 4px}
+.hero .sub{margin:0 0 14px;font-size:1.05rem;line-height:28px;color:#ffe27a;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.chip{display:inline-block;padding:2px 12px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);font-size:.8rem;line-height:26px;font-weight:600}
+.chip.hot{background:#ffd600;color:#463900;border-color:#ffd600}
+
+/* cards */
+.panel{margin:0 0 32px;padding:16px 20px 6px;border:1px solid #c8d6e8;border-radius:12px;background:rgba(255,255,255,.92);box-shadow:0 3px 10px rgba(20,30,60,.07)}
+.panel h2{margin:0 0 6px;font-size:1.15rem}
+.panel p,.panel ul{margin-bottom:14px}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:0 0 14px}
+.legend div{padding:8px 12px;border-radius:8px;border-left:6px solid;line-height:1.5;font-size:.9em}
+.legend .lr{background:rgba(179,38,30,.1);border-color:#b3261e}
+.legend .ly{background:rgba(255,214,0,.28);border-color:#d2a900}
+.legend .lb{background:rgba(35,39,48,.1);border-color:#333}
+.legend b{display:inline-block;margin-right:6px;padding:0 8px;border-radius:4px;font-size:.78em;line-height:1.7;color:#fff;background:#b3261e}
+.legend .ly b{background:#ffd600;color:#463900}.legend .lb b{background:#222}
+.focus li{line-height:1.6;margin-bottom:4px}
+
+/* index */
+.quick-index{margin:0 0 40px}
+.index-card{position:relative;padding-left:62px}
+.index-card .num{position:absolute;left:12px;top:12px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:700 1.05rem/1 var(--display);color:#fff;background:#555}
+.index-card.red-card .num{background:#b3261e}.index-card.yellow-card .num{background:#e0b800;color:#3d3100}.index-card.black-card .num{background:#222}
+.index-card .index-priority.red{background:#b3261e;color:#fff}.index-card .index-priority.yellow{background:#ffe27a;color:#4a3b00}.index-card .index-priority.black{background:#333;color:#fff}
+
+/* topic sections */
+.topic-section.tp{position:relative;margin:52px -14px 60px;padding:20px 24px 6px;border:1px solid rgba(29,58,140,.18);border-left:9px solid;border-radius:14px;box-shadow:0 6px 20px rgba(20,30,60,.09)}
+.topic-section.tp::before{display:none}
+.tp.tr{background:linear-gradient(135deg,rgba(179,38,30,.16),rgba(179,38,30,.07));border-color:#b3261e}
+.tp.ty{background:linear-gradient(135deg,rgba(255,214,0,.34),rgba(255,214,0,.13));border-color:#d2a900}
+.tp.tb{background:linear-gradient(135deg,rgba(35,39,48,.15),rgba(35,39,48,.06));border-color:#333}
+.topic-title{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;margin:0 0 6px;padding-bottom:8px;border-bottom:2px dashed currentColor;line-height:1.35;font-size:1.5rem}
+.tnum{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:800 1.7rem/1 var(--display);color:#fff;background:var(--red);box-shadow:0 0 0 4px rgba(255,255,255,.75),0 3px 8px rgba(0,0,0,.25)}
+.tp.ty .tnum{background:#e0b800;color:#3d3100}.tp.tb .tnum{background:#222}
+.tlabel{display:block;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:#455;line-height:1.2}
+.tprio{margin-left:auto;padding:2px 12px;border-radius:6px;font-size:.5em;letter-spacing:.8px;line-height:1.9;white-space:nowrap;background:#b3261e;color:#fff}
+.tp.ty .tprio{background:#ffd600;color:#463900}.tp.tb .tprio{background:#222}
+.evidence{margin:0 0 28px;padding:8px 14px;border-radius:8px;background:rgba(255,255,255,.7);font-size:.9em;line-height:1.6;border:1px dashed var(--edge)}
+.tp h3{margin-top:8px;color:var(--green);border-left:4px solid currentColor;padding-left:10px}
+.tp .exam-box h3{border:0;padding:0;margin-top:0}
+.exam-box{break-inside:avoid;border-left:5px solid var(--green);background:rgba(255,255,255,.9);box-shadow:0 2px 8px rgba(20,30,60,.08)}
+.exam-box h3::before{content:"★ ";color:#e0b800}
+.tw{background:rgba(255,255,255,.8);border-radius:6px}
+.floral-divider{text-align:center;color:var(--red);letter-spacing:6px;line-height:36px;margin:0 0 6px}
+.tp.ty .floral-divider{color:#9a7900}.tp.tb .floral-divider{color:#444}
+.back-top{margin:0 0 30px;font-size:.9em;text-align:right}
+.unit-end{margin:40px 0 0;padding:16px;text-align:center;border-radius:12px;background:linear-gradient(135deg,#e8f0fc,#fff4b8);border:1px solid #c8d6e8;line-height:1.7}
+@media(max-width:520px){.hero{margin-right:0;padding:20px 16px}.hero::after{font-size:6rem}.topic-section.tp{margin:40px -8px 48px;padding:14px 12px 4px}.tnum{width:42px;height:42px;font-size:1.3rem}.topic-title{font-size:1.2rem}.tprio{margin-left:0}}
+@media print{html,body{background:#fff}body{padding:0}.sheet{box-shadow:none;max-width:none}.topic-section{break-before:page}.back-top{display:none}pre,.exam-box,.hero{break-inside:avoid}.hero,.tp,.tnum,.tprio{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+
+<body>
+<main class="sheet" id="top">
+<header class="hero">
+<div class="eyebrow">Computer Graphics · MCA Semester IV</div>
+<h1>UNIT III — INTERACTION</h1>
+<p class="sub">Input devices, interaction techniques, hardware and tasks</p>
+<p class="chips"><span class="chip">Ranchi University CBCS</span><span class="chip">Core Course C10 · CCMCA403</span><span class="chip">5 Topics</span><span class="chip hot">UNIT PRIORITY: HIGH</span></p>
+</header>
+
+<div class="panel">
+<h2>✿ Official Unit III syllabus ✿</h2>
+<p>Input Devices · Interaction Techniques and Interaction Tasks · Interaction Hardware · Basic Interaction Tasks · Composite Interaction Tasks.</p>
+</div>
+
+<div class="panel focus">
+<h2>★ What to prepare for the exam ★</h2>
+<ul>
+<li>Explain interaction techniques and interaction tasks.</li>
+<li>Explain interaction hardware and interaction devices with their applications.</li>
+<li>Basic versus composite interaction tasks.</li>
+<li>Pointing and positioning; zooming and panning.</li>
+</ul>
+<p class="small"><strong>Evidence:</strong> MCA 2022–24 and the older MCA paper (exam plan). Priority colours describe checked question-paper evidence; they do not guarantee future questions.</p>
+</div>
+
+<div class="panel">
+<h2>✿ Exam-priority colour guide ✿</h2>
+<div class="legend">
+<div class="lr"><b>RED</b>Direct question in the supplied MCA papers.</div>
+<div class="ly"><b>YELLOW</b>Related or older-paper evidence, not a direct question.</div>
+<div class="lb"><b>BLACK</b>No matching question identified.</div>
+</div>
+</div>
+
+<nav class="quick-index" aria-label="Unit III topic index">
+<h2>✿ Quick Index — Unit III ✿</h2>
+<div class="index-grid">
+<a class="index-card yellow-card" href="#u3-topic1-input-devices"><span class="num">1</span><strong>Input Devices</strong>Logical input-device classes used in interactive computer graphics.<span class="index-priority yellow">YELLOW · related evidence</span></a>
+<a class="index-card red-card" href="#u3-topic2-interaction-techniques"><span class="num">2</span><strong>Interaction Techniques and Interaction Tasks</strong>How users perform actions and what information they provide.<span class="index-priority red">RED · direct MCA PYQ</span></a>
+<a class="index-card black-card" href="#u3-topic3-interaction-hardware"><span class="num">3</span><strong>Interaction Hardware</strong>Physical input, output and feedback devices.<span class="index-priority black">BLACK · no PYQ found</span></a>
+<a class="index-card yellow-card" href="#u3-topic4-basic-interaction-tasks"><span class="num">4</span><strong>Basic Interaction Tasks</strong>Selection, positioning, orientation, path, quantification and text.<span class="index-priority yellow">YELLOW · related evidence</span></a>
+<a class="index-card red-card" href="#u3-topic5-composite-interaction-tasks"><span class="num">5</span><strong>Composite Interaction Tasks</strong>Combining basic tasks to perform a complete user goal.<span class="index-priority red">RED · direct MCA PYQ</span></a>
+</div>
+</nav>
+
+<section id="u3-topic1-input-devices" class="topic-section tp ty">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">1</span><span><span class="tlabel">Topic 1 of 5</span>Input Devices</span><span class="tprio">YELLOW PRIORITY</span></h2>
+<p class="evidence"><strong>Why YELLOW?</strong> Related evidence: the older MCA paper (CS-DE-21) asks about GUI and input devices. No standalone MCA question on logical input devices is recorded.</p>
+
+<h3>1.1 Meaning of Input Devices in Interactive Graphics</h3>
+<p>In interactive computer graphics, input devices allow a user to provide graphical information to an application. The input may be a screen position, a sequence of positions, text, a numerical value, a menu selection or the identity of a displayed object.</p>
+<p>Graphics systems classify input by the <strong>kind of information returned to the application</strong>. These are called logical input-device classes. A physical device such as a mouse may support more than one class.</p>
+
+<h3>1.2 Six Logical Input-Device Classes</h3>
+<div class="tw wide"><table>
+<thead><tr><th>Logical device</th><th>What it provides</th><th>Example / use</th></tr></thead>
+<tbody>
+<tr><td><strong>Locator</strong></td><td>One coordinate position (x, y).</td><td>Mouse or digitizer stylus used to place a point.</td></tr>
+<tr><td><strong>Stroke</strong></td><td>A sequence of coordinate positions.</td><td>Dragging a mouse to draw a freehand line.</td></tr>
+<tr><td><strong>String</strong></td><td>A sequence of characters.</td><td>Keyboard input for entering a label.</td></tr>
+<tr><td><strong>Valuator</strong></td><td>A single numerical value.</td><td>Slider or dial used to set an object’s size.</td></tr>
+<tr><td><strong>Choice</strong></td><td>One option from a set of options.</td><td>Selecting a tool from a menu.</td></tr>
+<tr><td><strong>Pick</strong></td><td>The identity of a displayed object or component.</td><td>Clicking a particular object to select it.</td></tr>
+</tbody>
+</table></div>
+
+<h3>1.3 Physical Device vs Logical Device</h3>
+<p>A <strong>physical device</strong> is the actual hardware, such as a mouse, keyboard or tablet. A <strong>logical device</strong> describes the type of information that the graphics application receives. For example, a mouse can act as a locator when it returns one position, or as a stroke device when it returns a sequence of positions while being dragged.</p>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>Input devices in interactive computer graphics are used to enter graphical information into an application. They are classified into six logical types: locator, stroke, string, valuator, choice and pick. A locator returns one coordinate position, a stroke returns a sequence of positions, a string returns characters, a valuator returns a numerical value, a choice selects one option from a set, and a pick identifies a displayed object. A single physical device may perform more than one logical input function.</p>
+</div>
+
+<h3>1.4 Sources</h3>
+<p><a href="https://www.geeksforgeeks.org/computer-science-fundamentals/input-and-output-devices/" target="_blank" rel="noopener">GeeksforGeeks — Input and Output Devices</a> and <a href="https://www.tutorialspoint.com/computer_fundamentals/computer_input_devices.htm" target="_blank" rel="noopener">TutorialsPoint — Computer Input Devices</a> cover the physical input devices. They do not explain the six logical classes used in interactive graphics, so that classification is taken from <a href="https://www.cs.uky.edu/~cheng/cs535/Notes-new/CS535-Intro-n.pdf" target="_blank" rel="noopener">University of Kentucky, Computer Graphics lecture notes (section 1.10, Input Devices)</a>. No image is included because I could not find a relevant diagram for these six logical classes on the three preferred websites.</p>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Interaction Techniques and Interaction Tasks. · <a href="#top">↑ Back to index</a></p>
+</section>
+
+<section id="u3-topic2-interaction-techniques" class="topic-section tp tr">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">2</span><span><span class="tlabel">Topic 2 of 5</span>Interaction Techniques and Interaction Tasks</span><span class="tprio">RED PRIORITY</span></h2>
+<p class="evidence"><strong>Why RED?</strong> Direct evidence: MCA 2022–24 (CCMCA403) records “interaction techniques and tasks” as a Unit III question.</p>
+
+<h3>2.1 Meaning of Interaction</h3>
+<p><strong>Interaction</strong> is the communication between a user and a computer graphics application. The user gives input through a device, and the application responds by displaying or changing graphical information.</p>
+
+<h3>2.2 Interaction Technique</h3>
+<p>An <strong>interaction technique</strong> is a method through which a user performs an action and communicates with an application. It is a practical way of using an input device or interface to provide information or issue a command.</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li><strong>Menu selection:</strong> choosing a command or tool from a displayed menu.</li>
+<li><strong>Pointing and clicking:</strong> using a pointer to indicate an item or position.</li>
+<li><strong>Dragging:</strong> holding an item with the pointer and moving it to another position.</li>
+<li><strong>Command-based interaction:</strong> typing a command using the keyboard.</li>
+<li><strong>Form filling:</strong> entering information into fields displayed on the screen.</li>
+</ul>
+
+<h3>2.3 Interaction Task</h3>
+<p>An <strong>interaction task</strong> is the unit of information or action that the user wants to provide to the application. It describes <em>what the user wants to accomplish</em>, rather than the particular method used.</p>
+<p>For example, when a user wants to choose a drawing tool, the task is <strong>selection</strong>. The user may perform it by clicking a menu item, pressing a keyboard shortcut, or typing a command.</p>
+
+<h3>2.4 Difference Between Interaction Technique and Interaction Task</h3>
+<div class="tw wide"><table>
+<thead><tr><th>Interaction technique</th><th>Interaction task</th></tr></thead>
+<tbody>
+<tr><td>Describes <strong>how</strong> the user provides input.</td><td>Describes <strong>what</strong> information or action the user wants to provide.</td></tr>
+<tr><td>It is the method used to perform an action.</td><td>It is the goal or unit of information being entered.</td></tr>
+<tr><td>Example: clicking a menu item.</td><td>Example: selecting a drawing tool.</td></tr>
+</tbody>
+</table></div>
+
+<h3>2.5 Relationship Between Device, Technique and Task</h3>
+<p>A user performs an interaction task by using an interaction technique, usually through an input device. The same task may be performed using different techniques, and the same device may support different tasks.</p>
+<div class="formula">
+<strong>Input Device → Interaction Technique → Interaction Task</strong>
+<p>Example: Mouse → Click a menu item → Select a drawing tool</p>
+</div>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>Interaction in computer graphics is the communication between a user and a graphics application. An interaction technique is the method used by the user to provide input, such as menu selection, pointing and clicking, dragging, command entry or form filling. An interaction task is the unit of information or action that the user wants to provide, such as selecting an object or entering a value. Thus, a task describes what the user wants to do, while a technique describes how the user performs it. For example, selecting a drawing tool is an interaction task, while clicking its menu item is an interaction technique.</p>
+</div>
+
+<h3>2.6 Previous-Year Question (PYQ) Evidence</h3>
+<p><strong>MCA 2022–24, paper code CCMCA403:</strong> the available paper summary records a Unit III question/topic on <strong>“interaction techniques and tasks.”</strong> This is direct evidence that the topic appeared in the MCA paper. The exact full question wording is not available in the summary, so it is not expanded or reconstructed here.</p>
+
+<h3>2.7 YouTube Videos — Your Preferred Channels</h3>
+<p><strong>Available relevant video:</strong></p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=gK37H9dn1jY" target="_blank" rel="noopener"><strong>Interaction Styles Part-1 Explained With Examples in Hindi</strong> — 5 Minutes Engineering</a></li>
+<li><a href="https://www.youtube.com/watch?v=5g9ezsZkf0o" target="_blank" rel="noopener"><strong>Interaction Styles Part-2 Explained with Examples in Hindi</strong> — 5 Minutes Engineering</a></li>
+</ul>
+<p>These videos explain interaction styles in HCI, which are related background for understanding interaction techniques. They are not labelled as an exact Computer Graphics lecture on this syllabus heading. I could not verify a topic-specific video from Gate Smashers, Vinay Mishra, Education 4u or Er Sahil ka Gyan for this exact topic, so I have not added guessed links.</p>
+
+<h3>2.8 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/system-design/introduction-to-human-computer-interface-hci/" target="_blank" rel="noopener">GeeksforGeeks — Introduction to Human Computer Interaction (HCI)</a> (interaction styles and ways users communicate with a system).</li>
+<li><a href="https://www.geeksforgeeks.org/software-engineering/software-engineering-user-interface-design/" target="_blank" rel="noopener">GeeksforGeeks — User Interface Design</a> (menus, forms, input controls and interaction methods).</li>
+<li><a href="https://www.annamalaiuniversity.ac.in/studport/download/sci/cis/resources/IT3IITT62CG.pdf" target="_blank" rel="noopener">Annamalai University — Computer Graphics lecture material</a> (distinction between interaction techniques and interaction tasks). This outside source is used because the preferred three websites did not provide a sufficiently specific explanation of this distinction.</li>
+</ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Interaction Hardware. · <a href="#top">↑ Back to index</a></p>
+</section>
+
+
+<section id="u3-topic3-interaction-hardware" class="topic-section tp tb">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">3</span><span><span class="tlabel">Topic 3 of 5</span>Interaction Hardware</span><span class="tprio">BLACK PRIORITY</span></h2>
+<p class="evidence"><strong>Why BLACK?</strong> No direct PYQ identified in the checked papers; this topic is syllabus-based.</p>
+
+<h3>3.1 Meaning of Interaction Hardware</h3>
+<p><strong>Interaction hardware</strong> refers to the physical devices through which a user communicates with a computer graphics system. These devices help the user enter commands, control graphical objects, provide positions or values, and receive visual or other feedback.</p>
+
+<h3>3.2 Input Hardware</h3>
+<p>Input hardware is used to send information or instructions to the graphics system.</p>
+<div class="tw wide"><table>
+<thead><tr><th>Device</th><th>Use in computer graphics</th></tr></thead>
+<tbody>
+<tr><td><strong>Keyboard</strong></td><td>Enters text, numeric values, commands and shortcuts.</td></tr>
+<tr><td><strong>Mouse</strong></td><td>Controls the pointer; selects, points to and drags graphical objects.</td></tr>
+<tr><td><strong>Trackball</strong></td><td>Moves the pointer by rotating a ball with the fingers.</td></tr>
+<tr><td><strong>Joystick</strong></td><td>Controls direction and movement, especially in games and simulations.</td></tr>
+<tr><td><strong>Graphics tablet / Digitizer</strong></td><td>Uses a stylus or puck to enter drawings and precise coordinates.</td></tr>
+<tr><td><strong>Touch screen / Touch panel</strong></td><td>Accepts input when the user touches a displayed item or position.</td></tr>
+<tr><td><strong>Light pen</strong></td><td>Historically used to point to or draw directly on a CRT display.</td></tr>
+<tr><td><strong>Data glove</strong></td><td>Captures hand and finger movements for gesture-based or virtual-reality interaction.</td></tr>
+<tr><td><strong>Spaceball / 3D controller</strong></td><td>Provides control over movement and rotation in three-dimensional applications.</td></tr>
+<tr><td><strong>Microphone / Voice input</strong></td><td>Accepts spoken commands or other audio input.</td></tr>
+</tbody>
+</table></div>
+
+<h3>3.3 Output and Feedback Hardware</h3>
+<p>Output hardware presents the computer's response to the user. In an interactive graphics system, feedback helps the user understand the result of an action.</p>
+<ul>
+<li><strong>Monitor / Display:</strong> shows images, menus, pointers and changes to graphical objects.</li>
+<li><strong>Projector:</strong> displays graphics on a larger surface for group viewing.</li>
+<li><strong>Audio output:</strong> provides sound signals or alerts in response to user actions.</li>
+<li><strong>Haptic device:</strong> provides physical feedback, such as vibration or force, in supported interactive systems.</li>
+</ul>
+
+<h3>3.4 Why Interaction Hardware Is Needed</h3>
+<ul>
+<li>To enter commands and data into a graphics application.</li>
+<li>To select, position and manipulate graphical objects.</li>
+<li>To support accurate drawing and 3D navigation.</li>
+<li>To provide visual, audio or physical feedback to the user.</li>
+</ul>
+
+<div class="formula">
+<strong>Basic interaction flow</strong>
+<p>User → Input hardware → Graphics system → Output / feedback hardware → User</p>
+</div>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>Interaction hardware consists of the physical devices used by a user to communicate with a computer graphics system. Input devices such as the keyboard, mouse, trackball, joystick, graphics tablet, touch screen and data glove are used to enter commands, select objects and control graphical operations. Output and feedback devices such as monitors, projectors, speakers and haptic devices present the system's response. Interaction hardware makes it possible to enter information, manipulate graphical objects and receive feedback during interactive graphics operations.</p>
+</div>
+
+<h3>3.5 Previous-Year Question (PYQ) Evidence</h3>
+<p>The available MCA 2022–24 paper summary records questions/topics on <strong>“interaction techniques and tasks”</strong> and <strong>“composite interaction tasks”</strong>. It does not confirm a separate direct question titled <em>Interaction Hardware</em>. Therefore, this topic is syllabus-based; no direct PYQ is claimed here.</p>
+
+<h3>3.6 YouTube Videos — Your Preferred Channels</h3>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=uTBKa1PSyf8" target="_blank" rel="noopener"><strong>Introduction To Computer Graphics Explained in Hindi</strong> — 5 Minutes Engineering</a>. This is an introductory Computer Graphics lecture, not a confirmed full lecture on Interaction Hardware.</li>
+<li><a href="https://www.youtube.com/results?search_query=Gate+Smashers+computer+graphics+input+devices" target="_blank" rel="noopener"><strong>Gate Smashers — Computer Graphics: Input Devices</strong> (YouTube search)</a>. Search link only; a specific matching video could not be verified.</li>
+</ul>
+<p>I could not verify a topic-specific video from Vinay Mishra, Education 4u or Er Sahil ka Gyan for this heading, so I have not invented video links.</p>
+
+<h3>3.7 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-science-fundamentals/input-and-output-devices/" target="_blank" rel="noopener">GeeksforGeeks — Input and Output Devices</a> (keyboard, mouse, joystick, trackball, light pen, scanner and digitizer).</li>
+<li><a href="https://www.geeksforgeeks.org/computer-science-fundamentals/what-are-input-devices/" target="_blank" rel="noopener">GeeksforGeeks — Input Devices</a> (input device function and touchscreen).</li>
+<li><a href="https://archive.nptel.ac.in/content/storage2/courses/112102102/mod1/10.htm" target="_blank" rel="noopener">NPTEL — Input Devices</a> (graphics workstation devices including spaceball, digitizers, data gloves, touch panels and voice systems). Used for graphics-specific examples not covered in sufficient detail by the preferred websites.</li>
+</ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Basic Interaction Tasks. · <a href="#top">↑ Back to index</a></p>
+</section>
+
+
+<section id="u3-topic4-basic-interaction-tasks" class="topic-section tp ty">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">4</span><span><span class="tlabel">Topic 4 of 5</span>Basic Interaction Tasks</span><span class="tprio">YELLOW PRIORITY</span></h2>
+<p class="evidence"><strong>Why YELLOW?</strong> Related evidence: covered under the broader MCA 2022–24 topic “interaction techniques and tasks”; no standalone question is recorded.</p>
+
+<h3>4.1 Meaning</h3>
+<p>A <strong>basic interaction task</strong> is a fundamental action through which a user supplies information to a computer graphics application. These tasks are the building blocks used to create and manipulate graphical objects.</p>
+
+<h3>4.2 Common Basic Interaction Tasks</h3>
+<div class="tw wide"><table>
+<thead><tr><th>Task</th><th>Meaning</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Selection</strong></td><td>Choosing an object or item from several available options.</td><td>Selecting a circle from a drawing.</td></tr>
+<tr><td><strong>Positioning</strong></td><td>Specifying the location of an object or point.</td><td>Placing a rectangle at a chosen position.</td></tr>
+<tr><td><strong>Orientation</strong></td><td>Specifying the direction or rotation of an object.</td><td>Rotating a line or shape to a required angle.</td></tr>
+<tr><td><strong>Path</strong></td><td>Specifying a sequence of positions that define a route or curve.</td><td>Drawing a freehand curve with a mouse or stylus.</td></tr>
+<tr><td><strong>Quantification</strong></td><td>Entering a numerical value or quantity.</td><td>Setting the width of a rectangle to 100 units.</td></tr>
+<tr><td><strong>Text</strong></td><td>Entering a sequence of characters.</td><td>Adding a label to a diagram.</td></tr>
+</tbody>
+</table></div>
+
+<h3>4.3 How Basic Tasks Are Performed</h3>
+<ul>
+<li><strong>Selection:</strong> point to an item and choose it using a click, key or menu command.</li>
+<li><strong>Positioning:</strong> indicate a coordinate using a pointing device or enter coordinate values.</li>
+<li><strong>Orientation:</strong> rotate or specify an angle using a pointer, controller or numeric input.</li>
+<li><strong>Path:</strong> move a pointing device along the desired route to define a sequence of points.</li>
+<li><strong>Quantification:</strong> enter a value using a keyboard, slider or other valuator control.</li>
+<li><strong>Text:</strong> type the required characters using a keyboard or another text-entry method.</li>
+</ul>
+
+<h3>4.4 Importance</h3>
+<ul>
+<li>They provide the basic operations needed to interact with graphical objects.</li>
+<li>They allow users to create, select, locate and modify objects.</li>
+<li>They are combined to perform more complex graphical operations.</li>
+</ul>
+
+<div class="formula">
+<strong>Example: Creating and placing a rectangle</strong>
+<p>Selection (choose rectangle tool) → Positioning (specify its location) → Quantification (enter width and height) → Orientation (rotate it, if required)</p>
+</div>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>Basic interaction tasks are fundamental actions through which a user provides information to a computer graphics system. Common tasks include selection, positioning, orientation, path specification, quantification and text entry. Selection chooses an object, positioning specifies its location, orientation defines its direction, path specifies a sequence of points, quantification enters numerical values, and text entry supplies characters. These tasks form the foundation for creating and manipulating graphical objects in interactive graphics applications.</p>
+</div>
+
+<h3>4.5 Previous-Year Question (PYQ) Evidence</h3>
+<p>The available MCA 2022–24 paper summary confirms a Unit III question/topic on <strong>“interaction techniques and tasks”</strong>, but it does not provide a separate confirmed question specifically asking for the list of basic interaction tasks. Therefore, the topic is supported as part of the broader PYQ topic, but no exact standalone PYQ is claimed.</p>
+
+<h3>4.6 YouTube Videos — Your Preferred Channels</h3>
+<p>I could not verify a specific lecture from Gate Smashers, 5 Minutes Engineering, Vinay Mishra, Education 4u or Er Sahil ka Gyan that directly covers this exact list of basic interaction tasks. To avoid giving you unrelated or guessed videos, no specific video link is included here.</p>
+<ul>
+<li><a href="https://www.youtube.com/results?search_query=Gate+Smashers+computer+graphics+interaction+tasks" target="_blank" rel="noopener">Gate Smashers — search for Computer Graphics interaction tasks</a></li>
+<li><a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+computer+graphics+interaction+tasks" target="_blank" rel="noopener">5 Minutes Engineering — search for Computer Graphics interaction tasks</a></li>
+</ul>
+
+<h3>4.7 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/interactive-computer-graphics/" target="_blank" rel="noopener">GeeksforGeeks — Interactive Computer Graphics</a> (interactive graphics concepts and user operations).</li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/index.htm" target="_blank" rel="noopener">TutorialsPoint — Computer Graphics</a> (computer graphics concepts and interaction background).</li>
+</ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><strong>Next →</strong> Composite Interaction Tasks. · <a href="#top">↑ Back to index</a></p>
+</section>
+
+
+<section id="u3-topic5-composite-interaction-tasks" class="topic-section tp tr">
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<h2 class="topic-title"><span class="tnum">5</span><span><span class="tlabel">Topic 5 of 5</span>Composite Interaction Tasks</span><span class="tprio">RED PRIORITY</span></h2>
+<p class="evidence"><strong>Why RED?</strong> Direct evidence: MCA 2022–24 (CCMCA403) records “composite interaction tasks” as a Unit III question.</p>
+
+<h3>5.1 Meaning</h3>
+<p>A <strong>composite interaction task</strong> is an operation formed by combining two or more basic interaction tasks to achieve a more complete user goal. Instead of performing only one simple action, the user carries out a sequence or combination of actions.</p>
+
+<h3>5.2 Examples of Composite Interaction Tasks</h3>
+<div class="tw wide"><table>
+<thead><tr><th>Composite task</th><th>Basic tasks involved</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Drawing a rectangle</strong></td><td>Selection + positioning + quantification</td><td>Select the rectangle tool, specify a starting point, then enter or indicate its width and height.</td></tr>
+<tr><td><strong>Moving an object</strong></td><td>Selection + positioning</td><td>Select a shape and place it at a new location.</td></tr>
+<tr><td><strong>Rotating an object</strong></td><td>Selection + orientation</td><td>Select an object and specify its rotation angle.</td></tr>
+<tr><td><strong>Drawing a labelled diagram</strong></td><td>Selection + positioning + path + text</td><td>Choose drawing tools, create shapes and lines, position them, and add labels.</td></tr>
+<tr><td><strong>Resizing an object</strong></td><td>Selection + quantification / positioning</td><td>Select a shape and change its dimensions using handles or numerical values.</td></tr>
+</tbody>
+</table></div>
+
+<h3>5.3 How Composite Tasks Work</h3>
+<p>A composite task combines basic tasks in a meaningful order. The application may guide the user through several steps and provide feedback after each step.</p>
+<div class="formula">
+<strong>Example: Moving a graphical object</strong>
+<p>1. Selection — choose the object.</p>
+<p>2. Positioning — specify its new location.</p>
+<p>3. Feedback — the application displays the object at the new position.</p>
+</div>
+
+<h3>5.4 Importance</h3>
+<ul>
+<li>They allow users to perform practical operations using simple building blocks.</li>
+<li>They make complex graphical operations easier to understand and perform.</li>
+<li>They combine multiple input actions into one meaningful goal.</li>
+<li>They are commonly used in drawing, CAD, image editing and other interactive graphics applications.</li>
+</ul>
+
+<div class="exam-box">
+<h3>Exam answer (5 marks)</h3>
+<p>Composite interaction tasks are operations created by combining two or more basic interaction tasks to achieve a complete goal in a graphics application. For example, moving an object combines selection and positioning. Rotating an object combines selection and orientation. Drawing a rectangle may involve selecting a tool, specifying its position and entering its dimensions. Thus, composite tasks use basic tasks such as selection, positioning, orientation, path specification, quantification and text entry together to perform more meaningful graphical operations.</p>
+</div>
+
+<h3>5.5 Previous-Year Question (PYQ) Evidence</h3>
+<p><strong>MCA 2022–24, paper code CCMCA403:</strong> the available paper summary explicitly records <strong>“Composite interaction tasks”</strong> as a Unit III question/topic. This is direct PYQ evidence for this topic. The summary does not preserve the full original question wording, so no longer question has been reconstructed.</p>
+
+<h3>5.6 YouTube Videos — Your Preferred Channels</h3>
+<p>I could not verify a specific video from Gate Smashers, 5 Minutes Engineering, Vinay Mishra, Education 4u or Er Sahil ka Gyan that directly explains composite interaction tasks in computer graphics. I am not adding unrelated videos as if they cover this topic.</p>
+<ul>
+<li><a href="https://www.youtube.com/results?search_query=Gate+Smashers+composite+interaction+tasks+computer+graphics" target="_blank" rel="noopener">Gate Smashers — search for Composite Interaction Tasks</a></li>
+<li><a href="https://www.youtube.com/results?search_query=5+Minutes+Engineering+composite+interaction+tasks+computer+graphics" target="_blank" rel="noopener">5 Minutes Engineering — search for Composite Interaction Tasks</a></li>
+</ul>
+
+<h3>5.7 Sources</h3>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/computer-graphics/interactive-computer-graphics/" target="_blank" rel="noopener">GeeksforGeeks — Interactive Computer Graphics</a> (general interactive graphics background).</li>
+<li><a href="https://www.tutorialspoint.com/computer_graphics/index.htm" target="_blank" rel="noopener">TutorialsPoint — Computer Graphics</a> (graphics operations and interaction background).</li>
+</ul>
+
+<div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
+<p class="back-top"><a href="#top">↑ Back to index</a></p>
+</section>
+
+<div class="unit-end"><strong>✿ Unit III complete ✿</strong><br>Next: Unit IV — Geometrical Transformation</div>
+</main>
+</body>
+</html>
