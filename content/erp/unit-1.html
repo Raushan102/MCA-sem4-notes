@@ -455,158 +455,259 @@ body{margin:0;background:#dfe4ec;padding-block:24px;padding-left:max(16px,env(sa
   <div class="panel focus">
     <h2>★ What to prepare from this topic ★</h2>
     <ul>
-      <li>Meaning of ERP and the reason it developed in stages.</li>
-      <li>The six-stage sequence and approximate period of each stage.</li>
-      <li>The focus and contribution of Inventory Control, MRP, MRP II, ERP, ERP II and Modern ERP.</li>
-      <li>The comparison table, the mobile-phone example and the exam-ready definition.</li>
+      <li>The step-by-step growth: inventory control → MRP → MRP II → ERP → ERP II / cloud ERP.</li>
+      <li>What each stage added and which limitation of the earlier stage pushed the next one.</li>
+      <li>Approximate time line (decade-wise) and the key technology of each stage.</li>
+      <li>How ERP "contains" earlier systems (MRP and MRP II are parts of the ERP idea).</li>
+      <li>Comparison of MRP, MRP II and ERP.</li>
     </ul>
-    <p class="small"><strong>Remember the chain:</strong> Inventory Management → MRP → MRP II → ERP → ERP II → Modern / Cloud ERP.</p>
+    <p class="small"><strong>Study approach:</strong> Learn the chain in one line first — <em>Inventory control → MRP → MRP II → ERP → ERP II → Cloud / Intelligent ERP</em> — and then attach "focus + limitation" to every link.</p>
   </div>
 
-  <p class="evidence"><strong>Priority reason:</strong> “Evolution of ERP” is the first official topic of Unit I. Prepare it as a likely theory question; this is a syllabus-based priority, not a confirmed Ranchi University PYQ.</p>
+  <p class="evidence"><strong>Priority reason:</strong> "Evolution of ERP" is the first official topic of Unit I, so a theory question such as <em>"Explain the evolution of ERP"</em> is a natural prediction. It is marked YELLOW (predicted from the syllabus and the usual ERP question pattern); it is not claimed as a confirmed Ranchi University PYQ.</p>
 
-  <h2>1.1 What is ERP?</h2>
   <div class="note">
-    <p><strong>ERP (Enterprise Resource Planning)</strong> is an integrated software system that helps an organization manage and coordinate its major business activities using shared information.</p>
-    <p>It can connect departments and functions such as:</p>
-    <ul>
-      <li>Finance and accounting</li>
-      <li>Human Resources (HR)</li>
-      <li>Production and manufacturing</li>
-      <li>Sales and marketing</li>
-      <li>Inventory and warehouse management</li>
-      <li>Purchasing and procurement</li>
-    </ul>
-    <p><strong>Simple example:</strong> When a mobile-phone company receives an order, ERP can connect sales, inventory, production, purchasing and finance. The departments can use consistent information instead of maintaining disconnected records.</p>
+    <strong>THE CENTRAL IDEA</strong>
+    <p>ERP did not appear suddenly. It grew out of simple stock-control methods, which became material planning (MRP), then planning of all manufacturing resources (MRP II), and finally planning of the <strong>whole enterprise</strong> on one common database (ERP). Every stage fixed a weakness of the earlier stage.</p>
   </div>
 
-  <h2>1.2 What is the evolution of ERP?</h2>
-  <p><strong>Evolution of ERP</strong> means the gradual development of business-management systems from simple inventory-control tools to integrated software that supports an entire organization and its business partners.</p>
-  <p>ERP did not appear all at once. As organizations grew, they needed systems that could plan more resources, connect more departments and share information faster. Each stage broadened the scope of the previous approach.</p>
+  <h2>1.1 Meaning of "Evolution of ERP"</h2>
+  <div class="priority py">
+    <span class="tag yellow">YELLOW</span>
+    <strong>Evolution of ERP</strong> means the gradual development of business information systems from <strong>departmental inventory control</strong> to <strong>enterprise-wide integrated systems</strong>.
+    <p>At each stage the scope of the system became wider: first only stock, then materials needed for production, then all manufacturing resources, and finally every function of the organization — finance, HR, sales, purchase, production and more.</p>
+  </div>
+  <p class="small"><strong>Note:</strong> Years given below are the commonly cited approximate decades. Different textbooks may shift a date by a few years, so write "approximately / around" in the exam.</p>
 
-  <h2>1.3 Diagram — stages in the evolution of ERP</h2>
+  <h2>1.2 Before Computers — Manual and Reorder-Point Control</h2>
+  <p>Before computers were used in business, stock was controlled with paper registers, bin cards and simple rules. The popular technique was <strong>statistical inventory control</strong>: when stock of an item fell to a fixed <strong>re-order point (ROP)</strong>, a fixed quantity (for example, the <strong>Economic Order Quantity — EOQ</strong>) was ordered.</p>
+  <div class="priority pb">
+    <span class="tag">BLACK</span>
+    <strong>Weakness:</strong> ROP / EOQ treats every item <em>independently</em>. It does not know that a bicycle needs a frame, two wheels and a chain at a particular time, so it cannot plan <strong>dependent demand</strong> (parts needed because a final product is planned).
+  </div>
+
+  <h2>1.3 Evolution Time Line</h2>
   <div class="diagram">
-    <svg class="s" viewBox="0 0 760 456" role="img" aria-label="Six approximate stages in ERP evolution: Inventory Management, MRP, MRP II, ERP, ERP II and Modern Cloud ERP">
-      <defs><marker id="erp-evolution-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="none" stroke="#1d3a8c" stroke-width="1.4"/></marker></defs>
-      <g>
-        <rect class="rx" x="65" y="10" width="630" height="54" rx="8"/><text class="cap" x="88" y="32">1960s · INVENTORY MANAGEMENT</text><text x="88" y="52">Track raw materials and finished-goods stock.</text>
-        <path class="ln" d="M380 64 V80" marker-end="url(#erp-evolution-arrow)"/>
-        <rect class="bx" x="65" y="84" width="630" height="54" rx="8"/><text class="cap" x="88" y="106">1970s · MRP</text><text x="88" y="126">Plan the materials needed for scheduled production.</text>
-        <path class="ln" d="M380 138 V154" marker-end="url(#erp-evolution-arrow)"/>
-        <rect class="yx" x="65" y="158" width="630" height="54" rx="8"/><text class="cap" x="88" y="180">1980s · MRP II</text><text x="88" y="200">Plan manufacturing resources, capacity, people and costs.</text>
-        <path class="ln" d="M380 212 V228" marker-end="url(#erp-evolution-arrow)"/>
-        <rect class="rx" x="65" y="232" width="630" height="54" rx="8"/><text class="cap" x="88" y="254">1990s · ERP</text><text x="88" y="274">Integrate departments across the whole organization.</text>
-        <path class="ln" d="M380 286 V302" marker-end="url(#erp-evolution-arrow)"/>
-        <rect class="bx" x="65" y="306" width="630" height="54" rx="8"/><text class="cap" x="88" y="328">2000s · ERP II / EXTENDED ERP</text><text x="88" y="348">Connect the organization with customers and suppliers.</text>
-        <path class="ln" d="M380 360 V376" marker-end="url(#erp-evolution-arrow)"/>
-        <rect class="kx" x="65" y="380" width="630" height="54" rx="8"/><text class="w" x="88" y="402">2010s–PRESENT · MODERN / CLOUD ERP</text><text class="w" x="88" y="422">Cloud access, mobile use, analytics and automation.</text>
+    <svg viewBox="0 0 760 270" role="img" aria-label="Time line of ERP evolution from 1960s to 2010s">
+      <path d="M30 60 H730 M720 52 L731 60 L720 68" fill="none" stroke="#b3261e" stroke-width="2.5"/>
+      <g text-anchor="middle" font-size="13" fill="#1d3a8c" font-family="Inter,'Segoe UI',Arial,sans-serif">
+        <rect x="14" y="84" width="140" height="92" rx="9" fill="#ffffff" stroke="#1d3a8c" stroke-width="2"/>
+        <text x="84" y="40" font-weight="700" fill="#b3261e">1960s</text>
+        <text x="84" y="110" font-weight="700">Inventory Control</text>
+        <text x="84" y="132" font-size="11.5">Reorder point · EOQ</text>
+        <text x="84" y="150" font-size="11.5">Stock records</text>
+
+        <rect x="162" y="84" width="140" height="92" rx="9" fill="#ffffff" stroke="#1d3a8c" stroke-width="2"/>
+        <text x="232" y="40" font-weight="700" fill="#b3261e">1970s</text>
+        <text x="232" y="110" font-weight="700">MRP</text>
+        <text x="232" y="132" font-size="11.5">Material Requirement</text>
+        <text x="232" y="150" font-size="11.5">Planning · BOM</text>
+
+        <rect x="310" y="84" width="140" height="92" rx="9" fill="#ffe27a" stroke="#1d3a8c" stroke-width="2"/>
+        <text x="380" y="40" font-weight="700" fill="#b3261e">1980s</text>
+        <text x="380" y="110" font-weight="700">MRP II</text>
+        <text x="380" y="130" font-size="11.5">Manufacturing Resource</text>
+        <text x="380" y="146" font-size="11.5">Planning · capacity ·</text>
+        <text x="380" y="162" font-size="11.5">finance</text>
+
+        <rect x="458" y="84" width="140" height="92" rx="9" fill="#ffffff" stroke="#b3261e" stroke-width="2.5"/>
+        <text x="528" y="40" font-weight="700" fill="#b3261e">1990s</text>
+        <text x="528" y="110" font-weight="700">ERP</text>
+        <text x="528" y="132" font-size="11.5">Whole enterprise ·</text>
+        <text x="528" y="150" font-size="11.5">common database</text>
+
+        <rect x="606" y="84" width="140" height="92" rx="9" fill="#ffffff" stroke="#1d3a8c" stroke-width="2"/>
+        <text x="676" y="40" font-weight="700" fill="#b3261e">2000s →</text>
+        <text x="676" y="110" font-weight="700">ERP II / Cloud</text>
+        <text x="676" y="132" font-size="11.5">Web · partners · SaaS</text>
+        <text x="676" y="150" font-size="11.5">Mobile · analytics · AI</text>
+      </g>
+      <g stroke="#b3261e" stroke-width="2"><path d="M84 60 V84 M232 60 V84 M380 60 V84 M528 60 V84 M676 60 V84"/></g>
+      <text x="380" y="222" font-family="Inter,'Segoe UI',Arial,sans-serif" text-anchor="middle" font-size="13" fill="#1d3a8c" font-weight="700">Scope keeps widening: stock → materials → manufacturing → enterprise → extended enterprise</text>
+      <text x="380" y="246" font-family="Inter,'Segoe UI',Arial,sans-serif" text-anchor="middle" font-size="12" fill="#456">Approximate decades — each stage includes and extends the previous one</text>
+    </svg>
+    <p class="caption">Time line of ERP evolution (approximate decades).</p>
+  </div>
+
+  <h2>1.4 Stage-wise Explanation</h2>
+
+  <h3>Stage 1 — Inventory Control Systems (1960s)</h3>
+  <ul>
+    <li>Mainframe computers were first used by large manufacturers to keep <strong>stock records</strong> and to apply re-order-point rules.</li>
+    <li>Focus: <strong>"How much stock do we have and when should we re-order?"</strong></li>
+    <li><strong>Limitation:</strong> handled each item separately; no planning of components for a finished product; no link with production schedule.</li>
+  </ul>
+
+  <h3>Stage 2 — Material Requirement Planning, MRP (1970s)</h3>
+  <ul>
+    <li>Researchers and practitioners (Joseph Orlicky of IBM is the name usually associated with it) showed that component demand should be <strong>calculated</strong> from the plan for the finished product, not forecast item by item.</li>
+    <li>Inputs: <strong>Master Production Schedule (MPS)</strong>, <strong>Bill of Materials (BOM)</strong> and <strong>Inventory records</strong>. Outputs: planned purchase orders and production orders with correct quantities and dates.</li>
+    <li>Focus: <strong>"What materials do we need, how many, and when?"</strong></li>
+    <li><strong>Limitation:</strong> assumed unlimited capacity (machines and labour) and had no feedback if the plan could not actually be executed; it covered materials only.</li>
+  </ul>
+
+  <h3>Stage 3 — Closed-Loop MRP and MRP II (1980s)</h3>
+  <ul>
+    <li><strong>Closed-loop MRP</strong> added <strong>capacity planning</strong> and <strong>shop-floor control</strong> with <strong>feedback</strong> — if the plan is not feasible, it is corrected.</li>
+    <li><strong>MRP II (Manufacturing Resource Planning)</strong> extended this to all manufacturing resources — materials, machines, labour and money — and linked <strong>sales &amp; operations planning, purchasing, costing and finance</strong>. Oliver Wight is widely credited with promoting the name.</li>
+    <li>Focus: <strong>"Can we make it with the resources we have, and what will it cost?"</strong></li>
+    <li><strong>Limitation:</strong> still centred on <strong>manufacturing</strong>; HR, distribution, project work, quality and service functions stayed in separate programs and separate databases.</li>
+  </ul>
+
+  <h3>Stage 4 — Enterprise Resource Planning, ERP (1990s)</h3>
+  <ul>
+    <li>The term <strong>ERP</strong> was coined by the <strong>Gartner Group</strong> around 1990 to describe systems that go beyond MRP II and cover the whole business.</li>
+    <li>ERP integrates <strong>finance, HR, sales &amp; distribution, purchasing, inventory, production, quality, plant maintenance</strong> on a <strong>common database</strong> using <strong>client–server</strong> technology and relational databases.</li>
+    <li>Leading packages of the period: <strong>SAP (R/3), Oracle, BAAN, PeopleSoft, JD Edwards</strong>.</li>
+    <li>Focus: <strong>"One integrated view of the entire enterprise in real time."</strong></li>
+    <li><strong>Limitation:</strong> mostly <em>inward-looking</em> — good inside the organization, weak in connecting with customers, suppliers and partners; costly and heavy to implement.</li>
+  </ul>
+
+  <h3>Stage 5 — ERP II / Extended ERP (2000s)</h3>
+  <ul>
+    <li>Gartner used the term <strong>ERP II</strong> (around 2000) for ERP that opens to the outside world through the <strong>Internet</strong>.</li>
+    <li>Adds or connects <strong>CRM (Customer Relationship Management), SCM (Supply Chain Management), e-business, supplier / customer portals</strong> and collaborative commerce.</li>
+    <li>Focus: <strong>"Collaborate with customers, suppliers and partners, not only run internal operations."</strong></li>
+  </ul>
+
+  <h3>Stage 6 — Cloud, Mobile and Intelligent ERP (2010s onwards)</h3>
+  <ul>
+    <li>ERP is delivered as <strong>cloud / SaaS</strong> (subscription, no big server room), with <strong>mobile access</strong> and <strong>in-memory databases</strong> for fast reports.</li>
+    <li>Modern systems use <strong>analytics, automation, machine learning and IoT data</strong> for forecasting, predictive maintenance and quicker decisions.</li>
+    <li>Benefit: lower start-up cost, faster upgrades, anywhere access, stronger analytics.</li>
+    <li><strong>Challenges:</strong> data security, dependence on the vendor and Internet, integration with existing systems, subscription cost over time.</li>
+  </ul>
+
+  <h2>1.5 Summary Table of the Evolution</h2>
+  <table>
+    <thead><tr><th>Stage</th><th>Period</th><th>Main focus</th><th>What it added</th><th>Limitation that led to the next stage</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Inventory Control</strong></td><td>1960s</td><td>Stock levels</td><td>Computerised stock records, ROP / EOQ rules</td><td>Item-by-item; no dependent-demand planning</td></tr>
+      <tr><td><strong>MRP</strong></td><td>1970s</td><td>Materials</td><td>MPS, BOM, time-phased planned orders</td><td>No capacity check, no feedback, materials only</td></tr>
+      <tr><td><strong>MRP II</strong></td><td>1980s</td><td>Manufacturing resources</td><td>Capacity planning, shop-floor control, costing, finance link</td><td>Limited to manufacturing; separate systems for other functions</td></tr>
+      <tr><td><strong>ERP</strong></td><td>1990s</td><td>Whole enterprise</td><td>Finance, HR, sales, purchase, quality, maintenance on one database</td><td>Weak external collaboration; heavy and costly</td></tr>
+      <tr><td><strong>ERP II</strong></td><td>2000s</td><td>Extended enterprise</td><td>Web, CRM, SCM, partner portals</td><td>Infrastructure cost; slow upgrades</td></tr>
+      <tr><td><strong>Cloud / Intelligent ERP</strong></td><td>2010s →</td><td>Anywhere, data-driven</td><td>SaaS, mobile, analytics, AI / ML, IoT</td><td>Security, vendor dependence, integration issues</td></tr>
+    </tbody>
+  </table>
+
+  <h2>1.6 How the Systems Fit Inside Each Other</h2>
+  <p>Each new system <strong>includes</strong> the earlier one and then widens the scope. MRP is a part of MRP II, and MRP II is a part of ERP.</p>
+  <div class="diagram">
+    <svg viewBox="0 0 650 340" role="img" aria-label="Nested view: inventory control inside MRP inside MRP II inside ERP inside ERP II">
+      <g fill="none" stroke-width="2">
+        <rect x="20" y="14" width="610" height="316" rx="18" stroke="#b3261e" stroke-dasharray="7 5"/>
+        <rect x="66" y="62" width="518" height="254" rx="16" stroke="#b3261e"/>
+        <rect x="112" y="110" width="426" height="192" rx="14" stroke="#1d3a8c"/>
+        <rect x="158" y="158" width="334" height="130" rx="12" stroke="#1d3a8c"/>
+      </g>
+      <rect x="204" y="206" width="242" height="68" rx="10" fill="#ffe27a" stroke="#1d3a8c" stroke-width="2"/>
+      <g text-anchor="middle" fill="#1d3a8c" font-size="13" font-weight="700">
+        <text x="325" y="40">ERP II / Cloud ERP — extended enterprise, partners, Internet</text>
+        <text x="325" y="88">ERP — whole enterprise on one common database</text>
+        <text x="325" y="136">MRP II — all manufacturing resources</text>
+        <text x="325" y="184">MRP — material planning</text>
+        <text x="325" y="236">Inventory Control</text>
+        <text x="325" y="256" font-size="11" font-weight="400">ROP · EOQ · stock records</text>
       </g>
     </svg>
-    <p class="caption">The scope expands from stock control to connected, enterprise-wide business management. The dates are approximate.</p>
+    <p class="caption">Nested view — every outer system contains the inner systems.</p>
   </div>
 
-  <h2>1.4 Detailed stages in the evolution of ERP</h2>
+  <h2>1.7 Factors That Drove the Evolution</h2>
+  <table>
+    <thead><tr><th>Factor</th><th>How it pushed ERP forward</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Advances in hardware</strong></td><td>Mainframes → minicomputers → PCs and servers made computing cheaper and available to every department.</td></tr>
+      <tr><td><strong>Better software and databases</strong></td><td>Relational databases and client–server architecture allowed one shared database for many modules.</td></tr>
+      <tr><td><strong>Global competition</strong></td><td>Companies needed shorter lead time, lower cost and better customer service, which needed integrated information.</td></tr>
+      <tr><td><strong>Limits of legacy / siloed systems</strong></td><td>Separate departmental programs caused duplicate data, mismatched records and slow reports.</td></tr>
+      <tr><td><strong>Business growth and complexity</strong></td><td>Multi-plant, multi-location and multi-currency operations needed one consistent system.</td></tr>
+      <tr><td><strong>Year-2000 (Y2K) problem</strong></td><td>Many firms replaced old date-limited systems with ERP in the late 1990s.</td></tr>
+      <tr><td><strong>Internet and cloud technology</strong></td><td>Made collaboration with partners, remote access and subscription-based ERP possible.</td></tr>
+    </tbody>
+  </table>
 
-  <h3>Stage 1 — Inventory Management and Control (1960s)</h3>
-  <ul>
-    <li>This was the earliest computer-supported stage. Organizations used computers to record raw materials and finished goods.</li>
-    <li>It helped track stock and maintain appropriate inventory levels, often using reorder points.</li>
-    <li><strong>Main focus:</strong> inventory management — “How much stock do we have, and when should we reorder?”</li>
-    <li><strong>Limitation:</strong> it mainly tracked stock; it did not plan all the components and resources required to make a product.</li>
-  </ul>
-
-  <h3>Stage 2 — Material Requirements Planning (MRP, 1970s)</h3>
-  <ul>
-    <li><strong>MRP</strong> stands for <strong>Material Requirements Planning</strong>. It was developed to plan materials needed for production.</li>
-    <li>It calculates how much raw material and how many components are required, and when they should be purchased or produced.</li>
-    <li>It uses information such as the production schedule, the product’s <strong>Bill of Materials (BOM)</strong> and current inventory.</li>
-    <li><strong>Main focus:</strong> material and production planning — “What materials are needed, in what quantity, and when?”</li>
-    <li><strong>Contribution:</strong> better material availability and less unnecessary inventory.</li>
-  </ul>
-
-  <h3>Stage 3 — Manufacturing Resource Planning (MRP II, 1980s)</h3>
-  <ul>
-    <li><strong>MRP II</strong> stands for <strong>Manufacturing Resource Planning</strong>. It expanded MRP beyond materials.</li>
-    <li>It considered machines, manpower, production capacity and financial planning, helping coordinate manufacturing activities.</li>
-    <li>It could help assess whether the planned production schedule was feasible with available resources.</li>
-    <li><strong>Main focus:</strong> complete manufacturing resources — “Can we make the planned products with our available capacity, people and money?”</li>
-  </ul>
-
-  <h3>Stage 4 — Enterprise Resource Planning (ERP, 1990s)</h3>
-  <ul>
-    <li>ERP expanded the planning approach from manufacturing to the whole organization.</li>
-    <li>It integrated areas such as finance, HR, sales, purchasing, inventory and production.</li>
-    <li>Departments could share information through connected modules and a common database, improving coordination and decision-making.</li>
-    <li><strong>Main focus:</strong> integration of all departments — “How can the organization manage its activities as one connected enterprise?”</li>
-  </ul>
-
-  <h3>Stage 5 — Extended ERP / ERP II (2000s)</h3>
-  <ul>
-    <li>ERP expanded beyond an organization’s internal departments and connected it with suppliers, customers and business partners.</li>
-    <li>Internet and web-based technologies supported external business integration.</li>
-    <li>ERP II could connect with <strong>Supply Chain Management (SCM)</strong>, <strong>Customer Relationship Management (CRM)</strong>, partner portals and e-commerce.</li>
-    <li><strong>Main focus:</strong> external business integration — sharing suitable information and coordinating with the wider business network.</li>
-  </ul>
-
-  <h3>Stage 6 — Modern ERP / Cloud ERP (2010s to the present)</h3>
-  <ul>
-    <li>Modern ERP systems use internet technologies and may be delivered through cloud computing or as a subscription service.</li>
-    <li>Authorized users can access business information from different locations and devices.</li>
-    <li>They can provide timely reporting and may include analytics, workflow automation and AI-assisted features.</li>
-    <li><strong>Main focus:</strong> cloud computing and intelligent business management — helping organizations use connected information, automation and analysis.</li>
-  </ul>
-  <p class="small"><strong>Note:</strong> Cloud ERP is a common modern option, but not every organization uses cloud ERP. On-premises and hybrid systems are also used.</p>
-
-  <h2>1.5 Difference between the stages</h2>
+  <h2>1.8 MRP vs MRP II vs ERP</h2>
   <div class="tw wide">
-    <table>
-      <thead><tr><th>Stage</th><th>Approx. period</th><th>Main purpose / focus</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Inventory Management</strong></td><td>1960s</td><td>Manage stock and inventory levels.</td></tr>
-        <tr><td><strong>MRP</strong></td><td>1970s</td><td>Plan the materials required for production.</td></tr>
-        <tr><td><strong>MRP II</strong></td><td>1980s</td><td>Plan manufacturing resources, including machines, manpower, capacity and finances.</td></tr>
-        <tr><td><strong>ERP</strong></td><td>1990s</td><td>Integrate all major departments in an organization.</td></tr>
-        <tr><td><strong>ERP II</strong></td><td>2000s</td><td>Connect the organization with external business partners.</td></tr>
-        <tr><td><strong>Modern ERP</strong></td><td>2010s–present</td><td>Use cloud services, analytics and automation for connected business management.</td></tr>
-      </tbody>
-    </table>
+  <table>
+    <thead><tr><th>Basis</th><th>MRP</th><th>MRP II</th><th>ERP</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Full form</strong></td><td>Material Requirement Planning</td><td>Manufacturing Resource Planning</td><td>Enterprise Resource Planning</td></tr>
+      <tr><td><strong>Scope</strong></td><td>Materials only</td><td>All manufacturing resources</td><td>Entire enterprise</td></tr>
+      <tr><td><strong>Main question</strong></td><td>What, how many, when to buy / make?</td><td>Can we make it with available resources?</td><td>How do all functions work together?</td></tr>
+      <tr><td><strong>Functions covered</strong></td><td>Inventory, purchasing, production orders</td><td>MRP + capacity, shop floor, costing, finance link</td><td>MRP II + HR, sales &amp; distribution, quality, maintenance, projects</td></tr>
+      <tr><td><strong>Feedback</strong></td><td>None (open loop)</td><td>Closed loop with feedback</td><td>Real-time integrated feedback</td></tr>
+      <tr><td><strong>Database</strong></td><td>Separate material files</td><td>Manufacturing database</td><td>Single common enterprise database</td></tr>
+      <tr><td><strong>Typical period</strong></td><td>1970s</td><td>1980s</td><td>1990s</td></tr>
+    </tbody>
+  </table>
   </div>
 
-  <h2>1.6 Example — ERP in a mobile-phone company</h2>
-  <p>Suppose a company manufactures mobile phones. It has departments for purchasing, production, sales, finance and HR. ERP connects these departments so they can work with shared business information. The evolution sequence can be understood through the same company:</p>
+  <h2>1.9 Simple Example — A Growing Bicycle Company</h2>
   <ol>
-    <li><strong>Inventory Management:</strong> records the number of screens, batteries and finished phones in stock.</li>
-    <li><strong>MRP:</strong> calculates how many screens, batteries and other components are needed to meet the production plan, and when to order them.</li>
-    <li><strong>MRP II:</strong> checks whether the factory has enough machines, workers, capacity and budget for the plan.</li>
-    <li><strong>ERP:</strong> connects purchasing, production, sales, finance, inventory and HR through one integrated system.</li>
-    <li><strong>ERP II:</strong> connects the company with component suppliers, distributors and customers through web-based services.</li>
-    <li><strong>Modern / Cloud ERP:</strong> gives authorized staff access to current reports remotely and may help analyze data or automate routine workflows.</li>
+    <li><strong>Small shop:</strong> uses a stock register and re-orders tyres when only 20 are left (inventory control).</li>
+    <li><strong>Growing factory:</strong> to build 500 bicycles next month, it calculates the exact number of frames, wheels and chains and their order dates from the BOM (MRP).</li>
+    <li><strong>More machines:</strong> checks if the assembly line has enough hours and workers, and links the plan to cost and budget (MRP II).</li>
+    <li><strong>Many departments:</strong> finance, HR payroll, sales, purchase and stores all share one database, so a sale updates stock, billing and accounts together (ERP).</li>
+    <li><strong>Online business:</strong> dealers and suppliers log in through a portal and the company uses cloud ERP with mobile dashboards (ERP II / cloud ERP).</li>
   </ol>
 
-  <h2>1.7 Conclusion</h2>
-  <p>The evolution of ERP began with simple inventory-management systems and gradually expanded to materials planning, manufacturing resources, the whole enterprise and external business partners. Modern ERP can add cloud access, analytics and automation. This progression helps organizations coordinate activities, improve information sharing and make better decisions.</p>
+  <h2>1.10 Previous-Year Question / Question-Pattern Evidence</h2>
+  <div class="priority-note yellow-note">
+    <strong>Evidence status: YELLOW — predicted from the syllabus.</strong>
+    <p>The syllabus priority list marks the following as a predicted 10–15 mark question:</p>
+    <ul>
+      <li>Explain the evolution of ERP and the reasons for the growth of the ERP market.</li>
+    </ul>
+    <p>The evolution part is answered from this topic and the "growth of the ERP market" part from Topic 3. This is not a confirmed Ranchi University PYQ.</p>
+  </div>
 
-  <h2>1.8 Exam-ready definition</h2>
+  <h2>1.11 Important Questions for Examination</h2>
   <div class="exam-box">
-    <p><strong>Evolution of ERP</strong> is the gradual development of business-management systems from inventory control to MRP, MRP II, enterprise-wide ERP, extended ERP and modern cloud-based ERP. At each stage, the system’s scope grew to manage more resources, integrate more functions and support wider business coordination.</p>
+    <h3>Short / conceptual questions (1–5 marks)</h3>
+    <ol>
+      <li>Who coined the term ERP, and when (approximately)?</li>
+      <li>What is MRP? What is MRP II?</li>
+      <li>What is meant by dependent demand?</li>
+      <li>Write any three limitations of MRP.</li>
+      <li>What is ERP II?</li>
+    </ol>
+    <h3>Long / descriptive questions (10–15 marks)</h3>
+    <ol>
+      <li>Explain the evolution of ERP from inventory control to modern ERP with a neat diagram.</li>
+      <li>Trace the development of ERP through MRP and MRP II and state the limitation that led to each next stage.</li>
+      <li>Differentiate between MRP, MRP II and ERP.</li>
+      <li>Explain the factors that led to the evolution of ERP systems.</li>
+      <li>Explain ERP II and cloud ERP as the later stages of ERP evolution.</li>
+    </ol>
   </div>
 
-  <h2>1.9 Test your understanding — Practice MCQs</h2>
+  <h2>1.12 How to Write the 10–15 Mark Answer</h2>
   <ol>
-    <li><strong>Which was the earliest stage in the evolution of ERP?</strong><ol type="A"><li>MRP</li><li>Inventory Management</li><li>ERP II</li><li>Cloud ERP</li></ol></li>
-    <li><strong>What is the full form of MRP?</strong><ol type="A"><li>Material Resource Processing</li><li>Material Requirements Planning</li><li>Management Resource Planning</li><li>Manufacturing Requirements Process</li></ol></li>
-    <li><strong>Which system manages machines, manpower and production capacity?</strong><ol type="A"><li>MRP</li><li>ERP II</li><li>MRP II</li><li>Inventory Management</li></ol></li>
-    <li><strong>Which stage connects suppliers and customers with the organization?</strong><ol type="A"><li>MRP</li><li>Inventory Management</li><li>ERP II</li><li>MRP II</li></ol></li>
-    <li><strong>Which technologies are associated with modern ERP?</strong><ol type="A"><li>Only punched cards</li><li>Cloud computing and AI</li><li>Only inventory records</li><li>Only spreadsheets</li></ol></li>
+    <li>Write the one-line chain: Inventory Control → MRP → MRP II → ERP → ERP II / Cloud ERP.</li>
+    <li>Draw the time-line diagram (section 1.3).</li>
+    <li>For each stage write: <strong>period, focus, what it added, limitation</strong> (2–3 lines each).</li>
+    <li>Add the summary table and, if marks allow, the MRP vs MRP II vs ERP comparison.</li>
+    <li>Mention the driving factors — hardware, databases, competition, Y2K, Internet.</li>
+    <li>Conclude: ERP is the result of continuous widening from stock control to the integrated, collaborative enterprise.</li>
   </ol>
-  <details class="exam-box"><summary><strong>Show answers</strong></summary>
-    <ol><li>B — Inventory Management.</li><li>B — Material Requirements Planning.</li><li>C — MRP II.</li><li>C — ERP II.</li><li>B — Cloud computing and AI.</li></ol>
-  </details>
+  <p class="source-note">These notes are a student-friendly synthesis of standard ERP textbook content. Dates and names are the commonly cited ones; please confirm them against your prescribed textbook before the examination.</p>
 
-  <div class="note"><strong>Exam tip:</strong> Memorize the six stages in order: <strong>Inventory Management → MRP → MRP II → ERP → ERP II → Modern ERP.</strong> In a long answer, briefly explain the focus of each stage and include the timeline diagram and comparison table.</div>
+  <h2>1.13 Quick Self-Check</h2>
+  <div class="exam-box">
+    <ol>
+      <li><strong>Which stage first calculated component needs from the finished-product plan?</strong><br>MRP.</li>
+      <li><strong>What did MRP II add to MRP?</strong><br>Capacity planning, shop-floor control, feedback, costing and finance link.</li>
+      <li><strong>Which group coined the term ERP?</strong><br>The Gartner Group (around 1990).</li>
+      <li><strong>Name any four ERP packages of the 1990s.</strong><br>SAP R/3, Oracle, BAAN, PeopleSoft (also JD Edwards).</li>
+      <li><strong>What distinguishes ERP II from ERP?</strong><br>Opening up to customers, suppliers and partners through the Internet (CRM, SCM, portals).</li>
+    </ol>
+  </div>
 
   <p class="back-top"><a href="#top">↑ Back to index</a></p>
 </section>
+
 <section id="topic2-start" class="topic-section tp ty">
   <div class="floral-divider">✿ ❀ ✿ ❀ ✿ ❀ ✿</div>
   <h2 class="topic-title"><span class="tnum">2</span><span><span class="tlabel">Topic 2 of 5</span>What is ERP?</span><span class="tprio">YELLOW PRIORITY</span></h2>

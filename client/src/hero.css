@@ -1,0 +1,33 @@
+@tailwind components;
+@tailwind utilities;
+
+/* ---- flowpath hero: font (scoped to the hero so the notes site keeps its own typography) ---- */
+/* font handled globally (Fira Code) */
+
+/* ---- scoped mini-reset (replaces Tailwind preflight). :where() keeps specificity at 0 so utilities always win ---- */
+:where(.fp) *, :where(.fp) *::before, :where(.fp) *::after { border: 0 solid currentColor; }
+:where(.fp) button { background: none; padding: 0; color: inherit; cursor: pointer; }
+:where(.fp) h1, :where(.fp) p { margin: 0; font-weight: inherit; }
+:where(.fp) h1 { font-size: inherit; }
+:where(.fp) ul { list-style: none; margin: 0; padding: 0; }
+:where(.fp) svg, :where(.fp) video { display: block; }
+:where(.fp) a { color: inherit; text-decoration: none; }
+
+.liquid-glass, .card, .how, .head, .row, .foot, .palette, .rtool, .btn.glass, .strip {
+  background: rgba(10, 10, 14, 0.36);
+  background-blend-mode: luminosity;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: none;
+  box-shadow: none;
+}
+.liquid-glass, .card, .how, .head, .row, .foot, .palette, .btn.glass, .strip { position: relative; overflow: hidden; }
+
+/* no border ring: panels blend into the video */
+
+@keyframes dropdown-in {
+  from { opacity: 0; transform: translateY(-4px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-dropdown { animation: dropdown-in 0.2s ease-out; }
+.duration-400 { transition-duration: 400ms; }
